@@ -17,7 +17,7 @@ var Starcoder = function () {
         this.game = arguments[1];
         this.game.starcoder = this;
         this.config = {     // FIXME
-            worldBounds: [-4200, -4200, 8400, 8400]
+            worldBounds: [-1000, -1000, 1000, 1000]
         }
     }
 };
