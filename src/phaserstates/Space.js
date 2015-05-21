@@ -20,23 +20,16 @@ Space.prototype.constructor = Phaser.State;
 
 Space.prototype.create = function () {
     var rng = this.game.rnd;
+    var wb = this.game.starcoder.config.worldBounds;
     this.game.physics.startSystem(Phaser.Physics.P2JS);
-    this.world.setBounds.apply(this.world, this.game.starcoder.config.worldBounds);
+    this.world.setBounds.apply(this.world, wb);
 
     this.controls = this.input.keyboard.createCursorKeys();     // FIXME
 
     // Background
-    var bgSource = this.game.make.graphics(0, 0);
-    //bgSource.height = 400;
-    //bgSource.width = 400;
-    //bgSource.lineStyle(2, 0xffffff, 0.5);
-    //bgSource.moveTo(190, 190);
-    //bgSource.lineTo(210,210);
-    //bgSource.moveTo(190, 210);
-    //bgSource.lineTo(210,190);
-    drawStarField(bgSource, 600, 16);
-    bgSource.boundsPadding = 2;
-    this.game.add.tileSprite(-1000, -1000, 2000, 2000, bgSource.generateTexture(1, this.game.renderer));
+    var starfield = this.game.make.bitmapData(600, 600);
+    drawStarField(starfield.ctx, 600, 16);
+    this.game.add.tileSprite(wb[0], wb[1], wb[2]-wb[0], wb[3]-wb[1], starfield);
 
     // FIXME - testing
     this.ship = Starcoder.Ship.add(this.game, 0, 0, '6sjz');
@@ -59,19 +52,21 @@ Space.prototype.create = function () {
         return t/6;
     }
 
-    function drawStar (graphics, x, y, d, color, alpha) {
-        graphics.lineStyle(1, color, alpha);
-        graphics.moveTo(x-d+1, y-d+1);
-        graphics.lineTo(x+d-1, y+d-1);
-        graphics.moveTo(x-d+1, y+d-1);
-        graphics.lineTo(x+d-1, y-d+1);
-        graphics.moveTo(x, y-d);
-        graphics.lineTo(x, y+d);
-        graphics.moveTo(x-d, y);
-        graphics.lineTo(x+d, y);
+    function drawStar (ctx, x, y, d, color) {
+        ctx.strokeStyle = color;
+        ctx.beginPath();
+        ctx.moveTo(x-d+1, y-d+1);
+        ctx.lineTo(x+d-1, y+d-1);
+        ctx.moveTo(x-d+1, y+d-1);
+        ctx.lineTo(x+d-1, y-d+1);
+        ctx.moveTo(x, y-d);
+        ctx.lineTo(x, y+d);
+        ctx.moveTo(x-d, y);
+        ctx.lineTo(x+d, y);
+        ctx.stroke();
     }
 
-    function drawStarField (graphics, size, n) {
+    function drawStarField (ctx, size, n) {
         var xm = Math.round(size/2 + randomNormal()*size/4);
         var ym = Math.round(size/2 + randomNormal()*size/4);
         var quads = [[0,0,xm-1,ym-1], [xm,0,size-1,ym-1],
@@ -83,10 +78,10 @@ Space.prototype.create = function () {
         for (i=0, l=quads.length; i<l; i++) {
             q = quads[i];
             for (j=0; j<n; j++) {
-                color = 0xffffff;
-                drawStar(graphics,
-                    rng.between(q[0], q[2]), rng.between(q[1], q[3]),
-                    rng.between(3,7), color, rng.realInRange(0.5, 0.9));
+                color = 'hsl(60,100%,' + rng.between(90,99) + '%)';
+                drawStar(ctx,
+                    rng.between(q[0]+7, q[2]-7), rng.between(q[1]+7, q[3]-7),
+                    rng.between(3,6), color, rng.realInRange(0.5, 0.9));
             }
         }
     }
