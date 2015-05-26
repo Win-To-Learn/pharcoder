@@ -25,6 +25,7 @@ Space.prototype.create = function () {
     this.world.setBounds.apply(this.world, wb);
 
     this.controls = this.input.keyboard.createCursorKeys();     // FIXME
+    this.game.time.advancedTiming = true;
 
     // Background
     var starfield = this.game.make.bitmapData(600, 600);
@@ -33,7 +34,9 @@ Space.prototype.create = function () {
 
     // FIXME - testing
     this.ship = Starcoder.Ship.add(this.game, 0, 0, '6sjz');
+    //console.log(this.ship.graphics);
     this.game.camera.follow(this.ship);
+    this.game.camera.setPosition(-400,-300);
 
     // More testing
     var i, a;
@@ -101,6 +104,12 @@ Space.prototype.update = function () {
         this.ship.body.velocity.x = 0;
         this.ship.body.velocity.y = 0;
     }
+};
+
+Space.prototype.render = function () {
+    this.game.debug.text('Fps: ' + this.game.time.fps, 5, 20);
+    this.game.debug.cameraInfo(this.game.camera, 100, 20);
+    this.game.debug.spriteInfo(this.ship, 420, 20);
 };
 
 module.exports = Space;

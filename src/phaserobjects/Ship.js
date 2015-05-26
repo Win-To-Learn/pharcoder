@@ -24,7 +24,7 @@ Ship.add = function (game, x, y, tag) {
 };
 
 Ship.prototype = Object.create(Starcoder.VectorSprite.prototype);
-Ship.prototype.constructor = Starcoder.VectorSprite;
+Ship.prototype.constructor = Ship;
 
 Ship.prototype.setLineStyle = function (color, lineWidth) {
     Starcoder.VectorSprite.prototype.setLineStyle.call(this, color, lineWidth);

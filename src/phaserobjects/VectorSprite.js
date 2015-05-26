@@ -11,10 +11,12 @@ var VectorSprite = function (game, x, y) {
     this.graphics = game.add.graphics(0, 0);
     this.addChild(this.graphics);
 
-    this.internalScale_ = new Phaser.Point(20,20);
+    this._internalScale = new Phaser.Point(15,15);
 
     game.physics.p2.enable(this, false, false);
     this.updateAppearance();
+    this.updateBody();
+    //console.log(this.graphics.getLocalBounds());
 };
 
 VectorSprite.add = function (game, x, y) {
@@ -24,17 +26,32 @@ VectorSprite.add = function (game, x, y) {
 }
 
 VectorSprite.prototype = Object.create(Phaser.Sprite.prototype);
-VectorSprite.prototype.constructor = Phaser.Sprite;
+VectorSprite.prototype.constructor = VectorSprite;
 
-VectorSprite.prototype.shape = [[-1,-1], [-1,1], [1,1], [1,-1], [-1,-1]];
-VectorSprite.prototype.color = '#ffffff';
+// Default octagon
+VectorSprite.prototype.shape = [
+    [2,1],
+    [1,2],
+    [-1,2],
+    [-2,1],
+    [-2,-1],
+    [-1,-2],
+    [1,-2],
+    [2,-1]
+];
+VectorSprite.prototype.shapeClosed = true;
+VectorSprite.prototype.lineColor = '#ffffff';
 VectorSprite.prototype.lineWidth = 1;
+VectorSprite.prototype.fillColor = null;
+VectorSprite.prototype.fillAlpha = 0.25;
+
+VectorSprite.prototype.physicsBodyType = 'circle';
 
 VectorSprite.prototype.setScale= function (x, y) {
     if (arguments.length < 2) {
         y = x;
     }
-    this.internalScale_.setTo (x, y);
+    this._internalScale.setTo (x, y);
     this.updateAppearance();
 };
 
@@ -53,28 +70,64 @@ VectorSprite.prototype.setLineStyle = function (color, lineWidth) {
 }
 
 VectorSprite.prototype.updateAppearance = function () {
-    this.graphics.clear();
-    if (this.renderVector) {
-        this.renderVector();
-    } else if (this.shape) {
-        this.renderShape_();
+    if (typeof this.animate === 'undefined') {
+        this.graphics.clear();
+        if (typeof this.drawProcedure !== 'undefined') {
+            this.drawProcedure();
+        } else if (this.shape) {
+            this.draw();
+        }
+        this.graphics.cacheAsBitmap = true;
+        //this.graphics.updateCache();
     }
-    this.graphics.updateCache();
 };
 
-VectorSprite.prototype.renderShape_ = function () {
-    var color = Phaser.Color.hexToRGB(this.color);
-    var lineWidth = this.lineWidth || 1;
-    var xs = this.internalScale_.x, ys = this.internalScale_.y;
-    var i, p, l;
-
-    this.graphics.lineStyle(lineWidth, color, 1);
-    p = this.shape[0];
-    this.graphics.moveTo(p[0]*xs, p[1]*ys);
-    for (i = 1, l = this.shape.length; i < l; i++) {
-        p = this.shape[i];
-        this.graphics.lineTo(p[0]*xs, p[1]*ys);
+VectorSprite.prototype.updateBody = function () {
+    console.log(this.physicsBodyType);
+    switch (this.physicsBodyType) {
+        case "circle":
+            if (typeof this.circle === 'undefined') {
+                var r = this.graphics.getBounds();
+                var radius = Math.round(Math.sqrt(r.width* r.height)/2);
+            } else {
+                radius = this.radius;
+            }
+            console.log(radius);
+            this.body.setCircle(radius);
+            break;
+        // TODO: More shapes
     }
+};
+
+VectorSprite.prototype.draw = function () {
+    var xs = this._internalScale.x, ys = this._internalScale.y;
+    var p;
+
+    // Draw simple shape, if given
+    if (typeof this.shape !== 'undefined') {
+        var shape = this.shape.slice();
+        if (this.shapeClosed) {
+            shape.push(shape[0]);
+        }
+        var l = shape.length;
+        var lineColor = Phaser.Color.hexToRGB(this.lineColor);
+        if (this.fillColor) {
+            var fillColor = Phaser.Color.hexToRGB(this.fillColor);
+            var fillAlpha = this.fillAlpha || 1;
+            this.graphics.beginFill(fillColor, fillAlpha);
+        }
+        this.graphics.lineStyle(this.lineWidth, lineColor, 1);
+        p = this.shape[0];
+        this.graphics.moveTo(p[0] * xs, p[1] * ys);
+        for (var i = 1; i < l; i++) {
+            p = shape[i];
+            this.graphics.lineTo(p[0] * xs, p[1] * ys);
+        }
+        if (this.fillColor) {
+            this.graphics.endFill();
+        }
+    }
+    // Draw geometry spec, if given
 }
 
 module.exports = VectorSprite;
