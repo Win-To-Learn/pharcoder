@@ -100,35 +100,45 @@ VectorSprite.prototype.updateBody = function () {
 };
 
 VectorSprite.prototype.draw = function () {
-    var xs = this._internalScale.x, ys = this._internalScale.y;
-    var p;
-
     // Draw simple shape, if given
-    if (typeof this.shape !== 'undefined') {
-        var shape = this.shape.slice();
-        if (this.shapeClosed) {
-            shape.push(shape[0]);
-        }
-        var l = shape.length;
-        var lineColor = Phaser.Color.hexToRGB(this.lineColor);
+    if (this.shape) {
+         var lineColor = Phaser.Color.hexToRGB(this.lineColor);
         if (this.fillColor) {
             var fillColor = Phaser.Color.hexToRGB(this.fillColor);
             var fillAlpha = this.fillAlpha || 1;
             this.graphics.beginFill(fillColor, fillAlpha);
         }
         this.graphics.lineStyle(this.lineWidth, lineColor, 1);
-        p = this.shape[0];
-        this.graphics.moveTo(p[0] * xs, p[1] * ys);
-        for (var i = 1; i < l; i++) {
-            p = shape[i];
-            this.graphics.lineTo(p[0] * xs, p[1] * ys);
-        }
+        this._drawPolygon(this.shape, this.shapeClosed);
         if (this.fillColor) {
             this.graphics.endFill();
         }
     }
     // Draw geometry spec, if given
-}
+    if (this.geometry) {
+        for (var i = 0, l = this.geometry.length; i < l; i++) {
+            var g = this.geometry[i];
+            switch (g.type) {
+                case "poly":
+                    // FIXME: defaults and stuff
+                    this._drawPolygon(g.points, g.closed);
+                    break;
+            }
+        }
+    }
+};
+
+VectorSprite.prototype._drawPolygon = function (points, closed) {
+    var xs = this._internalScale.x, ys = this._internalScale.y;
+    points = points.slice();
+    if (closed) {
+        points.push(points[0]);
+    }
+    this.graphics.moveTo(points[0][0] * xs, points[0][1] * ys);
+    for (var i = 1, l = points.length; i < l; i++) {
+        this.graphics.lineTo(points[i][0] * xs, points[i][1] * ys);
+    }
+};
 
 module.exports = VectorSprite;
 Starcoder.VectorSprite = VectorSprite;

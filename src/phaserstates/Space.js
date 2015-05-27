@@ -8,6 +8,8 @@
 var Starcoder = require('../Starcoder.js');
 require('../phaserobjects/Ship.js');
 require('../phaserobjects/Asteroid.js');
+require('../phaserobjects/Crystal.js');
+require('../phaserobjects/ThrustParticle.js');
 
 var Space = function () {
     if (!(this instanceof  Space)) {
@@ -17,6 +19,10 @@ var Space = function () {
 
 Space.prototype = Object.create(Phaser.State.prototype);
 Space.prototype.constructor = Phaser.State;
+
+Space.prototype.preload = function () {
+    Starcoder.ThrustParticle.cacheTexture(this.game, 'orange', '#ff6600', 2);
+};
 
 Space.prototype.create = function () {
     var rng = this.game.rnd;
@@ -34,19 +40,32 @@ Space.prototype.create = function () {
 
     // FIXME - testing
     this.ship = Starcoder.Ship.add(this.game, 0, 0, '6sjz');
-    //console.log(this.ship.graphics);
     this.game.camera.follow(this.ship);
     this.game.camera.setPosition(-400,-300);
 
     // More testing
     var i, a;
-    for (i = 0; i < 20; i++) {
+
+    // Asteroids
+    for (i = 0; i < 10; i++) {
         a = Starcoder.Asteroid.add(this.game, this.world.randomX, this.world.randomY);
         a.body.velocity.x = this.game.rnd.between(-200,200);
         a.body.velocity.y = this.game.rnd.between(-200,200);
         a.body.angularVelocity = this.game.rnd.realInRange(-5, 5);
     }
 
+    // Crystals
+    for (i = 0; i < 10; i++) {
+        a = Starcoder.Crystal.add(this.game, this.world.randomX, this.world.randomY);
+        a.body.velocity.x = this.game.rnd.between(-200,200);
+        a.body.velocity.y = this.game.rnd.between(-200,200);
+        a.body.angularVelocity = this.game.rnd.realInRange(-5, 5);
+    }
+
+    var emitter = Starcoder.ThrustParticle.Emitter.add(this.game, 'orange', 100);
+    emitter.start(-300, -200, 0);
+
+    // Helpers
     function randomNormal () {
         var t = 0;
         for (var i=0; i<6; i++) {
@@ -93,13 +112,18 @@ Space.prototype.create = function () {
 
 Space.prototype.update = function () {
     if (this.controls.left.isDown) {
-        this.ship.body.velocity.x = -150;
+        this.ship.body.angularVelocity = -3;
     } else if (this.controls.right.isDown) {
-        this.ship.body.velocity.x = 150;
-    } else if (this.controls.up.isDown) {
-        this.ship.body.velocity.y = -150;
+        this.ship.body.angularVelocity = 3;
+    } else {
+        this.ship.body.angularVelocity = 0;
+    }
+    if (this.controls.up.isDown) {
+        this.ship.body.velocity.x = 100*Math.sin(this.ship.rotation);
+        this.ship.body.velocity.y = -100*Math.cos(this.ship.rotation);
     } else if (this.controls.down.isDown) {
-        this.ship.body.velocity.y = 150;
+        this.ship.body.velocity.x = -100*Math.sin(this.ship.rotation);
+        this.ship.body.velocity.y = 100*Math.cos(this.ship.rotation);
     } else {
         this.ship.body.velocity.x = 0;
         this.ship.body.velocity.y = 0;
