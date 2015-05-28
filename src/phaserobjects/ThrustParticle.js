@@ -11,6 +11,9 @@ var ThrustParticle = function (game, key) {
     var texture = ThrustParticle._textureCache[key];
     Phaser.Sprite.call(this, game, 0, 0, texture);
     game.physics.p2.enable(this, false, false);
+    this.body.clearShapes();
+    var shape = this.body.addParticle();
+    shape.sensor = true;
     this.kill();
 };
 
@@ -44,22 +47,19 @@ ThrustParticle.Emitter.add = function (game, key, n) {
 ThrustParticle.Emitter.prototype = Object.create(Phaser.Group.prototype);
 ThrustParticle.Emitter.prototype.constructor = ThrustParticle.Emitter;
 
-ThrustParticle.Emitter.prototype.start = function (x, y, angle) {
-    this._x = x;
-    this._y = y;
-    this._angle = angle;
-    this._on = true;
-};
-
 ThrustParticle.Emitter.prototype.update = function () {
     // FIXME: Testing hack
     if (this._on) {
-        var particle = this.getFirstDead();
-        if (particle) {
-            particle.revive();
-            particle.x = this._x;
-            particle.y = this._y;
-            particle.body.velocity.x = 100;
+        for (var i = 0; i<10; i++) {
+            var particle = this.getFirstDead();
+            if (!particle) {
+                break;
+            }
+            particle.lifespan = 250;
+            var d = this.game.rnd.between(-10, 10);
+            particle.reset(d, 10);
+            particle.body.velocity.y = 100;
+            particle.body.velocity.x = -2*d;
         }
     }
 }

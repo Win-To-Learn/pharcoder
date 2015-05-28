@@ -83,7 +83,6 @@ VectorSprite.prototype.updateAppearance = function () {
 };
 
 VectorSprite.prototype.updateBody = function () {
-    console.log(this.physicsBodyType);
     switch (this.physicsBodyType) {
         case "circle":
             if (typeof this.circle === 'undefined') {
@@ -92,7 +91,6 @@ VectorSprite.prototype.updateBody = function () {
             } else {
                 radius = this.radius;
             }
-            console.log(radius);
             this.body.setCircle(radius);
             break;
         // TODO: More shapes

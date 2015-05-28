@@ -62,8 +62,8 @@ Space.prototype.create = function () {
         a.body.angularVelocity = this.game.rnd.realInRange(-5, 5);
     }
 
-    var emitter = Starcoder.ThrustParticle.Emitter.add(this.game, 'orange', 100);
-    emitter.start(-300, -200, 0);
+    //var emitter = Starcoder.ThrustParticle.Emitter.add(this.game, 'orange', 100);
+    //emitter.start(-300, -200, 0);//
 
     // Helpers
     function randomNormal () {
@@ -119,12 +119,15 @@ Space.prototype.update = function () {
         this.ship.body.angularVelocity = 0;
     }
     if (this.controls.up.isDown) {
+        //console.log(this.ship.engine.x, this.ship.engine.y);
+        this.ship.engine._on = true;
         this.ship.body.velocity.x = 100*Math.sin(this.ship.rotation);
         this.ship.body.velocity.y = -100*Math.cos(this.ship.rotation);
     } else if (this.controls.down.isDown) {
         this.ship.body.velocity.x = -100*Math.sin(this.ship.rotation);
         this.ship.body.velocity.y = 100*Math.cos(this.ship.rotation);
     } else {
+        this.ship.engine._on = false;
         this.ship.body.velocity.x = 0;
         this.ship.body.velocity.y = 0;
     }
