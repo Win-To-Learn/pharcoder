@@ -50,16 +50,17 @@ ThrustParticle.Emitter.prototype.constructor = ThrustParticle.Emitter;
 ThrustParticle.Emitter.prototype.update = function () {
     // FIXME: Testing hack
     if (this._on) {
-        for (var i = 0; i<10; i++) {
+        for (var i = 0; i<20; i++) {
             var particle = this.getFirstDead();
             if (!particle) {
                 break;
             }
             particle.lifespan = 250;
-            var d = this.game.rnd.between(-10, 10);
+            particle.alpha = 0.5;
+            var d = this.game.rnd.between(-7, 7);
             particle.reset(d, 10);
-            particle.body.velocity.y = 100;
-            particle.body.velocity.x = -2*d;
+            particle.body.velocity.y = 80;
+            particle.body.velocity.x = -3*d;
         }
     }
 }

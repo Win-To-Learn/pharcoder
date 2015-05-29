@@ -8,6 +8,7 @@ require('./VectorSprite.js');
 
 var Crystal = function (game, x, y) {
     Starcoder.VectorSprite.call(this, game, x, y);
+    this.body.damping = 0;
 };
 
 Crystal.add = function (game, x, y) {

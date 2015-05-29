@@ -8,6 +8,7 @@ require('./VectorSprite.js');
 
 var Asteroid = function (game, x, y) {
     Starcoder.VectorSprite.call(this, game, x, y);
+    this.body.damping = 0;
 };
 
 Asteroid.add = function (game, x, y) {

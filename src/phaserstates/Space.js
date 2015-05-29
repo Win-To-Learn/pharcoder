@@ -29,6 +29,7 @@ Space.prototype.create = function () {
     var wb = this.game.starcoder.config.worldBounds;
     this.game.physics.startSystem(Phaser.Physics.P2JS);
     this.world.setBounds.apply(this.world, wb);
+    this.game.physics.p2.setBoundsToWorld(true, true, true, true, false);
 
     this.controls = this.input.keyboard.createCursorKeys();     // FIXME
     this.game.time.advancedTiming = true;
@@ -36,12 +37,12 @@ Space.prototype.create = function () {
     // Background
     var starfield = this.game.make.bitmapData(600, 600);
     drawStarField(starfield.ctx, 600, 16);
-    this.game.add.tileSprite(wb[0], wb[1], wb[2]-wb[0], wb[3]-wb[1], starfield);
+    this.game.add.tileSprite(wb[0], wb[1], wb[2], wb[3], starfield);
 
     // FIXME - testing
     this.ship = Starcoder.Ship.add(this.game, 0, 0, '6sjz');
     this.game.camera.follow(this.ship);
-    this.game.camera.setPosition(-400,-300);
+    this.ship.reset(0, 0);
 
     // More testing
     var i, a;
@@ -112,24 +113,31 @@ Space.prototype.create = function () {
 
 Space.prototype.update = function () {
     if (this.controls.left.isDown) {
-        this.ship.body.angularVelocity = -3;
+        this.ship.body.rotateLeft(100);
     } else if (this.controls.right.isDown) {
-        this.ship.body.angularVelocity = 3;
+        this.ship.body.rotateRight(100);
     } else {
-        this.ship.body.angularVelocity = 0;
+        this.ship.body.setZeroRotation()
     }
     if (this.controls.up.isDown) {
         //console.log(this.ship.engine.x, this.ship.engine.y);
         this.ship.engine._on = true;
-        this.ship.body.velocity.x = 100*Math.sin(this.ship.rotation);
-        this.ship.body.velocity.y = -100*Math.cos(this.ship.rotation);
+        //this.ship.body.velocity.x = 100*Math.sin(this.ship.rotation);
+        //this.ship.body.velocity.y = -100*Math.cos(this.ship.rotation);
+        //this.ship.body.force.x = 20*Math.sin(this.ship.rotation);
+        //this.ship.body.force.y = -20*Math.cos(this.ship.rotation);
+        this.ship.body.thrust(100);
     } else if (this.controls.down.isDown) {
-        this.ship.body.velocity.x = -100*Math.sin(this.ship.rotation);
-        this.ship.body.velocity.y = 100*Math.cos(this.ship.rotation);
+        this.ship.body.reverse(80);
+        //this.ship.body.velocity.x = -100*Math.sin(this.ship.rotation);
+        //this.ship.body.velocity.y = 100*Math.cos(this.ship.rotation);
     } else {
         this.ship.engine._on = false;
-        this.ship.body.velocity.x = 0;
-        this.ship.body.velocity.y = 0;
+        //this.ship.body.velocity.x = 0;
+        //this.ship.body.velocity.y = 0;
+        this.ship.body.setZeroForce();
+        //this.ship.body.force.x = 0;
+        //this.ship.body.force.y = 0;
     }
 };
 
