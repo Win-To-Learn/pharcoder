@@ -7,13 +7,17 @@
 
 var Starcoder = require('../Starcoder.js');
 require('./VectorSprite.js');
-require('./ThrustParticle.js');
+require('./Engine.js');
+require('./Weapons.js');
 
 var Ship = function (game, x, y, tag) {
     Starcoder.VectorSprite.call(this, game, x, y);
 
-    this.engine = Starcoder.ThrustParticle.Emitter.add(game, 'orange', 500);
+    this.engine = Starcoder.Engine.add(game, 'thrust', 500);
     this.addChild(this.engine);
+    this.weapons = Starcoder.Weapons.add(game, 'bullet', 12);
+    this.weapons.ship = this;
+    //this.addChild(this.weapons);
     this.tagText = game.add.text(0, this.graphics.height/2 + 1,
         tag, {font: 'bold 18px Arial', fill: this.color || '#ffffff', align: 'center'});
     this.tagText.anchor.setTo(0.5, 0);

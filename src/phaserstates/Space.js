@@ -9,7 +9,7 @@ var Starcoder = require('../Starcoder.js');
 require('../phaserobjects/Ship.js');
 require('../phaserobjects/Asteroid.js');
 require('../phaserobjects/Crystal.js');
-require('../phaserobjects/ThrustParticle.js');
+require('../phaserobjects/SimpleParticle.js');
 
 var Space = function () {
     if (!(this instanceof  Space)) {
@@ -21,7 +21,8 @@ Space.prototype = Object.create(Phaser.State.prototype);
 Space.prototype.constructor = Phaser.State;
 
 Space.prototype.preload = function () {
-    Starcoder.ThrustParticle.cacheTexture(this.game, 'orange', '#ff6600', 2);
+    Starcoder.SimpleParticle.cacheTexture(this.game, 'thrust', '#ff6600', 2);
+    Starcoder.SimpleParticle.cacheTexture(this.game, 'bullet', '#666666', 3);
 };
 
 Space.prototype.create = function () {
@@ -32,6 +33,7 @@ Space.prototype.create = function () {
     this.game.physics.p2.setBoundsToWorld(true, true, true, true, false);
 
     this.controls = this.input.keyboard.createCursorKeys();     // FIXME
+    this.controls.fire = this.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
     this.game.time.advancedTiming = true;
 
     // Background
@@ -63,7 +65,7 @@ Space.prototype.create = function () {
         a.body.angularVelocity = this.game.rnd.realInRange(-5, 5);
     }
 
-    //var emitter = Starcoder.ThrustParticle.Emitter.add(this.game, 'orange', 100);
+    //var emitter = Starcoder.SimpleParticle.Emitter.add(this.game, 'orange', 100);
     //emitter.start(-300, -200, 0);//
 
     // Helpers
@@ -119,9 +121,10 @@ Space.prototype.update = function () {
     } else {
         this.ship.body.setZeroRotation()
     }
+
     if (this.controls.up.isDown) {
         //console.log(this.ship.engine.x, this.ship.engine.y);
-        this.ship.engine._on = true;
+        this.ship.engine.start();
         //this.ship.body.velocity.x = 100*Math.sin(this.ship.rotation);
         //this.ship.body.velocity.y = -100*Math.cos(this.ship.rotation);
         //this.ship.body.force.x = 20*Math.sin(this.ship.rotation);
@@ -132,12 +135,16 @@ Space.prototype.update = function () {
         //this.ship.body.velocity.x = -100*Math.sin(this.ship.rotation);
         //this.ship.body.velocity.y = 100*Math.cos(this.ship.rotation);
     } else {
-        this.ship.engine._on = false;
+        this.ship.engine.stop();
         //this.ship.body.velocity.x = 0;
         //this.ship.body.velocity.y = 0;
         this.ship.body.setZeroForce();
         //this.ship.body.force.x = 0;
         //this.ship.body.force.y = 0;
+    }
+
+    if (this.controls.fire.isDown) {
+        this.ship.weapons.shoot();
     }
 };
 

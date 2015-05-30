@@ -3,24 +3,33 @@
  */
 
 var Starcoder = require('../Starcoder.js');
+require('./SimpleParticle.js');
 
 var Engine = function (game, key, n) {
     Phaser.Group.call(this, game);
     n = n || 50;
     for (var i = 0; i < n; i++) {
-        this.add(new ThrustParticle(game, key));
+        this.add(new Starcoder.SimpleParticle(game, key));
     }
     this._on = false;
 };
 
 Engine.add = function (game, key, n) {
-    var emitter = new ThrustParticle.Emitter(game, key, n);
+    var emitter = new Engine(game, key, n);
     game.add.existing(emitter);
     return emitter;
 };
 
 Engine.prototype = Object.create(Phaser.Group.prototype);
 Engine.prototype.constructor = Engine;
+
+Engine.prototype.start = function () {
+    this._on = true;
+};
+
+Engine.prototype.stop = function () {
+    this._on = false;
+}
 
 Engine.prototype.update = function () {
     // FIXME: Testing hack
