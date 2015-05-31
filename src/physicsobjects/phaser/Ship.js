@@ -1,11 +1,10 @@
 /**
  * Ship.js
- *
- * @type {Starcoder|exports}
  */
 'use strict';
 
-var Starcoder = require('../../Starcoder.js');
+var Starcoder = require('../../Starcoder-client.js');
+
 require('./VectorSprite.js');
 require('./Engine.js');
 require('./Weapons.js');

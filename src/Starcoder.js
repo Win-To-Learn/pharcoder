@@ -13,7 +13,9 @@
 //};
 
 var Starcoder = function () {
-    this.init.apply(this, arguments);        // Call client or server init
+    // Initializers virtualized according to role
+    this.init.apply(this, arguments);
+    this.initNet.call(this);
 };
 
 /**
@@ -36,4 +38,6 @@ Starcoder.mixinPrototype = function (target, mixin) {
     }
 };
 
+console.log('SCm', Starcoder);
+console.log('SCm2', Starcoder.mixinPrototype);
 module.exports = Starcoder;

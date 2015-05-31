@@ -5,7 +5,8 @@
  */
 'use strict';
 
-var Starcoder = require('../Starcoder.js');
+var Starcoder = require('../Starcoder-client.js');
+
 require('../physicsobjects/phaser/Ship.js');
 require('../physicsobjects/phaser/Asteroid.js');
 require('../physicsobjects/phaser/Crystal.js');
@@ -155,4 +156,4 @@ Space.prototype.render = function () {
 };
 
 module.exports = Space;
-Starcoder.States.Space = Space;
+//Starcoder.States.Space = Space;
