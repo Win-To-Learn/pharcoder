@@ -13,15 +13,27 @@
 //};
 
 var Starcoder = function () {
-    if (arguments[0] === 'client') {
-        this.game = arguments[1];
-        this.game.starcoder = this;
-        this.config = {     // FIXME
-            worldBounds: [-1000, -1000, 2000, 2000]
+    this.init.apply(this, arguments);        // Call client or server init
+};
+
+/**
+ * Add mixin properties to target. Adapted (slightly) from Phaser
+ *
+ * @param {object} target
+ * @param {object} mixin
+ */
+Starcoder.mixinPrototype = function (target, mixin) {
+    var keys = Object.keys(mixin);
+    for (var i = 0; i < keys.length; i++) {
+        var key = keys[i];
+        var val = mixin[key];
+        if (val &&
+            (typeof val.get === 'function' || typeof val.set == 'function')) {
+            Object.defineProperty(target, key, val);
+        } else {
+            target[key] = val;
         }
     }
 };
-
-Starcoder.States = {};
 
 module.exports = Starcoder;

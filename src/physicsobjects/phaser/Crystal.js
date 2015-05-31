@@ -3,7 +3,7 @@
  */
 'use strict';
 
-var Starcoder = require('../Starcoder.js');
+var Starcoder = require('../../Starcoder-client.js');
 require('./VectorSprite.js');
 
 var Crystal = function (game, x, y) {

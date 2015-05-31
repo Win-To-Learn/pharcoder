@@ -2,7 +2,7 @@
  * Engine.js
  */
 
-var Starcoder = require('../Starcoder.js');
+var Starcoder = require('../../Starcoder-client.js');
 require('./SimpleParticle.js');
 
 var Engine = function (game, key, n) {

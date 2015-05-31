@@ -2,7 +2,7 @@
  * Weapons.js
  */
 
-var Starcoder = require('../Starcoder.js');
+var Starcoder = require('../../Starcoder-client.js');
 require('./SimpleParticle.js');
 
 var Weapons = function (game, key, n) {

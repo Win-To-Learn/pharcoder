@@ -3,7 +3,7 @@
  */
 'use strict';
 
-var Starcoder = require('../Starcoder.js');
+var Starcoder = require('../../Starcoder-client.js');
 
 var VectorSprite = function (game, x, y) {
     Phaser.Sprite.call(this, game, x, y);

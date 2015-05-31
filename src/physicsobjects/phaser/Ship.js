@@ -5,7 +5,7 @@
  */
 'use strict';
 
-var Starcoder = require('../Starcoder.js');
+var Starcoder = require('../../Starcoder.js');
 require('./VectorSprite.js');
 require('./Engine.js');
 require('./Weapons.js');

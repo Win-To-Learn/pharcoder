@@ -6,13 +6,13 @@
 'use strict';
 
 var Starcoder = require('../Starcoder.js');
-require('../phaserobjects/Ship.js');
-require('../phaserobjects/Asteroid.js');
-require('../phaserobjects/Crystal.js');
-require('../phaserobjects/SimpleParticle.js');
+require('../physicsobjects/phaser/Ship.js');
+require('../physicsobjects/phaser/Asteroid.js');
+require('../physicsobjects/phaser/Crystal.js');
+require('../physicsobjects/phaser/SimpleParticle.js');
 
 var Space = function () {
-    if (!(this instanceof  Space)) {
+    if (!(this instanceof Space)) {
         return new Space();
     }
 };
