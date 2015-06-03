@@ -6,21 +6,30 @@
 'use strict';
 
 var Starcoder = require('./Starcoder.js');
-
-var SERVER_URI = 'http://localhost:8080';
+var states = {
+    boot: require('./phaserstates/Boot.js')(),
+    space: require('./phaserstates/Space.js')()
+};
 
 Starcoder.prototype.init = function () {
+    this.io = io;
     this.game = new Phaser.Game(800, 600, Phaser.AUTO, '');
     this.game.starcoder = this;
-    this.config = {     // FIXME
-        worldBounds: [-1000, -1000, 2000, 2000]
+    for (var k in states) {
+        states[k].starcoder = this;
+        this.game.state.add(k, states[k]);
     }
+    this.cmdQueue = [];
 };
 
-Starcoder.prototype.initNet = function () {
-    //this.io = io;
-    //this.socket = io(SERVER_URI);
+Starcoder.prototype.start = function () {
+    this.game.state.start('boot');
 };
+
+//Starcoder.prototype.initNet = function () {
+//    //this.io = io;
+//    //this.socket = io(SERVER_URI);
+//};
 
 Starcoder.prototype.role = 'client';
 

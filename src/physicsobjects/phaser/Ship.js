@@ -12,6 +12,7 @@ require('./Weapons.js');
 var Ship = function (game, x, y, tag) {
     Starcoder.VectorSprite.call(this, game, x, y);
 
+    this.body.static = true;
     this.engine = Starcoder.Engine.add(game, 'thrust', 500);
     this.addChild(this.engine);
     this.weapons = Starcoder.Weapons.add(game, 'bullet', 12);

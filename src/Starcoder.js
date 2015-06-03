@@ -12,10 +12,19 @@
 //    States: {}
 //};
 
+var config = {
+    serverUri: 'http://localhost:8080',
+    worldBounds: [-4200, -4200, 8400, 8400],
+    ioClientOptions: {
+        //forceNew: true
+    }
+};
+
 var Starcoder = function () {
+    this.config = config;
     // Initializers virtualized according to role
     this.init.apply(this, arguments);
-    this.initNet.call(this);
+    //this.initNet.call(this);
 };
 
 /**
@@ -38,6 +47,4 @@ Starcoder.mixinPrototype = function (target, mixin) {
     }
 };
 
-console.log('SCm', Starcoder);
-console.log('SCm2', Starcoder.mixinPrototype);
 module.exports = Starcoder;
