@@ -5,12 +5,12 @@
  */
 'use strict';
 
-var Starcoder = require('../Starcoder-client.js');
+//var Starcoder = require('../Starcoder-client.js');
 
-require('../physicsobjects/phaser/Ship.js');
+var Ship = require('../physicsobjects/phaser/Ship.js');
 //require('../physicsobjects/phaser/Asteroid.js');
 //require('../physicsobjects/phaser/Crystal.js');
-require('../physicsobjects/phaser/SimpleParticle.js');
+var SimpleParticle = require('../physicsobjects/phaser/SimpleParticle.js');
 
 var Space = function () {
     if (!(this instanceof Space)) {
@@ -22,8 +22,9 @@ Space.prototype = Object.create(Phaser.State.prototype);
 Space.prototype.constructor = Space;
 
 Space.prototype.preload = function () {
-    Starcoder.SimpleParticle.cacheTexture(this.game, 'thrust', '#ff6600', 2);
-    Starcoder.SimpleParticle.cacheTexture(this.game, 'bullet', '#666666', 3);
+    console.log('space preaload');
+    SimpleParticle.cacheTexture(this.game, 'thrust', '#ff6600', 2);
+    SimpleParticle.cacheTexture(this.game, 'bullet', '#666666', 3);
 };
 
 Space.prototype.create = function () {
@@ -46,12 +47,13 @@ Space.prototype.create = function () {
     // Set up networking stuff - initial test implementation
     var self = this;
     console.log('Socket', this.game.starcoder.socket.id);
-    this.game.starcoder.socket.emit('ready');
-    this.game.starcoder.socket.on('add ship', function (data) {
-        console.log('Adding ship');
-        self.ship = Starcoder.Ship.add(self.game, data.x, data.y, data.id);
-        self.game.camera.follow(self.ship);
-    });
+    this.game.starcoder.socket.emit('enter world');
+    this.starcoder.serversync.start();
+    //this.game.starcoder.socket.on('add ship', function (data) {
+    //    console.log('Adding ship');
+    //    self.ship = Starcoder.Ship.add(self.game, data.x, data.y, data.id);
+    //    self.game.camera.follow(self.ship);
+    //});
 
     //this.ship = Starcoder.Ship.add(this.game, 0, 0, '6sjz');
     //this.game.camera.follow(this.ship);

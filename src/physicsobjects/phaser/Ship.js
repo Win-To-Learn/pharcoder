@@ -3,19 +3,19 @@
  */
 'use strict';
 
-var Starcoder = require('../../Starcoder-client.js');
+//var Starcoder = require('../../Starcoder-client.js');
 
-require('./VectorSprite.js');
-require('./Engine.js');
-require('./Weapons.js');
+var VectorSprite = require('./VectorSprite.js');
+var Engine = require('./Engine.js');
+var Weapons = require('./Weapons.js');
 
 var Ship = function (game, x, y, tag) {
-    Starcoder.VectorSprite.call(this, game, x, y);
+    VectorSprite.call(this, game, x, y);
 
     this.body.static = true;
-    this.engine = Starcoder.Engine.add(game, 'thrust', 500);
+    this.engine = Engine.add(game, 'thrust', 500);
     this.addChild(this.engine);
-    this.weapons = Starcoder.Weapons.add(game, 'bullet', 12);
+    this.weapons = Weapons.add(game, 'bullet', 12);
     this.weapons.ship = this;
     //this.addChild(this.weapons);
     this.tagText = game.add.text(0, this.graphics.height/2 + 1,
@@ -31,7 +31,7 @@ Ship.add = function (game, x, y, tag) {
     return s;
 };
 
-Ship.prototype = Object.create(Starcoder.VectorSprite.prototype);
+Ship.prototype = Object.create(VectorSprite.prototype);
 Ship.prototype.constructor = Ship;
 
 Ship.prototype.setLineStyle = function (color, lineWidth) {
@@ -57,4 +57,4 @@ Ship.prototype.update = function () {
 };
 
 module.exports = Ship;
-Starcoder.Ship = Ship;
+//Starcoder.Ship = Ship;

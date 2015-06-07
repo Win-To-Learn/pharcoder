@@ -2,14 +2,14 @@
  * Engine.js
  */
 
-var Starcoder = require('../../Starcoder-client.js');
-require('./SimpleParticle.js');
+//var Starcoder = require('../../Starcoder-client.js');
+var SimpleParticle = require('./SimpleParticle.js');
 
 var Engine = function (game, key, n) {
     Phaser.Group.call(this, game);
     n = n || 50;
     for (var i = 0; i < n; i++) {
-        this.add(new Starcoder.SimpleParticle(game, key));
+        this.add(new SimpleParticle(game, key));
     }
     this._on = false;
 };
@@ -50,4 +50,4 @@ Engine.prototype.update = function () {
 };
 
 module.exports = Engine;
-Starcoder.Engine = Engine;
+//Starcoder.Engine = Engine;

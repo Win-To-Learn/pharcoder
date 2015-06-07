@@ -2,14 +2,14 @@
  * Weapons.js
  */
 
-var Starcoder = require('../../Starcoder-client.js');
-require('./SimpleParticle.js');
+//var Starcoder = require('../../Starcoder-client.js');
+var SimpleParticle = require('./SimpleParticle.js');
 
 var Weapons = function (game, key, n) {
     Phaser.Group.call(this, game);
     n = n || 12;
     for (var i = 0; i < n; i++) {
-        this.add(new Starcoder.SimpleParticle(game, key));
+        this.add(new SimpleParticle(game, key));
     }
     this.rateLimit = 500;
     this.salvo = 5;
@@ -56,4 +56,4 @@ Weapons.prototype._shootOne = function (angleDelta) {
 };
 
 module.exports = Weapons;
-Starcoder.Weapons = Weapons;
+//Starcoder.Weapons = Weapons;

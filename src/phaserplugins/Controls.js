@@ -5,7 +5,8 @@
  */
 'use strict';
 
-//var Starcoder = require('../Starcoder-client.js');
+var Starcoder = require('../Starcoder-client.js');
+console.log('Controls', Starcoder);
 
 var Controls = function (game, parent) {
     Phaser.Plugin.call(this, game, parent);
@@ -80,5 +81,5 @@ Controls.prototype.processQueue = function (cb, clear) {
     }
 };
 
-//Starcoder.Controls = Controls;
+Starcoder.Controls = Controls;
 module.exports = Controls;

@@ -17,7 +17,9 @@ var config = {
     worldBounds: [-4200, -4200, 8400, 8400],
     ioClientOptions: {
         //forceNew: true
-    }
+    },
+    updateInterval: 50,
+    renderLatency: 100
 };
 
 var Starcoder = function () {

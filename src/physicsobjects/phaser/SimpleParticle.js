@@ -5,7 +5,7 @@
  */
 'use strict';
 
-var Starcoder = require('../../Starcoder-client.js');
+//var Starcoder = require('../../Starcoder-client.js');
 
 var SimpleParticle = function (game, key) {
     var texture = SimpleParticle._textureCache[key];
@@ -66,4 +66,4 @@ SimpleParticle.prototype.constructor = SimpleParticle;
 //};
 
 module.exports = SimpleParticle;
-Starcoder.SimpleParticle = SimpleParticle;
+//Starcoder.SimpleParticle = SimpleParticle;

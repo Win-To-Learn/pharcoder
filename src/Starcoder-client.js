@@ -6,9 +6,17 @@
 'use strict';
 
 var Starcoder = require('./Starcoder.js');
+
+/*
+Starcoder.Ship = require('./physicsobjects/phaser/Ship.js');
+Starcoder.Asteroid = require('./physicsobjects/phaser/Asteroid.js');
+Starcoder.Crystal = require('./physicsobjects/phaser/Crystal.js');
+Starcoder.SimpleParticle = require('./physicsobjects/phaser/SimpleParticle.js');
+*/
+
 var states = {
-    boot: require('./phaserstates/Boot.js')(),
-    space: require('./phaserstates/Space.js')()
+    boot: require('./phaserstates/Boot.js'),
+    space: require('./phaserstates/Space.js')
 };
 
 Starcoder.prototype.init = function () {
@@ -16,8 +24,9 @@ Starcoder.prototype.init = function () {
     this.game = new Phaser.Game(800, 600, Phaser.AUTO, '');
     this.game.starcoder = this;
     for (var k in states) {
-        states[k].starcoder = this;
-        this.game.state.add(k, states[k]);
+        var state = states[k]()
+        state.starcoder = this;
+        this.game.state.add(k, state);
     }
     this.cmdQueue = [];
 };

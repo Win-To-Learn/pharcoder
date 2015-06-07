@@ -3,11 +3,11 @@
  */
 'use strict';
 
-var Starcoder = require('../../Starcoder-client.js');
-require('./VectorSprite.js');
+//var Starcoder = require('../../Starcoder-client.js');
+var VectorSprite = require('./VectorSprite.js');
 
 var Crystal = function (game, x, y) {
-    Starcoder.VectorSprite.call(this, game, x, y);
+    VectorSprite.call(this, game, x, y);
     this.body.damping = 0;
 };
 
@@ -17,7 +17,7 @@ Crystal.add = function (game, x, y) {
     return a;
 };
 
-Crystal.prototype = Object.create(Starcoder.VectorSprite.prototype);
+Crystal.prototype = Object.create(VectorSprite.prototype);
 Crystal.prototype.constructor = Crystal;
 
 Crystal.prototype.lineColor = '#00ffff';
@@ -34,4 +34,4 @@ Crystal.prototype.geometry = [
 ];
 
 module.exports = Crystal;
-Starcoder.Crystal = Crystal;
+//Starcoder.Crystal = Crystal;

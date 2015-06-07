@@ -3,13 +3,13 @@
  */
 'use strict';
 
-var Starcoder = require('../../Starcoder-client.js');
-require('./VectorSprite.js');
+//var Starcoder = require('../../Starcoder-client.js');
+var VectorSprite = require('./VectorSprite.js');
 
 var shared = require('../shared/Asteroid.js');
 
 var Asteroid = function (game, x, y) {
-    Starcoder.VectorSprite.call(this, game, x, y);
+    VectorSprite.call(this, game, x, y);
     this.body.damping = 0;
 };
 
@@ -19,10 +19,10 @@ Asteroid.add = function (game, x, y) {
     return a;
 };
 
-Asteroid.prototype = Object.create(Starcoder.VectorSprite.prototype);
+Asteroid.prototype = Object.create(VectorSprite.prototype);
 Asteroid.prototype.constructor = Asteroid;
 
-Starcoder.mixinPrototype(Asteroid.prototype, shared.prototype);
+//Starcoder.mixinPrototype(Asteroid.prototype, shared.prototype);
 
 //Asteroid.prototype.lineColor = '#ff00ff';
 //Asteroid.prototype.fillColor = '#00ff00';
@@ -39,4 +39,4 @@ Starcoder.mixinPrototype(Asteroid.prototype, shared.prototype);
 //];
 
 module.exports = Asteroid;
-Starcoder.Asteroid = Asteroid;
+//Starcoder.Asteroid = Asteroid;

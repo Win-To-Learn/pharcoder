@@ -6,8 +6,9 @@
  */
 'use strict';
 
+//var Starcoder = require('../Starcoder-client.js');
 var Controls = require('../phaserplugins/Controls.js');
-var ServerSync = require('../phaserplugins/ServerSync.js');
+var SyncClient = require('../phaserplugins/SyncClient.js');
 
 var Boot = function () {
     if (!(this instanceof Boot)) {
@@ -25,11 +26,14 @@ Boot.prototype.preload = function () {
     this.starcoder.controls = this.game.plugins.add(Controls,
         this.starcoder.cmdQueue);
     // Set up socket.io connection
-    this.starcoder.socket = this.starcoder.io(this.starcoder.config.serverUri,
+    this.starcoder.socket = this.starcoder.io(
+        this.starcoder.config.serverUri + '/sync',
         this.starcoder.config.ioClientOptions);
-    this.starcoder.socket.on('connect', function () {
-        console.log('socket connected');
-        self.starcoder = self.game.plugins.add(ServerSync,
+    this.starcoder.socket.on('new player', function (playerMsg) {
+        // FIXME: Has to interact with session for authentication etc.
+        console.log('Player', playerMsg);
+        self.starcoder.player = playerMsg;
+        self.starcoder.serversync = self.game.plugins.add(SyncClient,
             self.starcoder.socket, self.starcoder.cmdQueue)
         _connected = true;
     });
