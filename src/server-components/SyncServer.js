@@ -11,6 +11,7 @@ Sync.prototype.initSync = function () {
     this.nsSync = this.io.of('/sync');
     // New connection
     this.nsSync.on('connect', function (socket) {
+        console.log('connect', socket.id);
         var player = starcoder.addPlayer(socket);     // FIXME: details
         socket.emit('new player', player.msgNew());
         socket.on('enter world', function () {

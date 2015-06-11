@@ -36,12 +36,12 @@ World.prototype.addShip = function () {
 World.prototype.start = function (rate, substeps) {
     var self = this;
     substeps = substeps || 10;
-    this._lastTime = this.time;
-    var interval = setInterval(function () {
-        self.step(rate, self.time - self._lastTime, substeps);
-        self._lastTime = self.time;
+    this._lastHRTime = process.hrtime();
+    return setInterval(function () {
+        var diff = process.hrtime(self._lastHRTime);
+        self.step(rate, diff[0] + diff[1]*1e-9, substeps);
+        self._lastHRTime = process.hrtime();
     }, rate*1000);
-    return interval;
 };
 
 //World.prototype.getSnapshot = function () {

@@ -22,7 +22,6 @@ Space.prototype = Object.create(Phaser.State.prototype);
 Space.prototype.constructor = Space;
 
 Space.prototype.preload = function () {
-    console.log('space preaload');
     SimpleParticle.cacheTexture(this.game, 'thrust', '#ff6600', 2);
     SimpleParticle.cacheTexture(this.game, 'bullet', '#666666', 3);
 };
@@ -46,7 +45,6 @@ Space.prototype.create = function () {
 
     // Set up networking stuff - initial test implementation
     var self = this;
-    console.log('Socket', this.game.starcoder.socket.id);
     this.game.starcoder.socket.emit('enter world');
     this.starcoder.serversync.start();
     //this.game.starcoder.socket.on('add ship', function (data) {
@@ -128,6 +126,9 @@ Space.prototype.update = function () {
     this.starcoder.controls.processQueue(function (a) {
         console.log(a);
     });
+    console.log('-update-');
+    //for (var i=0; i<1000000; i++);
+    //console.log('T', this.game.time.now, this.game.time.time,this.game.time.elapsed);
     //if (this.controls.left.isDown) {
     //    this.ship.body.rotateLeft(100);
     //} else if (this.controls.right.isDown) {
@@ -164,6 +165,12 @@ Space.prototype.update = function () {
 
 
 Space.prototype.render = function () {
+    console.log('+render+');
+    if (this.starcoder.tempsprite) {
+        console.log('Delta', this.starcoder.tempsprite.position.x - this.starcoder.tempsprite.previousPosition.x,
+            this.game.time.elapsed);
+    }
+    console.log('--------------------------------');
     this.game.debug.text('Fps: ' + this.game.time.fps, 5, 20);
     this.game.debug.cameraInfo(this.game.camera, 100, 20);
     if (this.ship) {

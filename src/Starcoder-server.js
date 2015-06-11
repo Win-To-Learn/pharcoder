@@ -37,7 +37,6 @@ Starcoder.prototype.addPlayer = function (socket, type, descriptor) {
     } else {
         type = Players.playerTypes[type];
     }
-    console.log('Ptype', type);
     var player = new type(socket, descriptor);
     this.players[socket.id] = player;
     return player;

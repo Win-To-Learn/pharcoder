@@ -19,7 +19,9 @@ var config = {
         //forceNew: true
     },
     updateInterval: 50,
-    renderLatency: 100
+    renderLatency: 100,
+    physicsScale: 20,
+    frameRate: (1 / 60)
 };
 
 var Starcoder = function () {

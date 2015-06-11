@@ -74,11 +74,11 @@ SyncBodyBase.prototype.adjustShape = function () {
 SyncBodyBase.prototype.getUpdatePacket = function (full) {
     var update = {
         id: this.id,
-        x: this.position[0],
-        y: this.position[1],
+        x: this.interpolatedPosition[0],
+        y: this.interpolatedPosition[1],
         vx: this.velocity[0],
         vy: this.velocity[1],
-        a: this.angle,
+        a: this.interpolatedAngle,
         av: this.angularVelocity
     };
     if (full) {

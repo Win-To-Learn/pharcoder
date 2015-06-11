@@ -10,6 +10,7 @@ var SyncBodyBase = require('./SyncBodyBase.js');
 
 var Ship = function (options) {
     SyncBodyBase.call(this, options);
+    this.damping = 0;
 };
 
 Ship.prototype = Object.create(SyncBodyBase.prototype);
@@ -34,6 +35,8 @@ Ship.prototype._lineWidth = 6;
 
 Ship.prototype.preProcessOptions = function (options) {
     options.mass = options.mass || 10;
+    options.velocity = [5,0];
+    options.position = [0, 5];
 };
 
 

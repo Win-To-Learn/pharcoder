@@ -16,6 +16,7 @@ var VectorSprite = function (game, x, y) {
     game.physics.p2.enable(this, false, false);
     this.updateAppearance();
     this.updateBody();
+    this.body.mass = 0;
     //console.log(this.graphics.getLocalBounds());
 };
 
