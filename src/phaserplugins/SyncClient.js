@@ -119,26 +119,51 @@ SyncClient.prototype._processPhysicsUpdates = function () {
         //}
         //console.log(interpTime, '<>', temp);
 
-        for (var j = queue.length - 2; j >= 0; j--) {
-            if (queue[j].timestamp < interpTime) {
-                before = queue[j];
-                after = queue[j+1];
+        //for (var j = queue.length - 2; j >= 0; j--) {
+        //    if (queue[j].timestamp < interpTime) {
+        //        before = queue[j];
+        //        after = queue[j+1];
+        //        break;
+        //    }
+        //}
+        //if (!before) {
+        //    // Nothing to interpolate - Do nothing?
+        //    break;
+        //}
+
+        // Find updates before and after interpTime
+        var j = 1;
+        while (queue[j]) {
+            if (queue[j].timestamp > interpTime) {
+                after = queue[j];
+                before = queue[j-1];
                 break;
             }
+            j++;
         }
-        if (!before) {
-            // Nothing to interpolate - Do nothing?
-            break;
+
+        // None - we're behind.
+        if (!before && !after) {
+            if (queue.length >= 2) {    // Two most recent updates available? Use them.
+                before = queue[queue.length - 2];
+                after = queue[queue.length - 1];
+            } else {                    // No? Just bail
+                break;
+            }
+        } else {
+            queue.splice(0, j - 1);     // Throw out older updates
         }
-        console.log('[-]', j, before.timestamp, interpTime, after.timestamp);
+
+        //console.log('[-]', j, before.timestamp, interpTime, after.timestamp);
         console.log('vx', before.vx, after.vx);
-        var t = (interpTime - before.timestamp) / (after.timestamp - before.timestamp);
-        //sprite.body.data.position[0] = -hermite(before.x, after.x, before.vx, after.vx, t);
-        //sprite.body.data.position[1] = -hermite(before.y, after.y, before.vy, after.vy, t);
-        //sprite.body.data.angle = hermite(before.a, after.a, before.av, after.av, t);
-        sprite.body.data.position[0] = -linear(before.x, after.x, t);
-        sprite.body.data.position[1] = -linear(before.y, after.y, t);
-        sprite.body.data.angle = linear(before.a, after.a, t);
+        var span = after.timestamp - before.timestamp;
+        var t = (interpTime - before.timestamp) / span;
+        sprite.body.data.position[0] = -hermite(before.x, after.x, before.vx*span, after.vx*span, t);
+        sprite.body.data.position[1] = -hermite(before.y, after.y, before.vy*span, after.vy*span, t);
+        sprite.body.data.angle = hermite(before.a, after.a, before.av*span, after.av*span, t);
+        //sprite.body.data.position[0] = -linear(before.x, after.x, t);
+        //sprite.body.data.position[1] = -linear(before.y, after.y, t);
+        //sprite.body.data.angle = linear(before.a, after.a, t);
         console.log('[x]', t, '|', before.x, -sprite.body.data.position[0], after.x);
         console.log('X', sprite.body.data.position[0], sprite.body.x);
         console.log('Y', sprite.body.data.position[1], sprite.body.y);
