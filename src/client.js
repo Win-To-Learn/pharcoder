@@ -23,7 +23,7 @@ localStorage.debug = '';
 var starcoder = new Starcoder();
 starcoder.start();
 
-console.log= function () {};
+//console.log= function () {};
 
 //starcoder.game.state.add('boot', bootState);
 //starcoder.game.state.add('space', spaceState);
