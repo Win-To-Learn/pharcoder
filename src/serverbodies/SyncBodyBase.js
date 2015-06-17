@@ -36,7 +36,7 @@ SyncBodyBase.prototype.clearAllShapes = function () {
 };
 
 /**
- * Adjust body shape based on _shape property with some reasonable fallbacks
+ * Adjust body shape based on shape property with some reasonable fallbacks
  */
 SyncBodyBase.prototype.adjustShape = function () {
     this.clearAllShapes();

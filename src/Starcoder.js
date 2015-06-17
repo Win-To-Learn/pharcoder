@@ -35,12 +35,14 @@ var config = {
         }
     },
     initialBodies: [
-        {type: 'Asteroid', number: 75, config: {
-            position: 'random',
+        {type: 'Asteroid', number: 150, config: {
+            position: {random: 'world'},
+            velocity: {random: 'vector', lo: -10, hi: 10},
             mass: 10
         }},
-        {type: 'Crystal', number: 75, config: {
-            position: 'random',
+        {type: 'Crystal', number: 150, config: {
+            position: {random: 'world'},
+            velocity: {random: 'vector', lo: -4, hi: 4, normal: true},
             mass: 5
         }}
     ]
@@ -65,7 +67,7 @@ Starcoder.mixinPrototype = function (target, mixin) {
         var key = keys[i];
         var val = mixin[key];
         if (val &&
-            (typeof val.get === 'function' || typeof val.set == 'function')) {
+            (typeof val.get === 'function' || typeof val.set === 'function')) {
             Object.defineProperty(target, key, val);
         } else {
             target[key] = val;

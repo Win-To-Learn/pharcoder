@@ -37,7 +37,7 @@ World.prototype.addPlayerShip = function (player) {
     player.addShip(ship);
     this._ships.push(ship);
     return ship;
-}
+};
 
 World.prototype.addSyncableBody = function (ctor, options, player) {
     if (options.position === 'random') {
@@ -126,13 +126,55 @@ World.prototype._populate = function (desc) {
         var ctor = bodyTypes[desc[i].type];
         var config = desc[i].config;
         for (var j = 0; j < desc[i].number; j++) {
-            // TODO: Various randomizers, etc.
-            var body = this.addSyncableBody(ctor, config);
+            var c = {};
+            for (var k in config) {
+                if (typeof config[k] === 'object' && config[k].random) {
+                    c[k] = this._flexRand(config[k]);
+                } else {
+                    c[k] = config[k];
+                }
+            }
+            var body = this.addSyncableBody(ctor, c);
             console.log(body.position[0], body.position[1]);
             count++;
         }
     }
     console.log('Added', count, 'bodies');
+};
+
+/**
+ * Generate random numbers for initializers
+ *
+ * @param spec
+ * @private
+ */
+World.prototype._flexRand = function (spec) {
+    function between (l, h, n) {
+        var r = Math.random();
+        if (n) {
+            for (var i = 0; i < 5; i++) {
+                r += Math.random();
+            }
+            r /= 6;
+        }
+        return l + r*(h - l + 1);
+    }
+    if (spec.random === 'int') {
+        return Math.floor(between(spec.lo, spec.hi, spec.normal));
+    } else if (spec.random === 'float') {
+        return between(spec.lo, spec.hi, spec.normal);
+    } else if (spec.random === 'world') {
+        var pad = spec.pad || 0;
+        return [
+            Math.floor(between(this.left + pad, this.right - pad, spec.normal)),
+            Math.floor(between(this.top + pad, this.bottom - pad, spec.normal))
+        ];
+    } else if (spec.random === 'vector') {
+        return [
+            between(spec.lo, spec.hi, spec.normal),
+            between(spec.lo, spec.hi, spec.normal)
+        ];
+    }
 };
 
 module.exports = World;
