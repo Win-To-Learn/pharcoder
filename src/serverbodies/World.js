@@ -24,6 +24,14 @@ var World = function (bounds) {
 World.prototype = Object.create(p2.World.prototype);
 World.prototype.constructor = World;
 
+World.prototype.addPlayerShip = function (player) {
+    var ship = this.addSyncableBody(Ship, {position: 'random'}, player);
+    ship.player = player;
+    player.addShip(ship);
+    this._ships.push(ship);
+    return ship;
+}
+
 World.prototype.addSyncableBody = function (ctor, options, player) {
     if (options.position === 'random') {
         options.position = [Math.floor(Math.random()*(this.right - this.left)+this.left),
@@ -32,14 +40,6 @@ World.prototype.addSyncableBody = function (ctor, options, player) {
         options.position = [Math.floor((this.left + this.right)/2), Math.floor((this.top + this.bottom)/2)];
     }
     var body = new ctor(options);
-    // Handle special cases (just Ships for now)
-    switch (ctor) {
-        case Ship:
-            body.player = player;
-            player.addShip(body);
-            this._ships.push(body);
-            break;
-    }
     this._syncableBodies.push(body);
     this.addBody(body);
     return body;

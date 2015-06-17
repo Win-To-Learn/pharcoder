@@ -7,24 +7,15 @@
 
 var Starcoder = require('./Starcoder.js');
 
-Starcoder.VectorSprite = require('./physicsobjects/phaser/VectorSprite.js');
-Starcoder.Ship = require('./physicsobjects/phaser/Ship.js');
-Starcoder.Asteroid = require('./physicsobjects/phaser/Asteroid.js');
-Starcoder.Crystal = require('./physicsobjects/phaser/Crystal.js');
-Starcoder.SimpleParticle = require('./physicsobjects/phaser/SimpleParticle.js');
+var WorldApi = require('./client-components/WorldApi.js');
 
+
+Starcoder.mixinPrototype(Starcoder.prototype, WorldApi.prototype);
 
 var states = {
     boot: require('./phaserstates/Boot.js'),
     space: require('./phaserstates/Space.js')
 };
-
-var objectMap = {};
-for (var k in Starcoder) {
-    if (Starcoder[k].prototype instanceof Starcoder.VectorSprite) {
-        objectMap[k] = Starcoder[k];
-    }
-}
 
 Starcoder.prototype.init = function () {
     this.io = io;
@@ -33,7 +24,7 @@ Starcoder.prototype.init = function () {
     //this.game.forceSingleUpdate = true;
     this.game.starcoder = this;
     for (var k in states) {
-        var state = states[k]()
+        var state = new states[k]();
         state.starcoder = this;
         this.game.state.add(k, state);
     }
@@ -44,18 +35,13 @@ Starcoder.prototype.start = function () {
     this.game.state.start('boot');
 };
 
-Starcoder.prototype.addObject = function (options) {
-    var ctor = objectMap[options.t];
-    return ctor.add(this.game, options);
+Starcoder.prototype.attachPlugin = function () {
+    var plugin = this.game.plugins.add.apply(this.game.plugins, arguments);
+    plugin.starcoder = this;
+    plugin.log = this.log;
+    return plugin;
 };
 
-//Starcoder.prototype.initNet = function () {
-//    //this.io = io;
-//    //this.socket = io(SERVER_URI);
-//};
-
 Starcoder.prototype.role = 'client';
-
-Starcoder.States = {};
 
 module.exports = Starcoder;

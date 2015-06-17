@@ -5,18 +5,9 @@
  */
 'use strict';
 
-//var Starcoder = require('../Starcoder-client.js');
+var SimpleParticle = require('../phaserbodies/SimpleParticle.js');
 
-var Ship = require('../physicsobjects/phaser/Ship.js');
-//require('../physicsobjects/phaser/Asteroid.js');
-//require('../physicsobjects/phaser/Crystal.js');
-var SimpleParticle = require('../physicsobjects/phaser/SimpleParticle.js');
-
-var Space = function () {
-    if (!(this instanceof Space)) {
-        return new Space();
-    }
-};
+var Space = function () {};
 
 Space.prototype = Object.create(Phaser.State.prototype);
 Space.prototype.constructor = Space;
@@ -29,26 +20,21 @@ Space.prototype.preload = function () {
 
 Space.prototype.create = function () {
     var rng = this.game.rnd;
-    var wb = this.game.starcoder.config.worldBounds;
-    var ps = this.game.starcoder.config.physicsScale;
+    var wb = this.starcoder.config.worldBounds;
+    var ps = this.starcoder.config.physicsScale;
     this.game.physics.startSystem(Phaser.Physics.P2JS);
     this.world.setBounds.call(this.world, wb[0]*ps, wb[1]*ps, (wb[2]-wb[0])*ps, (wb[3]-wb[1])*ps);
     this.game.physics.p2.setBoundsToWorld(true, true, true, true, false);
 
-    //this.controls = this.input.keyboard.createCursorKeys();     // FIXME
-    //this.controls.fire = this.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
     this.starcoder.controls.reset();
-    //this.game.time.advancedTiming = true;
 
     // Background
     var starfield = this.game.make.bitmapData(600, 600);
     drawStarField(starfield.ctx, 600, 16);
     this.game.add.tileSprite(wb[0]*ps, wb[1]*ps, (wb[2]-wb[0])*ps, (wb[3]-wb[1])*ps, starfield);
 
-    // Set up networking stuff - initial test implementation
-    var self = this;
     this.starcoder.syncclient.start();
-    this.game.starcoder.socket.emit('client ready');
+    this.starcoder.socket.emit('client ready');
 
     // Helpers
     function randomNormal () {
@@ -116,4 +102,3 @@ Space.prototype.render = function () {
 };
 
 module.exports = Space;
-//Starcoder.States.Space = Space;

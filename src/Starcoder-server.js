@@ -9,7 +9,7 @@ var Starcoder = require('./Starcoder.js');
 var SyncServer = require('./server-components/SyncServer.js');
 var ControlEndPoint = require('./server-components/ControlEndPoint.js');
 
-var World = require('./physicsobjects/p2/World.js');
+var World = require('./serverbodies/World.js');
 
 var Player = require('./players/Player.js');
 var Guest = require('./players/Guest.js');

@@ -5,11 +5,9 @@
  */
 'use strict';
 
-var Ship = require('../physicsobjects/p2/Ship.js');
+var SyncServer = function () {};
 
-var Sync = function () {};
-
-Sync.prototype.initSync = function () {
+SyncServer.prototype.initSync = function () {
     var self = this;
     this.nsSync = this.io.of('/sync');
     // New connection
@@ -18,7 +16,7 @@ Sync.prototype.initSync = function () {
         // Handshake
         socket.emit('server ready', player.msgNew());
         socket.on('client ready', function () {
-            self.world.addSyncableBody(Ship, {position: 'random'}, player);
+            self.world.addPlayerShip(player);
             socket.emit('timesync', self.hrtime());
             setInterval(function () {
                socket.emit('timesync', self.hrtime());
@@ -33,7 +31,7 @@ Sync.prototype.initSync = function () {
     //setInterval(this.sendUpdates.bind(this), this.config.updateInterval);
 };
 
-Sync.prototype.sendUpdates = function () {
+SyncServer.prototype.sendUpdates = function () {
     var world = this.world;
     var updateCache = {};
     var fullUpdateCache = {};
@@ -70,9 +68,9 @@ Sync.prototype.sendUpdates = function () {
     }
 };
 
-Sync.prototype.hrtime = function () {
+SyncServer.prototype.hrtime = function () {
     var hr = process.hrtime();
     return Math.floor(hr[0]*1000 + hr[1]*1e-6);
 };
 
-module.exports = Sync;
+module.exports = SyncServer;

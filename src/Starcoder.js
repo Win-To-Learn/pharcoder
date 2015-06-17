@@ -3,6 +3,7 @@
  *
  * Set up global Starcoder namespace
  */
+'use strict';
 
 //var Starcoder = {
 //    config: {
@@ -24,7 +25,15 @@ var config = {
     renderLatency: 100,
     physicsScale: 20,
     frameRate: (1 / 60),
-    timeSyncFreq: 10
+    timeSyncFreq: 10,
+    physicsProperties: {
+        Ship: {
+            mass: 10
+        },
+        Asteroid: {
+            mass: 20
+        }
+    }
 };
 
 var Starcoder = function () {
@@ -52,6 +61,13 @@ Starcoder.mixinPrototype = function (target, mixin) {
             target[key] = val;
         }
     }
+};
+
+/**
+ * Custom logging function to be featurefied as necessary
+ */
+Starcoder.prototype.log = function () {
+    console.log.apply(console, Array.prototype.slice.call(arguments));
 };
 
 module.exports = Starcoder;

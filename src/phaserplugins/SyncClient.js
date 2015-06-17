@@ -6,8 +6,6 @@
 'use strict';
 
 var Starcoder = require('../Starcoder-client.js');
-var Ship = require('../physicsobjects/phaser/Ship.js');
-
 var UPDATE_QUEUE_LIMIT = 8;
 
 var SyncClient = function (game, parent) {
@@ -27,8 +25,6 @@ SyncClient.prototype.init = function (socket, queue) {
     this.extant = {};
     this.lastUpdate = 0;
 };
-
-var ship;           // Enormous testing hack
 
 SyncClient.prototype.start = function () {
     var self = this;
@@ -60,7 +56,7 @@ SyncClient.prototype.start = function () {
                 }
             } else {
                 // New sprite - create and configure
-                sprite = starcoder.addObject(update);
+                sprite = starcoder.addBody(update.t, update);
                 sprite.serverId = id;
                 self.extant[id] = sprite;
                 sprite.updateQueue = [update];

@@ -6,15 +6,10 @@
  */
 'use strict';
 
-//var Starcoder = require('../Starcoder-client.js');
 var Controls = require('../phaserplugins/Controls.js');
 var SyncClient = require('../phaserplugins/SyncClient.js');
 
-var Boot = function () {
-    if (!(this instanceof Boot)) {
-        return new Boot();
-    }
-};
+var Boot = function () {};
 
 Boot.prototype = Object.create(Phaser.State.prototype);
 Boot.prototype.constructor = Boot;
@@ -23,7 +18,7 @@ var _connected = false;
 
 Boot.prototype.preload = function () {
     var self = this;
-    var pScale = this.game.starcoder.config.physicsScale;
+    var pScale = this.starcoder.config.physicsScale;
     var ipScale = 1/pScale;
     var floor = Math.floor;
     this.game.physics.config = {
@@ -40,8 +35,9 @@ Boot.prototype.preload = function () {
             return floor(-pScale*a);
         }
     };
-    this.starcoder.controls = this.game.plugins.add(Controls,
-        this.starcoder.cmdQueue);
+    //this.starcoder.controls = this.game.plugins.add(Controls,
+    //    this.starcoder.cmdQueue);
+    this.starcoder.controls = this.starcoder.attachPlugin(Controls, this.starcoder.cmdQueue);
     // Set up socket.io connection
     this.starcoder.socket = this.starcoder.io(this.starcoder.config.serverUri + '/sync',
         this.starcoder.config.ioClientOptions);
@@ -49,7 +45,9 @@ Boot.prototype.preload = function () {
         // FIXME: Has to interact with session for authentication etc.
         console.log('Player', playerMsg);
         self.starcoder.player = playerMsg;
-        self.starcoder.syncclient = self.game.plugins.add(SyncClient,
+        //self.starcoder.syncclient = self.game.plugins.add(SyncClient,
+        //    self.starcoder.socket, self.starcoder.cmdQueue);
+        self.starcoder.syncclient = self.starcoder.attachPlugin(SyncClient,
             self.starcoder.socket, self.starcoder.cmdQueue);
         _connected = true;
     });

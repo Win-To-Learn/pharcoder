@@ -3,10 +3,7 @@
  */
 'use strict';
 
-//var Starcoder = require('../../Starcoder-client.js');
 var VectorSprite = require('./VectorSprite.js');
-
-var shared = require('../shared/Asteroid.js');
 
 var Asteroid = function (game, options) {
     VectorSprite.call(this, game, options);
@@ -26,6 +23,9 @@ Asteroid.prototype.constructor = Asteroid;
 
 Asteroid.prototype.lineColor = '#ff00ff';
 Asteroid.prototype.fillColor = '#00ff00';
+Asteroid.prototype.shapeClosed = true;
+Asteroid.prototype.lineWidth = 1;
+Asteroid.prototype.fillAlpha = 0.25;
 Asteroid.prototype.shape = [
     [2,1],
     [1,2],
