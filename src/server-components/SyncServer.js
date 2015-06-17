@@ -17,6 +17,10 @@ Sync.prototype.initSync = function () {
         socket.on('enter world', function () {
             var ship = starcoder.world.addShip();    // FIXME: API
             player.addShip(ship);
+            socket.emit('timesync', starcoder.hrtime());
+            setInterval(function () {
+               socket.emit('timesync', starcoder.hrtime());
+            }, starcoder.config.timeSyncFreq*1000);
             //socket.emit('new object', [ship.msgNew()]);
         });
         socket.on('do', function (actions) {
@@ -34,7 +38,7 @@ Sync.prototype.sendUpdates = function () {
     var cachePointer;
     var pids = Object.keys(this.players);
     var wtime = world.time;
-    var rtime = Date.now();
+    var rtime = this.hrtime();
     for (var i = pids.length - 1; i >= 0; i--) {
         var player = this.players[pids[i]];
         var update = {w: wtime, r: rtime, b: []};
@@ -56,12 +60,17 @@ Sync.prototype.sendUpdates = function () {
         player.socket.emit('update', update);
         player.newborn = false;
     }
-    for (var j = world.bodies.length - 1; j >= 0; j--) {
+    for (j = world.bodies.length - 1; j >= 0; j--) {
         body = world.bodies[j];
         if (body.newborn) {
             body.newborn = false;
         }
     }
+};
+
+Sync.prototype.hrtime = function () {
+    var hr = process.hrtime();
+    return Math.floor(hr[0]*1000 + hr[1]*1e-6);
 };
 
 module.exports = Sync;

@@ -37,7 +37,7 @@ Ship.prototype.preProcessOptions = function (options) {
     options.mass = options.mass || 10;
     options.velocity = [5,0];
     options.position = [0, 5];
-    options.angularVelocity = 1.5;
+    //options.angularVelocity = 2.5;
 };
 
 

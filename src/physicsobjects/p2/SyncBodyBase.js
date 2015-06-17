@@ -58,10 +58,10 @@ SyncBodyBase.prototype.adjustShape = function () {
             }
             var r = Math.sqrt((maxx - minx)*(maxy - miny));
             this.addShape(new p2.Circle(r))
-        } else {
-            this.clearAllShapes();
-            this.addShape(new p2.Circle(this._radius || 1));
         }
+    } else {
+        this.clearAllShapes();
+        this.addShape(new p2.Circle(this._radius || 1));
     }
 };
 

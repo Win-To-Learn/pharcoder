@@ -23,6 +23,22 @@ var _connected = false;
 
 Boot.prototype.preload = function () {
     var self = this;
+    var pScale = this.game.starcoder.config.physicsScale;
+    var ipScale = 1/pScale;
+    this.game.physics.config = {
+        pxm: function (a) {
+            return ipScale*a;
+        },
+        mpx: function (a) {
+            return pScale*a;
+        },
+        pxmi: function (a) {
+            return -ipScale*a;
+        },
+        mpxi: function (a) {
+            return -pScale*a;
+        }
+    };
     this.starcoder.controls = this.game.plugins.add(Controls,
         this.starcoder.cmdQueue);
     // Set up socket.io connection
@@ -33,7 +49,7 @@ Boot.prototype.preload = function () {
         // FIXME: Has to interact with session for authentication etc.
         console.log('Player', playerMsg);
         self.starcoder.player = playerMsg;
-        self.starcoder.serversync = self.game.plugins.add(SyncClient,
+        self.starcoder.syncclient = self.game.plugins.add(SyncClient,
             self.starcoder.socket, self.starcoder.cmdQueue)
         _connected = true;
     });

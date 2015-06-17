@@ -16,7 +16,7 @@ var Starcoder = require('./Starcoder-client.js');
 //var Ship = require('./phaser/Ship.js');
 
 localStorage.debug = '';
-//localStorage.debug = '*';
+////localStorage.debug = '*';
 
 //var game = new Phaser.Game(800, 600, Phaser.AUTO, '',
 //    Starcoder.States.Space());

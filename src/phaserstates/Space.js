@@ -24,6 +24,7 @@ Space.prototype.constructor = Space;
 Space.prototype.preload = function () {
     SimpleParticle.cacheTexture(this.game, 'thrust', '#ff6600', 2);
     SimpleParticle.cacheTexture(this.game, 'bullet', '#666666', 3);
+    //this.game.load.image('bitship', 'assets/ship.png');
 };
 
 Space.prototype.create = function () {
@@ -36,7 +37,7 @@ Space.prototype.create = function () {
     //this.controls = this.input.keyboard.createCursorKeys();     // FIXME
     //this.controls.fire = this.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
     this.starcoder.controls.reset();
-    this.game.time.advancedTiming = true;
+    //this.game.time.advancedTiming = true;
 
     // Background
     var starfield = this.game.make.bitmapData(600, 600);
@@ -46,35 +47,7 @@ Space.prototype.create = function () {
     // Set up networking stuff - initial test implementation
     var self = this;
     this.game.starcoder.socket.emit('enter world');
-    this.starcoder.serversync.start();
-    //this.game.starcoder.socket.on('add ship', function (data) {
-    //    console.log('Adding ship');
-    //    self.ship = Starcoder.Ship.add(self.game, data.x, data.y, data.id);
-    //    self.game.camera.follow(self.ship);
-    //});
-
-    //this.ship = Starcoder.Ship.add(this.game, 0, 0, '6sjz');
-    //this.game.camera.follow(this.ship);
-    //this.ship.reset(0, 0);
-
-    //// More testing
-    //var i, a;
-    //
-    //// Asteroids
-    //for (i = 0; i < 10; i++) {
-    //    a = Starcoder.Asteroid.add(this.game, this.world.randomX, this.world.randomY);
-    //    a.body.velocity.x = this.game.rnd.between(-200,200);
-    //    a.body.velocity.y = this.game.rnd.between(-200,200);
-    //    a.body.angularVelocity = this.game.rnd.realInRange(-5, 5);
-    //}
-    //
-    //// Crystals
-    //for (i = 0; i < 10; i++) {
-    //    a = Starcoder.Crystal.add(this.game, this.world.randomX, this.world.randomY);
-    //    a.body.velocity.x = this.game.rnd.between(-200,200);
-    //    a.body.velocity.y = this.game.rnd.between(-200,200);
-    //    a.body.angularVelocity = this.game.rnd.realInRange(-5, 5);
-    //}
+    this.starcoder.syncclient.start();
 
     // Helpers
     function randomNormal () {
@@ -121,61 +94,24 @@ Space.prototype.create = function () {
 
 };
 
-
 Space.prototype.update = function () {
     this.starcoder.controls.processQueue(function (a) {
         console.log(a);
     });
-    console.log('-update-');
-    //for (var i=0; i<1000000; i++);
-    //console.log('T', this.game.time.now, this.game.time.time,this.game.time.elapsed);
-    //if (this.controls.left.isDown) {
-    //    this.ship.body.rotateLeft(100);
-    //} else if (this.controls.right.isDown) {
-    //    this.ship.body.rotateRight(100);
-    //} else {
-    //    this.ship.body.setZeroRotation()
-    //}
-    //
-    //if (this.controls.up.isDown) {
-    //    //console.log(this.ship.engine.x, this.ship.engine.y);
-    //    this.ship.engine.start();
-    //    //this.ship.body.velocity.x = 100*Math.sin(this.ship.rotation);
-    //    //this.ship.body.velocity.y = -100*Math.cos(this.ship.rotation);
-    //    //this.ship.body.force.x = 20*Math.sin(this.ship.rotation);
-    //    //this.ship.body.force.y = -20*Math.cos(this.ship.rotation);
-    //    this.ship.body.thrust(100);
-    //} else if (this.controls.down.isDown) {
-    //    this.ship.body.reverse(80);
-    //    //this.ship.body.velocity.x = -100*Math.sin(this.ship.rotation);
-    //    //this.ship.body.velocity.y = 100*Math.cos(this.ship.rotation);
-    //} else {
-    //    this.ship.engine.stop();
-    //    //this.ship.body.velocity.x = 0;
-    //    //this.ship.body.velocity.y = 0;
-    //    this.ship.body.setZeroForce();
-    //    //this.ship.body.force.x = 0;
-    //    //this.ship.body.force.y = 0;
-    //}
-    //
-    //if (this.controls.fire.isDown) {
-    //    this.ship.weapons.shoot();
-    //}
 };
 
-
 Space.prototype.render = function () {
-    console.log('+render+');
-    if (this.starcoder.tempsprite) {
-        console.log('Delta', this.starcoder.tempsprite.position.x - this.starcoder.tempsprite.previousPosition.x,
-            this.game.time.elapsed);
-    }
-    console.log('--------------------------------');
-    this.game.debug.text('Fps: ' + this.game.time.fps, 5, 20);
-    this.game.debug.cameraInfo(this.game.camera, 100, 20);
-    if (this.ship) {
-        this.game.debug.spriteInfo(this.ship, 420, 20);
-    }
+    //console.log('+render+');
+    //if (this.starcoder.tempsprite) {
+    //    var d = this.starcoder.tempsprite.position.x - this.starcoder.tempsprite.previousPosition.x;
+    //    console.log('Delta', d, this.game.time.elapsed, d / this.game.time.elapsed);
+    //}
+    //console.log('--------------------------------');
+    //this.game.debug.text('Fps: ' + this.game.time.fps, 5, 20);
+    //this.game.debug.cameraInfo(this.game.camera, 100, 20);
+    //if (this.ship) {
+    //    this.game.debug.spriteInfo(this.ship, 420, 20);
+    //}
 };
 
 module.exports = Space;

@@ -29,6 +29,7 @@ for (var k in Starcoder) {
 Starcoder.prototype.init = function () {
     this.io = io;
     this.game = new Phaser.Game(1600, 600, Phaser.AUTO, '');
+    //this.game = new Phaser.Game(1600, 600, Phaser.CANVAS, '');
     //this.game.forceSingleUpdate = true;
     this.game.starcoder = this;
     for (var k in states) {
@@ -44,6 +45,7 @@ Starcoder.prototype.start = function () {
 };
 
 Starcoder.prototype.addObject = function (options) {
+    console.log('O', options);
     var ctor = objectMap[options.t];
     return ctor.add(this.game, options.x, options.y, "foo");
 };

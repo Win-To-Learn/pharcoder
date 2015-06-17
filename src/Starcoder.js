@@ -21,7 +21,8 @@ var config = {
     updateInterval: 50,
     renderLatency: 100,
     physicsScale: 20,
-    frameRate: (1 / 60)
+    frameRate: (1 / 60),
+    timeSyncFreq: 10
 };
 
 var Starcoder = function () {
