@@ -15,6 +15,7 @@ var VectorSprite = function (game, config) {
     this.fillColor = config.properties.fillColor || this.fillColor;
     this.fillAlpha = config.properties.fillAlpha || this.fillAlpha;
     this.geometry = config.properties.geometry || this.geometry;
+    this.vectorScale = config.properties.vectorScale || this.vectorScale;
 
     this.graphics = game.add.graphics(0, 0);
     this.addChild(this.graphics);
@@ -55,6 +56,7 @@ VectorSprite.prototype.lineColor = '#ffffff';
 VectorSprite.prototype.lineWidth = 1;
 VectorSprite.prototype.fillColor = null;
 VectorSprite.prototype.fillAlpha = 0.25;
+VectorSprite.prototype.vectorScale = 1;
 
 VectorSprite.prototype.physicsBodyType = 'circle';
 
@@ -138,14 +140,14 @@ VectorSprite.prototype.draw = function () {
 };
 
 VectorSprite.prototype._drawPolygon = function (points, closed) {
-    var xs = this._internalScale.x, ys = this._internalScale.y;
+    var sc = this.game.physics.p2.mpxi(this.vectorScale);
     points = points.slice();
     if (closed) {
         points.push(points[0]);
     }
-    this.graphics.moveTo(points[0][0] * xs, points[0][1] * ys);
+    this.graphics.moveTo(points[0][0] * sc, points[0][1] * sc);
     for (var i = 1, l = points.length; i < l; i++) {
-        this.graphics.lineTo(points[i][0] * xs, points[i][1] * ys);
+        this.graphics.lineTo(points[i][0] * sc, points[i][1] * sc);
     }
 };
 

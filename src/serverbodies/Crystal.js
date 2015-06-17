@@ -48,7 +48,7 @@ Crystal.prototype.geometry = [
 ];
 
 Crystal.prototype.updateProperties = ['fillColor', 'lineColor', 'fillAlpha', 'shapeClosed', 'shape', 'lineWidth',
-    'geometry'];
+    'vectorScale', 'geometry'];
 
 //Crystal.prototype.getPropertyUpdate = function (propname, properties) {
 //    switch (propname) {

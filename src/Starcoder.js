@@ -38,11 +38,13 @@ var config = {
         {type: 'Asteroid', number: 150, config: {
             position: {random: 'world'},
             velocity: {random: 'vector', lo: -10, hi: 10},
+            vectorScale: {random: 'float', lo: 0.6, hi: 1.4},
             mass: 10
         }},
         {type: 'Crystal', number: 150, config: {
             position: {random: 'world'},
             velocity: {random: 'vector', lo: -4, hi: 4, normal: true},
+            vectorScale: {random: 'float', lo: 0.4, hi: 0.8},
             mass: 5
         }}
     ]

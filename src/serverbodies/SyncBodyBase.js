@@ -7,14 +7,20 @@
 
 var p2 = require('p2');
 
-var SyncBodyBase = function (options) {
-    options = options || {};
+var SyncBodyBase = function (config) {
+    config = config || {};
     if (this.preProcessOptions) {
-        this.preProcessOptions(options);
+        this.preProcessOptions(config);
     }
-    p2.Body.call(this, options);
+    p2.Body.call(this, config);
+    for (var i = 0, l = this.updateProperties.length; i < l; i++) {
+        var propname = this.updateProperties[i];
+        if (config[propname]) {
+            this[propname] = config[propname];
+        }
+    }
     if (this.postProcessOptions) {
-        this.postProcessOptions(options);
+        this.postProcessOptions(config);
     }
     this.adjustShape();
     this._dirtyProperties = {};
@@ -25,6 +31,7 @@ SyncBodyBase.prototype = Object.create(p2.Body.prototype);
 SyncBodyBase.prototype.constructor = SyncBodyBase;
 
 SyncBodyBase.prototype.updateProperties = [];
+SyncBodyBase.prototype.vectorScale = 1;
 
 /**
  * Remove all previously added shapes from body
@@ -89,6 +96,7 @@ SyncBodyBase.prototype.getPropertyUpdate = function (propname, properties) {
         case 'shapeClosed':
         case 'shape':
         case 'geometry':
+        case 'vectorScale':
             properties[propname] = this[propname];
             break;
     }

@@ -12,8 +12,8 @@ var SyncBodyBase = require('./SyncBodyBase.js');
 
 //var shared = require('../shared/Asteroid.js');
 
-var Asteroid = function (options) {
-    SyncBodyBase.call(this, options);
+var Asteroid = function (config) {
+    SyncBodyBase.call(this, config);
     this.damping = 0;
     this.angularDamping = 0;
 };
@@ -41,7 +41,8 @@ Asteroid.prototype.shape = [
     [2,-1]
 ];
 
-Asteroid.prototype.updateProperties = ['fillColor', 'lineColor', 'fillAlpha', 'shapeClosed', 'shape', 'lineWidth'];
+Asteroid.prototype.updateProperties = ['fillColor', 'lineColor', 'fillAlpha', 'shapeClosed', 'shape', 'lineWidth',
+    'vectorScale'];
 
 //Asteroid.prototype.getPropertyUpdate = function (propname, properties) {
 //    switch (propname) {

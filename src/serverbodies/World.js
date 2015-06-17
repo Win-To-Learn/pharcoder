@@ -135,11 +135,10 @@ World.prototype._populate = function (desc) {
                 }
             }
             var body = this.addSyncableBody(ctor, c);
-            console.log(body.position[0], body.position[1]);
             count++;
         }
     }
-    console.log('Added', count, 'bodies');
+    //this.log('Added', count, 'bodies');
 };
 
 /**
@@ -157,17 +156,17 @@ World.prototype._flexRand = function (spec) {
             }
             r /= 6;
         }
-        return l + r*(h - l + 1);
+        return l + r*(h - l);
     }
     if (spec.random === 'int') {
-        return Math.floor(between(spec.lo, spec.hi, spec.normal));
+        return Math.floor(between(spec.lo, spec.hi + 1, spec.normal));
     } else if (spec.random === 'float') {
         return between(spec.lo, spec.hi, spec.normal);
     } else if (spec.random === 'world') {
         var pad = spec.pad || 0;
         return [
-            Math.floor(between(this.left + pad, this.right - pad, spec.normal)),
-            Math.floor(between(this.top + pad, this.bottom - pad, spec.normal))
+            Math.floor(between(this.left + pad, this.right - pad + 1, spec.normal)),
+            Math.floor(between(this.top + pad, this.bottom - pad + 1, spec.normal))
         ];
     } else if (spec.random === 'vector') {
         return [

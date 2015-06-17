@@ -14,6 +14,7 @@ var bodyTypes = {
 };
 
 WorldApi.prototype.addBody = function (type, config) {
+    this.log(config);
     var ctor = bodyTypes[type];
     var playerShip = false;
     if (!ctor) {
