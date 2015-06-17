@@ -9,23 +9,24 @@ var WorldApi = function () {};
 
 var bodyTypes = {
     Ship: require('../phaserbodies/Ship.js'),
-    Asteroid: require('../phaserbodies/Asteroid.js')
+    Asteroid: require('../phaserbodies/Asteroid.js'),
+    Crystal: require('../phaserbodies/Asteroid.js')
 };
 
-WorldApi.prototype.addBody = function (type, options) {
+WorldApi.prototype.addBody = function (type, config) {
     var ctor = bodyTypes[type];
     var playerShip = false;
     if (!ctor) {
         this.log('Unknown body type:', type);
         return;
     }
-    if (type === 'Ship' && options.properties.playerid === this.player.id) {
-        options.tag = this.player.username;
+    if (type === 'Ship' && config.properties.playerid === this.player.id) {
+        config.tag = this.player.username;
         // Only the player's own ship is treated as dynamic in the local physics sim
-        options.mass = this.config.physicsProperties.Ship.mass;
+        config.mass = this.config.physicsProperties.Ship.mass;
         playerShip = true;
     }
-    var body = new ctor(this.game, options);
+    var body = new ctor(this.game, config);
     this.game.add.existing(body);
     if (playerShip) {
         this.game.camera.follow(body);

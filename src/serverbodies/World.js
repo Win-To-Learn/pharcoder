@@ -7,25 +7,32 @@
 
 var p2 = require('p2');
 
-var Ship = require('./Ship.js');
-var Asteroid = require('./Asteroid.js');
+//var Ship = require('./Ship.js');
+//var Asteroid = require('./Asteroid.js');
 
-var World = function (bounds) {
+var bodyTypes = {
+    Ship: require('./Ship.js'),
+    Asteroid: require('./Asteroid.js'),
+    Crystal: require('./Crystal.js')
+};
+
+var World = function (bounds, initialBodies) {
     p2.World.call(this, {
         broadphase: new p2.SAPBroadphase(),
         islandSplit: true,
         gravity: [0, 0]
     });
-    this._setBounds.apply(this,bounds);
     this._syncableBodies = [];
     this._ships = [];
+    this._setBounds.apply(this, bounds);
+    this._populate(initialBodies);
 };
 
 World.prototype = Object.create(p2.World.prototype);
 World.prototype.constructor = World;
 
 World.prototype.addPlayerShip = function (player) {
-    var ship = this.addSyncableBody(Ship, {position: 'random'}, player);
+    var ship = this.addSyncableBody(bodyTypes.Ship, {position: 'random'}, player);
     ship.player = player;
     player.addShip(ship);
     this._ships.push(ship);
@@ -49,20 +56,19 @@ World.prototype.start = function (rate, substeps) {
     var self = this;
     substeps = substeps || 10;
     this._lastHRTime = process.hrtime();
-    // Add a bunch of asteroids
-    for (var i = 0; i<100; i++) {
-        //var x = Math.floor(Math.random()*40);
-        //var y = Math.floor(Math.random()*20);
-        var vx = 10*(Math.random()*5 - 2.5);
-        var vy = 10*(Math.random()*5 - 2.5);
-        var av = Math.random()*6 - 3;
-        this.addSyncableBody(Asteroid, {
-            position: 'random',
-            velocity: [vx, vy],
-            angularVelocity: av,
-            mass: 10
-        });
-    }
+    //for (var i = 0; i<100; i++) {
+    //    //var x = Math.floor(Math.random()*40);
+    //    //var y = Math.floor(Math.random()*20);
+    //    var vx = 10*(Math.random()*5 - 2.5);
+    //    var vy = 10*(Math.random()*5 - 2.5);
+    //    var av = Math.random()*6 - 3;
+    //    this.addSyncableBody(Asteroid, {
+    //        position: 'random',
+    //        velocity: [vx, vy],
+    //        angularVelocity: av,
+    //        mass: 10
+    //    });
+    //}
     return setInterval(function () {
         var diff = process.hrtime(self._lastHRTime);
         self.preStep();
@@ -112,6 +118,21 @@ World.prototype._setBounds = function (l, t, r, b) {
         body.addShape(new p2.Plane());
         this.addBody(body);
     }
+};
+
+World.prototype._populate = function (desc) {
+    var count = 0;
+    for (var i = 0, l = desc.length; i < l; i++) {
+        var ctor = bodyTypes[desc[i].type];
+        var config = desc[i].config;
+        for (var j = 0; j < desc[i].number; j++) {
+            // TODO: Various randomizers, etc.
+            var body = this.addSyncableBody(ctor, config);
+            console.log(body.position[0], body.position[1]);
+            count++;
+        }
+    }
+    console.log('Added', count, 'bodies');
 };
 
 module.exports = World;

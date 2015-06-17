@@ -33,7 +33,17 @@ var config = {
         Asteroid: {
             mass: 20
         }
-    }
+    },
+    initialBodies: [
+        {type: 'Asteroid', number: 75, config: {
+            position: 'random',
+            mass: 10
+        }},
+        {type: 'Crystal', number: 75, config: {
+            position: 'random',
+            mass: 5
+        }}
+    ]
 };
 
 var Starcoder = function () {

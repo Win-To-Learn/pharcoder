@@ -25,7 +25,12 @@ Asteroid.prototype.sctype = 'Asteroid';
 
 //Starcoder.mixinPrototype(Asteroid.prototype, shared.prototype);
 
-Asteroid.prototype._shape = [
+Asteroid.prototype.lineColor = '#ff00ff';
+Asteroid.prototype.fillColor = '#00ff00';
+Asteroid.prototype.shapeClosed = true;
+Asteroid.prototype.lineWidth = 1;
+Asteroid.prototype.fillAlpha = 0.25;
+Asteroid.prototype.shape = [
     [2,1],
     [1,2],
     [-1,2],
@@ -35,5 +40,15 @@ Asteroid.prototype._shape = [
     [1,-2],
     [2,-1]
 ];
+
+Asteroid.prototype.updateProperties = ['fillColor', 'lineColor', 'fillAlpha', 'shapeClosed', 'shape', 'lineWidth'];
+
+//Asteroid.prototype.getPropertyUpdate = function (propname, properties) {
+//    switch (propname) {
+//        default:
+//            SyncBodyBase.prototype.getPropertyUpdate.call(this, propname, properties);
+//    }
+//};
+
 
 module.exports = Asteroid;

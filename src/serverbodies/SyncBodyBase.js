@@ -40,8 +40,8 @@ SyncBodyBase.prototype.clearAllShapes = function () {
  */
 SyncBodyBase.prototype.adjustShape = function () {
     this.clearAllShapes();
-    if (this._shape) {
-        var convex = new p2.Convex(this._shape);
+    if (this.shape) {
+        var convex = new p2.Convex(this.shape);
         this.addShape(convex, [0, 0]);
     } else {
         this.addShape(new p2.Circle(this._radius || 1));
@@ -78,6 +78,20 @@ SyncBodyBase.prototype.getUpdatePacket = function (full) {
         }
     }
     return update;
+};
+
+SyncBodyBase.prototype.getPropertyUpdate = function (propname, properties) {
+    switch (propname) {
+        case 'lineColor':
+        case 'fillColor':
+        case 'lineWidth':
+        case 'fillAlpha':
+        case 'shapeClosed':
+        case 'shape':
+        case 'geometry':
+            properties[propname] = this[propname];
+            break;
+    }
 };
 
 /**
