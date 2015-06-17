@@ -27,8 +27,8 @@ Starcoder.prototype.init = function (app, io) {
     this.app = app;
     this.io = io;
     this.players = {};          // Logged in players
-    this.world = new World();
-    this.world.createBounds.apply(this.world, this.config.worldBounds);
+    this.world = new World(this.config.worldBounds);
+    //this.world.createBounds.apply(this.world, this.config.worldBounds);
     // TODO: Set world bounds, etc.
     this.initSync();
     this.world.start(1/60);

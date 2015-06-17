@@ -25,18 +25,19 @@ Boot.prototype.preload = function () {
     var self = this;
     var pScale = this.game.starcoder.config.physicsScale;
     var ipScale = 1/pScale;
+    var floor = Math.floor;
     this.game.physics.config = {
         pxm: function (a) {
-            return ipScale*a;
+            return floor(ipScale*a);
         },
         mpx: function (a) {
-            return pScale*a;
+            return floor(pScale*a);
         },
         pxmi: function (a) {
-            return -ipScale*a;
+            return floor(-ipScale*a);
         },
         mpxi: function (a) {
-            return -pScale*a;
+            return floor(-pScale*a);
         }
     };
     this.starcoder.controls = this.game.plugins.add(Controls,

@@ -3,6 +3,9 @@
  *
  * Mixin for world sync subsystem
  */
+'use strict';
+
+var Ship = require('../physicsobjects/p2/Ship.js');
 
 var Sync = function () {};
 
@@ -15,18 +18,19 @@ Sync.prototype.initSync = function () {
         // Handshake
         socket.emit('server ready', player.msgNew());
         socket.on('client ready', function () {
-            var ship = self.world.addShip();    // FIXME: API
-            player.addShip(ship);
+            self.world.addSyncableBody(Ship, {position: 'random'}, player);
             socket.emit('timesync', self.hrtime());
             setInterval(function () {
                socket.emit('timesync', self.hrtime());
             }, self.config.timeSyncFreq*1000);
-            //socket.emit('new object', [ship.msgNew()]);
+            setInterval(function () {
+                self.sendUpdates();
+            }, self.config.updateInterval);
             self.attachActions(player);
         });
     });
     // Send updates
-    setInterval(this.sendUpdates.bind(this), this.config.updateInterval);
+    //setInterval(this.sendUpdates.bind(this), this.config.updateInterval);
 };
 
 Sync.prototype.sendUpdates = function () {
@@ -40,13 +44,9 @@ Sync.prototype.sendUpdates = function () {
     for (var i = pids.length - 1; i >= 0; i--) {
         var player = this.players[pids[i]];
         var update = {w: wtime, r: rtime, b: []};
-        for (var j = world.bodies.length - 1; j >= 0; j--) {
-            var body = world.bodies[j];
-            if (!body.sctype) {
-                continue;
-            }
+        for (var j = world._syncableBodies.length - 1; j >= 0; j--) {
+            var body = world._syncableBodies[j];
             var full = body.newborn || player.newborn;
-            //console.log('body', body.newborn, player.newborn, full);
             if (full) {
                 cachePointer = fullUpdateCache;
             } else {
@@ -62,8 +62,8 @@ Sync.prototype.sendUpdates = function () {
         player.socket.emit('update', update);
         player.newborn = false;
     }
-    for (j = world.bodies.length - 1; j >= 0; j--) {
-        body = world.bodies[j];
+    for (j = world._syncableBodies.length - 1; j >= 0; j--) {
+        body = world._syncableBodies[j];
         if (body.newborn) {
             body.newborn = false;
         }

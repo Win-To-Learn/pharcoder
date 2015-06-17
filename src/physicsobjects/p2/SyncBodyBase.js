@@ -90,4 +90,24 @@ SyncBodyBase.prototype.generalPropertyUpdate = function (propname, properties) {
     properties[propname] = this[propname];
 };
 
+/**
+ * Sets component velocities based on current angle
+ *
+ * @param {number} mag - Magnitude of velocity
+ */
+SyncBodyBase.prototype.setPolarVelocity = function (mag) {
+    this.velocity[0] = Math.sin(this.angle)*mag;
+    this.velocity[1] = -Math.cos(this.angle)*mag;
+};
+
+/**
+ * Sets component forces based on current angle
+ *
+ * @param {number} mag - Magnitude of force
+ */
+SyncBodyBase.prototype.setPolarForce = function (mag) {
+    this.force[0] = Math.sin(this.angle)*mag;
+    this.force[1] = -Math.cos(this.angle)*mag;
+};
+
 module.exports = SyncBodyBase;

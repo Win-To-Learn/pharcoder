@@ -34,13 +34,14 @@ SyncClient.prototype.start = function () {
     var self = this;
     var starcoder = this.game.starcoder;
     this._updateComplete = false;
-    // Measure client-server time delta
+    // FIXME: Need more robust handling of DC/RC
     this.socket.on('disconnect', function () {
         self.game.paused = true;
     });
     this.socket.on('reconnect', function () {
         this.game.paused = false;
     });
+    // Measure client-server time delta
     this.socket.on('timesync', function (data) {
         self._latency = data - self.game.time.now;
     });
@@ -60,10 +61,8 @@ SyncClient.prototype.start = function () {
             } else {
                 // New sprite - create and configure
                 sprite = starcoder.addObject(update);
-                console.log('XY', sprite.x, sprite.y);
                 sprite.serverId = id;
                 self.extant[id] = sprite;
-                console.log('New', update);
                 sprite.updateQueue = [update];
             }
         }

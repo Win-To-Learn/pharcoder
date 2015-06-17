@@ -10,7 +10,13 @@ var SyncBodyBase = require('./SyncBodyBase.js');
 
 var Ship = function (options) {
     SyncBodyBase.call(this, options);
-    this.damping = 0;
+    this.damping = 0.9;
+    this.angularDamping = 0.9;
+    this.state = {
+        turn: 0,
+        thrust: 0,
+        firing: false
+    }
 };
 
 Ship.prototype = Object.create(SyncBodyBase.prototype);
@@ -47,6 +53,13 @@ Ship.prototype.getPropertyUpdate = function (propname, properties) {
         case 'playerid':
             properties.playerid = this.player.id;
     }
+};
+
+Ship.prototype.update = function () {
+    // TODO: Speed limits?
+    this.angularForce = 50*this.state.turn;
+    this.setPolarForce(500*this.state.thrust);
+    // TODO: Bullets, etc.
 };
 
 module.exports = Ship;

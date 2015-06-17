@@ -32,7 +32,7 @@ Space.prototype.create = function () {
     var wb = this.game.starcoder.config.worldBounds;
     var ps = this.game.starcoder.config.physicsScale;
     this.game.physics.startSystem(Phaser.Physics.P2JS);
-    this.world.setBounds.call(this.world, wb[0]*ps, wb[1]*ps, wb[2]*ps, wb[3]*ps);
+    this.world.setBounds.call(this.world, wb[0]*ps, wb[1]*ps, (wb[2]-wb[0])*ps, (wb[3]-wb[1])*ps);
     this.game.physics.p2.setBoundsToWorld(true, true, true, true, false);
 
     //this.controls = this.input.keyboard.createCursorKeys();     // FIXME
@@ -43,12 +43,12 @@ Space.prototype.create = function () {
     // Background
     var starfield = this.game.make.bitmapData(600, 600);
     drawStarField(starfield.ctx, 600, 16);
-    this.game.add.tileSprite(wb[0]*ps, wb[1]*ps, wb[2]*ps, wb[3]*ps, starfield);
+    this.game.add.tileSprite(wb[0]*ps, wb[1]*ps, (wb[2]-wb[0])*ps, (wb[3]-wb[1])*ps, starfield);
 
     // Set up networking stuff - initial test implementation
     var self = this;
-    this.game.starcoder.socket.emit('client ready');
     this.starcoder.syncclient.start();
+    this.game.starcoder.socket.emit('client ready');
 
     // Helpers
     function randomNormal () {
