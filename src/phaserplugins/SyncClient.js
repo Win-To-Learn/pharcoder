@@ -35,6 +35,12 @@ SyncClient.prototype.start = function () {
     var starcoder = this.game.starcoder;
     this._updateComplete = false;
     // Measure client-server time delta
+    this.socket.on('disconnect', function () {
+        self.game.paused = true;
+    });
+    this.socket.on('reconnect', function () {
+        this.game.paused = false;
+    });
     this.socket.on('timesync', function (data) {
         self._latency = data - self.game.time.now;
     });

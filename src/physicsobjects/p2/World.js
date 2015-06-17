@@ -13,15 +13,9 @@ var Asteroid = require('./Asteroid.js');
 var World = function () {
     p2.World.call(this, {
         broadphase: new p2.SAPBroadphase(),
+        islandSplit: true,
         gravity: [0, 0]
     });
-    //Debug hack
-    this.on('addBody', function () {
-        console.log('add body');
-    });
-    //this.on('postStep', function () {
-    //    console.log('step', this.time);
-    //});
 };
 
 World.prototype = Object.create(p2.World.prototype);
@@ -39,11 +33,11 @@ World.prototype.start = function (rate, substeps) {
     substeps = substeps || 10;
     this._lastHRTime = process.hrtime();
     // Add a bunch of asteroids
-    for (var i = 0; i<20; i++) {
+    for (var i = 0; i<100; i++) {
         var x = Math.floor(Math.random()*40);
         var y = Math.floor(Math.random()*20);
-        var vx = Math.random()*10 - 5;
-        var vy = Math.random()*10 - 5;
+        var vx = 10*(Math.random()*5 - 2.5);
+        var vy = 10*(Math.random()*5 - 2.5);
         var av = Math.random()*6 - 3;
         this.addBody(new Asteroid({
             position: [x, y],
@@ -59,23 +53,34 @@ World.prototype.start = function (rate, substeps) {
     }, rate*1000);
 };
 
-//World.prototype.getSnapshot = function () {
-//    var snap = {wtime: this.time, rtime: Date.now()};
-//    var bodies = [];
-//    for (var i = 0, l = this.bodies.length; i < l; i++) {
-//        var b = this.bodies[i];
-//        bodies.push({
-//            id: b.id,
-//            x: b.position[0],
-//            y: b.position[1],
-//            vx: b.position[0],
-//            vy: b.position[1],
-//            a: b.angle,
-//            av: b.angularVelocity
-//        });
-//    }
-//    snap.bodies = bodies;
-//    return snap;
-//};
+World.prototype.createBounds = function (l, t, w, h) {
+    this._bounds = {
+        bottom: new p2.Body({
+            mass: 0,
+            position: [0, t+h],
+            angle: Math.PI
+        }),
+        left: new p2.Body({
+            mass: 0,
+            position: [l, 0],
+            angle: -Math.PI/2
+        }),
+        top: new p2.Body({
+            mass: 0,
+            position: [0, t],
+            angle: 0
+        }),
+        right: new p2.Body({
+            mass: 0,
+            position: [l+w, 0],
+            angle: Math.PI/2
+        })
+    };
+    for (var k in this._bounds) {
+        var body = this._bounds[k];
+        body.addShape(new p2.Plane());
+        this.addBody(body);
+    }
+};
 
 module.exports = World;

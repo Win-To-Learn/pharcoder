@@ -5,8 +5,8 @@
 
 //var Starcoder = require('../../Starcoder-client.js');
 
-var VectorSprite = function (game, x, y) {
-    Phaser.Sprite.call(this, game, x, y);
+var VectorSprite = function (game, options) {
+    Phaser.Sprite.call(this, game);
 
     this.graphics = game.add.graphics(0, 0);
     this.addChild(this.graphics);
@@ -17,6 +17,8 @@ var VectorSprite = function (game, x, y) {
     this.updateAppearance();
     this.updateBody();
     this.body.mass = 0;
+    this.body.data.position[0] = -options.x;
+    this.body.data.position[1] = -options.y;
     //console.log(this.graphics.getLocalBounds());
 };
 

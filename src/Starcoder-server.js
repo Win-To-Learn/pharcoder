@@ -7,6 +7,7 @@
 
 var Starcoder = require('./Starcoder.js');
 var SyncServer = require('./server-components/SyncServer.js');
+var ControlEndPoint = require('./server-components/ControlEndPoint.js');
 
 var World = require('./physicsobjects/p2/World.js');
 
@@ -14,6 +15,7 @@ var Player = require('./players/Player.js');
 var Guest = require('./players/Guest.js');
 
 Starcoder.mixinPrototype(Starcoder.prototype, SyncServer.prototype);
+Starcoder.mixinPrototype(Starcoder.prototype, ControlEndPoint.prototype);
 
 /**
  * Initialize Starcoder server
@@ -26,6 +28,7 @@ Starcoder.prototype.init = function (app, io) {
     this.io = io;
     this.players = {};          // Logged in players
     this.world = new World();
+    this.world.createBounds.apply(this.world, this.config.worldBounds);
     // TODO: Set world bounds, etc.
     this.initSync();
     this.world.start(1/60);

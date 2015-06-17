@@ -14,9 +14,11 @@
 
 var config = {
     serverUri: 'http://localhost:8080',
-    worldBounds: [-4200, -4200, 8400, 8400],
+    //worldBounds: [-4200, -4200, 8400, 8400],
+    worldBounds: [-200, -200, 400, 400],
     ioClientOptions: {
         //forceNew: true
+        reconnection: false
     },
     updateInterval: 50,
     renderLatency: 100,

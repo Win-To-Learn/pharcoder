@@ -45,9 +45,8 @@ Starcoder.prototype.start = function () {
 };
 
 Starcoder.prototype.addObject = function (options) {
-    console.log('O', options);
     var ctor = objectMap[options.t];
-    return ctor.add(this.game, options.x, options.y, "foo");
+    return ctor.add(this.game, options);
 };
 
 //Starcoder.prototype.initNet = function () {

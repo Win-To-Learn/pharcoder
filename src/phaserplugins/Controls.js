@@ -33,35 +33,35 @@ Controls.prototype.preUpdate = function () {
     var controls = this.controls;
     if (controls.up.isDown && !up) {
         up = true;
-        this.queue.push({action: 'up_pressed', executed: false, seq: seq++});
+        this.queue.push({type: 'up_pressed', executed: false, seq: seq++});
     }
     if (!controls.up.isDown && up) {
         up = false;
-        this.queue.push({action: 'up_released', executed: false, seq: seq++});
+        this.queue.push({type: 'up_released', executed: false, seq: seq++});
     }
     if (controls.down.isDown && !down) {
         down = true;
-        this.queue.push({action: 'down_pressed', executed: false, seq: seq++});
+        this.queue.push({type: 'down_pressed', executed: false, seq: seq++});
     }
     if (!controls.down.isDown && down) {
         down = false;
-        this.queue.push({action: 'down_released', executed: false, seq: seq++});
+        this.queue.push({type: 'down_released', executed: false, seq: seq++});
     }
     if (controls.right.isDown && !right) {
         right = true;
-        this.queue.push({action: 'right_pressed', executed: false, seq: seq++});
+        this.queue.push({type: 'right_pressed', executed: false, seq: seq++});
     }
     if (!controls.right.isDown && right) {
         right = false;
-        this.queue.push({action: 'right_released', executed: false, seq: seq++});
+        this.queue.push({type: 'right_released', executed: false, seq: seq++});
     }
     if (controls.left.isDown && !left) {
         left = true;
-        this.queue.push({action: 'left_pressed', executed: false, seq: seq++});
+        this.queue.push({type: 'left_pressed', executed: false, seq: seq++});
     }
     if (!controls.left.isDown && left) {
         left = false;
-        this.queue.push({action: 'left_released', executed: false, seq: seq++});
+        this.queue.push({type: 'left_released', executed: false, seq: seq++});
     }
 };
 

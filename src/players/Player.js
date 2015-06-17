@@ -16,6 +16,7 @@ var Player = function (socket) {
 
 Player.prototype.addShip = function (ship) {
     this.ships.push(ship);
+    ship.player = this;
 };
 
 Player.prototype.getShip = function (which) {

@@ -8,14 +8,13 @@ var VectorSprite = require('./VectorSprite.js');
 
 var shared = require('../shared/Asteroid.js');
 
-var Asteroid = function (game, x, y) {
-    VectorSprite.call(this, game, x, y);
-    this.body.damping = 0;
-    console.log('Asteroid', x, y);
+var Asteroid = function (game, options) {
+    VectorSprite.call(this, game, options);
+    //this.body.damping = 0;
 };
 
-Asteroid.add = function (game, x, y) {
-    var a = new Asteroid(game, x, y);
+Asteroid.add = function (game, options) {
+    var a = new Asteroid(game, options);
     game.add.existing(a);
     return a;
 };

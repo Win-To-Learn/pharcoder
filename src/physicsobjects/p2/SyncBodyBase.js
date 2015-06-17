@@ -24,6 +24,8 @@ var SyncBodyBase = function (options) {
 SyncBodyBase.prototype = Object.create(p2.Body.prototype);
 SyncBodyBase.prototype.constructor = SyncBodyBase;
 
+SyncBodyBase.prototype.updateProperties = [];
+
 /**
  * Remove all previously added shapes from body
  */
@@ -37,30 +39,11 @@ SyncBodyBase.prototype.clearAllShapes = function () {
  * Adjust body shape based on _shape property with some reasonable fallbacks
  */
 SyncBodyBase.prototype.adjustShape = function () {
+    this.clearAllShapes();
     if (this._shape) {
-        if (!this.fromPolygon(this._shape)) {
-            // Non simple shape - use bounding circle
-            var minx = 1000000, maxx = -1000000;
-            var miny = 1000000, maxy = -1000000;
-            for (var i = 0, l = this._shape.length; i < l; i++) {
-                var x = this._shape[i][0];
-                var y = this._shape[i][1];
-                if (x > maxx) {
-                    maxx = x;
-                } else if (x < minx) {
-                    minx = x;
-                }
-                if (y > maxy) {
-                    maxy = y;
-                } else if (y < miny) {
-                    miny = y;
-                }
-            }
-            var r = Math.sqrt((maxx - minx)*(maxy - miny));
-            this.addShape(new p2.Circle(r))
-        }
+        var convex = new p2.Convex(this._shape);
+        this.addShape(convex, [0, 0]);
     } else {
-        this.clearAllShapes();
         this.addShape(new p2.Circle(this._radius || 1));
     }
 };
@@ -87,9 +70,11 @@ SyncBodyBase.prototype.getUpdatePacket = function (full) {
     if (!this.getPropertyUpdate) {
         return update;
     }
-    for (var k in this._dirtyProperties) {
-        if (full || this._dirtyProperties[k]) {
-            this.getPropertyUpdate(k, update);
+    update.properties = {};
+    for (var i = 0, l = this.updateProperties.length; i < l; i++) {
+        var propname = this.updateProperties[i];
+        if (full || this._dirtyProperties[propname]) {
+            this.getPropertyUpdate(propname, update.properties);
         }
     }
     return update;
@@ -101,8 +86,8 @@ SyncBodyBase.prototype.getUpdatePacket = function (full) {
  * @param property {string}
  * @param update {object}
  */
-SyncBodyBase.prototype.generalPropertyUpdate = function (property, update) {
-    update[property] = this[property];
+SyncBodyBase.prototype.generalPropertyUpdate = function (propname, properties) {
+    properties[propname] = this[propname];
 };
 
 module.exports = SyncBodyBase;

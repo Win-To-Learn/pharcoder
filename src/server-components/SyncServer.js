@@ -7,24 +7,22 @@
 var Sync = function () {};
 
 Sync.prototype.initSync = function () {
-    var starcoder = this;
+    var self = this;
     this.nsSync = this.io.of('/sync');
     // New connection
     this.nsSync.on('connect', function (socket) {
-        console.log('connect', socket.id);
-        var player = starcoder.addPlayer(socket);     // FIXME: details
-        socket.emit('new player', player.msgNew());
-        socket.on('enter world', function () {
-            var ship = starcoder.world.addShip();    // FIXME: API
+        var player = self.addPlayer(socket);     // FIXME: details
+        // Handshake
+        socket.emit('server ready', player.msgNew());
+        socket.on('client ready', function () {
+            var ship = self.world.addShip();    // FIXME: API
             player.addShip(ship);
-            socket.emit('timesync', starcoder.hrtime());
+            socket.emit('timesync', self.hrtime());
             setInterval(function () {
-               socket.emit('timesync', starcoder.hrtime());
-            }, starcoder.config.timeSyncFreq*1000);
+               socket.emit('timesync', self.hrtime());
+            }, self.config.timeSyncFreq*1000);
             //socket.emit('new object', [ship.msgNew()]);
-        });
-        socket.on('do', function (actions) {
-            console.log(actions);
+            self.attachActions(player);
         });
     });
     // Send updates
@@ -44,7 +42,11 @@ Sync.prototype.sendUpdates = function () {
         var update = {w: wtime, r: rtime, b: []};
         for (var j = world.bodies.length - 1; j >= 0; j--) {
             var body = world.bodies[j];
+            if (!body.sctype) {
+                continue;
+            }
             var full = body.newborn || player.newborn;
+            //console.log('body', body.newborn, player.newborn, full);
             if (full) {
                 cachePointer = fullUpdateCache;
             } else {

@@ -42,15 +42,14 @@ Boot.prototype.preload = function () {
     this.starcoder.controls = this.game.plugins.add(Controls,
         this.starcoder.cmdQueue);
     // Set up socket.io connection
-    this.starcoder.socket = this.starcoder.io(
-        this.starcoder.config.serverUri + '/sync',
+    this.starcoder.socket = this.starcoder.io(this.starcoder.config.serverUri + '/sync',
         this.starcoder.config.ioClientOptions);
-    this.starcoder.socket.on('new player', function (playerMsg) {
+    this.starcoder.socket.on('server ready', function (playerMsg) {
         // FIXME: Has to interact with session for authentication etc.
         console.log('Player', playerMsg);
         self.starcoder.player = playerMsg;
         self.starcoder.syncclient = self.game.plugins.add(SyncClient,
-            self.starcoder.socket, self.starcoder.cmdQueue)
+            self.starcoder.socket, self.starcoder.cmdQueue);
         _connected = true;
     });
 };

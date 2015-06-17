@@ -9,10 +9,17 @@ var VectorSprite = require('./VectorSprite.js');
 var Engine = require('./Engine.js');
 var Weapons = require('./Weapons.js');
 
-var Ship = function (game, x, y, tag) {
-    VectorSprite.call(this, game, x, y);
+var Ship = function (game, options) {
+    VectorSprite.call(this, game, options);
 
     //this.body.static = true;
+    console.log('Ship', options, 'Player', game.starcoder.player);
+    if (options.properties.playerid === game.starcoder.player.id) {
+        var tag = game.starcoder.player.username;
+        game.camera.follow(this);
+    } else {
+        tag = 'Unknown';        // FIXME
+    }
     this.engine = Engine.add(game, 'thrust', 500);
     this.addChild(this.engine);
     this.weapons = Weapons.add(game, 'bullet', 12);
@@ -25,8 +32,8 @@ var Ship = function (game, x, y, tag) {
     this.setChildIndex(this.engine, 0);
 };
 
-Ship.add = function (game, x, y, tag) {
-    var s = new Ship(game, x, y, tag);
+Ship.add = function (game, options) {
+    var s = new Ship(game, options);
     game.add.existing(s);
     return s;
 };
