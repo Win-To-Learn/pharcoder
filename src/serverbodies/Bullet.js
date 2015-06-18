@@ -16,7 +16,8 @@ var Bullet = function (config) {
 Bullet.prototype = Object.create(SyncBodyBase.prototype);
 Bullet.prototype.constructor = Bullet;
 
-Bullet.prototype.sctype = 'Bullet';
+Bullet.prototype.clientType = 'Bullet';
+Bullet.prototype.serverType = 'Bullet';
 
 Bullet.prototype.adjustShape = function () {
     this.clearAllShapes();

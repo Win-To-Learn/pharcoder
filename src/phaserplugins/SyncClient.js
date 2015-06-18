@@ -137,7 +137,7 @@ SyncClient.prototype._processPhysicsUpdates = function () {
             if (queue.length >= 2) {    // Two most recent updates available? Use them.
                 before = queue[queue.length - 2];
                 after = queue[queue.length - 1];
-                console.log('Lagging', oid[i]);
+                console.log('Lagging', oids[i]);
             } else {                    // No? Just bail
                 console.log('Bailing', oids[i]);
                 break;

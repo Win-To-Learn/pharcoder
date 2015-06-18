@@ -8,6 +8,7 @@
 var Starcoder = require('./Starcoder.js');
 var SyncServer = require('./server-components/SyncServer.js');
 var ControlEndPoint = require('./server-components/ControlEndPoint.js');
+var CollisionHandlers = require('./server-components/CollisionHandlers.js');
 
 var World = require('./serverbodies/World.js');
 
@@ -16,6 +17,7 @@ var Guest = require('./players/Guest.js');
 
 Starcoder.mixinPrototype(Starcoder.prototype, SyncServer.prototype);
 Starcoder.mixinPrototype(Starcoder.prototype, ControlEndPoint.prototype);
+Starcoder.mixinPrototype(Starcoder.prototype, CollisionHandlers.prototype);
 
 /**
  * Initialize Starcoder server
@@ -30,6 +32,7 @@ Starcoder.prototype.init = function (app, io) {
     this.world = new World(this.config.worldBounds, this.config.initialBodies);
     this.world.starcoder = this;
     this.world.log = this.log;
+    this.initCollisionHandlers();
     this.initSync();
     this.world.start(1/60);
 };

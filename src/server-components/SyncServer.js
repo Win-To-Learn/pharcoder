@@ -60,7 +60,7 @@ SyncServer.prototype.sendUpdates = function () {
                 b = body.getUpdatePacket(player.newborn);
                 cachePointer[body.id] = b;
             }
-            //console.log('Old', body.id, body.sctype);
+            //console.log('Old', body.id, body.clientType);
             update.b.push(b);
         }
         cachePointer = fullUpdateCache;

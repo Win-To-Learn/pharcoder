@@ -17,7 +17,8 @@ var Crystal = function (options) {
 Crystal.prototype = Object.create(SyncBodyBase.prototype);
 Crystal.prototype.constructor = p2;
 
-Crystal.prototype.sctype = 'Crystal';
+Crystal.prototype.clientType = 'Crystal';
+Crystal.prototype.serverType = 'Crystal';
 
 Crystal.prototype.lineColor = '#00ffff';
 Crystal.prototype.fillColor = '#000000';

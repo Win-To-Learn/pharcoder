@@ -86,7 +86,7 @@ SyncBodyBase.prototype.getUpdatePacket = function (full) {
         av: this.angularVelocity
     };
     if (full) {
-        update.t = this.sctype;
+        update.t = this.clientType;
     }
     if (!this.getPropertyUpdate) {
         return update;

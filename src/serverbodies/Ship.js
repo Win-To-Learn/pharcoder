@@ -32,7 +32,8 @@ var Ship = function (config) {
 Ship.prototype = Object.create(SyncBodyBase.prototype);
 Ship.prototype.constructor = Ship;
 
-Ship.prototype.sctype = 'Ship';
+Ship.prototype.clientType = 'Ship';
+Ship.prototype.serverType = 'Ship';
 
 // Default properties
 
