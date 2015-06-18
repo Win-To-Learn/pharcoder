@@ -28,8 +28,8 @@ Starcoder.prototype.init = function (app, io) {
     this.io = io;
     this.players = {};          // Logged in players
     this.world = new World(this.config.worldBounds, this.config.initialBodies);
+    this.world.starcoder = this;
     this.world.log = this.log;
-    // TODO: Set world bounds, etc.
     this.initSync();
     this.world.start(1/60);
 };

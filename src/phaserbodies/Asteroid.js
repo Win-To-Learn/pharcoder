@@ -3,10 +3,14 @@
  */
 'use strict';
 
+var Starcoder = require('../Starcoder.js');
+
 var VectorSprite = require('./VectorSprite.js');
+var PhysicsInterface = require('./PhysicsInterface.js');
 
 var Asteroid = function (game, config) {
     VectorSprite.call(this, game, config);
+    this.setPosAngle(config.x, config.y, config.a);
     //this.body.damping = 0;
 };
 
@@ -18,6 +22,8 @@ Asteroid.add = function (game, options) {
 
 Asteroid.prototype = Object.create(VectorSprite.prototype);
 Asteroid.prototype.constructor = Asteroid;
+
+Starcoder.mixinPrototype(Asteroid.prototype, PhysicsInterface.prototype);
 
 //Starcoder.mixinPrototype(Asteroid.prototype, shared.prototype);
 

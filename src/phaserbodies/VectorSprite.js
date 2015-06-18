@@ -26,8 +26,8 @@ var VectorSprite = function (game, config) {
     this.updateAppearance();
     this.updateBody();
     this.body.mass = 0;
-    this.body.data.position[0] = -config.x;
-    this.body.data.position[1] = -config.y;
+    //this.body.data.position[0] = -config.x;
+    //this.body.data.position[1] = -config.y;
     //console.log(this.graphics.getLocalBounds());
 };
 

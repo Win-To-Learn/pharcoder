@@ -14,7 +14,7 @@ Space.prototype.constructor = Space;
 
 Space.prototype.preload = function () {
     SimpleParticle.cacheTexture(this.game, 'thrust', '#ff6600', 2);
-    SimpleParticle.cacheTexture(this.game, 'bullet', '#666666', 3);
+    SimpleParticle.cacheTexture(this.game, 'bullet', '#999999', 4);
     //this.game.load.image('bitship', 'assets/ship.png');
 };
 

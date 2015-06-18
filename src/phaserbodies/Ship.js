@@ -3,28 +3,30 @@
  */
 'use strict';
 
-//var Starcoder = require('../../Starcoder-client.js');
+var Starcoder = require('../Starcoder.js');
 
 var VectorSprite = require('./VectorSprite.js');
+var PhysicsInterface = require('./PhysicsInterface.js');
 var Engine = require('./Engine.js');
 var Weapons = require('./Weapons.js');
 
-var Ship = function (game, options) {
-    VectorSprite.call(this, game, options);
+var Ship = function (game, config) {
+    VectorSprite.call(this, game, config);
+    this.setPosAngle(config.x, config.y, config.a);
 
-    if (options.mass) {
-        this.body.mass = options.mass;
+    if (config.mass) {
+        this.body.mass = config.mass;
     }
-    this.engine = Engine.add(game, 'thrust', 500);
-    this.addChild(this.engine);
-    this.weapons = Weapons.add(game, 'bullet', 12);
-    this.weapons.ship = this;
+    //this.engine = Engine.add(game, 'thrust', 500);
+    //this.addChild(this.engine);
+    //this.weapons = Weapons.add(game, 'bullet', 12);
+    //this.weapons.ship = this;
     //this.addChild(this.weapons);
     this.tagText = game.add.text(0, this.graphics.height/2 + 1,
-        options.tag, {font: 'bold 18px Arial', fill: this.color || '#ffffff', align: 'center'});
+        config.tag, {font: 'bold 18px Arial', fill: this.color || '#ffffff', align: 'center'});
     this.tagText.anchor.setTo(0.5, 0);
     this.addChild(this.tagText);
-    this.setChildIndex(this.engine, 0);
+    //this.setChildIndex(this.engine, 0);
 };
 
 Ship.add = function (game, options) {
@@ -35,6 +37,8 @@ Ship.add = function (game, options) {
 
 Ship.prototype = Object.create(VectorSprite.prototype);
 Ship.prototype.constructor = Ship;
+
+Starcoder.mixinPrototype(Ship.prototype, PhysicsInterface.prototype);
 
 Ship.prototype.setLineStyle = function (color, lineWidth) {
     Starcoder.VectorSprite.prototype.setLineStyle.call(this, color, lineWidth);
@@ -54,9 +58,9 @@ Ship.prototype.setLineStyle = function (color, lineWidth) {
 //];
 Ship.prototype.lineWidth = 6;
 
-Ship.prototype.update = function () {
-    this.engine.update();
-};
+//Ship.prototype.update = function () {
+//    this.engine.update();
+//};
 
 module.exports = Ship;
 //Starcoder.Ship = Ship;

@@ -19,10 +19,10 @@ WorldApi.prototype.addBody = function (type, config) {
     var playerShip = false;
     if (!ctor) {
         this.log('Unknown body type:', type);
+        this.log(config);
         return;
     }
     if (type === 'Ship' && config.properties.playerid === this.player.id) {
-        this.log('>>', config);
         config.tag = this.player.username;
         // Only the player's own ship is treated as dynamic in the local physics sim
         config.mass = this.config.physicsProperties.Ship.mass;

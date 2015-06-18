@@ -23,6 +23,8 @@ var World = function (bounds, initialBodies) {
         gravity: [0, 0]
     });
     this._syncableBodies = [];
+    this._syncableBodiesNew = [];
+    this._syncableBodiesRemoved = [];
     this._ships = [];
     this._setBounds.apply(this, bounds);
     this._populate(initialBodies);
@@ -39,7 +41,7 @@ World.prototype.addPlayerShip = function (player) {
     return ship;
 };
 
-World.prototype.addSyncableBody = function (ctor, config, player) {
+World.prototype.addSyncableBody = function (ctor, config) {
     if (config.position === 'random') {
         config.position = [Math.floor(Math.random()*(this.right - this.left)+this.left),
             Math.floor(Math.random()*(this.bottom - this.top)+this.top)];
@@ -47,9 +49,33 @@ World.prototype.addSyncableBody = function (ctor, config, player) {
         config.position = [Math.floor((this.left + this.right)/2), Math.floor((this.top + this.bottom)/2)];
     }
     var body = new ctor(config);
-    this._syncableBodies.push(body);
+    this._syncableBodiesNew.push(body);
     this.addBody(body);
     return body;
+};
+
+World.prototype.removeSyncableBody = function (body) {
+    var removed = false;
+    for (var i = this._syncableBodies.length - 1; i >=0; i--) {
+        if (this._syncableBodies[i] === body) {
+            this._syncableBodies.splice(i, 1);
+            removed = true;
+            break;
+        }
+    }
+    if (!removed) {
+        for (i = this._syncableBodiesNew.length - 1; i >=0; i--) {
+            if (this._syncableBodiesNew[i] === body) {
+                this._syncableBodiesNew.splice(i, 1);
+                removed = true;
+                break;
+            }
+        }
+    }
+    if (removed) {
+        this._syncableBodiesRemoved = body;
+        this.removeBody(body);
+    }
 };
 
 World.prototype.start = function (rate, substeps) {

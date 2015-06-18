@@ -65,9 +65,11 @@ Controls.prototype.preUpdate = function () {
         this.queue.push({type: 'left_released', executed: false, seq: seq++});
     }
     if (controls.fire.isDown && !fire) {
+        fire = true;
         this.queue.push({type: 'fire_pressed', executed: false, seq: seq++});
     }
     if (!controls.fire.isDown && fire) {
+        fire = false;
         this.queue.push({type: 'fire_released', executed: false, seq: seq++});
     }
 };

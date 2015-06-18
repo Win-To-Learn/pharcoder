@@ -14,7 +14,7 @@ var SimpleParticle = function (game, key) {
     this.body.clearShapes();
     var shape = this.body.addParticle();
     shape.sensor = true;
-    this.kill();
+    //this.kill();
 };
 
 SimpleParticle._textureCache = {};

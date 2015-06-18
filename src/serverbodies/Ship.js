@@ -11,8 +11,8 @@ var Bullet = require('./Bullet.js');
 
 var Ship = function (config) {
     SyncBodyBase.call(this, config);
-    this.damping = 0.95;
-    this.angularDamping = 0.95;
+    this.damping = 0.99;
+    this.angularDamping = 0.99;
     this.state = {
         turn: 0,
         thrust: 0,
@@ -55,6 +55,7 @@ Ship.prototype.getPropertyUpdate = function (propname, properties) {
     switch (propname) {
         case 'playerid':
             properties.playerid = this.player.id;
+            break;
         default:
             SyncBodyBase.prototype.getPropertyUpdate.call(this, propname, properties);
     }
@@ -64,8 +65,15 @@ Ship.prototype.update = function () {
     // TODO: Speed limits?
     this.angularForce = 50*this.state.turn;
     this.setPolarForce(500*this.state.thrust);
-    if (this.state.firing) {
-        this.world.addSyncableBody(Bullet, {});
+    if (this.state.firing && ((this.world.time - this._lastShot) > 1)) {
+        var bullet = this.world.addSyncableBody(Bullet, {});
+        var c = Math.cos(this.angle);
+        var s = Math.sin(this.angle);
+        bullet.position[0] = this.position[0];
+        bullet.position[1] = this.position[1];
+        bullet.velocity[0] = 20*s;
+        bullet.velocity[1] = -20*c;
+        bullet.tod = this.world.time + 1;       // FIXME
         this._lastShot = this.world.time;
     }
 };

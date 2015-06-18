@@ -16,11 +16,20 @@ var Bullet = function (config) {
 Bullet.prototype = Object.create(SyncBodyBase.prototype);
 Bullet.prototype.constructor = Bullet;
 
+Bullet.prototype.sctype = 'Bullet';
+
 Bullet.prototype.adjustShape = function () {
     this.clearAllShapes();
     var particle = new p2.Particle();
     particle.sensor = true;
     this.addShape(particle);
-}
+};
+
+Bullet.prototype.update = function () {
+    if (this.world.time >= this.tod) {
+        this.world.removeSyncableBody(this);
+        console.log('Bullet dead');
+    }
+};
 
 module.exports = Bullet;

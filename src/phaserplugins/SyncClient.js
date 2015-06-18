@@ -19,11 +19,7 @@ SyncClient.prototype.init = function (socket, queue) {
     // TODO: Copy some config options
     this.socket = socket;
     this.cmdQueue = queue;
-    this.sentQueue = [];
-    this.newQueue = [];
-    this.updates = [];
     this.extant = {};
-    this.lastUpdate = 0;
 };
 
 SyncClient.prototype.start = function () {
@@ -150,9 +146,10 @@ SyncClient.prototype._processPhysicsUpdates = function () {
         //sprite.body.data.position[0] = -hermite(before.x, after.x, before.vx*span, after.vx*span, t);
         //sprite.body.data.position[1] = -hermite(before.y, after.y, before.vy*span, after.vy*span, t);
         //sprite.body.data.angle = hermite(before.a, after.a, before.av, after.av, t);
-        sprite.body.data.position[0] = -linear(before.x, after.x, t);
-        sprite.body.data.position[1] = -linear(before.y, after.y, t);
-        sprite.body.data.angle = linear(before.a, after.a, t);
+        sprite.setPosAngle(linear(before.x, after.x, t), linear(before.y, after.y, t), linear(before.a, after.a, t));
+        //sprite.body.data.position[0] = -linear(before.x, after.x, t);
+        //sprite.body.data.position[1] = -linear(before.y, after.y, t);
+        //sprite.body.data.angle = linear(before.a, after.a, t);
         //sprite.body.data.position[0] -= 0.10;
         //sprite.body.data.position[1] = -5;
         //console.log('[t]', before.timestamp, interpTime, after.timestamp, '-', after.timestamp - before.timestamp);
