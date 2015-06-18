@@ -28,7 +28,6 @@ Bullet.prototype.adjustShape = function () {
 Bullet.prototype.update = function () {
     if (this.world.time >= this.tod) {
         this.world.removeSyncableBody(this);
-        console.log('Bullet dead');
     }
 };
 

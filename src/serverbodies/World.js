@@ -73,7 +73,7 @@ World.prototype.removeSyncableBody = function (body) {
         }
     }
     if (removed) {
-        this._syncableBodiesRemoved = body;
+        this._syncableBodiesRemoved.push(body);
         this.removeBody(body);
     }
 };
@@ -91,8 +91,14 @@ World.prototype.start = function (rate, substeps) {
 };
 
 World.prototype.preStep = function () {
-    for (var i = 0, l = this._syncableBodies.length; i < l; i++) {
+    for (var i = this._syncableBodies.length - 1; i >= 0; i--) {
         var body = this._syncableBodies[i];
+        if (body.update) {
+            body.update();
+        }
+    }
+    for (i = this._syncableBodiesNew.length - 1; i >= 0; i--) {
+        body = this._syncableBodiesNew[i];
         if (body.update) {
             body.update();
         }

@@ -17,7 +17,15 @@ var Ship = function (config) {
         turn: 0,
         thrust: 0,
         firing: false
-    }
+    };
+    // Engine
+    this.thrustForce = 500;
+    this.turningForce = 50;
+    // Weapons system
+    this.bulletSalvoSize = 1;
+    this.bulletVelocity = 15;
+    this.bulletRange = 25;
+    this.bulletSpread = 0;
     this._lastShot = 0;
 };
 
@@ -63,17 +71,27 @@ Ship.prototype.getPropertyUpdate = function (propname, properties) {
 
 Ship.prototype.update = function () {
     // TODO: Speed limits?
-    this.angularForce = 50*this.state.turn;
-    this.setPolarForce(500*this.state.thrust);
+    this.angularForce = this.turningForce*this.state.turn;
+    this.setPolarForce(this.thrustForce*this.state.thrust);
     if (this.state.firing && ((this.world.time - this._lastShot) > 1)) {
-        var bullet = this.world.addSyncableBody(Bullet, {});
-        var c = Math.cos(this.angle);
-        var s = Math.sin(this.angle);
-        bullet.position[0] = this.position[0];
-        bullet.position[1] = this.position[1];
-        bullet.velocity[0] = 20*s;
-        bullet.velocity[1] = -20*c;
-        bullet.tod = this.world.time + 1;       // FIXME
+        var tod = this.world.time + this.bulletRange / this.bulletVelocity;
+        if (this.bulletSpread === 0 || this.bulletSalvoSize === 1) {
+            var n = 1;
+            var aDel = 0;
+            var aStart = this.angle;
+        } else {
+            n = this.bulletSalvoSize;
+            aDel = this.bulletSpread * Math.PI / (180 * (n - 1));
+            aStart = this.angle - 0.5 * this.bulletSpread * Math.PI / 180;
+        }
+        for (var i = 0, a = aStart; i < n; i++, a += aDel) {
+            var bullet = this.world.addSyncableBody(Bullet, {});
+            bullet.position[0] = this.position[0];
+            bullet.position[1] = this.position[1];
+            bullet.velocity[0] = this.bulletVelocity * Math.sin(a);
+            bullet.velocity[1] = -this.bulletVelocity * Math.cos(a);
+            bullet.tod = tod;
+        }
         this._lastShot = this.world.time;
     }
 };

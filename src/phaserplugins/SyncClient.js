@@ -58,6 +58,13 @@ SyncClient.prototype.start = function () {
                 sprite.updateQueue = [update];
             }
         }
+        for (i = 0, l = data.rm.length; i < l; i++) {
+            id = data.rm[i];
+            if (self.extant[id]) {
+                starcoder.removeBody(self.extant[id]);
+                delete self.extant[id];
+            }
+        }
     });
 };
 
@@ -130,12 +137,13 @@ SyncClient.prototype._processPhysicsUpdates = function () {
             if (queue.length >= 2) {    // Two most recent updates available? Use them.
                 before = queue[queue.length - 2];
                 after = queue[queue.length - 1];
-                console.log('Lagging');
+                console.log('Lagging', oid[i]);
             } else {                    // No? Just bail
-                console.log('Bailing');
+                console.log('Bailing', oids[i]);
                 break;
             }
         } else {
+            //console.log('Ok', interpTime, queue.length);
             queue.splice(0, j - 1);     // Throw out older updates
         }
 

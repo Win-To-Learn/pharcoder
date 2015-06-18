@@ -36,4 +36,9 @@ WorldApi.prototype.addBody = function (type, config) {
     return body;
 };
 
+WorldApi.prototype.removeBody = function (sprite) {
+    sprite.kill();
+    this.game.physics.p2.removeBody(sprite.body);
+};
+
 module.exports = WorldApi;
