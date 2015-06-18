@@ -32,21 +32,21 @@ World.prototype = Object.create(p2.World.prototype);
 World.prototype.constructor = World;
 
 World.prototype.addPlayerShip = function (player) {
-    var ship = this.addSyncableBody(bodyTypes.Ship, {position: 'random'}, player);
+    var ship = this.addSyncableBody(bodyTypes.Ship, {position: 'random', mass: 10}, player);
     ship.player = player;
     player.addShip(ship);
     this._ships.push(ship);
     return ship;
 };
 
-World.prototype.addSyncableBody = function (ctor, options, player) {
-    if (options.position === 'random') {
-        options.position = [Math.floor(Math.random()*(this.right - this.left)+this.left),
+World.prototype.addSyncableBody = function (ctor, config, player) {
+    if (config.position === 'random') {
+        config.position = [Math.floor(Math.random()*(this.right - this.left)+this.left),
             Math.floor(Math.random()*(this.bottom - this.top)+this.top)];
-    } else if (options.position === 'center') {
-        options.position = [Math.floor((this.left + this.right)/2), Math.floor((this.top + this.bottom)/2)];
+    } else if (config.position === 'center') {
+        config.position = [Math.floor((this.left + this.right)/2), Math.floor((this.top + this.bottom)/2)];
     }
-    var body = new ctor(options);
+    var body = new ctor(config);
     this._syncableBodies.push(body);
     this.addBody(body);
     return body;
@@ -56,19 +56,6 @@ World.prototype.start = function (rate, substeps) {
     var self = this;
     substeps = substeps || 10;
     this._lastHRTime = process.hrtime();
-    //for (var i = 0; i<100; i++) {
-    //    //var x = Math.floor(Math.random()*40);
-    //    //var y = Math.floor(Math.random()*20);
-    //    var vx = 10*(Math.random()*5 - 2.5);
-    //    var vy = 10*(Math.random()*5 - 2.5);
-    //    var av = Math.random()*6 - 3;
-    //    this.addSyncableBody(Asteroid, {
-    //        position: 'random',
-    //        velocity: [vx, vy],
-    //        angularVelocity: av,
-    //        mass: 10
-    //    });
-    //}
     return setInterval(function () {
         var diff = process.hrtime(self._lastHRTime);
         self.preStep();
@@ -100,7 +87,7 @@ World.prototype._setBounds = function (l, t, r, b) {
         left: new p2.Body({
             mass: 0,
             position: [l, 0],
-            angle: -Math.PI/2
+            angle: 3*Math.PI/2
         }),
         top: new p2.Body({
             mass: 0,

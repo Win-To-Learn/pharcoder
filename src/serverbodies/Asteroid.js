@@ -51,5 +51,8 @@ Asteroid.prototype.updateProperties = ['fillColor', 'lineColor', 'fillAlpha', 's
 //    }
 //};
 
+//Asteroid.prototype.update = function () {
+//    console.log(this.id, this.position[0], this.position[1],this.velocity[0], this.velocity[1]);
+//}
 
 module.exports = Asteroid;

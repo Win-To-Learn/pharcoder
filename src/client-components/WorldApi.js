@@ -10,11 +10,11 @@ var WorldApi = function () {};
 var bodyTypes = {
     Ship: require('../phaserbodies/Ship.js'),
     Asteroid: require('../phaserbodies/Asteroid.js'),
-    Crystal: require('../phaserbodies/Asteroid.js')
+    Crystal: require('../phaserbodies/Crystal.js'),
+    Bullet: require('../phaserbodies/Bullet.js')
 };
 
 WorldApi.prototype.addBody = function (type, config) {
-    this.log(config);
     var ctor = bodyTypes[type];
     var playerShip = false;
     if (!ctor) {
@@ -22,6 +22,7 @@ WorldApi.prototype.addBody = function (type, config) {
         return;
     }
     if (type === 'Ship' && config.properties.playerid === this.player.id) {
+        this.log('>>', config);
         config.tag = this.player.username;
         // Only the player's own ship is treated as dynamic in the local physics sim
         config.mass = this.config.physicsProperties.Ship.mass;

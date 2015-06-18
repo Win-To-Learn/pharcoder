@@ -18,10 +18,11 @@ Controls.prototype.constructor = Controls;
 Controls.prototype.init = function (queue) {
     this.queue = queue;
     this.controls = this.game.input.keyboard.createCursorKeys();
+    this.controls.fire = this.game.input.keyboard.addKey(Phaser.Keyboard.B);
 };
 
 var seq = 0;
-var up = false, down = false, left = false, right = false;
+var up = false, down = false, left = false, right = false, fire = false;
 
 Controls.prototype.reset = function () {
     up = down = left = right = false;
@@ -62,6 +63,12 @@ Controls.prototype.preUpdate = function () {
     if (!controls.left.isDown && left) {
         left = false;
         this.queue.push({type: 'left_released', executed: false, seq: seq++});
+    }
+    if (controls.fire.isDown && !fire) {
+        this.queue.push({type: 'fire_pressed', executed: false, seq: seq++});
+    }
+    if (!controls.fire.isDown && fire) {
+        this.queue.push({type: 'fire_released', executed: false, seq: seq++});
     }
 };
 

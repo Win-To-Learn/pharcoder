@@ -41,17 +41,17 @@ Ship.prototype.setLineStyle = function (color, lineWidth) {
     this.tagText.setStyle({fill: color});
 };
 
-Ship.prototype.shape = [
-    [-1,-1],
-    [-0.5,0],
-    [-1,1],
-    [0,0.5],
-    [1,1],
-    [0.5,0],
-    [1,-1],
-    [0,-0.5],
-    [-1,-1]
-];
+//Ship.prototype.shape = [
+//    [-1,-1],
+//    [-0.5,0],
+//    [-1,1],
+//    [0,0.5],
+//    [1,1],
+//    [0.5,0],
+//    [1,-1],
+//    [0,-0.5],
+//    [-1,-1]
+//];
 Ship.prototype.lineWidth = 6;
 
 Ship.prototype.update = function () {

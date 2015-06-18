@@ -41,6 +41,12 @@ ControlEndPoint.prototype.doAction = function (player, action) {
         case 'down_released':
             ship.state.thrust = 0;
             break;
+        case 'fire_pressed':
+            ship.state.firing = true;
+            break;
+        case 'fire_released':
+            ship.state.firing = false;
+            break;
     }
 };
 

@@ -47,9 +47,23 @@ SyncBodyBase.prototype.clearAllShapes = function () {
  */
 SyncBodyBase.prototype.adjustShape = function () {
     this.clearAllShapes();
+    var polyflag = false;
     if (this.shape) {
-        var convex = new p2.Convex(this.shape);
-        this.addShape(convex, [0, 0]);
+        var vertices = [];
+        var x = this.position[0], y = this.position[1];
+        for (var i = 0, l = this.shape.length; i < l; i++) {
+            vertices.push([x + this.shape[i][0]*this.vectorScale, y + this.shape[i][1]*this.vectorScale]);
+        }
+        polyflag = this.fromPolygon(vertices);
+        //var convex = new p2.Convex(vertices);
+        //this.addShape(convex, [0, 0]);
+        if (polyflag) {
+       }
+    }
+    if (polyflag) {
+        // Not entirely sure why this is necessary
+        this.position[0] = x;
+        this.position[1] = y;
     } else {
         this.addShape(new p2.Circle(this._radius || 1));
     }
