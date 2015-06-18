@@ -13,7 +13,8 @@ var p2 = require('p2');
 var bodyTypes = {
     Ship: require('./Ship.js'),
     Asteroid: require('./Asteroid.js'),
-    Crystal: require('./Crystal.js')
+    Crystal: require('./Crystal.js'),
+    Hydra: require('./Hydra.js')
 };
 
 var World = function (bounds, initialBodies) {
@@ -33,8 +34,20 @@ var World = function (bounds, initialBodies) {
 World.prototype = Object.create(p2.World.prototype);
 World.prototype.constructor = World;
 
+/**
+ * Need to override so we easily trigger a callback on body being added
+ *
+ * @param body
+ */
+World.prototype.addBody = function (body) {
+    p2.World.prototype.addBody.call(this, body);
+    if (body.onWorldAdd) {
+        body.onWorldAdd();
+    }
+};
+
 World.prototype.addPlayerShip = function (player) {
-    var ship = this.addSyncableBody(bodyTypes.Ship, {position: 'random', mass: 10}, player);
+    var ship = this.addSyncableBody(bodyTypes.Ship, {position: {random: 'world', pad: 25}, mass: 10}, player);
     ship.player = player;
     player.addShip(ship);
     this._ships.push(ship);
@@ -42,13 +55,15 @@ World.prototype.addPlayerShip = function (player) {
 };
 
 World.prototype.addSyncableBody = function (ctor, config) {
-    if (config.position === 'random') {
-        config.position = [Math.floor(Math.random()*(this.right - this.left)+this.left),
-            Math.floor(Math.random()*(this.bottom - this.top)+this.top)];
-    } else if (config.position === 'center') {
-        config.position = [Math.floor((this.left + this.right)/2), Math.floor((this.top + this.bottom)/2)];
+    var c = {};
+    for (var k in config) {
+        if (typeof config[k] === 'object' && config[k].random) {
+            c[k] = this._flexRand(config[k]);
+        } else {
+            c[k] = config[k];
+        }
     }
-    var body = new ctor(config);
+    var body = new ctor(c);
     this._syncableBodiesNew.push(body);
     this.addBody(body);
     return body;
@@ -140,24 +155,21 @@ World.prototype._setBounds = function (l, t, r, b) {
 };
 
 World.prototype._populate = function (desc) {
-    var count = 0;
     for (var i = 0, l = desc.length; i < l; i++) {
         var ctor = bodyTypes[desc[i].type];
         var config = desc[i].config;
         for (var j = 0; j < desc[i].number; j++) {
-            var c = {};
-            for (var k in config) {
-                if (typeof config[k] === 'object' && config[k].random) {
-                    c[k] = this._flexRand(config[k]);
-                } else {
-                    c[k] = config[k];
-                }
-            }
-            var body = this.addSyncableBody(ctor, c);
-            count++;
+            //    var c = {};
+            //    for (var k in config) {
+            //        if (typeof config[k] === 'object' && config[k].random) {
+            //            c[k] = this._flexRand(config[k]);
+            //        } else {
+            //            c[k] = config[k];
+            //        }
+            //    }
+            this.addSyncableBody(ctor, config);
         }
     }
-    //this.log('Added', count, 'bodies');
 };
 
 /**

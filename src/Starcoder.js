@@ -14,6 +14,7 @@
 //};
 
 var config = {
+    version: '0.1',
     serverUri: 'http://localhost:8080',
     //worldBounds: [-4200, -4200, 8400, 8400],
     worldBounds: [-200, -200, 200, 200],
@@ -35,17 +36,21 @@ var config = {
         }
     },
     initialBodies: [
-        {type: 'Asteroid', number: 10, config: {
+        {type: 'Asteroid', number: 25, config: {
             position: {random: 'world'},
             velocity: {random: 'vector', lo: -10, hi: 10},
             vectorScale: {random: 'float', lo: 0.6, hi: 1.4},
             mass: 10
         }},
-        {type: 'Crystal', number: 10, config: {
+        //{type: 'Crystal', number: 10, config: {
+        //    position: {random: 'world'},
+        //    velocity: {random: 'vector', lo: -4, hi: 4, normal: true},
+        //    vectorScale: {random: 'float', lo: 0.4, hi: 0.8},
+        //    mass: 5
+        //}}
+        {type: 'Hydra', number: 10, config: {
             position: {random: 'world'},
-            velocity: {random: 'vector', lo: -4, hi: 4, normal: true},
-            vectorScale: {random: 'float', lo: 0.4, hi: 0.8},
-            mass: 5
+            mass: 100
         }}
     ]
 };

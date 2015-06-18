@@ -36,7 +36,6 @@ CollisionHandlers.prototype.initCollisionHandlers = function () {
 
 // Handlers
 function BulletAsteroid (bullet, asteroid) {
-    console.log('Boom', bullet.serverType, asteroid.serverType);
     asteroid.state = 'exploding';
     this.world.removeSyncableBody(bullet);
 }

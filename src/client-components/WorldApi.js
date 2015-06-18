@@ -11,7 +11,8 @@ var bodyTypes = {
     Ship: require('../phaserbodies/Ship.js'),
     Asteroid: require('../phaserbodies/Asteroid.js'),
     Crystal: require('../phaserbodies/Crystal.js'),
-    Bullet: require('../phaserbodies/Bullet.js')
+    Bullet: require('../phaserbodies/Bullet.js'),
+    GenericOrb: require('../phaserbodies/GenericOrb.js')
 };
 
 WorldApi.prototype.addBody = function (type, config) {

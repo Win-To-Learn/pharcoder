@@ -57,7 +57,7 @@ Asteroid.prototype.update = function () {
         // FIXME: (maybe) timing, effects, etc.
         this.state = 'exploded';
     } else if (this.state === 'exploded') {
-        var crystal = this.world.addSyncableBody(Crystal, {});
+        var crystal = this.world.addSyncableBody(Crystal, {mass: 10});
         crystal.position[0] = this.position[0];
         crystal.position[1] = this.position[1];
         this.world.removeSyncableBody(this);
