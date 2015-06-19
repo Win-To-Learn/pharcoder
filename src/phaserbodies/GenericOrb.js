@@ -13,7 +13,6 @@ var SyncBodyInterface = require('./SyncBodyInterface.js');
 var Paths = require('../common/Paths.js');
 
 var GenericOrb = function (game, config) {
-    console.log('GO', config);
     VectorSprite.call(this, game, config);
     this.setPosAngle(config.x, config.y, config.a);
 };

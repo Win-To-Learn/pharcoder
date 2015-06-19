@@ -6,6 +6,7 @@
 'use strict';
 
 var SimpleParticle = require('../phaserbodies/SimpleParticle.js');
+var MiniMap = require('../phaserui/MiniMap.js');
 
 var Space = function () {};
 
@@ -38,6 +39,16 @@ Space.prototype.create = function () {
 
     this.starcoder.syncclient.start();
     this.starcoder.socket.emit('client ready');
+
+    // Group for game objects
+    this.game.playfield = this.game.add.group();
+
+    // UI
+    this.game.ui = this.game.add.group();
+    this.game.ui.fixedToCamera = true;
+
+    this.game.minimap = new MiniMap(this.game, 10, 10);
+    this.game.ui.add(this.game.minimap);
 
     // Helpers
     function randomNormal () {

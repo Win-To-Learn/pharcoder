@@ -19,6 +19,7 @@ var VectorSprite = function (game, config) {
 
     this.graphics = game.make.graphics();
     this.texture = this.game.add.renderTexture();
+    //this.minitexture = this.game.add.renderTexture();
 
     game.physics.p2.enable(this, false, false);
     this.updateAppearance();
@@ -67,7 +68,7 @@ VectorSprite.prototype.setLineStyle = function (color, lineWidth) {
     this.color = color;
     this.lineWidth = lineWidth;
     this.updateAppearance();
-}
+};
 
 VectorSprite.prototype.updateAppearance = function () {
     if (typeof this.animate === 'undefined') {
@@ -80,6 +81,16 @@ VectorSprite.prototype.updateAppearance = function () {
         this.texture.resize(this.graphics.width, this.graphics.height, true);
         this.texture.renderXY(this.graphics, this.graphics.width/2, this.graphics.height/2, true);
         this.setTexture(this.texture);
+        // Draw mini texture - FIXME
+        this.graphics.clear();
+        if (typeof this.drawProcedure !== 'undefined') {
+            this.drawProcedure(0.025);
+        } else if (this.shape) {
+            this.draw(0.025);
+        }
+        this.graphics.cacheAsBitmap = true;
+        //this.minitexture.resize(this.graphics.width, this.graphics.height, true);
+        //this.minitexture.renderXY(this.graphics, this.graphics.width/2, this.graphics.height/2, true);
     }
 };
 

@@ -30,7 +30,8 @@ WorldApi.prototype.addBody = function (type, config) {
         playerShip = true;
     }
     var body = new ctor(this.game, config);
-    this.game.add.existing(body);
+    //this.game.add.existing(body);
+    this.game.playfield.add(body);
     if (playerShip) {
         this.game.camera.follow(body);
     }

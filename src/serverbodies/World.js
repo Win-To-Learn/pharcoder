@@ -149,7 +149,6 @@ World.prototype.addSyncableBody = function (ctor, config) {
     this.setCollisionGroup(body, body.collisionGroup || body.serverType || 'general');
     this.setCollisionMask(body, body.collisionInclude, body.collisionExclude);
     this.addBody(body);
-    console.log(body.serverType, body.shapes[0].collisionGroup, body.shapes[0].collisionMask);
     return body;
 };
 
