@@ -8,6 +8,8 @@
 var p2 = require('p2');
 var SyncBodyBase = require('./SyncBodyBase.js');
 
+var Paths = require('../common/Paths.js');
+
 var Crystal = require('./Crystal.js');
 
 //var Starcoder = require('../../Starcoder-server.js');
@@ -26,24 +28,14 @@ Asteroid.prototype.constructor = Asteroid;
 Asteroid.prototype.clientType = 'Asteroid';
 Asteroid.prototype.serverType = 'Asteroid';
 
-Asteroid.prototype.lineColor = '#ff00ff';
-Asteroid.prototype.fillColor = '#00ff00';
-Asteroid.prototype.shapeClosed = true;
-Asteroid.prototype.lineWidth = 1;
-Asteroid.prototype.fillAlpha = 0.25;
-Asteroid.prototype.shape = [
-    [2,1],
-    [1,2],
-    [-1,2],
-    [-2,1],
-    [-2,-1],
-    [-1,-2],
-    [1,-2],
-    [2,-1]
-];
+//Asteroid.prototype.lineColor = '#ff00ff';
+//Asteroid.prototype.fillColor = '#00ff00';
+//Asteroid.prototype.shapeClosed = true;
+//Asteroid.prototype.lineWidth = 1;
+//Asteroid.prototype.fillAlpha = 0.25;
+Asteroid.prototype.shape = Paths.octagon;
 
-Asteroid.prototype.updateProperties = ['fillColor', 'lineColor', 'fillAlpha', 'shapeClosed', 'shape', 'lineWidth',
-    'vectorScale', 'state'];
+Asteroid.prototype.updateProperties = ['vectorScale', 'state'];
 
 //Asteroid.prototype.getPropertyUpdate = function (propname, properties) {
 //    switch (propname) {

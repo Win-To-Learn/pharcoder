@@ -8,6 +8,8 @@
 var p2 = require('p2');
 var SyncBodyBase = require('./SyncBodyBase.js');
 
+var Paths = require('../common/Paths.js');
+
 var Crystal = function (options) {
     SyncBodyBase.call(this, options);
     this.damping = 0;
@@ -20,36 +22,18 @@ Crystal.prototype.constructor = p2;
 Crystal.prototype.clientType = 'Crystal';
 Crystal.prototype.serverType = 'Crystal';
 
-Crystal.prototype.lineColor = '#00ffff';
-Crystal.prototype.fillColor = '#000000';
-Crystal.prototype.shapeClosed = true;
-Crystal.prototype.lineWidth = 1;
-Crystal.prototype.fillAlpha = 0.0;
-Crystal.prototype.shape = [
-    [2,1],
-    [1,2],
-    [-1,2],
-    [-2,1],
-    [-2,-1],
-    [-1,-2],
-    [1,-2],
-    [2,-1]
-];
+//Crystal.prototype.lineColor = '#00ffff';
+//Crystal.prototype.fillColor = '#000000';
+//Crystal.prototype.shapeClosed = true;
+//Crystal.prototype.lineWidth = 1;
+//Crystal.prototype.fillAlpha = 0.0;
+Crystal.prototype.shape = Paths.octagon;
+//
+//Crystal.prototype.geometry = [
+//    {type: 'poly', closed: true, points: Paths.d2cross}
+//];
 
-Crystal.prototype.geometry = [
-    {type: 'poly', closed: true, points: [
-        [-1,-2],
-        [-1,2],
-        [2,-1],
-        [-2,-1],
-        [1,2],
-        [1,-2],
-        [-2,1],
-        [2,1]]}
-];
-
-Crystal.prototype.updateProperties = ['fillColor', 'lineColor', 'fillAlpha', 'shapeClosed', 'shape', 'lineWidth',
-    'vectorScale', 'geometry'];
+Crystal.prototype.updateProperties = ['vectorScale'];
 
 //Crystal.prototype.getPropertyUpdate = function (propname, properties) {
 //    switch (propname) {

@@ -8,6 +8,8 @@ var Starcoder = require('../Starcoder.js');
 var VectorSprite = require('./VectorSprite.js');
 var PhysicsInterface = require('./PhysicsInterface.js');
 
+var Paths = require('../common/Paths.js');
+
 var Crystal = function (game, config) {
     VectorSprite.call(this, game, config);
     this.setPosAngle(config.x, config.y, config.a);
@@ -23,5 +25,16 @@ Crystal.prototype = Object.create(VectorSprite.prototype);
 Crystal.prototype.constructor = Crystal;
 
 Starcoder.mixinPrototype(Crystal.prototype, PhysicsInterface.prototype);
+
+Crystal.prototype.lineColor = '#00ffff';
+Crystal.prototype.fillColor = '#000000';
+Crystal.prototype.shapeClosed = true;
+Crystal.prototype.lineWidth = 1;
+Crystal.prototype.fillAlpha = 0.0;
+Crystal.prototype.shape = Paths.octagon;
+Crystal.prototype.geometry = [
+    {type: 'poly', closed: true, points: Paths.d2cross}
+];
+
 
 module.exports = Crystal;

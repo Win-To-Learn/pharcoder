@@ -10,6 +10,8 @@ var Starcoder = require('../Starcoder.js');
 var VectorSprite = require('./VectorSprite.js');
 var PhysicsInterface = require('./PhysicsInterface.js');
 
+var Paths = require('../common/Paths.js');
+
 var GenericOrb = function (game, config) {
     VectorSprite.call(this, game, config);
     this.setPosAngle(config.x, config.y, config.a);
@@ -31,27 +33,10 @@ GenericOrb.prototype.fillColor = '#000000';
 GenericOrb.prototype.shapeClosed = true;
 GenericOrb.prototype.lineWidth = 1;
 GenericOrb.prototype.fillAlpha = 0.0;
-GenericOrb.prototype.shape = [
-    [2,1],
-    [1,2],
-    [-1,2],
-    [-2,1],
-    [-2,-1],
-    [-1,-2],
-    [1,-2],
-    [2,-1]
-];
+GenericOrb.prototype.shape = Paths.octagon;
 
 GenericOrb.prototype.geometry = [
-    {type: 'poly', closed: true, points: [
-        [-1,-2],
-        [-1,2],
-        [2,-1],
-        [-2,-1],
-        [1,2],
-        [1,-2],
-        [-2,1],
-        [2,1]]}
+    {type: 'poly', closed: true, points: Paths.d2cross}
 ];
 
 module.exports = GenericOrb;
