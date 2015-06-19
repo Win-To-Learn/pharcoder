@@ -40,6 +40,25 @@ Hydra.prototype.onWorldAdd = function () {
     this.world.addConstraint(rc);
     rc.enableMotor();
     rc.setMotorSpeed(3);
+    var arm2 = this.world.addSyncableBody(HydraArm, {mass: 5});
+    arm2.position[0] = this.position[0];
+    arm2.position[1] = this.position[1] + 20;
+    var rc2 = new p2.RevoluteConstraint(arm, arm2, {worldPivot: arm.position});
+    this.world.addConstraint(rc2);
+    rc2.setLimits(-Math.PI/8, Math.PI/8);
+    var arm3 = this.world.addSyncableBody(HydraArm, {mass: 5});
+    arm3.position[0] = this.position[0];
+    arm3.position[1] = this.position[1] - 15;
+    var rc3 = new p2.RevoluteConstraint(this, arm3, {worldPivot: this.position});
+    this.world.addConstraint(rc3);
+    rc3.enableMotor();
+    rc3.setMotorSpeed(3);
+    var arm4 = this.world.addSyncableBody(HydraArm, {mass: 5});
+    arm4.position[0] = this.position[0];
+    arm4.position[1] = this.position[1] - 20;
+    var rc4 = new p2.RevoluteConstraint(arm3, arm4, {worldPivot: arm3.position});
+    this.world.addConstraint(rc4);
+    rc4.setLimits(-Math.PI/8, Math.PI/8);
 };
 
 var HydraArm = function (config) {
