@@ -19,8 +19,8 @@ var states = {
 
 Starcoder.prototype.init = function () {
     this.io = io;
-    this.game = new Phaser.Game(1800, 1000, Phaser.AUTO, '');
-    //this.game = new Phaser.Game(1600, 600, Phaser.CANVAS, '');
+    this.game = new Phaser.Game(1800, 950, Phaser.AUTO, '');
+    //this.game = new Phaser.Game(1800, 950, Phaser.CANVAS, '');
     //this.game.forceSingleUpdate = true;
     this.game.starcoder = this;
     for (var k in states) {

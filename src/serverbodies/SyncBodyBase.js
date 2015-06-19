@@ -9,18 +9,21 @@ var p2 = require('p2');
 
 var SyncBodyBase = function (config) {
     config = config || {};
-    if (this.preProcessOptions) {
-        this.preProcessOptions(config);
-    }
+    this.setDefaults(config);
     p2.Body.call(this, config);
-    for (var i = 0, l = this.updateProperties.length; i < l; i++) {
-        var propname = this.updateProperties[i];
-        if (config[propname]) {
-            this[propname] = config[propname];
+    //for (var i = 0, l = this.updateProperties.length; i < l; i++) {
+    //    var propname = this.updateProperties[i];
+    //    if (config[propname]) {
+    //        this[propname] = config[propname];
+    //    }
+    //}
+    for (var k in config) {
+        if (!this[k]) {
+            this[k] = config[k];
         }
     }
-    if (this.postProcessOptions) {
-        this.postProcessOptions(config);
+    if (this.customize) {
+        this.customize(config);
     }
     this.adjustShape();
     this._dirtyProperties = {};
@@ -31,7 +34,15 @@ SyncBodyBase.prototype = Object.create(p2.Body.prototype);
 SyncBodyBase.prototype.constructor = SyncBodyBase;
 
 SyncBodyBase.prototype.updateProperties = [];
-SyncBodyBase.prototype.vectorScale = 1;
+SyncBodyBase.prototype.defaults = {mass: 1, vectorScale: 1};
+
+SyncBodyBase.prototype.setDefaults = function (config) {
+    for (var k in this.defaults) {
+        if (!config[k]) {
+            config[k] = this.defaults[k];
+        }
+    }
+};
 
 /**
  * Remove all previously added shapes from body

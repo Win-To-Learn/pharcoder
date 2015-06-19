@@ -6,6 +6,7 @@
 'use strict';
 
 var p2 = require('p2');
+var randomColor = require('randomcolor');
 
 //var Ship = require('./Ship.js');
 //var Asteroid = require('./Asteroid.js');
@@ -47,7 +48,8 @@ World.prototype.addBody = function (body) {
 };
 
 World.prototype.addPlayerShip = function (player) {
-    var ship = this.addSyncableBody(bodyTypes.Ship, {position: {random: 'world', pad: 25}, mass: 10}, player);
+    var ship = this.addSyncableBody(bodyTypes.Ship,
+        {position: {random: 'world', pad: 25}, lineColor: {random: 'color'}}, player);
     ship.player = player;
     player.addShip(ship);
     this._ships.push(ship);
@@ -204,6 +206,8 @@ World.prototype._flexRand = function (spec) {
             between(spec.lo, spec.hi, spec.normal),
             between(spec.lo, spec.hi, spec.normal)
         ];
+    } else if (spec.random === 'color') {
+        return randomColor();
     }
 };
 

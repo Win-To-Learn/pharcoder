@@ -39,6 +39,7 @@ Ship.prototype.serverType = 'Ship';
 
 Ship.prototype.updateProperties = ['fillColor', 'lineColor', 'fillAlpha', 'shapeClosed', 'shape', 'lineWidth',
     'vectorScale', 'playerid'];
+Ship.prototype.defaults = {mass: 10, vectorScale: 1};
 
 Ship.prototype.shape = [
     [-1,-1],

@@ -48,9 +48,8 @@ var config = {
         //    vectorScale: {random: 'float', lo: 0.4, hi: 0.8},
         //    mass: 5
         //}}
-        {type: 'Hydra', number: 1, config: {
-            position: {random: 'world', pad: 50},
-            mass: 1000
+        {type: 'Hydra', number: 3, config: {
+            position: {random: 'world', pad: 50}
         }}
     ]
 };
