@@ -17,10 +17,8 @@ var VectorSprite = function (game, config) {
     this.geometry = config.properties.geometry || this.geometry;
     this.vectorScale = config.properties.vectorScale || this.vectorScale;
 
-    this.graphics = game.add.graphics(0, 0);
-    this.addChild(this.graphics);
-
-    this._internalScale = new Phaser.Point(15,15);
+    this.graphics = game.make.graphics();
+    //this.addChild(this.graphics);
 
     game.physics.p2.enable(this, false, false);
     this.updateAppearance();
@@ -60,14 +58,6 @@ VectorSprite.prototype.vectorScale = 1;
 
 VectorSprite.prototype.physicsBodyType = 'circle';
 
-VectorSprite.prototype.setScale= function (x, y) {
-    if (arguments.length < 2) {
-        y = x;
-    }
-    this._internalScale.setTo (x, y);
-    this.updateAppearance();
-};
-
 VectorSprite.prototype.setShape = function (shape) {
     this.shape = shape;
     this.updateAppearance();
@@ -90,8 +80,13 @@ VectorSprite.prototype.updateAppearance = function () {
         } else if (this.shape) {
             this.draw();
         }
-        this.graphics.cacheAsBitmap = true;
+        //this.graphics.cacheAsBitmap = true;
         //this.graphics.updateCache();
+        this.texture = this.game.add.renderTexture(this.graphics.width, this.graphics.height);
+        this.texture.renderXY(this.graphics, this.graphics.width/2, this.graphics.height/2);
+        //this.width = this.graphics.width;
+        //this.height = this.graphics.height;
+        this.setTexture(this.texture);
     }
 };
 
