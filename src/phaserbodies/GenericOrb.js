@@ -8,11 +8,12 @@
 var Starcoder = require('../Starcoder.js');
 
 var VectorSprite = require('./VectorSprite.js');
-var PhysicsInterface = require('./PhysicsInterface.js');
+var SyncBodyInterface = require('./SyncBodyInterface.js');
 
 var Paths = require('../common/Paths.js');
 
 var GenericOrb = function (game, config) {
+    console.log('GO', config);
     VectorSprite.call(this, game, config);
     this.setPosAngle(config.x, config.y, config.a);
 };
@@ -26,7 +27,7 @@ GenericOrb.add = function (game, config) {
 GenericOrb.prototype = Object.create(VectorSprite.prototype);
 GenericOrb.prototype.constructor = GenericOrb;
 
-Starcoder.mixinPrototype(GenericOrb.prototype, PhysicsInterface.prototype);
+Starcoder.mixinPrototype(GenericOrb.prototype, SyncBodyInterface.prototype);
 
 GenericOrb.prototype.lineColor = '#ff0000';
 GenericOrb.prototype.fillColor = '#000000';

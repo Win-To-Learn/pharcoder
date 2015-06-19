@@ -6,7 +6,7 @@
 var Starcoder = require('../Starcoder.js');
 
 var VectorSprite = require('./VectorSprite.js');
-var PhysicsInterface = require('./PhysicsInterface.js');
+var SyncBodyInterface = require('./SyncBodyInterface.js');
 
 var Paths = require('../common/Paths.js');
 
@@ -24,7 +24,7 @@ Crystal.add = function (game, config) {
 Crystal.prototype = Object.create(VectorSprite.prototype);
 Crystal.prototype.constructor = Crystal;
 
-Starcoder.mixinPrototype(Crystal.prototype, PhysicsInterface.prototype);
+Starcoder.mixinPrototype(Crystal.prototype, SyncBodyInterface.prototype);
 
 Crystal.prototype.lineColor = '#00ffff';
 Crystal.prototype.fillColor = '#000000';

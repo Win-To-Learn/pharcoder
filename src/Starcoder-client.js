@@ -42,6 +42,6 @@ Starcoder.prototype.attachPlugin = function () {
     return plugin;
 };
 
-Starcoder.prototype.role = 'client';
+Starcoder.prototype.role = 'Client';
 
 module.exports = Starcoder;

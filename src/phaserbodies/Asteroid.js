@@ -6,7 +6,7 @@
 var Starcoder = require('../Starcoder.js');
 
 var VectorSprite = require('./VectorSprite.js');
-var PhysicsInterface = require('./PhysicsInterface.js');
+var SyncBodyInterface = require('./SyncBodyInterface.js');
 
 var Paths = require('../common/Paths.js');
 
@@ -25,7 +25,7 @@ Asteroid.add = function (game, options) {
 Asteroid.prototype = Object.create(VectorSprite.prototype);
 Asteroid.prototype.constructor = Asteroid;
 
-Starcoder.mixinPrototype(Asteroid.prototype, PhysicsInterface.prototype);
+Starcoder.mixinPrototype(Asteroid.prototype, SyncBodyInterface.prototype);
 
 Asteroid.prototype.lineColor = '#ff00ff';
 Asteroid.prototype.fillColor = '#00ff00';

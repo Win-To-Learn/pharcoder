@@ -57,7 +57,6 @@ SyncBodyBase.prototype.clearAllShapes = function () {
  * Adjust body shape based on shape property with some reasonable fallbacks
  */
 SyncBodyBase.prototype.adjustShape = function () {
-    this.clearAllShapes();
     var polyflag = false;
     if (this.shape) {
         var vertices = [];
@@ -66,16 +65,13 @@ SyncBodyBase.prototype.adjustShape = function () {
             vertices.push([x + this.shape[i][0]*this.vectorScale, y + this.shape[i][1]*this.vectorScale]);
         }
         polyflag = this.fromPolygon(vertices);
-        //var convex = new p2.Convex(vertices);
-        //this.addShape(convex, [0, 0]);
-        if (polyflag) {
-       }
     }
     if (polyflag) {
         // Not entirely sure why this is necessary
         this.position[0] = x;
         this.position[1] = y;
     } else {
+        this.clearAllShapes();
         this.addShape(new p2.Circle(this._radius || 1));
     }
 };

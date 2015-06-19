@@ -28,12 +28,79 @@ var World = function (bounds, initialBodies) {
     this._syncableBodiesNew = [];
     this._syncableBodiesRemoved = [];
     this._ships = [];
+    this._cGroups = {};
+    this._cGroupIdx = 1;
     this._setBounds.apply(this, bounds);
     this._populate(initialBodies);
 };
 
 World.prototype = Object.create(p2.World.prototype);
 World.prototype.constructor = World;
+
+/**
+ * Set named collision group on body
+ *
+ * @param body {object} - Body to set group for
+ * @param groupname - Name of group
+ */
+World.prototype.setCollisionGroup = function (body, groupname) {
+    var gid = this._cGroups[groupname];
+    if (!gid) {
+        gid = this._createCollisionGroup(groupname);
+    }
+    for (var i = 0, l = body.shapes.length; i < l; i++) {
+        body.shapes[i].collisionGroup = gid;
+    }
+};
+
+/**
+ * Use named flags to set collision mask on body
+ *
+ * @param body {object} - Body to set mask for
+ * @param include {array} - List of groups to enable collisions for
+ * @param exclude {array} - List of groups to disable collisions for
+ */
+World.prototype.setCollisionMask = function (body, include, exclude) {
+    if (include && include.length > 1) {
+        var mask = 0x0001;                          // For wall collisions
+        for (var i = 0, l = include.length; i < l; i++) {
+            var gid = this._cGroups[include[i]];
+            if (!gid) {
+                gid = this._createCollisionGroup(include[i]);
+            }
+            mask |= gid;
+        }
+    } else {
+        mask = 0xffff;
+    }
+    if (exclude && exclude.length > 1) {
+        for (var i = 0, l = exclude.length; i < l; i++) {
+            gid = this._cGroups[exclude[i]];
+            if (!gid) {
+                gid = this._createCollisionGroup(exclude[i]);
+            }
+            mask &= ~gid;
+        }
+    }
+    for (var i = 0, l = body.shapes.length; i < l; i++) {
+        body.shapes[i].collisionMask = mask;
+    }
+};
+
+/**
+ * Create new collision group, with error check
+ *
+ * @param groupname
+ * @returns {number}
+ * @private
+ */
+World.prototype._createCollisionGroup = function (groupname) {
+    if (this._cGroupIdx >= 32) {
+        console.log('Cannot create new collision group');
+    } else {
+        return this._cGroups[groupname] = Math.pow(2, this._cGroupIdx++);
+    }
+};
 
 /**
  * Need to override so we easily trigger a callback on body being added
@@ -44,6 +111,18 @@ World.prototype.addBody = function (body) {
     p2.World.prototype.addBody.call(this, body);
     if (body.onWorldAdd) {
         body.onWorldAdd();
+    }
+};
+
+/**
+ * Need to override so we easily trigger a callback on body being removed (for cleaning up compound objects, etc.)
+ *
+ * @param body
+ */
+World.prototype.removeBody = function (body) {
+    p2.World.prototype.removeBody.call(this, body);
+    if (body.onWorldRemove) {
+        body.onWorldRemove();
     }
 };
 
@@ -67,7 +146,10 @@ World.prototype.addSyncableBody = function (ctor, config) {
     }
     var body = new ctor(c);
     this._syncableBodiesNew.push(body);
+    this.setCollisionGroup(body, body.collisionGroup || body.serverType || 'general');
+    this.setCollisionMask(body, body.collisionInclude, body.collisionExclude);
     this.addBody(body);
+    console.log(body.serverType, body.shapes[0].collisionGroup, body.shapes[0].collisionMask);
     return body;
 };
 

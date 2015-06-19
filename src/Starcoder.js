@@ -48,7 +48,7 @@ var config = {
         //    vectorScale: {random: 'float', lo: 0.4, hi: 0.8},
         //    mass: 5
         //}}
-        {type: 'Hydra', number: 3, config: {
+        {type: 'Hydra', number: 1, config: {
             position: {random: 'world', pad: 50}
         }}
     ]
@@ -57,6 +57,7 @@ var config = {
 var Starcoder = function () {
     this.config = config;
     // Initializers virtualized according to role
+    this.banner();
     this.init.apply(this, arguments);
     //this.initNet.call(this);
 };
@@ -80,6 +81,10 @@ Starcoder.mixinPrototype = function (target, mixin) {
         }
     }
 };
+
+Starcoder.prototype.banner = function () {
+    this.log('Starcoder', this.role, 'v' + this.config.version, 'started at', Date());
+}
 
 /**
  * Custom logging function to be featurefied as necessary

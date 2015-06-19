@@ -35,7 +35,6 @@ Starcoder.prototype.init = function (app, io) {
     this.initCollisionHandlers();
     this.initSync();
     this.world.start(1/60);
-    this.log('Starcoder Server', 'v' + this.config.version, 'started at', Date());
 };
 
 Starcoder.prototype.addPlayer = function (socket, type, descriptor) {
@@ -56,7 +55,7 @@ Starcoder.prototype.forEachPlayer = function (cb) {
     }
 };
 
-Starcoder.prototype.role = 'server';
+Starcoder.prototype.role = 'Server';
 
 // FIXME: Extend object
 

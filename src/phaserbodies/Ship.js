@@ -6,7 +6,7 @@
 var Starcoder = require('../Starcoder.js');
 
 var VectorSprite = require('./VectorSprite.js');
-var PhysicsInterface = require('./PhysicsInterface.js');
+var SyncBodyInterface = require('./SyncBodyInterface.js');
 var Engine = require('./Engine.js');
 var Weapons = require('./Weapons.js');
 
@@ -38,7 +38,7 @@ Ship.add = function (game, options) {
 Ship.prototype = Object.create(VectorSprite.prototype);
 Ship.prototype.constructor = Ship;
 
-Starcoder.mixinPrototype(Ship.prototype, PhysicsInterface.prototype);
+Starcoder.mixinPrototype(Ship.prototype, SyncBodyInterface.prototype);
 
 Ship.prototype.setLineStyle = function (color, lineWidth) {
     Starcoder.VectorSprite.prototype.setLineStyle.call(this, color, lineWidth);

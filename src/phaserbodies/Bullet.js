@@ -8,7 +8,7 @@
 var Starcoder = require('../Starcoder.js');
 
 var SimpleParticle = require('./SimpleParticle.js');
-var PhysicsInterface = require('./PhysicsInterface.js');
+var SyncBodyInterface = require('./SyncBodyInterface.js');
 
 var Bullet = function (game, config) {
     SimpleParticle.call(this, game, 'bullet');
@@ -18,6 +18,6 @@ var Bullet = function (game, config) {
 Bullet.prototype = Object.create(SimpleParticle.prototype);
 Bullet.prototype.constructor = Bullet;
 
-Starcoder.mixinPrototype(Bullet.prototype, PhysicsInterface.prototype);
+Starcoder.mixinPrototype(Bullet.prototype, SyncBodyInterface.prototype);
 
 module.exports = Bullet;
