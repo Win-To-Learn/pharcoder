@@ -39,6 +39,7 @@ var config = {
         {type: 'Asteroid', number: 25, config: {
             position: {random: 'world'},
             velocity: {random: 'vector', lo: -10, hi: 10},
+            angularVelocity: {random: 'float', lo: -5, hi: 5},
             vectorScale: {random: 'float', lo: 0.6, hi: 1.4},
             mass: 10
         }},

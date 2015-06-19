@@ -18,15 +18,12 @@ var VectorSprite = function (game, config) {
     this.vectorScale = config.properties.vectorScale || this.vectorScale;
 
     this.graphics = game.make.graphics();
-    //this.addChild(this.graphics);
+    this.texture = this.game.add.renderTexture();
 
     game.physics.p2.enable(this, false, false);
     this.updateAppearance();
     this.updateBody();
     this.body.mass = 0;
-    //this.body.data.position[0] = -config.x;
-    //this.body.data.position[1] = -config.y;
-    //console.log(this.graphics.getLocalBounds());
 };
 
 VectorSprite.add = function (game, x, y) {
@@ -80,12 +77,8 @@ VectorSprite.prototype.updateAppearance = function () {
         } else if (this.shape) {
             this.draw();
         }
-        //this.graphics.cacheAsBitmap = true;
-        //this.graphics.updateCache();
-        this.texture = this.game.add.renderTexture(this.graphics.width, this.graphics.height);
-        this.texture.renderXY(this.graphics, this.graphics.width/2, this.graphics.height/2);
-        //this.width = this.graphics.width;
-        //this.height = this.graphics.height;
+        this.texture.resize(this.graphics.width, this.graphics.height, true);
+        this.texture.renderXY(this.graphics, this.graphics.width/2, this.graphics.height/2, true);
         this.setTexture(this.texture);
     }
 };
@@ -105,7 +98,8 @@ VectorSprite.prototype.updateBody = function () {
     }
 };
 
-VectorSprite.prototype.draw = function () {
+VectorSprite.prototype.draw = function (renderScale) {
+    renderScale = renderScale || 1;
     // Draw simple shape, if given
     if (this.shape) {
          var lineColor = Phaser.Color.hexToRGB(this.lineColor);
@@ -115,7 +109,7 @@ VectorSprite.prototype.draw = function () {
             this.graphics.beginFill(fillColor, fillAlpha);
         }
         this.graphics.lineStyle(this.lineWidth, lineColor, 1);
-        this._drawPolygon(this.shape, this.shapeClosed);
+        this._drawPolygon(this.shape, this.shapeClosed, renderScale);
         if (this.fillColor) {
             this.graphics.endFill();
         }
@@ -127,15 +121,15 @@ VectorSprite.prototype.draw = function () {
             switch (g.type) {
                 case "poly":
                     // FIXME: defaults and stuff
-                    this._drawPolygon(g.points, g.closed);
+                    this._drawPolygon(g.points, g.closed, renderScale);
                     break;
             }
         }
     }
 };
 
-VectorSprite.prototype._drawPolygon = function (points, closed) {
-    var sc = this.game.physics.p2.mpxi(this.vectorScale);
+VectorSprite.prototype._drawPolygon = function (points, closed, renderScale) {
+    var sc = this.game.physics.p2.mpxi(this.vectorScale)*renderScale;
     points = points.slice();
     if (closed) {
         points.push(points[0]);
