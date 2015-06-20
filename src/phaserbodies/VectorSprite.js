@@ -19,7 +19,9 @@ var VectorSprite = function (game, config) {
 
     this.graphics = game.make.graphics();
     this.texture = this.game.add.renderTexture();
-    //this.minitexture = this.game.add.renderTexture();
+    this.minitexture = this.game.add.renderTexture();
+    this.minisprite = this.game.minimap.create();
+    this.minisprite.anchor.setTo(0.5, 0.5);
 
     game.physics.p2.enable(this, false, false);
     this.updateAppearance();
@@ -71,27 +73,27 @@ VectorSprite.prototype.setLineStyle = function (color, lineWidth) {
 };
 
 VectorSprite.prototype.updateAppearance = function () {
-    if (typeof this.animate === 'undefined') {
-        this.graphics.clear();
-        if (typeof this.drawProcedure !== 'undefined') {
-            this.drawProcedure();
-        } else if (this.shape) {
-            this.draw();
-        }
-        this.texture.resize(this.graphics.width, this.graphics.height, true);
-        this.texture.renderXY(this.graphics, this.graphics.width/2, this.graphics.height/2, true);
-        this.setTexture(this.texture);
-        // Draw mini texture - FIXME
-        this.graphics.clear();
-        if (typeof this.drawProcedure !== 'undefined') {
-            this.drawProcedure(0.025);
-        } else if (this.shape) {
-            this.draw(0.025);
-        }
-        this.graphics.cacheAsBitmap = true;
-        //this.minitexture.resize(this.graphics.width, this.graphics.height, true);
-        //this.minitexture.renderXY(this.graphics, this.graphics.width/2, this.graphics.height/2, true);
+    // Draw full sized
+    this.graphics.clear();
+    if (typeof this.drawProcedure !== 'undefined') {
+        this.drawProcedure();
+    } else if (this.shape) {
+        this.draw();
     }
+    this.texture.resize(this.graphics.width, this.graphics.height, true);
+    this.texture.renderXY(this.graphics, this.graphics.width/2, this.graphics.height/2, true);
+    this.setTexture(this.texture);
+    // Draw small for minimap
+    var mapScale = this.game.minimap.mapScale;
+    this.graphics.clear();
+    if (typeof this.drawProcedure !== 'undefined') {
+        this.drawProcedure(mapScale);
+    } else if (this.shape) {
+        this.draw(mapScale);
+    }
+    this.minitexture.resize(this.graphics.width, this.graphics.height, true);
+    this.minitexture.renderXY(this.graphics, this.graphics.width/2, this.graphics.height/2, true);
+    this.minisprite.setTexture(this.minitexture);
 };
 
 VectorSprite.prototype.updateBody = function () {
@@ -113,20 +115,25 @@ VectorSprite.prototype.draw = function (renderScale) {
     renderScale = renderScale || 1;
     // Draw simple shape, if given
     if (this.shape) {
-         var lineColor = Phaser.Color.hexToRGB(this.lineColor);
-        if (this.fillColor) {
+        var lineColor = Phaser.Color.hexToRGB(this.lineColor);
+        if (renderScale === 1) {
+            var lineWidth = this.lineWidth;
+        } else {
+            lineWidth = 1;
+        }
+        if ((renderScale === 1) && this.fillColor) {        // Only fill full sized
             var fillColor = Phaser.Color.hexToRGB(this.fillColor);
             var fillAlpha = this.fillAlpha || 1;
             this.graphics.beginFill(fillColor, fillAlpha);
         }
-        this.graphics.lineStyle(this.lineWidth, lineColor, 1);
+        this.graphics.lineStyle(lineWidth, lineColor, 1);
         this._drawPolygon(this.shape, this.shapeClosed, renderScale);
-        if (this.fillColor) {
+        if ((renderScale === 1) && this.fillColor) {
             this.graphics.endFill();
         }
     }
-    // Draw geometry spec, if given
-    if (this.geometry) {
+    // Draw geometry spec, if given, but only for the full sized sprite
+    if ((renderScale === 1) && this.geometry) {
         for (var i = 0, l = this.geometry.length; i < l; i++) {
             var g = this.geometry[i];
             switch (g.type) {

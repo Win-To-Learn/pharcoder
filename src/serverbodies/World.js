@@ -232,7 +232,9 @@ World.prototype._setBounds = function (l, t, r, b) {
     };
     for (var k in this._bounds) {
         var body = this._bounds[k];
-        body.addShape(new p2.Plane());
+        var shape = new p2.Plane();
+        shape.collisionMask = 0xffff;
+        body.addShape(shape);
         this.addBody(body);
     }
 };
@@ -242,14 +244,6 @@ World.prototype._populate = function (desc) {
         var ctor = bodyTypes[desc[i].type];
         var config = desc[i].config;
         for (var j = 0; j < desc[i].number; j++) {
-            //    var c = {};
-            //    for (var k in config) {
-            //        if (typeof config[k] === 'object' && config[k].random) {
-            //            c[k] = this._flexRand(config[k]);
-            //        } else {
-            //            c[k] = config[k];
-            //        }
-            //    }
             this.addSyncableBody(ctor, config);
         }
     }
