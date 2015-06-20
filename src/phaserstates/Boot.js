@@ -25,13 +25,13 @@ Boot.prototype.preload = function () {
     var floor = Math.floor;
     this.game.physics.config = {
         pxm: function (a) {
-            return floor(ipScale*a);
+            return ipScale*a;
         },
         mpx: function (a) {
             return floor(pScale*a);
         },
         pxmi: function (a) {
-            return floor(-ipScale*a);
+            return -ipScale*a;
         },
         mpxi: function (a) {
             return floor(-pScale*a);
@@ -45,7 +45,6 @@ Boot.prototype.preload = function () {
         this.starcoder.config.ioClientOptions);
     this.starcoder.socket.on('server ready', function (playerMsg) {
         // FIXME: Has to interact with session for authentication etc.
-        console.log('Player', playerMsg);
         self.starcoder.player = playerMsg;
         //self.starcoder.syncclient = self.game.plugins.add(SyncClient,
         //    self.starcoder.socket, self.starcoder.cmdQueue);

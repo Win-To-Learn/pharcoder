@@ -34,6 +34,7 @@ WorldApi.prototype.addBody = function (type, config) {
     this.game.playfield.add(body);
     if (playerShip) {
         this.game.camera.follow(body);
+        this.game.playerShip = body;
     }
     return body;
 };

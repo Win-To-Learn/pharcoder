@@ -6,6 +6,7 @@
 'use strict';
 
 var SimpleParticle = require('../phaserbodies/SimpleParticle.js');
+var ThrustGenerator = require('../phaserbodies/ThrustGenerator.js');
 var MiniMap = require('../phaserui/MiniMap.js');
 
 var Space = function () {};
@@ -14,7 +15,7 @@ Space.prototype = Object.create(Phaser.State.prototype);
 Space.prototype.constructor = Space;
 
 Space.prototype.preload = function () {
-    SimpleParticle.cacheTexture(this.game, 'thrust', '#ff6600', 2);
+    SimpleParticle.cacheTexture(this.game, ThrustGenerator.textureKey, '#ff6600', 8);
     SimpleParticle.cacheTexture(this.game, 'bullet', '#999999', 4);
     this.game.load.audio('playerthrust', 'assets/sounds/thrustLoop.ogg');
     //this.game.load.image('bitship', 'assets/ship.png');
@@ -44,6 +45,9 @@ Space.prototype.create = function () {
 
     this.starcoder.syncclient.start();
     this.starcoder.socket.emit('client ready');
+
+    // Groups for particle effects
+    this.game.thrustgenerator = new ThrustGenerator(this.game);
 
     // Group for game objects
     this.game.playfield = this.game.add.group();
@@ -95,7 +99,7 @@ Space.prototype.create = function () {
                 color = 'hsl(60,100%,' + rng.between(90,99) + '%)';
                 drawStar(ctx,
                     rng.between(q[0]+7, q[2]-7), rng.between(q[1]+7, q[3]-7),
-                    rng.between(3,6), color, rng.realInRange(0.5, 0.9));
+                    rng.between(2,4), color);
             }
         }
     }
@@ -103,12 +107,15 @@ Space.prototype.create = function () {
 };
 
 Space.prototype.update = function () {
+    // FIXME: just a mess for testing
     var self = this;
     this.starcoder.controls.processQueue(function (a) {
         if (a.type === 'up_pressed') {
             self.sounds.playerthrust.play();
+            self.game.thrustgenerator.startOn(self.game.playerShip);
         } else if (a.type === 'up_released') {
             self.sounds.playerthrust.stop();
+            self.game.thrustgenerator.stopOn(self.game.playerShip);
         }
     });
 };

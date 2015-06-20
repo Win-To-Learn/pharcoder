@@ -58,12 +58,12 @@ Starcoder.mixinPrototype(Ship.prototype, SyncBodyInterface.prototype);
 //];
 Ship.prototype.lineWidth = 6;
 
-Ship.prototype.update = function () {
-    if (Math.abs(this.x - this.previousPosition.x) > 10) {
-        console.log('Big jump');
-        console.log(this.game.time.now, this.x, this.previousPosition.x);
-    }
-};
+//Ship.prototype.update = function () {
+//    if (Math.abs(this.x - this.previousPosition.x) > 10) {
+//        console.log('Big jump');
+//        console.log(this.game.time.now, this.x, this.previousPosition.x);
+//    }
+//};
 
 module.exports = Ship;
 //Starcoder.Ship = Ship;

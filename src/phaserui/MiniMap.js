@@ -17,7 +17,6 @@ var MiniMap = function (game, width, height) {
         this.yOffset = -yr * this.game.starcoder.phaserTop;
         this.xOffset = -yr * this.game.starcoder.phaserLeft + (width - yr * this.game.starcoder.phaserWidth) / 2;
     }
-    console.log(this.mapScale, this.xOffset, this.yOffset);
 
     this.graphics = game.make.graphics(0, 0);
     this.graphics.beginFill(0x00ff00, 0.2);

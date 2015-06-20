@@ -52,6 +52,7 @@ SyncClient.prototype.start = function () {
                 }
             } else {
                 // New sprite - create and configure
+                //console.log('New', id, update.t);
                 sprite = starcoder.addBody(update.t, update);
                 sprite.serverId = id;
                 self.extant[id] = sprite;
