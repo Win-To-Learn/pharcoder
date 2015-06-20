@@ -34,6 +34,9 @@ MiniMap.prototype.update = function () {
     //this.texture.renderXY(this.graphics, 0, 0, true);
     for (var i = 0, l = this.game.playfield.children.length; i < l; i++) {
         var body = this.game.playfield.children[i];
+        if (!body.minisprite) {
+            continue;
+        }
         body.minisprite.x = this.worldToMmX(body.x);
         body.minisprite.y = this.worldToMmY(body.y);
         body.minisprite.angle = body.angle;

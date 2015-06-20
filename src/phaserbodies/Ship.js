@@ -40,10 +40,10 @@ Ship.prototype.constructor = Ship;
 
 Starcoder.mixinPrototype(Ship.prototype, SyncBodyInterface.prototype);
 
-Ship.prototype.setLineStyle = function (color, lineWidth) {
-    Starcoder.VectorSprite.prototype.setLineStyle.call(this, color, lineWidth);
-    this.tagText.setStyle({fill: color});
-};
+//Ship.prototype.setLineStyle = function (color, lineWidth) {
+//    Starcoder.VectorSprite.prototype.setLineStyle.call(this, color, lineWidth);
+//    this.tagText.setStyle({fill: color});
+//};
 
 //Ship.prototype.shape = [
 //    [-1,-1],
@@ -58,9 +58,12 @@ Ship.prototype.setLineStyle = function (color, lineWidth) {
 //];
 Ship.prototype.lineWidth = 6;
 
-//Ship.prototype.update = function () {
-//    this.engine.update();
-//};
+Ship.prototype.update = function () {
+    if (Math.abs(this.x - this.previousPosition.x) > 10) {
+        console.log('Big jump');
+        console.log(this.game.time.now, this.x, this.previousPosition.x);
+    }
+};
 
 module.exports = Ship;
 //Starcoder.Ship = Ship;

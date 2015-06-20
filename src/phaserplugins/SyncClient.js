@@ -140,7 +140,7 @@ SyncClient.prototype._processPhysicsUpdates = function () {
                 console.log('Lagging', oids[i]);
             } else {                    // No? Just bail
                 console.log('Bailing', oids[i]);
-                break;
+                continue;
             }
         } else {
             //console.log('Ok', interpTime, queue.length);
