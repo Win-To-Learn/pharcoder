@@ -18,6 +18,7 @@ var _connected = false;
 
 Boot.prototype.preload = function () {
     //this.game.stage.disableVisibilityChange = true;
+    this.game.scale.scaleMode = Phaser.ScaleManager.RESIZE;
     var self = this;
     var pScale = this.starcoder.config.physicsScale;
     var ipScale = 1/pScale;
