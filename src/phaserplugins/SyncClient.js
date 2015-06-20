@@ -96,7 +96,7 @@ SyncClient.prototype._sendCommands = function () {
     }
     if (actions.length) {
         this.socket.emit('do', actions);
-        console.log('sending actions', actions);
+        //console.log('sending actions', actions);
     }
 };
 

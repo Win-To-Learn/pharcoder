@@ -16,6 +16,7 @@ Space.prototype.constructor = Space;
 Space.prototype.preload = function () {
     SimpleParticle.cacheTexture(this.game, 'thrust', '#ff6600', 2);
     SimpleParticle.cacheTexture(this.game, 'bullet', '#999999', 4);
+    this.game.load.audio('playerthrust', 'assets/sounds/thrustLoop.ogg');
     //this.game.load.image('bitship', 'assets/ship.png');
 };
 
@@ -31,6 +32,10 @@ Space.prototype.create = function () {
     this.game.time.advancedTiming = true;
 
     this.starcoder.controls.reset();
+
+    // Sounds
+    this.sounds = {};
+    this.sounds.playerthrust = this.game.sound.add('playerthrust', 1, true);
 
     // Background
     var starfield = this.game.make.bitmapData(600, 600);
@@ -98,8 +103,13 @@ Space.prototype.create = function () {
 };
 
 Space.prototype.update = function () {
+    var self = this;
     this.starcoder.controls.processQueue(function (a) {
-        console.log(a);
+        if (a.type === 'up_pressed') {
+            self.sounds.playerthrust.play();
+        } else if (a.type === 'up_released') {
+            self.sounds.playerthrust.stop();
+        }
     });
 };
 
