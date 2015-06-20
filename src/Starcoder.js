@@ -63,6 +63,64 @@ var Starcoder = function () {
     //this.initNet.call(this);
 };
 
+Starcoder.prototype.extendConfig = function (config) {
+    for (var k in config) {
+        if (config.hasOwnProperty(k)) {
+            this.config[k] = config[k];
+        }
+    }
+};
+
+// Convenience function for common config options
+
+Object.defineProperty(Starcoder.prototype, 'worldWidth', {
+    get: function () {
+        return this.config.worldBounds[2] - this.config.worldBounds[0];
+    }
+});
+
+Object.defineProperty(Starcoder.prototype, 'phaserWidth', {
+    get: function () {
+        return this.config.physicsScale * (this.config.worldBounds[2] - this.config.worldBounds[0]);
+    }
+});
+
+Object.defineProperty(Starcoder.prototype, 'worldHeight', {
+    get: function () {
+        return this.config.worldBounds[3] - this.config.worldBounds[1];
+    }
+});
+
+Object.defineProperty(Starcoder.prototype, 'phaserHeight', {
+    get: function () {
+        return this.config.physicsScale * (this.config.worldBounds[3] - this.config.worldBounds[1]);
+    }
+});
+
+Object.defineProperty(Starcoder.prototype, 'phaserLeft', {
+    get: function () {
+        return this.config.physicsScale * this.config.worldBounds[0];
+    }
+});
+
+Object.defineProperty(Starcoder.prototype, 'phaserTop', {
+    get: function () {
+        return this.config.physicsScale * this.config.worldBounds[1];
+    }
+});
+
+Object.defineProperty(Starcoder.prototype, 'phaserRight', {
+    get: function () {
+        return this.config.physicsScale * this.config.worldBounds[2];
+    }
+});
+
+Object.defineProperty(Starcoder.prototype, 'phaserBottom', {
+    get: function () {
+        return this.config.physicsScale * this.config.worldBounds[3];
+    }
+});
+
 /**
  * Add mixin properties to target. Adapted (slightly) from Phaser
  *

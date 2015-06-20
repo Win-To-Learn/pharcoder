@@ -47,7 +47,7 @@ Space.prototype.create = function () {
     this.game.ui = this.game.add.group();
     this.game.ui.fixedToCamera = true;
 
-    this.game.minimap = new MiniMap(this.game);
+    this.game.minimap = new MiniMap(this.game, 300, 300);
     this.game.ui.add(this.game.minimap);
     this.game.x = 10;
     this.game.y = 10;

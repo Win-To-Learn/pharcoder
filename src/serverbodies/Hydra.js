@@ -39,6 +39,7 @@ HydraHead.prototype.onWorldAdd = function () {
         for (var j = 0; j < this.numSegments; j++) {
             scale *= 0.8;
             radius += 5*scale;
+            angle -= Math.PI / 36;
             var arm = this.world.addSyncableBody(HydraArm, {vectorScale: scale});
             arm.position[0] = this.position[0] + radius * Math.cos(angle);
             arm.position[1] = this.position[1] + radius * Math.sin(angle);
@@ -47,7 +48,7 @@ HydraHead.prototype.onWorldAdd = function () {
                 arm.armParent = this;
             } else {
                 constraint = new p2.RevoluteConstraint(lastarm, arm, {worldPivot: lastarm.position});
-                constraint.setLimits(-Math.PI/6, Math.PI/6);
+                constraint.setLimits(-Math.PI/4, Math.PI/4);
                 arm.armParent = lastarm;
             }
             lastarm = arm;
