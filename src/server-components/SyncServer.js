@@ -27,8 +27,6 @@ SyncServer.prototype.initSync = function () {
             self.attachActions(player);
         });
     });
-    // Send updates
-    //setInterval(this.sendUpdates.bind(this), this.config.updateInterval);
 };
 
 SyncServer.prototype.sendUpdates = function () {
@@ -46,7 +44,7 @@ SyncServer.prototype.sendUpdates = function () {
     }
     for (var i = pids.length - 1; i >= 0; i--) {
         var player = this.players[pids[i]];
-        var update = {w: wtime, r: rtime, b: []};
+        var update = {w: wtime, r: rtime, b: [], rm: removed};
         // Old bodies - only send full updates to new players
         for (j = world._syncableBodies.length - 1; j >= 0; j--) {
             var body = world._syncableBodies[j];
@@ -60,23 +58,29 @@ SyncServer.prototype.sendUpdates = function () {
                 b = body.getUpdatePacket(player.newborn);
                 cachePointer[body.id] = b;
             }
+            if (player.newborn) {
+                console.log('sending', body.id, 'to', player.id, 'bc new player');
+            }
             //console.log('Old', body.id, body.clientType);
             update.b.push(b);
         }
-        cachePointer = fullUpdateCache;
+        // New bodies - send full updates to everyone
         for (j = world._syncableBodiesNew.length - 1; j >= 0; j--) {
             body = world._syncableBodiesNew[j];
-            b = cachePointer[body.id];
+            b = fullUpdateCache[body.id];
             if (!b) {
                 b = body.getUpdatePacket(true);
-                cachePointer[body.id] = b;
+                fullUpdateCache[body.id] = b;
             }
             update.b.push(b);
-            world._syncableBodies.push(body);
+            console.log('sending', body.id, 'to', player.id, 'bc new obj');
+            //world._syncableBodies.push(body);
         }
-        update.rm = removed;
         player.socket.emit('update', update);
         player.newborn = false;
+    }
+    for (j = world._syncableBodiesNew.length - 1; j >= 0; j--) {
+        world._syncableBodies.push(world._syncableBodiesNew[j]);
     }
     world._syncableBodiesNew.length = 0;
     world._syncableBodiesRemoved.length = 0;

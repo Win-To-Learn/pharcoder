@@ -35,8 +35,8 @@ Space.prototype.create = function () {
     this.starcoder.controls.reset();
 
     // Sounds
-    this.sounds = {};
-    this.sounds.playerthrust = this.game.sound.add('playerthrust', 1, true);
+    this.game.sounds = {};
+    this.game.sounds.playerthrust = this.game.sound.add('playerthrust', 1, true);
 
     // Background
     var starfield = this.game.make.bitmapData(600, 600);
@@ -56,6 +56,16 @@ Space.prototype.create = function () {
     this.game.ui = this.game.add.group();
     this.game.ui.fixedToCamera = true;
 
+    // Inventory
+    var label = this.game.make.text(1700, 25, 'INVENTORY', {font: '24px Arial', fill: '#ff9900', align: 'center'});
+    label.anchor.setTo(0.5);
+    this.game.ui.add(label);
+    this.game.inventorytext = this.game.make.text(1700, 50, '0 crystals',
+        {font: '24px Arial', fill: '#ccc000', align: 'center'});
+    this.game.inventorytext.anchor.setTo(0.5);
+    this.game.ui.add(this.game.inventorytext);
+
+    //MiniMap
     this.game.minimap = new MiniMap(this.game, 300, 300);
     this.game.ui.add(this.game.minimap);
     this.game.x = 10;
@@ -111,11 +121,13 @@ Space.prototype.update = function () {
     var self = this;
     this.starcoder.controls.processQueue(function (a) {
         if (a.type === 'up_pressed') {
-            self.sounds.playerthrust.play();
-            self.game.thrustgenerator.startOn(self.game.playerShip);
+            self.game.playerShip.localState.thrust = 'starting';
+            //self.game.sounds.playerthrust.play();
+            //self.game.thrustgenerator.startOn(self.game.playerShip);
         } else if (a.type === 'up_released') {
-            self.sounds.playerthrust.stop();
-            self.game.thrustgenerator.stopOn(self.game.playerShip);
+            self.game.playerShip.localState.thrust = 'shutdown';
+            //self.game.sounds.playerthrust.stop();
+            //self.game.thrustgenerator.stopOn(self.game.playerShip);
         }
     });
 };

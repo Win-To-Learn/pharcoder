@@ -34,6 +34,11 @@ A rough, sort of ranked but not really list to achieve parity with Isogenic Star
 
 Seems like a lot, but most of these are relatively easy.
 
+## Bugs
+
+Probably more than a few. Right now there's a problem with multiplayer. It worked in a earlier build - I just need to
+unroll the change that created it.
+
 ## Hacking
 
 I'd prefer it if changes were pushed to new branches, particularly if they're just tinkering.

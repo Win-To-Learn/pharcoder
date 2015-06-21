@@ -54,9 +54,11 @@ SyncClient.prototype.start = function () {
                 // New sprite - create and configure
                 //console.log('New', id, update.t);
                 sprite = starcoder.addBody(update.t, update);
-                sprite.serverId = id;
-                self.extant[id] = sprite;
-                sprite.updateQueue = [update];
+                if (sprite) {
+                    sprite.serverId = id;
+                    self.extant[id] = sprite;
+                    sprite.updateQueue = [update];
+                }
             }
         }
         for (i = 0, l = data.rm.length; i < l; i++) {

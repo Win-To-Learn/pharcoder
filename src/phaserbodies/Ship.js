@@ -26,7 +26,9 @@ var Ship = function (game, config) {
         config.tag, {font: 'bold 18px Arial', fill: this.lineColor || '#ffffff', align: 'center'});
     this.tagText.anchor.setTo(0.5, 0);
     this.addChild(this.tagText);
-    //this.setChildIndex(this.engine, 0);
+    this.localState = {
+        thrust: 'off'
+    }
 };
 
 Ship.add = function (game, options) {
@@ -58,12 +60,19 @@ Starcoder.mixinPrototype(Ship.prototype, SyncBodyInterface.prototype);
 //];
 Ship.prototype.lineWidth = 6;
 
-//Ship.prototype.update = function () {
-//    if (Math.abs(this.x - this.previousPosition.x) > 10) {
-//        console.log('Big jump');
-//        console.log(this.game.time.now, this.x, this.previousPosition.x);
-//    }
-//};
+Ship.prototype.update = function () {
+    switch (this.localState.thrust) {
+        case 'starting':
+            this.game.sounds.playerthrust.play();
+            this.game.thrustgenerator.startOn(this);
+            this.localState.thrust = 'on';
+            break;
+        case 'shutdown':
+            this.game.sounds.playerthrust.stop();
+            this.game.thrustgenerator.stopOn(this);
+            this.localState.thrust = 'off';
+    }
+};
 
 module.exports = Ship;
 //Starcoder.Ship = Ship;
