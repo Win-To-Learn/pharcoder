@@ -129,7 +129,6 @@ World.prototype.removeBody = function (body) {
 World.prototype.addPlayerShip = function (player) {
     var ship = this.addSyncableBody(bodyTypes.Ship,
         {position: {random: 'world', pad: 25}, lineColor: {random: 'color'}}, player);
-    console.log('new ship', ship.id);
     ship.player = player;
     player.addShip(ship);
     this._ships.push(ship);

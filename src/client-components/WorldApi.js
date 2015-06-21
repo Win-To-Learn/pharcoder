@@ -28,9 +28,6 @@ WorldApi.prototype.addBody = function (type, config) {
         // Only the player's own ship is treated as dynamic in the local physics sim
         config.mass = this.config.physicsProperties.Ship.mass;
         playerShip = true;
-        console.log('my ship');
-    } else if (type === 'Ship') {
-        console.log('new foreign ship', config.id);
     }
     var body = new ctor(this.game, config);
     //this.game.add.existing(body);

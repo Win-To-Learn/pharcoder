@@ -12,21 +12,22 @@ SyncServer.prototype.initSync = function () {
     this.nsSync = this.io.of('/sync');
     // New connection
     this.nsSync.on('connect', function (socket) {
-        var player = self.addPlayer(socket);     // FIXME: details
         // Handshake
+        var player = self.newPlayer(socket);     // FIXME: details
         socket.emit('server ready', player.msgNew());
         socket.on('client ready', function () {
+            self.addPlayer(player);
             self.world.addPlayerShip(player);
             socket.emit('timesync', self.hrtime());
             setInterval(function () {
                socket.emit('timesync', self.hrtime());
             }, self.config.timeSyncFreq*1000);
-            setInterval(function () {
-                self.sendUpdates();
-            }, self.config.updateInterval);
             self.attachActions(player);
         });
     });
+    setInterval(function () {
+        self.sendUpdates();
+    }, self.config.updateInterval);
 };
 
 SyncServer.prototype.sendUpdates = function () {
@@ -44,9 +45,6 @@ SyncServer.prototype.sendUpdates = function () {
     }
     for (var i = pids.length - 1; i >= 0; i--) {
         var player = this.players[pids[i]];
-        if (player.newborn) {
-            console.log('newborn player at', world.time);
-        }
         var update = {w: wtime, r: rtime, b: [], rm: removed};
         // Old bodies - only send full updates to new players
         for (j = world._syncableBodies.length - 1; j >= 0; j--) {
@@ -61,9 +59,6 @@ SyncServer.prototype.sendUpdates = function () {
                 b = body.getUpdatePacket(player.newborn);
                 cachePointer[body.id] = b;
             }
-            if (player.newborn) {
-                console.log('sending', b.id, 'to', player.id, 'bc new player', world.time, b.x);
-            }
             //console.log('Old', body.id, body.clientType);
             update.b.push(b);
         }
@@ -76,7 +71,6 @@ SyncServer.prototype.sendUpdates = function () {
                 fullUpdateCache[body.id] = b;
             }
             update.b.push(b);
-            console.log('sending', b.id, 'to', player.id, 'bc new obj', world.time, b.x);
             //world._syncableBodies.push(body);
         }
         player.socket.emit('update', update);

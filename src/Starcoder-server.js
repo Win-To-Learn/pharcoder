@@ -37,15 +37,18 @@ Starcoder.prototype.init = function (app, io) {
     this.world.start(1/60);
 };
 
-Starcoder.prototype.addPlayer = function (socket, type, descriptor) {
+Starcoder.prototype.newPlayer = function (socket, type, descriptor) {
     if (!type) {
         type = Guest;
     } else {
         type = Players.playerTypes[type];
     }
     var player = new type(socket, descriptor);
-    this.players[socket.id] = player;
     return player;
+};
+
+Starcoder.prototype.addPlayer = function (player) {
+    this.players[player.socket.id] = player;
 };
 
 Starcoder.prototype.forEachPlayer = function (cb) {

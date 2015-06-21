@@ -36,8 +36,8 @@ Seems like a lot, but most of these are relatively easy.
 
 ## Bugs
 
-Probably more than a few. Right now there's a problem with multiplayer. It worked in a earlier build - I just need to
-unroll the change that created it.
+Probably more than a few. ~~Right now there's a problem with multiplayer. It worked in a earlier build - I just need to
+unroll the change that created it.~~
 
 ## Hacking
 
