@@ -6,8 +6,10 @@
 
 var p2 = require('p2');
 
-var SyncBodyBase = require('./SyncBodyBase');
+var Starcoder = require('../Starcoder.js');
 
+var SyncBodyBase = require('./SyncBodyBase');
+var UpdateProperties = require('../common/UpdateProperties.js').GenericOrb;
 var Paths = require('../common/Paths.js');
 
 var HydraHead = function (config, world) {
@@ -17,13 +19,15 @@ var HydraHead = function (config, world) {
 HydraHead.prototype = Object.create(SyncBodyBase.prototype);
 HydraHead.prototype.constructor = HydraHead;
 
+Starcoder.mixinPrototype(HydraHead.prototype, UpdateProperties.prototype);
+
 HydraHead.prototype.clientType = 'GenericOrb';
 HydraHead.prototype.serverType = 'HydraHead';
 
 HydraHead.prototype.collisionGroup = 'Hydra';
 HydraHead.prototype.collisionExclude = ['Hydra'];
 
-HydraHead.prototype.updateProperties = ['lineColor', 'vectorScale'];
+//HydraHead.prototype.updateProperties = ['lineColor', 'vectorScale'];
 HydraHead.prototype.defaults = {mass: 100, vectorScale: 1.5, numArms: 5, numSegments: 4,
     spinForce: 50000, spinSpeed: 5, lineColor: '#ff00ff', angularDamping: 0};
 
@@ -70,6 +74,8 @@ var HydraArm = function (config) {
 
 HydraArm.prototype = Object.create(SyncBodyBase.prototype);
 HydraArm.prototype.constructor = HydraArm;
+
+Starcoder.mixinPrototype(HydraArm.prototype, UpdateProperties.prototype);
 
 HydraArm.prototype.clientType = 'GenericOrb';
 HydraArm.prototype.serverType = 'HydraArm';

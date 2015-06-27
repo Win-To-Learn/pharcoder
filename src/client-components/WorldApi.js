@@ -44,4 +44,10 @@ WorldApi.prototype.removeBody = function (sprite) {
     this.game.physics.p2.removeBody(sprite.body);
 };
 
+WorldApi.prototype.configure = function (properties) {
+    for (var k in this.updateProperties) {
+        this[k] = properties[k];
+    }
+};
+
 module.exports = WorldApi;

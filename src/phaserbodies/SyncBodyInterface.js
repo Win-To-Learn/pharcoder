@@ -19,8 +19,13 @@ SyncBodyInterface.prototype.setPosAngle = function (x, y, a) {
     this.body.data.angle = a || 0;
 };
 
-SyncBodyInterface.prototype.config = function (config) {
-    // TBD
+SyncBodyInterface.prototype.config = function (properties) {
+    for (var i = 0, l = this.updateProperties.length; i < l; i++) {
+        var k = this.updateProperties[i];
+        if (properties[k]) {
+            this[k] = properties[k];        // FIXME? Virtualize somehow
+        }
+    }
 };
 
 module.exports = SyncBodyInterface;

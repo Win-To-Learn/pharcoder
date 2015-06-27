@@ -8,14 +8,14 @@
 var VectorSprite = function (game, config) {
     Phaser.Sprite.call(this, game);
 
-    this.shape = config.properties.shape || this.shape;
-    this.shapeClosed = config.properties.shape || this.shapeClosed;
-    this.lineWidth = config.properties.lineWidth || this.lineWidth;
-    this.lineColor = config.properties.lineColor || this.lineColor;
-    this.fillColor = config.properties.fillColor || this.fillColor;
-    this.fillAlpha = config.properties.fillAlpha || this.fillAlpha;
-    this.geometry = config.properties.geometry || this.geometry;
-    this.vectorScale = config.properties.vectorScale || this.vectorScale;
+    //this.shape = config.properties.shape || this.shape;
+    //this.shapeClosed = config.properties.shape || this.shapeClosed;
+    //this.lineWidth = config.properties.lineWidth || this.lineWidth;
+    //this.lineColor = config.properties.lineColor || this.lineColor;
+    //this.fillColor = config.properties.fillColor || this.fillColor;
+    //this.fillAlpha = config.properties.fillAlpha || this.fillAlpha;
+    //this.geometry = config.properties.geometry || this.geometry;
+    //this.vectorScale = config.properties.vectorScale || this.vectorScale;
 
     this.graphics = game.make.graphics();
     this.texture = this.game.add.renderTexture();
@@ -24,6 +24,8 @@ var VectorSprite = function (game, config) {
     this.minisprite.anchor.setTo(0.5, 0.5);
 
     game.physics.p2.enable(this, false, false);
+    this.setPosAngle(config.x, config.y, config.a);
+    this.config(config.properties);
     this.updateAppearance();
     this.updateBody();
     this.body.mass = 0;

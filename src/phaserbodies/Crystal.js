@@ -7,12 +7,12 @@ var Starcoder = require('../Starcoder.js');
 
 var VectorSprite = require('./VectorSprite.js');
 var SyncBodyInterface = require('./SyncBodyInterface.js');
-
+var UpdateProperties = require('../common/UpdateProperties.js').Crystal;
 var Paths = require('../common/Paths.js');
 
 var Crystal = function (game, config) {
     VectorSprite.call(this, game, config);
-    this.setPosAngle(config.x, config.y, config.a);
+    //this.setPosAngle(config.x, config.y, config.a);
 };
 
 Crystal.add = function (game, config) {
@@ -25,6 +25,7 @@ Crystal.prototype = Object.create(VectorSprite.prototype);
 Crystal.prototype.constructor = Crystal;
 
 Starcoder.mixinPrototype(Crystal.prototype, SyncBodyInterface.prototype);
+Starcoder.mixinPrototype(Crystal.prototype, UpdateProperties.prototype);
 
 Crystal.prototype.lineColor = '#00ffff';
 Crystal.prototype.fillColor = '#000000';

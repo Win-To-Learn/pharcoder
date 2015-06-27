@@ -6,7 +6,12 @@
 'use strict';
 
 var p2 = require('p2');
+
+var Starcoder = require('../Starcoder.js');
+
 var SyncBodyBase = require('./SyncBodyBase.js');
+var UpdateProperties = require('../common/UpdateProperties.js').Ship;
+
 var Bullet = require('./Bullet.js');
 
 var Ship = function (config) {
@@ -31,6 +36,8 @@ var Ship = function (config) {
 
 Ship.prototype = Object.create(SyncBodyBase.prototype);
 Ship.prototype.constructor = Ship;
+
+Starcoder.mixinPrototype(Ship.prototype, UpdateProperties.prototype);
 
 Ship.prototype.clientType = 'Ship';
 Ship.prototype.serverType = 'Ship';
