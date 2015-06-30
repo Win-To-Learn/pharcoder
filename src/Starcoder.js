@@ -15,7 +15,7 @@
 
 var config = {
     version: '0.1',
-    serverUri: 'http://localhost:8080',
+    serverUri: 'http://localhost:8081',
     //worldBounds: [-4200, -4200, 8400, 8400],
     worldBounds: [-200, -200, 200, 200],
     ioClientOptions: {
