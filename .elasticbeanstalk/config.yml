@@ -1,4 +1,6 @@
 branch-defaults:
+  aws:
+    environment: pharcoder-dev
   master:
     environment: pharcoder-dev
 global:
