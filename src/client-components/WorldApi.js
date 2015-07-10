@@ -54,6 +54,10 @@ WorldApi.prototype.addBody = function (type, config) {
  */
 WorldApi.prototype.removeBody = function (sprite) {
     sprite.kill();
+    // Remove minisprite
+    if (sprite.minisprite) {
+        sprite.minisprite.kill();
+    }
     this.game.physics.p2.removeBody(sprite.body);
 };
 
