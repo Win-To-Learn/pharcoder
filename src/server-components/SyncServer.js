@@ -1,5 +1,5 @@
 /**
- * Sync.js
+ * SyncServer.js
  *
  * Mixin for world sync subsystem
  */
@@ -7,29 +7,22 @@
 
 var SyncServer = function () {};
 
-SyncServer.prototype.initSync = function () {
+/**
+ * Initialize sync system
+ */
+SyncServer.prototype.initSyncServer = function () {
     var self = this;
-    this.nsSync = this.io.of('/sync');
-    // New connection
-    this.nsSync.on('connect', function (socket) {
-        // Handshake
-        var player = self.newPlayer(socket);     // FIXME: details
-        socket.emit('server ready', player.msgNew());
-        socket.on('client ready', function () {
-            self.addPlayer(player);
-            self.world.addPlayerShip(player);
-            socket.emit('timesync', self.hrtime());
-            setInterval(function () {
-               socket.emit('timesync', self.hrtime());
-            }, self.config.timeSyncFreq*1000);
-            self.attachActions(player);
-        });
-    });
+    //this.clientReadyFunctions.push(clientReady.bind(this));
     setInterval(function () {
         self.sendUpdates();
     }, self.config.updateInterval);
 };
 
+SyncServer.prototype
+
+/**
+ * Send updates to all connected clients
+ */
 SyncServer.prototype.sendUpdates = function () {
     var world = this.world;
     var updateCache = {};
@@ -76,8 +69,13 @@ SyncServer.prototype.sendUpdates = function () {
         player.socket.emit('update', update);
         player.newborn = false;
     }
+    // Move newly created bodies to general body list
     for (j = world._syncableBodiesNew.length - 1; j >= 0; j--) {
         world._syncableBodies.push(world._syncableBodiesNew[j]);
+    }
+    // Clear dirty flags
+    for (j = world._syncableBodies.length - 1; j >=0; j--) {
+        world._syncableBodies[j]._dirtyProperties = {};
     }
     world._syncableBodiesNew.length = 0;
     world._syncableBodiesRemoved.length = 0;
@@ -87,11 +85,6 @@ SyncServer.prototype.sendUpdates = function () {
     //        body.newborn = false;
     //    }
     //}
-};
-
-SyncServer.prototype.hrtime = function () {
-    var hr = process.hrtime();
-    return Math.floor(hr[0]*1000 + hr[1]*1e-6);
 };
 
 module.exports = SyncServer;

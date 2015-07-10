@@ -5,17 +5,15 @@
 
 //var Starcoder = require('../../Starcoder-client.js');
 
+/**
+ * Base class for Vector-based sprites
+ *
+ * @param game {Phaser.Game} - Phaser game object
+ * @param config {object} - POJO with config details
+ * @constructor
+ */
 var VectorSprite = function (game, config) {
     Phaser.Sprite.call(this, game);
-
-    //this.shape = config.properties.shape || this.shape;
-    //this.shapeClosed = config.properties.shape || this.shapeClosed;
-    //this.lineWidth = config.properties.lineWidth || this.lineWidth;
-    //this.lineColor = config.properties.lineColor || this.lineColor;
-    //this.fillColor = config.properties.fillColor || this.fillColor;
-    //this.fillAlpha = config.properties.fillAlpha || this.fillAlpha;
-    //this.geometry = config.properties.geometry || this.geometry;
-    //this.vectorScale = config.properties.vectorScale || this.vectorScale;
 
     this.graphics = game.make.graphics();
     this.texture = this.game.add.renderTexture();
@@ -31,6 +29,14 @@ var VectorSprite = function (game, config) {
     this.body.mass = 0;
 };
 
+/**
+ * Create VectorSprite and add to game world
+ *
+ * @param game {Phaser.Game}
+ * @param x {number} - x coord
+ * @param y {number} - y coord
+ * @returns {VectorSprite}
+ */
 VectorSprite.add = function (game, x, y) {
     var v = new VectorSprite(game, x, y);
     game.add.existing(v);
@@ -74,6 +80,9 @@ VectorSprite.prototype.setLineStyle = function (color, lineWidth) {
     this.updateAppearance();
 };
 
+/**
+ * Update cached bitmaps for object after vector properties change
+ */
 VectorSprite.prototype.updateAppearance = function () {
     // Draw full sized
     this.graphics.clear();
@@ -113,6 +122,11 @@ VectorSprite.prototype.updateBody = function () {
     }
 };
 
+/**
+ * Render vector to bitmap of graphics object at given scale
+ *
+ * @param renderScale {number} - scale factor for render
+ */
 VectorSprite.prototype.draw = function (renderScale) {
     renderScale = renderScale || 1;
     // Draw simple shape, if given
@@ -148,6 +162,14 @@ VectorSprite.prototype.draw = function (renderScale) {
     }
 };
 
+/**
+ * Draw open or closed polygon as sequence of lineTo calls
+ *
+ * @param points {Array} - points as array of [x,y] pairs
+ * @param closed {boolean} - is polygon closed?
+ * @param renderScale {number} - scale factor for render
+ * @private
+ */
 VectorSprite.prototype._drawPolygon = function (points, closed, renderScale) {
     var sc = this.game.physics.p2.mpxi(this.vectorScale)*renderScale;
     points = points.slice();

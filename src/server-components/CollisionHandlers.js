@@ -45,7 +45,9 @@ function ShipAsteroid (ship, asteroid) {
 }
 
 function ShipCrystal (ship, crystal) {
-    console.log('Ship Crystal');
+    crystal.state = 'picked up';
+    ship.crystals += 50;
+    this.send(ship.player, 'crystal pickup', ship.player.crystals);
 }
 
 module.exports = CollisionHandlers;

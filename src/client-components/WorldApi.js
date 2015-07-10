@@ -15,6 +15,14 @@ var bodyTypes = {
     GenericOrb: require('../phaserbodies/GenericOrb.js')
 };
 
+/**
+ * Add body to world on client side
+ *
+ * @param type {string} - type name of object to add
+ * @param config {object} - properties for new object
+ * @returns {Phaser.Sprite} - newly added object
+ */
+
 WorldApi.prototype.addBody = function (type, config) {
     var ctor = bodyTypes[type];
     var playerShip = false;
@@ -39,15 +47,25 @@ WorldApi.prototype.addBody = function (type, config) {
     return body;
 };
 
+/**
+ * Remove body from game world
+ *
+ * @param sprite {Phaser.Sprite} - object to remove
+ */
 WorldApi.prototype.removeBody = function (sprite) {
     sprite.kill();
     this.game.physics.p2.removeBody(sprite.body);
 };
 
-WorldApi.prototype.configure = function (properties) {
-    for (var k in this.updateProperties) {
-        this[k] = properties[k];
-    }
-};
+/**
+ * Configure object with given properties
+ *
+ * @param properties {object}
+ */
+//WorldApi.prototype.configure = function (properties) {
+//    for (var k in this.updateProperties) {
+//        this[k] = properties[k];
+//    }
+//};
 
 module.exports = WorldApi;

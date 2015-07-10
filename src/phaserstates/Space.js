@@ -18,7 +18,7 @@ Space.prototype.preload = function () {
     SimpleParticle.cacheTexture(this.game, ThrustGenerator.textureKey, '#ff6600', 8);
     SimpleParticle.cacheTexture(this.game, 'bullet', '#999999', 4);
     this.game.load.audio('playerthrust', 'assets/sounds/thrustLoop.ogg');
-    //this.game.load.image('bitship', 'assets/ship.png');
+    this.game.load.audio('chime', 'assets/sounds/chime.mp3');
 };
 
 Space.prototype.create = function () {
@@ -37,6 +37,7 @@ Space.prototype.create = function () {
     // Sounds
     this.game.sounds = {};
     this.game.sounds.playerthrust = this.game.sound.add('playerthrust', 1, true);
+    this.game.sounds.chime = this.game.sound.add('chime', 1, false);
 
     // Background
     var starfield = this.game.make.bitmapData(600, 600);
@@ -45,6 +46,7 @@ Space.prototype.create = function () {
 
     this.starcoder.syncclient.start();
     this.starcoder.socket.emit('client ready');
+    this._setupMessageHandlers(this.starcoder.socket);
 
     // Groups for particle effects
     this.game.thrustgenerator = new ThrustGenerator(this.game);
@@ -144,6 +146,13 @@ Space.prototype.render = function () {
     //if (this.ship) {
     //    this.game.debug.spriteInfo(this.ship, 420, 20);
     //}
+};
+
+Space.prototype._setupMessageHandlers = function (socket) {
+    var self = this;
+    socket.on('msg crystal pickup', function () {
+        self.game.sounds.chime.play();
+    });
 };
 
 module.exports = Space;

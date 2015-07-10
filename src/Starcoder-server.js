@@ -7,6 +7,7 @@
 
 var Starcoder = require('./Starcoder.js');
 var SyncServer = require('./server-components/SyncServer.js');
+var MsgServer = require('./server-components/MsgServer.js');
 var ControlEndPoint = require('./server-components/ControlEndPoint.js');
 var CollisionHandlers = require('./server-components/CollisionHandlers.js');
 
@@ -18,6 +19,7 @@ var Guest = require('./players/Guest.js');
 Starcoder.mixinPrototype(Starcoder.prototype, SyncServer.prototype);
 Starcoder.mixinPrototype(Starcoder.prototype, ControlEndPoint.prototype);
 Starcoder.mixinPrototype(Starcoder.prototype, CollisionHandlers.prototype);
+Starcoder.mixinPrototype(Starcoder.prototype, MsgServer.prototype);
 
 /**
  * Initialize Starcoder server
@@ -29,13 +31,39 @@ Starcoder.prototype.init = function (app, io) {
     this.app = app;
     this.io = io;
     this.players = {};          // Logged in players
+    this.clientReadyFunctions = [];
     this.world = new World(this.config.worldBounds, this.config.initialBodies);
     this.world.starcoder = this;
     this.world.log = this.log;
+    this.initControlEndPoint();
     this.initCollisionHandlers();
-    this.initSync();
+    this.initSyncServer();
+    this.initMsgServer();
+    this.initSocket();
     this.world.start(1/60);
 };
+
+Starcoder.prototype.initSocket = function () {
+    var self = this;
+    this.io.on('connect', function (socket) {
+        var player = self.newPlayer(socket);     // FIXME: details
+        socket.emit('server ready', player.msgNew());
+        socket.on('client ready', function () {
+            self.addPlayer(player);
+            self.world.addPlayerShip(player);
+            socket.emit('timesync', self.hrtime());
+            setInterval(function () {
+                socket.emit('timesync', self.hrtime());
+            }, self.config.timeSyncFreq*1000);
+            //self.attachActions(player);
+            //self.controlEndPointReady(player);
+            //self.syncServerReady(player);
+            for (var i = 0, l = self.clientReadyFunctions.length; i < l; i++) {
+                self.clientReadyFunctions[i](player);
+            }
+        });
+    })
+}
 
 Starcoder.prototype.newPlayer = function (socket, type, descriptor) {
     if (!type) {
@@ -57,6 +85,17 @@ Starcoder.prototype.forEachPlayer = function (cb) {
         cb(id, this.players[keys[i]]);
     }
 };
+
+/**
+ * Get high resolution time in milliseconds
+ *
+ * @returns {number}
+ */
+Starcoder.prototype.hrtime = function () {
+    var hr = process.hrtime();
+    return Math.floor(hr[0]*1000 + hr[1]*1e-6);
+};
+
 
 Starcoder.prototype.role = 'Server';
 

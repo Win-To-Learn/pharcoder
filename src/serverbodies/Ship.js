@@ -32,6 +32,8 @@ var Ship = function (config) {
     this.bulletRange = 25;
     this.bulletSpread = 0;
     this._lastShot = 0;
+    // Inventory
+    this._crystals = 0;
 };
 
 Ship.prototype = Object.create(SyncBodyBase.prototype);
@@ -44,8 +46,8 @@ Ship.prototype.serverType = 'Ship';
 
 // Default properties
 
-Ship.prototype.updateProperties = ['fillColor', 'lineColor', 'fillAlpha', 'shapeClosed', 'shape', 'lineWidth',
-    'vectorScale', 'playerid'];
+//Ship.prototype.updateProperties = ['fillColor', 'lineColor', 'fillAlpha', 'shapeClosed', 'shape', 'lineWidth',
+//    'vectorScale', 'playerid'];
 Ship.prototype.defaults = {mass: 10, vectorScale: 1};
 
 Ship.prototype.shape = [
@@ -104,5 +106,15 @@ Ship.prototype.update = function () {
         this._lastShot = this.world.time;
     }
 };
+
+Object.defineProperty(Ship.prototype, 'crystals', {
+    get: function () {
+        return this._crystals;
+    },
+    set: function (val) {
+        this._crystals = val;
+        this._dirtyProperties.crystals = true;
+    }
+});
 
 module.exports = Ship;

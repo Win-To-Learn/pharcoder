@@ -63,6 +63,7 @@ Starcoder.mixinPrototype(Ship.prototype, UpdateProperties.prototype);
 Ship.prototype.lineWidth = 6;
 
 Ship.prototype.update = function () {
+    // FIXME: Need to deal with player versus foreign ships
     switch (this.localState.thrust) {
         case 'starting':
             this.game.sounds.playerthrust.play();
@@ -74,6 +75,8 @@ Ship.prototype.update = function () {
             this.game.thrustgenerator.stopOn(this);
             this.localState.thrust = 'off';
     }
+    // Player ship only
+    this.game.inventorytext.setText(this.crystals);
 };
 
 module.exports = Ship;

@@ -15,6 +15,13 @@ var SyncClient = function (game, parent) {
 SyncClient.prototype = Object.create(Phaser.Plugin.prototype);
 SyncClient.prototype.constructor = SyncClient;
 
+
+/**
+ * Initialize plugin
+ *
+ * @param socket {Socket} - socket.io socket for sync connection
+ * @param queue {Array} - command queue
+ */
 SyncClient.prototype.init = function (socket, queue) {
     // TODO: Copy some config options
     this.socket = socket;
@@ -22,6 +29,9 @@ SyncClient.prototype.init = function (socket, queue) {
     this.extant = {};
 };
 
+/**
+ * Start plugin
+ */
 SyncClient.prototype.start = function () {
     var self = this;
     var starcoder = this.game.starcoder;
@@ -47,6 +57,9 @@ SyncClient.prototype.start = function () {
             if (sprite = self.extant[id]) {
                 // Existing sprite - process update
                 sprite.updateQueue.push(update);
+                if (update.properties) {
+                    sprite.config(update.properties);
+                }
                 if (sprite.updateQueue.length > UPDATE_QUEUE_LIMIT) {
                     sprite.updateQueue.shift();
                 }
@@ -71,8 +84,11 @@ SyncClient.prototype.start = function () {
     });
 };
 
+/**
+ * Send queued commands to server and interpolate objects based on updates from server
+ */
 SyncClient.prototype.update = function () {
-    if (true || !this._updateComplete) {
+    if (!this._updateComplete) {
         this._sendCommands();
         this._processPhysicsUpdates();
         this._updateComplete = true;
@@ -116,14 +132,6 @@ SyncClient.prototype._processPhysicsUpdates = function () {
         var queue = sprite.updateQueue;
         var before = null, after = null;
 
-        //var temp = [];
-        //var lastx = queue[0].x || 0;
-        //for (var k = 1; k<queue.length; k++) {
-        //    temp.push(queue[k].x-lastx);
-        //    lastx = queue[k].x;
-        //}
-        //console.log(interpTime, '<>', temp);
-
         // Find updates before and after interpTime
         var j = 1;
         while (queue[j]) {
@@ -152,35 +160,38 @@ SyncClient.prototype._processPhysicsUpdates = function () {
 
         var span = after.timestamp - before.timestamp;
         var t = (interpTime - before.timestamp) / span;
-        //var oldx = sprite.body.data.position[0];
-        //var scale = 0.05 / (after.wtimestamp - before.wtimestamp);
-        //sprite.body.data.position[0] = -hermite(before.x, after.x, before.vx*span, after.vx*span, t);
-        //sprite.body.data.position[1] = -hermite(before.y, after.y, before.vy*span, after.vy*span, t);
-        //sprite.body.data.angle = hermite(before.a, after.a, before.av, after.av, t);
         sprite.setPosAngle(linear(before.x, after.x, t), linear(before.y, after.y, t), linear(before.a, after.a, t));
-        //sprite.body.data.position[0] = -linear(before.x, after.x, t);
-        //sprite.body.data.position[1] = -linear(before.y, after.y, t);
-        //sprite.body.data.angle = linear(before.a, after.a, t);
-        //sprite.body.data.position[0] -= 0.10;
-        //sprite.body.data.position[1] = -5;
-        //console.log('[t]', before.timestamp, interpTime, after.timestamp, '-', after.timestamp - before.timestamp);
-        //console.log('[w]', before.wtimestamp, '*****', after.wtimestamp, '-', after.wtimestamp - before.wtimestamp);
-        //console.log('[x]', before.x, -sprite.body.data.position[0], after.x);
-        //var dx = sprite.body.data.position[0] - oldx, dt = this.game.time.now - this.lastUpdate;
-        //console.log('Delta>', dx, '/', dt, '=', dx/dt);
-
     }
 };
 
 // Helpers
 
-// FIXME, maybe
+/**
+ * Interpolate between two points with hermite spline
+ * NB - currently unused and probably broken
+ *
+ * @param p0 {number} - initial value
+ * @param p1 {number} - final value
+ * @param v0 {number} - initial slope
+ * @param v1 {number} - final slope
+ * @param t {number} - point of interpolation (between 0 and 1)
+ * @returns {number} - interpolated value
+ */
 function hermite (p0, p1, v0, v1, t) {
     var t2 = t*t;
     var t3 = t*t2;
     return (2*t3 - 3*t2 + 1)*p0 + (t3 - 2*t2 + t)*v0 + (-2*t3 + 3*t2)*p1 + (t3 - t2)*v1;
 }
 
+/**
+ * Interpolate between two points with linear spline
+ *
+ * @param p0 {number} - initial value
+ * @param p1 {number} - final value
+ * @param t {number} - point of interpolation (between 0 and 1)
+ * @param scale {number} - scale factor to normalize units
+ * @returns {number} - interpolated value
+ */
 function linear (p0, p1, t, scale) {
     scale = scale || 1;
     return p0 + (p1 - p0)*t*scale;

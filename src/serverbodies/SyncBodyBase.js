@@ -95,9 +95,9 @@ SyncBodyBase.prototype.getUpdatePacket = function (full) {
     if (full) {
         update.t = this.clientType;
     }
-    if (!this.getPropertyUpdate) {
-        return update;
-    }
+    //if (!this.getPropertyUpdate) {
+    //    return update;
+    //}
     update.properties = {};
     for (var i = 0, l = this.updateProperties.length; i < l; i++) {
         var propname = this.updateProperties[i];
@@ -110,14 +110,7 @@ SyncBodyBase.prototype.getUpdatePacket = function (full) {
 
 SyncBodyBase.prototype.getPropertyUpdate = function (propname, properties) {
     switch (propname) {
-        case 'lineColor':
-        case 'fillColor':
-        case 'lineWidth':
-        case 'fillAlpha':
-        case 'shapeClosed':
-        case 'shape':
-        case 'geometry':
-        case 'vectorScale':
+        default:
             properties[propname] = this[propname];
             break;
     }

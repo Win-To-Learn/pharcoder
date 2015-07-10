@@ -16,6 +16,9 @@ Boot.prototype.constructor = Boot;
 
 var _connected = false;
 
+/**
+ * Set properties that require booted game state, attach plugins, connect to game server
+ */
 Boot.prototype.preload = function () {
     //this.game.stage.disableVisibilityChange = true;
     this.game.scale.scaleMode = Phaser.ScaleManager.RESIZE;
@@ -42,7 +45,7 @@ Boot.prototype.preload = function () {
     //    this.starcoder.cmdQueue);
     this.starcoder.controls = this.starcoder.attachPlugin(Controls, this.starcoder.cmdQueue);
     // Set up socket.io connection
-    this.starcoder.socket = this.starcoder.io(this.starcoder.config.serverUri + '/sync',
+    this.starcoder.socket = this.starcoder.io(this.starcoder.config.serverUri,
         this.starcoder.config.ioClientOptions);
     this.starcoder.socket.on('server ready', function (playerMsg) {
         // FIXME: Has to interact with session for authentication etc.
@@ -55,6 +58,9 @@ Boot.prototype.preload = function () {
     });
 };
 
+/**
+ * Advance game state once network connection is established
+ */
 Boot.prototype.update = function () {
     if (_connected) {
         this.game.state.start('space');
