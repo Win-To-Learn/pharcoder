@@ -51,6 +51,12 @@ var config = {
         //}}
         {type: 'Hydra', number: 1, config: {
             position: {random: 'world', pad: 50}
+        }},
+        {type: 'Planetoid', number: 6, config: {
+            position: {random: 'world', pad: 30},
+            angularVelocity: {random: 'float', lo: -2, hi: 2},
+            vectorScale: 2.5,
+            mass: 100
         }}
     ]
 };

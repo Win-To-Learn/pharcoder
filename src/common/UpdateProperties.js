@@ -18,6 +18,9 @@ Crystal.prototype.updateProperties = ['vectorScale'];
 var GenericOrb = function () {};
 GenericOrb.prototype.updateProperties = ['lineColor', 'vectorScale'];
 
+var Planetoid = function () {};
+Planetoid.prototype.updateProperties = ['lineColor', 'fillColor', 'lineWidth', 'fillAlpha', 'vectorScale', 'owner'];
+
 var Bullet = function () {};
 Bullet.prototype.updateProperties = [];
 
@@ -26,5 +29,6 @@ exports.Asteroid = Asteroid;
 exports.Crystal = Crystal;
 exports.GenericOrb = GenericOrb;
 exports.Bullet = Bullet;
+exports.Planetoid = Planetoid;
 
 

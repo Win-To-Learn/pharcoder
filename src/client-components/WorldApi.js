@@ -12,7 +12,8 @@ var bodyTypes = {
     Asteroid: require('../phaserbodies/Asteroid.js'),
     Crystal: require('../phaserbodies/Crystal.js'),
     Bullet: require('../phaserbodies/Bullet.js'),
-    GenericOrb: require('../phaserbodies/GenericOrb.js')
+    GenericOrb: require('../phaserbodies/GenericOrb.js'),
+    Planetoid: require('../phaserbodies/Planetoid.js')
 };
 
 /**
