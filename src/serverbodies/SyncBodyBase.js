@@ -8,6 +8,7 @@
 var p2 = require('p2');
 
 var SyncBodyBase = function (config) {
+    this._dirtyProperties = {};
     config = config || {};
     this.setDefaults(config);
     p2.Body.call(this, config);
@@ -26,7 +27,6 @@ var SyncBodyBase = function (config) {
         this.customize(config);
     }
     this.adjustShape();
-    this._dirtyProperties = {};
     this.newborn = true;
 };
 
@@ -108,22 +108,14 @@ SyncBodyBase.prototype.getUpdatePacket = function (full) {
     return update;
 };
 
-SyncBodyBase.prototype.getPropertyUpdate = function (propname, properties) {
-    switch (propname) {
-        default:
-            properties[propname] = this[propname];
-            break;
-    }
-};
-
 /**
- * Generic property to update function for simplest case
+ * Copy object property to properties object. Subclasses can offer more complex behavior for specific properties
  *
- * @param property {string}
- * @param update {object}
+ * @param propname
+ * @param properties
  */
-SyncBodyBase.prototype.generalPropertyUpdate = function (propname, properties) {
-    properties[propname] = this[propname];
+SyncBodyBase.prototype.getPropertyUpdate = function (propname, properties) {
+            properties[propname] = this[propname];
 };
 
 /**
@@ -145,5 +137,97 @@ SyncBodyBase.prototype.setPolarForce = function (mag) {
     this.force[0] = Math.sin(this.angle)*mag;
     this.force[1] = -Math.cos(this.angle)*mag;
 };
+
+/**
+ * Clear dirty flag for all properties
+ */
+SyncBodyBase.prototype.clean = function () {
+    this._dirtyProperties = {};
+};
+
+// Common vector properties
+
+Object.defineProperty(SyncBodyBase.prototype, 'lineColor', {
+    get: function () {
+        return this._lineColor;
+    },
+    set: function (val) {
+        this._lineColor = val;
+        this._dirtyProperties.lineColor = true;
+    }
+});
+
+Object.defineProperty(SyncBodyBase.prototype, 'fillColor', {
+    get: function () {
+        return this._fillColor;
+    },
+    set: function (val) {
+        this._fillColor = val;
+        this._dirtyProperties.fillColor = true;
+    }
+});
+
+Object.defineProperty(SyncBodyBase.prototype, 'fillAlpha', {
+    get: function () {
+        return this._fillAlpha;
+    },
+    set: function (val) {
+        this._fillAlpha = val;
+        this._dirtyProperties.fillAlpha = true;
+    }
+});
+
+Object.defineProperty(SyncBodyBase.prototype, 'vectorScale', {
+    get: function () {
+        return this._vectorScale;
+    },
+    set: function (val) {
+        this._vectorScale = val;
+        this._dirtyProperties.vectorScale = true;
+    }
+});
+
+Object.defineProperty(SyncBodyBase.prototype, 'lineWidth', {
+    get: function () {
+        return this._lineWidth;
+    },
+    set: function (val) {
+        this._lineWidth = val;
+        this._dirtyProperties.lineWidth = true;
+    }
+});
+
+Object.defineProperty(SyncBodyBase.prototype, 'shapeClosed', {
+    get: function () {
+        return this._shapeClosed;
+    },
+    set: function (val) {
+        this._shapeClosed = val;
+        this._dirtyProperties.shapeClosed = true;
+    }
+});
+
+Object.defineProperty(SyncBodyBase.prototype, 'shape', {
+    get: function () {
+        return this._shape;
+    },
+    set: function (val) {
+        // TODO: add test to ensure shape is simple
+        this._shape = val;
+        this._dirtyProperties.shape = true;
+    }
+});
+
+Object.defineProperty(SyncBodyBase.prototype, 'geometry', {
+    get: function () {
+        return this._geometry;
+    },
+    set: function (val) {
+        this._geometry = val;
+        this._dirtyProperties.geometry = true;
+    }
+});
+
+
 
 module.exports = SyncBodyBase;

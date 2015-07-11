@@ -48,9 +48,9 @@ Ship.prototype.serverType = 'Ship';
 
 //Ship.prototype.updateProperties = ['fillColor', 'lineColor', 'fillAlpha', 'shapeClosed', 'shape', 'lineWidth',
 //    'vectorScale', 'playerid'];
-Ship.prototype.defaults = {mass: 10, vectorScale: 1};
+Ship.prototype.defaults = {mass: 10, vectorScale: 1, lineWidth: 6};
 
-Ship.prototype.shape = [
+Ship.prototype._shape = [
     [-1,-1],
     [-0.5,0],
     [-1,1],
@@ -60,8 +60,9 @@ Ship.prototype.shape = [
     [1,-1],
     [0,-0.5]
 ];
+Ship.prototype._shapeClosed = true;
 
-Ship.prototype.lineWidth = 6;
+//Ship.prototype.lineWidth = 6;
 
 //Ship.prototype.preProcessOptions = function (options) {
 //    options.mass = options.mass || 10;

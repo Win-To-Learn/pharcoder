@@ -60,9 +60,10 @@ Starcoder.mixinPrototype(Ship.prototype, UpdateProperties.prototype);
 //    [0,-0.5],
 //    [-1,-1]
 //];
-Ship.prototype.lineWidth = 6;
+//Ship.prototype._lineWidth = 6;
 
 Ship.prototype.update = function () {
+    VectorSprite.prototype.update.call(this);
     // FIXME: Need to deal with player versus foreign ships
     switch (this.localState.thrust) {
         case 'starting':

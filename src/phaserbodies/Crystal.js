@@ -27,13 +27,13 @@ Crystal.prototype.constructor = Crystal;
 Starcoder.mixinPrototype(Crystal.prototype, SyncBodyInterface.prototype);
 Starcoder.mixinPrototype(Crystal.prototype, UpdateProperties.prototype);
 
-Crystal.prototype.lineColor = '#00ffff';
-Crystal.prototype.fillColor = '#000000';
-Crystal.prototype.shapeClosed = true;
-Crystal.prototype.lineWidth = 1;
-Crystal.prototype.fillAlpha = 0.0;
-Crystal.prototype.shape = Paths.octagon;
-Crystal.prototype.geometry = [
+Crystal.prototype._lineColor = '#00ffff';
+Crystal.prototype._fillColor = '#000000';
+Crystal.prototype._shapeClosed = true;
+Crystal.prototype._lineWidth = 1;
+Crystal.prototype._fillAlpha = 0.0;
+Crystal.prototype._shape = Paths.octagon;
+Crystal.prototype._geometry = [
     {type: 'poly', closed: true, points: Paths.d2cross}
 ];
 

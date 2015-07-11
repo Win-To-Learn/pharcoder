@@ -75,7 +75,7 @@ SyncServer.prototype.sendUpdates = function () {
     }
     // Clear dirty flags
     for (j = world._syncableBodies.length - 1; j >=0; j--) {
-        world._syncableBodies[j]._dirtyProperties = {};
+        world._syncableBodies[j].clean();
     }
     world._syncableBodiesNew.length = 0;
     world._syncableBodiesRemoved.length = 0;

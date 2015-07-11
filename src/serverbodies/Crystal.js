@@ -27,7 +27,7 @@ Crystal.prototype.serverType = 'Crystal';
 //Crystal.prototype.shapeClosed = true;
 //Crystal.prototype.lineWidth = 1;
 //Crystal.prototype.fillAlpha = 0.0;
-Crystal.prototype.shape = Paths.octagon;
+Crystal.prototype._shape = Paths.octagon;
 //
 //Crystal.prototype.geometry = [
 //    {type: 'poly', closed: true, points: Paths.d2cross}

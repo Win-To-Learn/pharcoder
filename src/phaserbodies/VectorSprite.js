@@ -105,6 +105,7 @@ VectorSprite.prototype.updateAppearance = function () {
     this.minitexture.resize(this.graphics.width, this.graphics.height, true);
     this.minitexture.renderXY(this.graphics, this.graphics.width/2, this.graphics.height/2, true);
     this.minisprite.setTexture(this.minitexture);
+    this._dirty = false;
 };
 
 VectorSprite.prototype.updateBody = function () {
@@ -171,6 +172,7 @@ VectorSprite.prototype.draw = function (renderScale) {
  * @private
  */
 VectorSprite.prototype._drawPolygon = function (points, closed, renderScale) {
+    //console.log('DP', this, closed);
     var sc = this.game.physics.p2.mpxi(this.vectorScale)*renderScale;
     points = points.slice();
     if (closed) {
@@ -181,6 +183,99 @@ VectorSprite.prototype._drawPolygon = function (points, closed, renderScale) {
         this.graphics.lineTo(points[i][0] * sc, points[i][1] * sc);
     }
 };
+
+/**
+ * Invalidate cache and redraw if sprite is marked dirty
+ */
+VectorSprite.prototype.update = function () {
+    if (this._dirty) {
+        console.log('dirty VS');
+        this.updateAppearance();
+    }
+};
+
+// Vector properties defined to handle marking sprite dirty when necessary
+
+Object.defineProperty(VectorSprite.prototype, 'lineColor', {
+    get: function () {
+        return this._lineColor;
+    },
+    set: function (val) {
+        this._lineColor = val;
+        this._dirty = true;
+    }
+});
+
+Object.defineProperty(VectorSprite.prototype, 'fillColor', {
+    get: function () {
+        return this._fillColor;
+    },
+    set: function (val) {
+        this._fillColor = val;
+        this._dirty = true;
+    }
+});
+
+Object.defineProperty(VectorSprite.prototype, 'lineWidth', {
+    get: function () {
+        return this._lineWidth;
+    },
+    set: function (val) {
+        this._lineWidth = val;
+        this._dirty = true;
+    }
+});
+
+Object.defineProperty(VectorSprite.prototype, 'fillAlpha', {
+    get: function () {
+        return this._fillAlpha;
+    },
+    set: function (val) {
+        this._fillAlpha = val;
+        this._dirty = true;
+    }
+});
+
+Object.defineProperty(VectorSprite.prototype, 'shapeClosed', {
+    get: function () {
+        return this._shapeClosed;
+    },
+    set: function (val) {
+        this._shapeClosed = val;
+        this._dirty = true;
+    }
+});
+
+Object.defineProperty(VectorSprite.prototype, 'vectorScale', {
+    get: function () {
+        return this._vectorScale;
+    },
+    set: function (val) {
+        this._vectorScale = val;
+        this._dirty = true;
+    }
+});
+
+Object.defineProperty(VectorSprite.prototype, 'shape', {
+    get: function () {
+        return this._shape;
+    },
+    set: function (val) {
+        this._shape = val;
+        this._dirty = true;
+    }
+});
+
+Object.defineProperty(VectorSprite.prototype, 'geometry', {
+    get: function () {
+        return this._geometry;
+    },
+    set: function (val) {
+        this._geometry = val;
+        this._dirty = true;
+    }
+});
+
 
 module.exports = VectorSprite;
 //Starcoder.VectorSprite = VectorSprite;

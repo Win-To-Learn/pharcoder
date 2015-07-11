@@ -38,7 +38,7 @@ Asteroid.prototype.serverType = 'Asteroid';
 //Asteroid.prototype.shapeClosed = true;
 //Asteroid.prototype.lineWidth = 1;
 //Asteroid.prototype.fillAlpha = 0.25;
-Asteroid.prototype.shape = Paths.octagon;
+Asteroid.prototype._shape = Paths.octagon;
 
 //Asteroid.prototype.updateProperties = ['vectorScale', 'state'];
 
