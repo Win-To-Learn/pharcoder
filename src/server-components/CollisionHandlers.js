@@ -45,9 +45,12 @@ function ShipAsteroid (ship, asteroid) {
 }
 
 function ShipCrystal (ship, crystal) {
-    crystal.state = 'picked up';
-    ship.crystals += 50;
-    this.send(ship.player, 'crystal pickup', ship.player.crystals);
+    // TODO: Variable crystal values?
+    if (crystal.state !== 'picked up') {
+        crystal.state = 'picked up';
+        ship.crystals += 50;
+        this.send(ship.player, 'crystal pickup', 50);
+    }
 }
 
 module.exports = CollisionHandlers;

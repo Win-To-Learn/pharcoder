@@ -8,6 +8,7 @@
 var SimpleParticle = require('../phaserbodies/SimpleParticle.js');
 var ThrustGenerator = require('../phaserbodies/ThrustGenerator.js');
 var MiniMap = require('../phaserui/MiniMap.js');
+var Toast = require('../phaserbodies/Toast.js');
 
 var Space = function () {};
 
@@ -150,8 +151,9 @@ Space.prototype.render = function () {
 
 Space.prototype._setupMessageHandlers = function (socket) {
     var self = this;
-    socket.on('msg crystal pickup', function () {
+    socket.on('msg crystal pickup', function (val) {
         self.game.sounds.chime.play();
+        Toast.spinUp(self.game, self.game.playerShip.x, self.game.playerShip.y, '+' + val + ' crystals!');
     });
 };
 
