@@ -23,7 +23,7 @@ var Ship = function (game, config) {
     //this.weapons = Weapons.add(game, 'bullet', 12);
     //this.weapons.ship = this;
     //this.addChild(this.weapons);
-    this.tagText = game.add.text(0, this.graphics.height/2 + 1,
+    this.tagText = game.add.text(0, this.texture.height/2 + 1,
         config.tag, {font: 'bold 18px Arial', fill: this.lineColor || '#ffffff', align: 'center'});
     this.tagText.anchor.setTo(0.5, 0);
     this.addChild(this.tagText);

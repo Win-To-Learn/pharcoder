@@ -8,7 +8,7 @@
 var CollisionHandlers = function () {};
 
 CollisionHandlers.prototype.initCollisionHandlers = function () {
-    var self = this;;
+    var self = this;
     this.world.on('beginContact', function (e) {
         var A = e.bodyA;
         var B = e.bodyB;

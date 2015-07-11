@@ -47,7 +47,7 @@ VectorSprite.prototype = Object.create(Phaser.Sprite.prototype);
 VectorSprite.prototype.constructor = VectorSprite;
 
 // Default octagon
-VectorSprite.prototype.shape = [
+VectorSprite.prototype._shape = [
     [2,1],
     [1,2],
     [-1,2],
@@ -57,12 +57,12 @@ VectorSprite.prototype.shape = [
     [1,-2],
     [2,-1]
 ];
-VectorSprite.prototype.shapeClosed = true;
-VectorSprite.prototype.lineColor = '#ffffff';
-VectorSprite.prototype.lineWidth = 1;
-VectorSprite.prototype.fillColor = null;
-VectorSprite.prototype.fillAlpha = 0.25;
-VectorSprite.prototype.vectorScale = 1;
+VectorSprite.prototype._shapeClosed = true;
+VectorSprite.prototype._lineColor = '#ffffff';
+VectorSprite.prototype._lineWidth = 1;
+VectorSprite.prototype._fillColor = null;
+VectorSprite.prototype._fillAlpha = 0.25;
+VectorSprite.prototype._vectorScale = 1;
 
 VectorSprite.prototype.physicsBodyType = 'circle';
 
@@ -86,17 +86,22 @@ VectorSprite.prototype.setLineStyle = function (color, lineWidth) {
 VectorSprite.prototype.updateAppearance = function () {
     // Draw full sized
     this.graphics.clear();
+    this.graphics._currentBounds = null;
     if (typeof this.drawProcedure !== 'undefined') {
         this.drawProcedure();
     } else if (this.shape) {
-        this.draw();
+        this.draw(1);
     }
     this.texture.resize(this.graphics.width, this.graphics.height, true);
     this.texture.renderXY(this.graphics, this.graphics.width/2, this.graphics.height/2, true);
     this.setTexture(this.texture);
+    //console.log('S', this);
+    //console.log('G', this.graphics, 'w', this.graphics.width, 'h', this.graphics.height);
+    //console.log('T', this.texture);
     // Draw small for minimap
     var mapScale = this.game.minimap.mapScale;
     this.graphics.clear();
+    this.graphics._currentBounds = null;
     if (typeof this.drawProcedure !== 'undefined') {
         this.drawProcedure(mapScale);
     } else if (this.shape) {
@@ -172,7 +177,6 @@ VectorSprite.prototype.draw = function (renderScale) {
  * @private
  */
 VectorSprite.prototype._drawPolygon = function (points, closed, renderScale) {
-    //console.log('DP', this, closed);
     var sc = this.game.physics.p2.mpxi(this.vectorScale)*renderScale;
     points = points.slice();
     if (closed) {
