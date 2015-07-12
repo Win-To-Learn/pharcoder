@@ -15,9 +15,9 @@ var Planetoid = function (game, config) {
 };
 
 Planetoid.add = function (game, options) {
-    var a = new Planetoid(game, options);
+    var planetoid = new Planetoid(game, options);
     game.add.existing(a);
-    return a;
+    return planetoid;
 };
 
 Planetoid.prototype = Object.create(VectorSprite.prototype);

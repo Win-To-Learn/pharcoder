@@ -57,7 +57,13 @@ var config = {
             angularVelocity: {random: 'float', lo: -2, hi: 2},
             vectorScale: 2.5,
             mass: 100
-        }}
+        }},
+        // FIXME: Trees just for testing
+        //{type: 'Tree', number: 10, config: {
+        //    position: {random: 'world', pad: 30},
+        //    vectorScale: 2,
+        //    mass: 5
+        //}}
     ]
 };
 

@@ -7,7 +7,6 @@
 
 var Starcoder = require('../Starcoder.js');
 
-var p2 = require('p2');
 var SyncBodyBase = require('./SyncBodyBase.js');
 
 var Paths = require('../common/Paths.js');

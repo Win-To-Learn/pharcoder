@@ -1,5 +1,7 @@
 /**
  * Asteroid.js
+ *
+ * Client side
  */
 'use strict';
 

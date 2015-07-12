@@ -16,7 +16,8 @@ var bodyTypes = {
     Asteroid: require('./Asteroid.js'),
     Crystal: require('./Crystal.js'),
     Hydra: require('./Hydra.js'),
-    Planetoid: require('./Planetoid.js')
+    Planetoid: require('./Planetoid.js'),
+    Tree: require('./Tree.js')
 };
 
 /**
