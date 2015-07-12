@@ -32,7 +32,7 @@ Starcoder.mixinPrototype(Tree.prototype, UpdateProperties.prototype);
  * @param renderScale
  */
 Tree.prototype.drawProcedure = function (renderScale) {
-   this.graphics.lineStyle(2, 0x88cc88, 1);         // FIXME
+    this.graphics.lineStyle(2, 0x88cc88, 1);         // FIXME
     this._drawBranch(this.graph, this.game.physics.p2.mpxi(this.vectorScale)*renderScale, 5);
 };
 
@@ -41,10 +41,20 @@ Tree.prototype._drawBranch = function (graph, sc, depth) {
         var child = graph.c[i];
         this.graphics.moveTo(graph.x * sc, graph.y * sc);
         this.graphics.lineTo(child.x * sc, child.y * sc);
-        if (depth > 1) {
+        if (depth > this.step) {
             this._drawBranch(child, sc, depth - 1);
         }
     }
-}
+};
+
+Object.defineProperty(Tree.prototype, 'step', {
+    get: function () {
+        return this._step;
+    },
+    set: function (val) {
+        this._step = val;
+        this._dirty = true;
+    }
+});
 
 module.exports = Tree;
