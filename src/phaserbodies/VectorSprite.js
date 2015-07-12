@@ -92,12 +92,9 @@ VectorSprite.prototype.updateAppearance = function () {
     } else if (this.shape) {
         this.draw(1);
     }
-    var bounds = this.graphics.getBounds();
-    console.log('G', this.graphics.width, this.graphics.height, 'B', bounds);
-    this.texture.resize(this.graphics.width, this.graphics.height, true);
-    this.texture.renderXY(this.graphics, this.graphics.width/2, this.graphics.height/2, true);
-    //this.texture.resize(bounds.width, bounds.height, true);
-    //this.texture.renderXY(this.graphics, -bounds.x, -bounds.y, true);
+    var bounds = this.graphics.getLocalBounds();
+    this.texture.resize(bounds.width, bounds.height, true);
+    this.texture.renderXY(this.graphics, -bounds.x, -bounds.y, true);
     this.setTexture(this.texture);
     // Draw small for minimap
     var mapScale = this.game.minimap.mapScale;
@@ -108,12 +105,9 @@ VectorSprite.prototype.updateAppearance = function () {
     } else if (this.shape) {
         this.draw(mapScale);
     }
-    bounds = this.graphics.getBounds();
-    console.log('mG', this.graphics.width, this.graphics.height, 'B', bounds);
-    this.minitexture.resize(this.graphics.width, this.graphics.height, true);
-    this.minitexture.renderXY(this.graphics, this.graphics.width/2, this.graphics.height/2, true);
-    //this.texture.resize(bounds.width, bounds.height, true);
-    //this.texture.renderXY(this.graphics, -bounds.x, -bounds.y, true);
+    bounds = this.graphics.getLocalBounds();
+    this.minitexture.resize(bounds.width, bounds.height, true);
+    this.minitexture.renderXY(this.graphics, -bounds.x, -bounds.y, true);
     this.minisprite.setTexture(this.minitexture);
     this._dirty = false;
 };
