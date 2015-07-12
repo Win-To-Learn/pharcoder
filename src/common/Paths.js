@@ -40,3 +40,5 @@ exports.square1 = [
     [-1,2],
     [-2,-1]
 ];
+
+exports.OCTRADIUS = Math.sqrt(5);

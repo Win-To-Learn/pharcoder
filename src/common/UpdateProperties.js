@@ -22,7 +22,7 @@ var Planetoid = function () {};
 Planetoid.prototype.updateProperties = ['lineColor', 'fillColor', 'lineWidth', 'fillAlpha', 'vectorScale', 'owner'];
 
 var Tree = function () {};
-Tree.prototype.updateProperties = ['vectorScale', 'graph', 'step'];
+Tree.prototype.updateProperties = ['vectorScale', 'lineColor', 'graph', 'step'];
 
 var Bullet = function () {};
 Bullet.prototype.updateProperties = [];

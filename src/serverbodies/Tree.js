@@ -37,7 +37,10 @@ Starcoder.mixinPrototype(Tree.prototype, UpdateProperties.prototype);
 Tree.prototype.clientType = 'Tree';
 Tree.prototype.serverType = 'Tree';
 
-Tree.prototype._shape = Paths.octagon;      // FIXME: just for testing
+// Currently using a tiny body to avoid collisions and minimize impact on planet physics. Need to decide if that's
+// the behavior we want
+Tree.prototype._shape = [[0.1,0], [-0.1,0], [-0.1,0.1], [0.1,0.1]];
+Tree.prototype.defaults = {mass: 0.1, lineColor: '#99cc99', vectorScale: 0.8};
 
 /**
  * Add a branch to the tree graph

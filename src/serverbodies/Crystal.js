@@ -42,11 +42,11 @@ Crystal.prototype.updateProperties = ['vectorScale'];
 //    }
 //};
 
-Crystal.prototype.update = function () {
-    if (this.state === 'picked up') {
-        this.world.removeSyncableBody(this);
-    }
-};
+//Crystal.prototype.update = function () {
+//    if (this.state === 'picked up') {
+//        this.world.removeSyncableBody(this);
+//    }
+//};
 
 
 module.exports = Crystal;

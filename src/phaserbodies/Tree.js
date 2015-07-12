@@ -12,6 +12,7 @@ var UpdateProperties = require('../common/UpdateProperties.js').Tree;
 
 var Tree = function (game, config) {
     VectorSprite.call(this, game, config);
+    this.anchor.setTo(0.5, 1);
 };
 
 Tree.add = function (game, config) {
@@ -32,7 +33,8 @@ Starcoder.mixinPrototype(Tree.prototype, UpdateProperties.prototype);
  * @param renderScale
  */
 Tree.prototype.drawProcedure = function (renderScale) {
-    this.graphics.lineStyle(2, 0x88cc88, 1);         // FIXME
+    var lineColor = Phaser.Color.hexToRGB(this.lineColor);
+    this.graphics.lineStyle(1, lineColor, 1);
     this._drawBranch(this.graph, this.game.physics.p2.mpxi(this.vectorScale)*renderScale, 5);
 };
 
