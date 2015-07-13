@@ -10,7 +10,7 @@ var ControlEndPoint = function () {};
 //};
 
 ControlEndPoint.prototype.initControlEndPoint = function () {
-    this.clientReadyFunctions.push(clientReady.bind(this));
+    this.clientReadyFunctions.push(this.attachActions.bind(this));
 };
 
 ControlEndPoint.prototype.attachActions = function (player) {
@@ -64,8 +64,8 @@ ControlEndPoint.prototype.doAction = function (player, action) {
  *
  * @param player {Player} - player object
  */
-function clientReady (player) {
-    this.attachActions(player);
-}
+//function clientReady (player) {
+//    this.attachActions(player);
+//}
 
 module.exports = ControlEndPoint;

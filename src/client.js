@@ -7,7 +7,9 @@
 
 var Starcoder = require('./Starcoder-client.js');
 
-localStorage.debug = '';
+localStorage.debug = '';                        // used to toggle socket.io debugging
 
-var starcoder = new Starcoder();
-starcoder.start();
+document.addEventListener('DOMContentLoaded', function () {
+    var starcoder = new Starcoder();
+    starcoder.start();
+});

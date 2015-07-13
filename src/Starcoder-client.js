@@ -8,9 +8,12 @@
 var Starcoder = require('./Starcoder.js');
 
 var WorldApi = require('./client-components/WorldApi.js');
-
+var DOMInterface = require('./client-components/DOMInterface.js');
+var CodeEndpointClient = require('./client-components/CodeEndpointClient.js');
 
 Starcoder.mixinPrototype(Starcoder.prototype, WorldApi.prototype);
+Starcoder.mixinPrototype(Starcoder.prototype, DOMInterface.prototype);
+Starcoder.mixinPrototype(Starcoder.prototype, CodeEndpointClient.prototype);
 
 var states = {
     boot: require('./phaserstates/Boot.js'),
@@ -29,6 +32,7 @@ Starcoder.prototype.init = function () {
         this.game.state.add(k, state);
     }
     this.cmdQueue = [];
+    this.initDOMInterface();
 };
 
 Starcoder.prototype.start = function () {
