@@ -18,12 +18,12 @@ CollisionHandlers.prototype.initCollisionHandlers = function () {
         while (true) {
             if (A.serverType === 'Bullet' && B.serverType === 'Asteroid') {
                 BulletAsteroid.bind(self)(A, B);
-            } else if (A.serverType === 'Ship' && B.serverType === 'Asteroid') {
-                ShipAsteroid.bind(self)(A, B);
             } else if (A.serverType === 'Ship' && B.serverType === 'Crystal') {
                 ShipCrystal.bind(self)(A, B);
             } else if (A.serverType === 'Ship' && B.serverType === 'Planetoid') {
                 ShipPlanetoid.bind(self)(A, B, equations);
+            } else if (A.serverType === 'Ship' && B.deadly) {
+                ShipDeadly.bind(self)(A, B);
             }
             // Swap A and B if we haven't already
             if (t) {
@@ -41,10 +41,6 @@ CollisionHandlers.prototype.initCollisionHandlers = function () {
 function BulletAsteroid (bullet, asteroid) {
     asteroid.state = 'exploding';
     this.world.removeSyncableBody(bullet);
-}
-
-function ShipAsteroid (ship, asteroid) {
-    console.log('Ship Asteroid');
 }
 
 function ShipCrystal (ship, crystal) {
@@ -75,6 +71,12 @@ function ShipPlanetoid (ship, planetoid, equations) {
             point = equations.contactPointB;
         }
         planetoid.plantTree(point[0], point[1], ship);
+    }
+}
+
+function ShipDeadly (ship, obstacle) {
+    if (!ship.dead) {
+        ship.knockOut();
     }
 }
 

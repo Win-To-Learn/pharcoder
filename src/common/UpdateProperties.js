@@ -7,7 +7,7 @@
 
 var Ship = function () {};
 Ship.prototype.updateProperties = ['lineWidth', 'lineColor', 'fillColor', 'fillAlpha',
-    'vectorScale', 'shape', 'shapeClosed', 'playerid', 'crystals'];
+    'vectorScale', 'shape', 'shapeClosed', 'playerid', 'crystals', 'dead'];
 
 var Asteroid = function () {};
 Asteroid.prototype.updateProperties = ['vectorScale'];

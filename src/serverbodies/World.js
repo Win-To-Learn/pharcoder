@@ -199,6 +199,23 @@ World.prototype.removeSyncableBody = function (body) {
 };
 
 /**
+ * Revive a 'dead' body, possibly with new properties
+ *
+ * @param body
+ * @param config
+ */
+World.prototype.respawn = function (body, config) {
+    body.dead = false;
+    for (var k in config) {
+        if (typeof config[k] === 'object' && config[k].random) {
+            body[k] = this._flexRand(config[k]);
+        } else {
+            body[k] = config[k];
+        }
+    }
+};
+
+/**
  * Start world simulation
  *
  * @param rate {number} - update rate in seconds

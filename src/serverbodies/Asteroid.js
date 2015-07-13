@@ -39,6 +39,8 @@ Asteroid.prototype.serverType = 'Asteroid';
 //Asteroid.prototype.fillAlpha = 0.25;
 Asteroid.prototype._shape = Paths.octagon;
 
+Asteroid.prototype.deadly = true;
+
 //Asteroid.prototype.updateProperties = ['vectorScale', 'state'];
 
 //Asteroid.prototype.getPropertyUpdate = function (propname, properties) {

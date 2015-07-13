@@ -108,6 +108,14 @@ Ship.prototype.update = function () {
     }
 };
 
+Ship.prototype.knockOut = function () {
+    var self = this;
+    this.dead = true;
+    setTimeout(function () {
+        self.world.respawn(self, {position: {random: 'world'}});
+    }, 1000);
+};
+
 Object.defineProperty(Ship.prototype, 'crystals', {
     get: function () {
         return this._crystals;

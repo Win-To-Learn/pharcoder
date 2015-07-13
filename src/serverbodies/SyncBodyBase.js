@@ -28,6 +28,7 @@ var SyncBodyBase = function (config) {
     }
     this.adjustShape();
     this.newborn = true;
+    this.dead = false;
 };
 
 SyncBodyBase.prototype = Object.create(p2.Body.prototype);
@@ -98,12 +99,17 @@ SyncBodyBase.prototype.getUpdatePacket = function (full) {
     //if (!this.getPropertyUpdate) {
     //    return update;
     //}
-    update.properties = {};
+    var properties = {};
+    var hasProps = false;
     for (var i = 0, l = this.updateProperties.length; i < l; i++) {
         var propname = this.updateProperties[i];
         if (full || this._dirtyProperties[propname]) {
-            this.getPropertyUpdate(propname, update.properties);
+            hasProps = true;
+            this.getPropertyUpdate(propname, properties);
         }
+    }
+    if (hasProps) {
+        update.properties = properties;
     }
     return update;
 };
@@ -115,7 +121,7 @@ SyncBodyBase.prototype.getUpdatePacket = function (full) {
  * @param properties
  */
 SyncBodyBase.prototype.getPropertyUpdate = function (propname, properties) {
-            properties[propname] = this[propname];
+    properties[propname] = this[propname];
 };
 
 /**
@@ -228,6 +234,14 @@ Object.defineProperty(SyncBodyBase.prototype, 'geometry', {
     }
 });
 
-
+Object.defineProperty(SyncBodyBase.prototype, 'dead', {
+    get: function () {
+        return this._dead;
+    },
+    set: function (val) {
+        this._dead = val;
+        this._dirtyProperties.dead = true;
+    }
+});
 
 module.exports = SyncBodyBase;

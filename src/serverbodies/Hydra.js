@@ -88,4 +88,6 @@ HydraArm.prototype.defaults = {mass: 50, lineColor: '#00ff00'};
 
 HydraArm.prototype._shape = Paths.octagon;
 
+HydraArm.prototype.deadly = true;
+
 module.exports = HydraHead;

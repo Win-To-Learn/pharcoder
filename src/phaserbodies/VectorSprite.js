@@ -279,6 +279,20 @@ Object.defineProperty(VectorSprite.prototype, 'geometry', {
     }
 });
 
+Object.defineProperty(VectorSprite.prototype, 'dead', {
+    get: function () {
+        return this._dead;
+    },
+    set: function (val) {
+        this._dead = val;
+        if (val) {
+            this.kill();
+        } else {
+            this.revive();
+        }
+    }
+});
+
 
 module.exports = VectorSprite;
 //Starcoder.VectorSprite = VectorSprite;
