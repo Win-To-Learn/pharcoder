@@ -12,7 +12,8 @@ var Player = function (socket) {
     this.socket = socket;
     this.ships = [];
     this.newborn = true;
-    this.crystals = 0;
+    this.codeQueue = [];
+    this.interpreter = null;
 };
 
 Player.prototype.addShip = function (ship) {

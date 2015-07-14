@@ -62,6 +62,15 @@ Starcoder.mixinPrototype(Ship.prototype, UpdateProperties.prototype);
 //];
 //Ship.prototype._lineWidth = 6;
 
+Ship.prototype.updateAppearance = function () {
+    // FIXME: Probably need to refactor constructor a bit to make this cleaner
+    VectorSprite.prototype.updateAppearance.call(this);
+    if (this.tagText) {
+        //this.tagText.setStyle({fill: this.lineColor});
+        this.tagText.fill = this.lineColor;
+    }
+};
+
 Ship.prototype.update = function () {
     VectorSprite.prototype.update.call(this);
     // FIXME: Need to deal with player versus foreign ships
