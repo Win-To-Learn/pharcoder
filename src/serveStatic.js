@@ -23,14 +23,14 @@ module.exports = function (app) {
   });
 
   app.get('/css/:name', function (req, res) {
-    return sendFile(path.join(__dirname, '../lib/'), req.params.name, res);
+    return sendFile(path.join(__dirname, '../css/'), req.params.name, res);
   });
 
   app.get('/js/:name', function (req, res) {
     return sendFile(path.join(__dirname, '../js/'), req.params.name, res);
   });
 
-  app.get('/lib//msg/js/:name', function (req, res) {
+  app.get('/lib/msg/js/:name', function (req, res) {
     return sendFile(path.join(__dirname, '../lib/msg/js/'), req.params.name, res);
   });
 
