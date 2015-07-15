@@ -5,7 +5,7 @@ branch-defaults:
     environment: pharcoder-dev
 global:
   application_name: pharcoder-dev
-  default_ec2_keyname:
+  default_ec2_keyname: null
   default_platform: Node.js
   default_region: us-east-1
   profile: eb-cli
