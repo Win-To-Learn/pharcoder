@@ -98,6 +98,7 @@ Ship.prototype.update = function () {
         }
         for (var i = 0, a = aStart; i < n; i++, a += aDel) {
             var bullet = this.world.addSyncableBody(Bullet, {});
+            bullet.firer = this;
             bullet.position[0] = this.position[0];
             bullet.position[1] = this.position[1];
             bullet.velocity[0] = this.bulletVelocity * Math.sin(a);

@@ -18,6 +18,10 @@ CollisionHandlers.prototype.initCollisionHandlers = function () {
         while (true) {
             if (A.serverType === 'Bullet' && B.serverType === 'Asteroid') {
                 BulletAsteroid.bind(self)(A, B);
+            } else if (A.serverType === 'Bullet' && B.serverType === 'Ship') {
+                BulletShip.bind(self)(A, B);
+            } else if (A.serverType === 'Bullet' && B.serverType === 'Tree') {
+                BulletTree.bind(self)(A, B);
             } else if (A.serverType === 'Ship' && B.serverType === 'Crystal') {
                 ShipCrystal.bind(self)(A, B);
             } else if (A.serverType === 'Ship' && B.serverType === 'Planetoid') {
@@ -78,6 +82,18 @@ function ShipDeadly (ship, obstacle) {
     if (!ship.dead) {
         ship.knockOut();
     }
+}
+
+function BulletShip (bullet, ship) {
+    if (bullet.firer !== ship) {
+        ship.lineColor = bullet.firer.lineColor;
+        this.world.removeSyncableBody(bullet);
+    }
+}
+
+function BulletTree (bullet, tree) {
+    tree.lineColor = bullet.firer.lineColor;
+    this.world.removeSyncableBody(bullet);
 }
 
 module.exports = CollisionHandlers;

@@ -7,6 +7,8 @@
 
 var Interpreter = require('../js-interp/interpreter.js');
 
+var Planetoid = require('../serverbodies/Planetoid.js');
+
 var CodeEndpointServer = function () {};
 
 /**
@@ -68,6 +70,20 @@ CodeEndpointServer.prototype.newInterpreter = function (code, player) {
             player.getShip().shape = points;
         };
         interpreter.setProperty(scope, 'changeShape', interpreter.createNativeFunction(wrapper));
+        // new planet
+        wrapper = function (x, y, scale) {
+            starcoder.world.addSyncableBody(Planetoid, {
+                position: [x.toNumber(), y.toNumber()],
+                vectorScale: scale.toNumber(),
+                mass: 1000
+            });
+        };
+        interpreter.setProperty(scope, 'newPlanet', interpreter.createNativeFunction(wrapper));
+        // set thrust power
+        wrapper = function (power) {
+            player.getShip().thrustForce = Math.min(Math.max(power.toNumber(), 100), 1000);
+        };
+        interpreter.setProperty(scope, 'setThrustForce', interpreter.createNativeFunction(wrapper));
     };
     return new Interpreter(code, initFunc);
 };

@@ -31,6 +31,7 @@ DOMInterface.prototype.initDOMInterface = function () {
 
     this.dom.codeSend.addEventListener('click', function () {
         //self.sendCode(self.dom.codeText.value);
+        console.log(Blockly.JavaScript.workspaceToCode(self.blocklyWorkspace));
         self.sendCode(Blockly.JavaScript.workspaceToCode(self.blocklyWorkspace));
     });
 
