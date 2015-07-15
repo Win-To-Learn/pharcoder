@@ -15,7 +15,7 @@
 
 var config = {
     version: '0.1',
-    serverUri: process.env.NODE_ENV == 'development' ? 'http://localhost:8081' : 'http://52.3.61.102',
+    serverUri: process.env.NODE_ENV == 'development' ? 'http://localhost:8081' : 'http://pharcoder-single.elasticbeanstalk.com:8081',
     //worldBounds: [-4200, -4200, 8400, 8400],
     worldBounds: [-200, -200, 200, 200],
     ioClientOptions: {
