@@ -58,8 +58,14 @@ SyncBodyBase.prototype.clearAllShapes = function () {
  * Adjust body shape based on shape property with some reasonable fallbacks
  */
 SyncBodyBase.prototype.adjustShape = function () {
+    var oldGroup, oldMask;
+    if (this.shapes.length > 0) {
+        // For now all bodies are made of shapes with same collision group/mask
+        oldGroup = this.shapes[0].collisionGroup;
+        oldMask = this.shapes[0].collisionMask;
+    }
     var polyflag = false;
-    if (this.shape) {
+    if (this._shape) {
         var vertices = [];
         var x = this.position[0], y = this.position[1];
         for (var i = 0, l = this.shape.length; i < l; i++) {
@@ -74,6 +80,15 @@ SyncBodyBase.prototype.adjustShape = function () {
     } else {
         this.clearAllShapes();
         this.addShape(new p2.Circle(this._radius || 1));
+    }
+    //this.world.setCollisionGroup(this, this.collisionGroup || this.serverType || 'general');
+    //this.world.setCollisionMask(this, this.collisionInclude, this.collisionExclude);
+    // Reset old group/mask on all shapes
+    if (oldGroup || oldMask) {
+        for (i = 0, l = this.shapes.length; i < l; i++) {
+            this.shapes[i].collisionGroup = oldGroup;
+            this.shapes[i].collisionMask = oldMask;
+        }
     }
 };
 
@@ -190,6 +205,7 @@ Object.defineProperty(SyncBodyBase.prototype, 'vectorScale', {
     set: function (val) {
         this._vectorScale = val;
         this._dirtyProperties.vectorScale = true;
+        this.adjustShape();
     }
 });
 
@@ -221,6 +237,7 @@ Object.defineProperty(SyncBodyBase.prototype, 'shape', {
         // TODO: add test to ensure shape is simple
         this._shape = val;
         this._dirtyProperties.shape = true;
+        this.adjustShape();
     }
 });
 

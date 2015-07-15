@@ -68,6 +68,7 @@ Ship.prototype.updateAppearance = function () {
     if (this.tagText) {
         //this.tagText.setStyle({fill: this.lineColor});
         this.tagText.fill = this.lineColor;
+        this.tagText.y = this.texture.height/2 + 1;
     }
 };
 

@@ -47,10 +47,27 @@ CodeEndpointServer.prototype.newInterpreter = function (code, player) {
     var starcoder = this;
     var initFunc = function (interpreter, scope) {
         // FIXME: Just proof of concept. Need to be more systematic about api
+        // changeColor
         var wrapper = function (color) {
             player.getShip().lineColor = color.toString();
         };
         interpreter.setProperty(scope, 'changeColor', interpreter.createNativeFunction(wrapper));
+        // setScale
+        wrapper = function (scale) {
+            player.getShip().vectorScale = scale.toNumber();
+        };
+        interpreter.setProperty(scope, 'setScale', interpreter.createNativeFunction(wrapper));
+        // changeShape
+        wrapper = function (shape) {
+            //console.dir(shape);
+            var points = [];
+            for (var i = 0, l = shape.length; i < l; i++) {
+                points.push([shape.properties[i].properties[0].toNumber(),
+                    shape.properties[i].properties[1].toNumber()]);
+            }
+            player.getShip().shape = points;
+        };
+        interpreter.setProperty(scope, 'changeShape', interpreter.createNativeFunction(wrapper));
     };
     return new Interpreter(code, initFunc);
 };
