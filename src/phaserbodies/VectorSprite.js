@@ -5,17 +5,15 @@
 
 //var Starcoder = require('../../Starcoder-client.js');
 
+/**
+ * Base class for Vector-based sprites
+ *
+ * @param game {Phaser.Game} - Phaser game object
+ * @param config {object} - POJO with config details
+ * @constructor
+ */
 var VectorSprite = function (game, config) {
     Phaser.Sprite.call(this, game);
-
-    //this.shape = config.properties.shape || this.shape;
-    //this.shapeClosed = config.properties.shape || this.shapeClosed;
-    //this.lineWidth = config.properties.lineWidth || this.lineWidth;
-    //this.lineColor = config.properties.lineColor || this.lineColor;
-    //this.fillColor = config.properties.fillColor || this.fillColor;
-    //this.fillAlpha = config.properties.fillAlpha || this.fillAlpha;
-    //this.geometry = config.properties.geometry || this.geometry;
-    //this.vectorScale = config.properties.vectorScale || this.vectorScale;
 
     this.graphics = game.make.graphics();
     this.texture = this.game.add.renderTexture();
@@ -31,6 +29,14 @@ var VectorSprite = function (game, config) {
     this.body.mass = 0;
 };
 
+/**
+ * Create VectorSprite and add to game world
+ *
+ * @param game {Phaser.Game}
+ * @param x {number} - x coord
+ * @param y {number} - y coord
+ * @returns {VectorSprite}
+ */
 VectorSprite.add = function (game, x, y) {
     var v = new VectorSprite(game, x, y);
     game.add.existing(v);
@@ -41,7 +47,7 @@ VectorSprite.prototype = Object.create(Phaser.Sprite.prototype);
 VectorSprite.prototype.constructor = VectorSprite;
 
 // Default octagon
-VectorSprite.prototype.shape = [
+VectorSprite.prototype._shape = [
     [2,1],
     [1,2],
     [-1,2],
@@ -51,12 +57,12 @@ VectorSprite.prototype.shape = [
     [1,-2],
     [2,-1]
 ];
-VectorSprite.prototype.shapeClosed = true;
-VectorSprite.prototype.lineColor = '#ffffff';
-VectorSprite.prototype.lineWidth = 1;
-VectorSprite.prototype.fillColor = null;
-VectorSprite.prototype.fillAlpha = 0.25;
-VectorSprite.prototype.vectorScale = 1;
+VectorSprite.prototype._shapeClosed = true;
+VectorSprite.prototype._lineColor = '#ffffff';
+VectorSprite.prototype._lineWidth = 1;
+VectorSprite.prototype._fillColor = null;
+VectorSprite.prototype._fillAlpha = 0.25;
+VectorSprite.prototype._vectorScale = 1;
 
 VectorSprite.prototype.physicsBodyType = 'circle';
 
@@ -74,28 +80,36 @@ VectorSprite.prototype.setLineStyle = function (color, lineWidth) {
     this.updateAppearance();
 };
 
+/**
+ * Update cached bitmaps for object after vector properties change
+ */
 VectorSprite.prototype.updateAppearance = function () {
     // Draw full sized
     this.graphics.clear();
+    this.graphics._currentBounds = null;
     if (typeof this.drawProcedure !== 'undefined') {
-        this.drawProcedure();
+        this.drawProcedure(1);
     } else if (this.shape) {
-        this.draw();
+        this.draw(1);
     }
-    this.texture.resize(this.graphics.width, this.graphics.height, true);
-    this.texture.renderXY(this.graphics, this.graphics.width/2, this.graphics.height/2, true);
+    var bounds = this.graphics.getLocalBounds();
+    this.texture.resize(bounds.width, bounds.height, true);
+    this.texture.renderXY(this.graphics, -bounds.x, -bounds.y, true);
     this.setTexture(this.texture);
     // Draw small for minimap
     var mapScale = this.game.minimap.mapScale;
     this.graphics.clear();
+    this.graphics._currentBounds = null;
     if (typeof this.drawProcedure !== 'undefined') {
         this.drawProcedure(mapScale);
     } else if (this.shape) {
         this.draw(mapScale);
     }
-    this.minitexture.resize(this.graphics.width, this.graphics.height, true);
-    this.minitexture.renderXY(this.graphics, this.graphics.width/2, this.graphics.height/2, true);
+    bounds = this.graphics.getLocalBounds();
+    this.minitexture.resize(bounds.width, bounds.height, true);
+    this.minitexture.renderXY(this.graphics, -bounds.x, -bounds.y, true);
     this.minisprite.setTexture(this.minitexture);
+    this._dirty = false;
 };
 
 VectorSprite.prototype.updateBody = function () {
@@ -113,6 +127,11 @@ VectorSprite.prototype.updateBody = function () {
     }
 };
 
+/**
+ * Render vector to bitmap of graphics object at given scale
+ *
+ * @param renderScale {number} - scale factor for render
+ */
 VectorSprite.prototype.draw = function (renderScale) {
     renderScale = renderScale || 1;
     // Draw simple shape, if given
@@ -148,6 +167,14 @@ VectorSprite.prototype.draw = function (renderScale) {
     }
 };
 
+/**
+ * Draw open or closed polygon as sequence of lineTo calls
+ *
+ * @param points {Array} - points as array of [x,y] pairs
+ * @param closed {boolean} - is polygon closed?
+ * @param renderScale {number} - scale factor for render
+ * @private
+ */
 VectorSprite.prototype._drawPolygon = function (points, closed, renderScale) {
     var sc = this.game.physics.p2.mpxi(this.vectorScale)*renderScale;
     points = points.slice();
@@ -159,6 +186,113 @@ VectorSprite.prototype._drawPolygon = function (points, closed, renderScale) {
         this.graphics.lineTo(points[i][0] * sc, points[i][1] * sc);
     }
 };
+
+/**
+ * Invalidate cache and redraw if sprite is marked dirty
+ */
+VectorSprite.prototype.update = function () {
+    if (this._dirty) {
+        console.log('dirty VS');
+        this.updateAppearance();
+    }
+};
+
+// Vector properties defined to handle marking sprite dirty when necessary
+
+Object.defineProperty(VectorSprite.prototype, 'lineColor', {
+    get: function () {
+        return this._lineColor;
+    },
+    set: function (val) {
+        this._lineColor = val;
+        this._dirty = true;
+    }
+});
+
+Object.defineProperty(VectorSprite.prototype, 'fillColor', {
+    get: function () {
+        return this._fillColor;
+    },
+    set: function (val) {
+        this._fillColor = val;
+        this._dirty = true;
+    }
+});
+
+Object.defineProperty(VectorSprite.prototype, 'lineWidth', {
+    get: function () {
+        return this._lineWidth;
+    },
+    set: function (val) {
+        this._lineWidth = val;
+        this._dirty = true;
+    }
+});
+
+Object.defineProperty(VectorSprite.prototype, 'fillAlpha', {
+    get: function () {
+        return this._fillAlpha;
+    },
+    set: function (val) {
+        this._fillAlpha = val;
+        this._dirty = true;
+    }
+});
+
+Object.defineProperty(VectorSprite.prototype, 'shapeClosed', {
+    get: function () {
+        return this._shapeClosed;
+    },
+    set: function (val) {
+        this._shapeClosed = val;
+        this._dirty = true;
+    }
+});
+
+Object.defineProperty(VectorSprite.prototype, 'vectorScale', {
+    get: function () {
+        return this._vectorScale;
+    },
+    set: function (val) {
+        this._vectorScale = val;
+        this._dirty = true;
+    }
+});
+
+Object.defineProperty(VectorSprite.prototype, 'shape', {
+    get: function () {
+        return this._shape;
+    },
+    set: function (val) {
+        this._shape = val;
+        this._dirty = true;
+    }
+});
+
+Object.defineProperty(VectorSprite.prototype, 'geometry', {
+    get: function () {
+        return this._geometry;
+    },
+    set: function (val) {
+        this._geometry = val;
+        this._dirty = true;
+    }
+});
+
+Object.defineProperty(VectorSprite.prototype, 'dead', {
+    get: function () {
+        return this._dead;
+    },
+    set: function (val) {
+        this._dead = val;
+        if (val) {
+            this.kill();
+        } else {
+            this.revive();
+        }
+    }
+});
+
 
 module.exports = VectorSprite;
 //Starcoder.VectorSprite = VectorSprite;

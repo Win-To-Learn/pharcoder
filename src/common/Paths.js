@@ -26,3 +26,19 @@ exports.d2cross = [
     [-2,1],
     [2,1]
 ];
+
+exports.square0 = [
+    [-1,-2],
+    [2,-1],
+    [1,2],
+    [-2,1]
+];
+
+exports.square1 = [
+    [1,-2],
+    [2,1],
+    [-1,2],
+    [-2,-1]
+];
+
+exports.OCTRADIUS = Math.sqrt(5);

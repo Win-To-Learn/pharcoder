@@ -22,7 +22,7 @@ SyncBodyInterface.prototype.setPosAngle = function (x, y, a) {
 SyncBodyInterface.prototype.config = function (properties) {
     for (var i = 0, l = this.updateProperties.length; i < l; i++) {
         var k = this.updateProperties[i];
-        if (properties[k]) {
+        if (typeof properties[k] !== 'undefined') {
             this[k] = properties[k];        // FIXME? Virtualize somehow
         }
     }

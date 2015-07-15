@@ -5,6 +5,14 @@
 
 var ControlEndPoint = function () {};
 
+//ControlEndPoint.prototype.controlEndPointReady = function (player) {
+//    this.attachActions(player);
+//};
+
+ControlEndPoint.prototype.initControlEndPoint = function () {
+    this.clientReadyFunctions.push(this.attachActions.bind(this));
+};
+
 ControlEndPoint.prototype.attachActions = function (player) {
     var self = this;
     player.socket.on('do', function (actions) {
@@ -49,5 +57,15 @@ ControlEndPoint.prototype.doAction = function (player, action) {
             break;
     }
 };
+
+/**
+ * Code to execute with each client connection
+ * Implemented outside prototype to prevent copying to Starcoder object
+ *
+ * @param player {Player} - player object
+ */
+//function clientReady (player) {
+//    this.attachActions(player);
+//}
 
 module.exports = ControlEndPoint;

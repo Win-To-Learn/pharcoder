@@ -29,14 +29,14 @@ GenericOrb.prototype.constructor = GenericOrb;
 Starcoder.mixinPrototype(GenericOrb.prototype, SyncBodyInterface.prototype);
 Starcoder.mixinPrototype(GenericOrb.prototype, UpdateProperties.prototype);
 
-GenericOrb.prototype.lineColor = '#ff0000';
-GenericOrb.prototype.fillColor = '#000000';
-GenericOrb.prototype.shapeClosed = true;
-GenericOrb.prototype.lineWidth = 1;
-GenericOrb.prototype.fillAlpha = 0.0;
-GenericOrb.prototype.shape = Paths.octagon;
+GenericOrb.prototype._lineColor = '#ff0000';
+GenericOrb.prototype._fillColor = '#000000';
+GenericOrb.prototype._shapeClosed = true;
+GenericOrb.prototype._lineWidth = 1;
+GenericOrb.prototype._fillAlpha = 0.0;
+GenericOrb.prototype._shape = Paths.octagon;
 
-GenericOrb.prototype.geometry = [
+GenericOrb.prototype._geometry = [
     {type: 'poly', closed: true, points: Paths.d2cross}
 ];
 

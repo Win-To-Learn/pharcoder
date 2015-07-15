@@ -6,7 +6,11 @@
 'use strict';
 
 var p2 = require('p2');
+
+var Starcoder = require('../Starcoder.js');
+
 var SyncBodyBase = require('./SyncBodyBase.js');
+var UpdateProperties = require('../common/UpdateProperties.js').Bullet;
 
 var Bullet = function (config) {
     config.mass = 1;
@@ -15,6 +19,8 @@ var Bullet = function (config) {
 
 Bullet.prototype = Object.create(SyncBodyBase.prototype);
 Bullet.prototype.constructor = Bullet;
+
+Starcoder.mixinPrototype(Bullet.prototype, UpdateProperties.prototype);
 
 Bullet.prototype.clientType = 'Bullet';
 Bullet.prototype.serverType = 'Bullet';

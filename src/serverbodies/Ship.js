@@ -32,6 +32,8 @@ var Ship = function (config) {
     this.bulletRange = 25;
     this.bulletSpread = 0;
     this._lastShot = 0;
+    // Inventory
+    this._crystals = 0;
 };
 
 Ship.prototype = Object.create(SyncBodyBase.prototype);
@@ -44,11 +46,11 @@ Ship.prototype.serverType = 'Ship';
 
 // Default properties
 
-Ship.prototype.updateProperties = ['fillColor', 'lineColor', 'fillAlpha', 'shapeClosed', 'shape', 'lineWidth',
-    'vectorScale', 'playerid'];
-Ship.prototype.defaults = {mass: 10, vectorScale: 1};
+//Ship.prototype.updateProperties = ['fillColor', 'lineColor', 'fillAlpha', 'shapeClosed', 'shape', 'lineWidth',
+//    'vectorScale', 'playerid'];
+Ship.prototype.defaults = {mass: 10, vectorScale: 1, lineWidth: 6};
 
-Ship.prototype.shape = [
+Ship.prototype._shape = [
     [-1,-1],
     [-0.5,0],
     [-1,1],
@@ -58,8 +60,9 @@ Ship.prototype.shape = [
     [1,-1],
     [0,-0.5]
 ];
+Ship.prototype._shapeClosed = true;
 
-Ship.prototype.lineWidth = 6;
+//Ship.prototype.lineWidth = 6;
 
 //Ship.prototype.preProcessOptions = function (options) {
 //    options.mass = options.mass || 10;
@@ -95,6 +98,7 @@ Ship.prototype.update = function () {
         }
         for (var i = 0, a = aStart; i < n; i++, a += aDel) {
             var bullet = this.world.addSyncableBody(Bullet, {});
+            bullet.firer = this;
             bullet.position[0] = this.position[0];
             bullet.position[1] = this.position[1];
             bullet.velocity[0] = this.bulletVelocity * Math.sin(a);
@@ -104,5 +108,23 @@ Ship.prototype.update = function () {
         this._lastShot = this.world.time;
     }
 };
+
+Ship.prototype.knockOut = function () {
+    var self = this;
+    this.dead = true;
+    setTimeout(function () {
+        self.world.respawn(self, {position: {random: 'world'}});
+    }, 1000);
+};
+
+Object.defineProperty(Ship.prototype, 'crystals', {
+    get: function () {
+        return this._crystals;
+    },
+    set: function (val) {
+        this._crystals = val;
+        this._dirtyProperties.crystals = true;
+    }
+});
 
 module.exports = Ship;

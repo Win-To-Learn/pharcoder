@@ -23,7 +23,7 @@ var Ship = function (game, config) {
     //this.weapons = Weapons.add(game, 'bullet', 12);
     //this.weapons.ship = this;
     //this.addChild(this.weapons);
-    this.tagText = game.add.text(0, this.graphics.height/2 + 1,
+    this.tagText = game.add.text(0, this.texture.height/2 + 1,
         config.tag, {font: 'bold 18px Arial', fill: this.lineColor || '#ffffff', align: 'center'});
     this.tagText.anchor.setTo(0.5, 0);
     this.addChild(this.tagText);
@@ -60,9 +60,21 @@ Starcoder.mixinPrototype(Ship.prototype, UpdateProperties.prototype);
 //    [0,-0.5],
 //    [-1,-1]
 //];
-Ship.prototype.lineWidth = 6;
+//Ship.prototype._lineWidth = 6;
+
+Ship.prototype.updateAppearance = function () {
+    // FIXME: Probably need to refactor constructor a bit to make this cleaner
+    VectorSprite.prototype.updateAppearance.call(this);
+    if (this.tagText) {
+        //this.tagText.setStyle({fill: this.lineColor});
+        this.tagText.fill = this.lineColor;
+        this.tagText.y = this.texture.height/2 + 1;
+    }
+};
 
 Ship.prototype.update = function () {
+    VectorSprite.prototype.update.call(this);
+    // FIXME: Need to deal with player versus foreign ships
     switch (this.localState.thrust) {
         case 'starting':
             this.game.sounds.playerthrust.play();
@@ -74,6 +86,8 @@ Ship.prototype.update = function () {
             this.game.thrustgenerator.stopOn(this);
             this.localState.thrust = 'off';
     }
+    // Player ship only
+    this.game.inventorytext.setText(this.crystals);
 };
 
 module.exports = Ship;

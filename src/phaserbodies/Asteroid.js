@@ -1,5 +1,7 @@
 /**
  * Asteroid.js
+ *
+ * Client side
  */
 'use strict';
 
@@ -28,12 +30,12 @@ Asteroid.prototype.constructor = Asteroid;
 Starcoder.mixinPrototype(Asteroid.prototype, SyncBodyInterface.prototype);
 Starcoder.mixinPrototype(Asteroid.prototype, UpdateProperties.prototype);
 
-Asteroid.prototype.lineColor = '#ff00ff';
-Asteroid.prototype.fillColor = '#00ff00';
-Asteroid.prototype.shapeClosed = true;
-Asteroid.prototype.lineWidth = 1;
-Asteroid.prototype.fillAlpha = 0.25;
-Asteroid.prototype.shape = Paths.octagon;
+Asteroid.prototype._lineColor = '#ff00ff';
+Asteroid.prototype._fillColor = '#00ff00';
+Asteroid.prototype._shapeClosed = true;
+Asteroid.prototype._lineWidth = 1;
+Asteroid.prototype._fillAlpha = 0.25;
+Asteroid.prototype._shape = Paths.octagon;
 
 module.exports = Asteroid;
 //Starcoder.Asteroid = Asteroid;

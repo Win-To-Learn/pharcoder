@@ -31,7 +31,7 @@ HydraHead.prototype.collisionExclude = ['Hydra'];
 HydraHead.prototype.defaults = {mass: 100, vectorScale: 1.5, numArms: 5, numSegments: 4,
     spinForce: 50000, spinSpeed: 5, lineColor: '#ff00ff', angularDamping: 0};
 
-HydraHead.prototype.shape = Paths.octagon;
+HydraHead.prototype._shape = Paths.octagon;
 
 HydraHead.prototype.onWorldAdd = function () {
     this.constraints = [];
@@ -86,6 +86,8 @@ HydraArm.prototype.collisionExclude = ['Hydra'];
 HydraArm.prototype.updateProperties = ['lineColor', 'vectorScale'];
 HydraArm.prototype.defaults = {mass: 50, lineColor: '#00ff00'};
 
-HydraArm.prototype.shape = Paths.octagon;
+HydraArm.prototype._shape = Paths.octagon;
+
+HydraArm.prototype.deadly = true;
 
 module.exports = HydraHead;

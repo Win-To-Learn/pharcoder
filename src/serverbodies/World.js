@@ -15,9 +15,18 @@ var bodyTypes = {
     Ship: require('./Ship.js'),
     Asteroid: require('./Asteroid.js'),
     Crystal: require('./Crystal.js'),
-    Hydra: require('./Hydra.js')
+    Hydra: require('./Hydra.js'),
+    Planetoid: require('./Planetoid.js'),
+    Tree: require('./Tree.js')
 };
 
+/**
+ * Construct physics world
+ *
+ * @param bounds {Array} - world boundary coords as [left, top, right, bottom]
+ * @param initialBodies {Array} - descriptor of initial bodies to add to world
+ * @constructor
+ */
 var World = function (bounds, initialBodies) {
     p2.World.call(this, {
         broadphase: new p2.SAPBroadphase(),
@@ -41,7 +50,7 @@ World.prototype.constructor = World;
  * Set named collision group on body
  *
  * @param body {object} - Body to set group for
- * @param groupname - Name of group
+ * @param groupname {string} - Name of group
  */
 World.prototype.setCollisionGroup = function (body, groupname) {
     var gid = this._cGroups[groupname];
@@ -57,8 +66,8 @@ World.prototype.setCollisionGroup = function (body, groupname) {
  * Use named flags to set collision mask on body
  *
  * @param body {object} - Body to set mask for
- * @param include {array} - List of groups to enable collisions for
- * @param exclude {array} - List of groups to disable collisions for
+ * @param include {Array} - List of groups to enable collisions for
+ * @param exclude {Array} - List of groups to disable collisions for
  */
 World.prototype.setCollisionMask = function (body, include, exclude) {
     if (include && include.length > 1) {
@@ -135,6 +144,13 @@ World.prototype.addPlayerShip = function (player) {
     return ship;
 };
 
+/**
+ * Add syncable (i.e. shared between client and server) body to world
+ *
+ * @param ctor {function} - constructor for body
+ * @param config {object} - POJO with configuration data
+ * @returns {object} - newly created body
+ */
 World.prototype.addSyncableBody = function (ctor, config) {
     var c = {};
     for (var k in config) {
@@ -153,6 +169,11 @@ World.prototype.addSyncableBody = function (ctor, config) {
     return body;
 };
 
+/**
+ * Remove body from world and queue for client deletion on next update
+ *
+ * @param body
+ */
 World.prototype.removeSyncableBody = function (body) {
     var removed = false;
     for (var i = this._syncableBodies.length - 1; i >=0; i--) {
@@ -177,6 +198,30 @@ World.prototype.removeSyncableBody = function (body) {
     }
 };
 
+/**
+ * Revive a 'dead' body, possibly with new properties
+ *
+ * @param body
+ * @param config
+ */
+World.prototype.respawn = function (body, config) {
+    body.dead = false;
+    for (var k in config) {
+        if (typeof config[k] === 'object' && config[k].random) {
+            body[k] = this._flexRand(config[k]);
+        } else {
+            body[k] = config[k];
+        }
+    }
+};
+
+/**
+ * Start world simulation
+ *
+ * @param rate {number} - update rate in seconds
+ * @param substeps {number} - max substeps per update
+ * @returns {object} - interval descriptor
+ */
 World.prototype.start = function (rate, substeps) {
     var self = this;
     substeps = substeps || 10;
@@ -189,6 +234,9 @@ World.prototype.start = function (rate, substeps) {
     }, rate*1000);
 };
 
+/**
+ * Call update functions on body objects
+ */
 World.prototype.preStep = function () {
     for (var i = this._syncableBodies.length - 1; i >= 0; i--) {
         var body = this._syncableBodies[i];
@@ -204,6 +252,15 @@ World.prototype.preStep = function () {
     }
 };
 
+/**
+ * Set world bounds and create wall objects
+ *
+ * @param l {number} - coordinate of left boundary
+ * @param t {number} - coordinates of top boundary
+ * @param r {number} - coordinates of right boundary
+ * @param b {number} - coordinates of bottom boundary
+ * @private
+ */
 World.prototype._setBounds = function (l, t, r, b) {
     this.left = l;
     this.top = t;
@@ -240,6 +297,12 @@ World.prototype._setBounds = function (l, t, r, b) {
     }
 };
 
+/**
+ * Add bodies to world based on descriptor array
+ *
+ * @param desc {Array} - descriptor of objects to add
+ * @private
+ */
 World.prototype._populate = function (desc) {
     for (var i = 0, l = desc.length; i < l; i++) {
         var ctor = bodyTypes[desc[i].type];

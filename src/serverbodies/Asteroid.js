@@ -7,7 +7,6 @@
 
 var Starcoder = require('../Starcoder.js');
 
-var p2 = require('p2');
 var SyncBodyBase = require('./SyncBodyBase.js');
 
 var Paths = require('../common/Paths.js');
@@ -38,7 +37,9 @@ Asteroid.prototype.serverType = 'Asteroid';
 //Asteroid.prototype.shapeClosed = true;
 //Asteroid.prototype.lineWidth = 1;
 //Asteroid.prototype.fillAlpha = 0.25;
-Asteroid.prototype.shape = Paths.octagon;
+Asteroid.prototype._shape = Paths.octagon;
+
+Asteroid.prototype.deadly = true;
 
 //Asteroid.prototype.updateProperties = ['vectorScale', 'state'];
 
