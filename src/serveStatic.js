@@ -19,7 +19,7 @@ module.exports = function (app) {
   };
 
   app.get('/', function (req, res) {
-    return sendFile(path.join(__dirname, '../static/'), 'index.html', res);
+    return sendFile(path.join(__dirname, '../'), 'index.html', res);
   });
 
   app.get('/js/:name', function (req, res) {
