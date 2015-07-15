@@ -30,8 +30,8 @@ module.exports = function (app) {
     return sendFile(path.join(__dirname, '../js/'), req.params.name, res);
   });
 
-  app.get('/lib/msg/js/:name', function (req, res) {
-    return sendFile(path.join(__dirname, '../lib/msg/js/'), req.params.name, res);
+  app.get('/lib/msg/json/:name', function (req, res) {
+    return sendFile(path.join(__dirname, '../lib/msg/json/'), req.params.name, res);
   });
 
   app.get('/lib/:name', function (req, res) {
