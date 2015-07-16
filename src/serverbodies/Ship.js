@@ -86,6 +86,11 @@ Ship.prototype.update = function () {
     this.angularForce = this.turningForce*this.state.turn;
     this.setPolarForce(this.thrustForce*this.state.thrust);
     if (this.state.firing && ((this.world.time - this._lastShot) > 1)) {
+        // FIXME: Probably a better way to do this
+        if (this.state.oneshot) {
+            this.state.oneshot = false;
+            this.state.firing = false;
+        }
         var tod = this.world.time + this.bulletRange / this.bulletVelocity;
         if (this.bulletSpread === 0 || this.bulletSalvoSize === 1) {
             var n = 1;

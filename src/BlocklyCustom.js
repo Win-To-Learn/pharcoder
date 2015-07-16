@@ -173,3 +173,48 @@ Blockly.JavaScript['sc_set_color'] = function (block) {
     var color = block.getFieldValue('COLOR');
     return 'changeColor(\'' + color + '\')';
 };
+
+/**
+ * translate ship to new position
+ */
+Blockly.Blocks['sc_translate'] = {
+    init: function () {
+        this.setColour(240);
+        this.appendDummyInput()
+            .appendField('x')
+            .appendField(new Blockly.FieldTextInput('0', Blockly.FieldTextInput.numberValidator), 'X')
+            .appendField('y')
+            .appendField(new Blockly.FieldTextInput('0', Blockly.FieldTextInput.numberValidator), 'Y');
+        this.setPreviousStatement(true);
+        this.setNextStatement(true);
+    }
+};
+
+/**
+ * code generation for ship translation
+ */
+Blockly.JavaScript['sc_translate'] = function (block) {
+    var x = block.getFieldValue('X');
+    var y = block.getFieldValue('Y');
+    return 'translate(' + x + ',' + y + ')';
+}
+
+/**
+ * shoot ship's weapon
+ */
+Blockly.Blocks['sc_shoot'] = {
+    init: function () {
+        this.setColour(180);
+        this.appendDummyInput()
+            .appendField('shoot');
+        this.setPreviousStatement(true);
+        this.setNextStatement(true);
+    }
+};
+
+/**
+ * code generation for shoot
+ */
+Blockly.JavaScript['sc_shoot'] = function () {
+    return 'shoot()';
+};

@@ -84,6 +84,18 @@ CodeEndpointServer.prototype.newInterpreter = function (code, player) {
             player.getShip().thrustForce = Math.min(Math.max(power.toNumber(), 100), 1000);
         };
         interpreter.setProperty(scope, 'setThrustForce', interpreter.createNativeFunction(wrapper));
+        // translate
+        wrapper = function (x, y) {
+            player.getShip().position[0] = x.toNumber();
+            player.getShip().position[1] = y.toNumber();
+        };
+        interpreter.setProperty(scope, 'translate', interpreter.createNativeFunction(wrapper));
+        // shoot
+        wrapper = function () {
+            player.getShip().state.firing = true;
+            player.getShip().state.oneshot = true;
+        };
+        interpreter.setProperty(scope, 'shoot', interpreter.createNativeFunction(wrapper));
     };
     return new Interpreter(code, initFunc);
 };
