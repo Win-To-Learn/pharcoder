@@ -42,7 +42,12 @@ Planetoid.prototype.plantTree = function (x, y, ship) {
         mass: 0.1,
         position: [this.position[0] + x, this.position[1] + y],
         angle: Math.atan2(x, -y),
-        lineColor: ship.lineColor
+        lineColor: ship.lineColor,
+        depth: ship.seederProperties.depth,
+        branchFactor: ship.seederProperties.branchFactor,
+        branchDecay: ship.seederProperties.branchDecay,
+        spread: ship.seederProperties.spread,
+        trunkLength: ship.seederProperties.trunkLength
     });
     //tree.angle = Math.atan2(x, -y);
     var constraint = new p2.LockConstraint(this, tree);

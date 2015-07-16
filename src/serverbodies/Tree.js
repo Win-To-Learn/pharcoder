@@ -37,6 +37,9 @@ Starcoder.mixinPrototype(Tree.prototype, UpdateProperties.prototype);
 Tree.prototype.clientType = 'Tree';
 Tree.prototype.serverType = 'Tree';
 
+Tree.prototype.collisionGroup = 'Tree';
+Tree.prototype.collisionExclude = ['Tree', 'Planetoid'];
+
 // Currently using a tiny body to avoid collisions and minimize impact on planet physics. Need to decide if that's
 // the behavior we want
 Tree.prototype._shape = [[0.1,0], [-0.1,0], [-0.1,0.1], [0.1,0.1]];

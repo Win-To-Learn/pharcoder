@@ -218,3 +218,41 @@ Blockly.Blocks['sc_shoot'] = {
 Blockly.JavaScript['sc_shoot'] = function () {
     return 'shoot()';
 };
+
+/**
+ * set seeder (tree default) properties
+ */
+Blockly.Blocks['sc_set_seeder_props'] = {
+    init: function () {
+        this.setColour(210);
+        this.appendDummyInput()
+            .appendField('set tree seeder properties');
+        this.appendDummyInput()
+            .appendField('trunk length')
+            .appendField(new Blockly.FieldTextInput('1', Blockly.FieldTextInput.numberValidator), 'TL');
+        this.appendDummyInput()
+            .appendField('branch factor')
+            .appendField(new Blockly.FieldTextInput('4', Blockly.FieldTextInput.numberValidator), 'BF');
+        this.appendDummyInput()
+            .appendField('branch decay')
+            .appendField(new Blockly.FieldTextInput('0.75', Blockly.FieldTextInput.numberValidator), 'BD');
+        this.appendDummyInput()
+            .appendField('spread')
+            .appendField(new Blockly.FieldTextInput('90', Blockly.FieldTextInput.numberValidator), 'SP');
+        this.appendDummyInput()
+            .appendField('depth')
+            .appendField(new Blockly.FieldTextInput('5', Blockly.FieldTextInput.numberValidator), 'DP');
+    }
+};
+
+/**
+ * code generation for set seeder props
+ */
+Blockly.JavaScript['sc_set_seeder_props'] = function (block) {
+    var tl = block.getFieldValue('TL');
+    var bf = block.getFieldValue('BF');
+    var bd = block.getFieldValue('BD');
+    var sp = block.getFieldValue('SP');
+    var dp = block.getFieldValue('DP');
+    return 'setSeederProperties(' + tl + ',' + bf + ',' + bd + ',' + sp + ',' + dp + ')';
+};

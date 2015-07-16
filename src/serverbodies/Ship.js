@@ -23,6 +23,13 @@ var Ship = function (config) {
         thrust: 0,
         firing: false
     };
+    this.seederProperties = {             // defaults for new trees
+        depth: 5,
+        branchFactor: 4,
+        branchDecay: 0.75,
+        spread: 90,
+        trunkLength: 2
+    };
     // Engine
     this.thrustForce = 500;
     this.turningForce = 50;

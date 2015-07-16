@@ -96,6 +96,16 @@ CodeEndpointServer.prototype.newInterpreter = function (code, player) {
             player.getShip().state.oneshot = true;
         };
         interpreter.setProperty(scope, 'shoot', interpreter.createNativeFunction(wrapper));
+        // set tree properties
+        wrapper = function (trunkLength, branchFactor, branchDecay, spread, depth) {
+            var sp = player.getShip().seederProperties;
+            sp.trunkLength = trunkLength.toNumber();
+            sp.branchFactor = branchFactor.toNumber();
+            sp.branchDecay= branchDecay.toNumber();
+            sp.spread = spread.toNumber();
+            sp.depth = depth.toNumber();
+        };
+        interpreter.setProperty(scope, 'setSeederProperties', interpreter.createNativeFunction(wrapper));
     };
     return new Interpreter(code, initFunc);
 };
