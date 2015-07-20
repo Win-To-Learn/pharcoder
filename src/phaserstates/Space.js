@@ -37,13 +37,14 @@ Space.prototype.create = function () {
     this.starcoder.controls.reset();
 
     // Virtual joystick
-    this.game.vcontrols = {};
-    this.game.vcontrols.stick = this.game.joystick.addStick(
-        this.game.width - 150, this.game.height - 75, 100, 'joystick');
-    this.game.vcontrols.stick.scale = 0.5;
-    this.game.vcontrols.firebutton = this.game.joystick.addButton(this.game.width - 50, this.game.height - 75,
-        'joystick', 'button1-up', 'button1-down');
-    this.game.vcontrols.firebutton.scale = 0.5;
+    this.starcoder.controls.addVirtualControls(this.game.width - 150, this.game.height - 100, 0.5, 'joystick');
+    //this.game.vcontrols = {};
+    //this.game.vcontrols.stick = this.game.joystick.addStick(
+    //    this.game.width - 150, this.game.height - 75, 100, 'joystick');
+    //this.game.vcontrols.stick.scale = 0.5;
+    //this.game.vcontrols.firebutton = this.game.joystick.addButton(this.game.width - 50, this.game.height - 75,
+    //    'joystick', 'button1-up', 'button1-down');
+    //this.game.vcontrols.firebutton.scale = 0.5;
 
     // Sounds
     this.game.sounds = {};
