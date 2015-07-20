@@ -43,6 +43,7 @@ Boot.prototype.preload = function () {
     };
     //this.starcoder.controls = this.game.plugins.add(Controls,
     //    this.starcoder.cmdQueue);
+    this.game.joystick = this.starcoder.attachPlugin(Phaser.VirtualJoystick);
     this.starcoder.controls = this.starcoder.attachPlugin(Controls, this.starcoder.cmdQueue);
     // Set up socket.io connection
     this.starcoder.socket = this.starcoder.io(this.starcoder.config.serverUri,

@@ -20,6 +20,7 @@ Space.prototype.preload = function () {
     SimpleParticle.cacheTexture(this.game, 'bullet', '#999999', 4);
     this.game.load.audio('playerthrust', 'assets/sounds/thrustLoop.ogg');
     this.game.load.audio('chime', 'assets/sounds/chime.mp3');
+    this.game.load.atlas('joystick', 'assets/joystick/generic-joystick.png', 'assets/joystick/generic-joystick.json');
 };
 
 Space.prototype.create = function () {
@@ -34,6 +35,15 @@ Space.prototype.create = function () {
     this.game.time.advancedTiming = true;
 
     this.starcoder.controls.reset();
+
+    // Virtual joystick
+    this.game.vcontrols = {};
+    this.game.vcontrols.stick = this.game.joystick.addStick(
+        this.game.width - 150, this.game.height - 75, 100, 'joystick');
+    this.game.vcontrols.stick.scale = 0.5;
+    this.game.vcontrols.firebutton = this.game.joystick.addButton(this.game.width - 50, this.game.height - 75,
+        'joystick', 'button1-up', 'button1-down');
+    this.game.vcontrols.firebutton.scale = 0.5;
 
     // Sounds
     this.game.sounds = {};
@@ -143,6 +153,7 @@ Space.prototype.render = function () {
     //}
     //console.log('--------------------------------');
     this.game.debug.text('Fps: ' + this.game.time.fps, 5, 20);
+    //this.game.vcontrols.stick.debug(true, true);
     //this.game.debug.cameraInfo(this.game.camera, 100, 20);
     //if (this.ship) {
     //    this.game.debug.spriteInfo(this.ship, 420, 20);
