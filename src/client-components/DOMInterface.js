@@ -10,8 +10,10 @@ var DOMInterface = function () {};
 DOMInterface.prototype.initDOMInterface = function () {
     var self = this;
     this.dom = {};              // namespace
-    this.dom.codeButton = document.getElementById('code-btn');
-    this.dom.codePopup = document.getElementById('code-popup');
+    //this.dom.codeButton = document.getElementById('code-btn');
+    //this.dom.codePopup = document.getElementById('code-popup');
+    this.dom.codeButton = $('#code-btn');
+    this.dom.codePopup = $('#code-popup');
     //this.dom.codeSend = document.getElementById('code-send');
     //this.dom.blocklyWorkspace = document.getElementById('blockly-workspace');
     //this.dom.codeText = document.getElementById('code-text');
@@ -24,12 +26,16 @@ DOMInterface.prototype.initDOMInterface = function () {
     //    self.game.input.enabled = true;
     //});
 
-    this.dom.codeButton.addEventListener('click', function () {
-        self.toggle(self.dom.codePopup);
-        //Blockly.fireUiEvent(self.dom.blocklyWorkspace, 'resize');
+    //this.dom.codeButton.addEventListener('click', function () {
+    //    self.toggle(self.dom.codePopup);
+    //    //Blockly.fireUiEvent(self.dom.blocklyWorkspace, 'resize');
+    //});
+
+    this.dom.codeButton.on('click', function () {
+        self.dom.codePopup.toggle('slow');
     });
 
-    window.addEventListener('message', function (event) {
+    $(window).on('message', function (event) {
         if (event.source === self.dom.codePopup.contentWindow) {
             self.sendCode(event.data);
         }
@@ -46,8 +52,8 @@ DOMInterface.prototype.initDOMInterface = function () {
     //    {toolbox: document.getElementById('toolbox')});
     //console.log('bd', this.blocklyWorkspace);
 
-    this.toggle(this.dom.codePopup, false);
-
+    //this.toggle(this.dom.codePopup, false);
+    this.dom.codePopup.hide();
 };
 
 /**
@@ -56,23 +62,23 @@ DOMInterface.prototype.initDOMInterface = function () {
  * @param el {object} - element to set
  * @param state {?boolean} - show (true), hide (false), toggle (undefined)
  */
-DOMInterface.prototype.toggle = function (el, state) {
-    var display = el.style.display;
-    if (!el.origDisplay) {
-        if (display !== 'none') {
-            el.origDisplay = display;
-        } else {
-            el.origDisplay = 'block';
-        }
-    }
-    if (typeof state === 'undefined') {
-        state = (display === 'none');
-    }
-    if (state) {
-        el.style.display = el.origDisplay;
-    } else {
-        el.style.display = 'none';
-    }
-}
+//DOMInterface.prototype.toggle = function (el, state) {
+//    var display = el.style.display;
+//    if (!el.origDisplay) {
+//        if (display !== 'none') {
+//            el.origDisplay = display;
+//        } else {
+//            el.origDisplay = 'block';
+//        }
+//    }
+//    if (typeof state === 'undefined') {
+//        state = (display === 'none');
+//    }
+//    if (state) {
+//        el.style.display = el.origDisplay;
+//    } else {
+//        el.style.display = 'none';
+//    }
+//};
 
 module.exports = DOMInterface;
