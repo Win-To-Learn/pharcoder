@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <script src="lib/blockly_compressed.js"></script>
+    <script src="lib/blocks_compressed.js"></script>
+    <script src="lib/javascript_compressed.js"></script>
+    <script src="lib/msg/js/en.js"></script>
+</head>
+<body>
+
+<div id="blockly" style="height: 85vh;"></div>
+
+<br/>
+
+<button id="send-code">Submit Code</button>
+
+<xml id="toolbox" style="display: none">
+    <block type="sc_set_scale"></block>
+    <block type="math_number"></block>
+    <block type="sc_change_shape"></block>
+    <block type="sc_pair"></block>
+    <block type="sc_set_thrust_power"></block>
+    <block type="sc_new_planet"></block>
+    <block type="sc_set_color"></block>
+    <block type="sc_translate"></block>
+    <block type="sc_shoot"></block>
+    <block type="sc_set_seeder_props"></block>
+</xml>
+
+<script src="src/BlocklyCustom.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var workspace = Blockly.inject('blockly', {toolbox: document.getElementById('toolbox')});
+        var button = document.getElementById('send-code');
+
+        button.addEventListener('click', function () {
+            var code = Blockly.JavaScript.workspaceToCode(workspace);
+            window.parent.postMessage(code, 'http://localhost:8000');           // FIXME: target origin
+        });
+    });
+</script>
+
+</body>
+</html>

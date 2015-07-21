@@ -5,7 +5,7 @@
  * @type {Starcoder|exports}
  */
 
-require('./BlocklyCustom.js');
+//require('./BlocklyCustom.js');
 
 var Starcoder = require('./Starcoder-client.js');
 

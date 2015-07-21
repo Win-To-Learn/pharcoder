@@ -10,20 +10,22 @@
 <script src="lib/phaser.js"></script>
 <script src="lib/phaser-virtual-joystick.js"></script>
 <script src="lib/socket.io.js"></script>
-<script src="lib/blockly_compressed.js"></script>
-<script src="lib/blocks_compressed.js"></script>
-<script src="lib/javascript_compressed.js"></script>
-<script src="lib/msg/js/en.js"></script>
+<!--<script src="lib/blockly_compressed.js"></script>-->
+<!--<script src="lib/blocks_compressed.js"></script>-->
+<!--<script src="lib/javascript_compressed.js"></script>-->
+<!--<script src="lib/msg/js/en.js"></script>-->
 
 <!--<script src="https://cdn.socket.io/socket.io-1.3.5.js"></script>-->
 <script src="js/client.js"></script>
 
 <div id="main" class="playfield" style="width: 100%;">
     <div id="code-btn" class="open-btn" style="left: 0; bottom: 0;">CODE</div>
-    <div id="code-popup" class="popup" style="left: 0; bottom: 16px;">
-        <div id="blockly-workspace" style="width: 640px; height: 480px;"></div>
-        <button id="code-send">Submit Code</button>
-    </div>
+    <!--<div id="code-popup" class="popup" style="left: 0; bottom: 16px; width: 640px; height: 480px;">-->
+        <!--&lt;!&ndash;<div id="blockly-workspace" style="width: 640px; height: 480px;"></div>&ndash;&gt;-->
+        <!--&lt;!&ndash;<button id="code-send">Submit Code</button>&ndash;&gt;-->
+        <!--<iframe src="blockly.html"></iframe>-->
+    <!--</div>-->
+    <iframe src="blockly.html" id="code-popup" class="popup" style="background: transparent; left: 0; bottom: 16px; width: 640px; height: 480px;"></iframe>
 </div>
 
 <xml id="toolbox" style="display: none">

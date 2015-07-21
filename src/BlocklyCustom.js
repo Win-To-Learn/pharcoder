@@ -27,7 +27,7 @@ Blockly.Blocks['sc_set_scale'] = {
  * @returns {string}
  */
 Blockly.JavaScript['sc_set_scale'] = function (block) {
-    var arg = block.getFieldValue('VALUE');
+    var arg = Blockly.JavaScript.valueToCode(block, 'VALUE', Blockly.JavaScript.ORDER_NONE) || '1';
     return 'setScale(' + arg + ')';
 };
 
