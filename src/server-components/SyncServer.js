@@ -18,8 +18,6 @@ SyncServer.prototype.initSyncServer = function () {
     }, self.config.updateInterval);
 };
 
-SyncServer.prototype
-
 /**
  * Send updates to all connected clients
  */

@@ -10,10 +10,19 @@ var ThrustGenerator = require('../phaserbodies/ThrustGenerator.js');
 var MiniMap = require('../phaserui/MiniMap.js');
 var Toast = require('../phaserbodies/Toast.js');
 
+var Controls = require('../phaserplugins/Controls.js');
+var SyncClient = require('../phaserplugins/SyncClient.js');
+
 var Space = function () {};
 
 Space.prototype = Object.create(Phaser.State.prototype);
 Space.prototype.constructor = Space;
+
+Space.prototype.init = function () {
+    this.starcoder.controls = this.starcoder.attachPlugin(Controls, this.starcoder.cmdQueue);
+    this.starcoder.syncclient = this.starcoder.attachPlugin(SyncClient,
+        this.starcoder.socket, this.starcoder.cmdQueue);
+};
 
 Space.prototype.preload = function () {
     SimpleParticle.cacheTexture(this.game, ThrustGenerator.textureKey, '#ff6600', 8);
@@ -57,7 +66,8 @@ Space.prototype.create = function () {
     this.game.add.tileSprite(wb[0]*ps, wb[1]*ps, (wb[2]-wb[0])*ps, (wb[3]-wb[1])*ps, starfield);
 
     this.starcoder.syncclient.start();
-    this.starcoder.socket.emit('client ready');
+    //this.starcoder.socket.emit('client ready');
+    this.starcoder.socket.emit('ready');
     this._setupMessageHandlers(this.starcoder.socket);
 
     // Groups for particle effects

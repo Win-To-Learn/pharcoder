@@ -10,7 +10,7 @@ var ControlEndPoint = function () {};
 //};
 
 ControlEndPoint.prototype.initControlEndPoint = function () {
-    this.clientReadyFunctions.push(this.attachActions.bind(this));
+    this.onReadyCB.push(this.attachActions);
 };
 
 ControlEndPoint.prototype.attachActions = function (player) {

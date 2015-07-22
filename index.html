@@ -3,6 +3,8 @@
 <head lang="en">
     <meta charset="UTF-8">
     <title>STARCODER</title>
+    <link href="css/jquery-ui.structure.css" rel="stylesheet">
+    <link href="css/jquery-ui.theme.css" rel="stylesheet">
     <link href="css/app.css" rel="stylesheet">
 </head>
 <body>
@@ -11,36 +13,50 @@
 <script src="lib/phaser-virtual-joystick.js"></script>
 <script src="lib/socket.io.js"></script>
 <script src="lib/jquery-2.1.4.min.js"></script>
-<!--<script src="lib/blockly_compressed.js"></script>-->
-<!--<script src="lib/blocks_compressed.js"></script>-->
-<!--<script src="lib/javascript_compressed.js"></script>-->
-<!--<script src="lib/msg/js/en.js"></script>-->
-
-<!--<script src="https://cdn.socket.io/socket.io-1.3.5.js"></script>-->
+<script src="lib/jquery-ui.min.js"></script>
 <script src="js/client.js"></script>
 
 <div id="main" class="playfield" style="width: 100%;">
     <div id="code-btn" class="open-btn" style="left: 0; bottom: 0;">CODE</div>
-    <!--<div id="code-popup" class="popup" style="left: 0; bottom: 16px; width: 640px; height: 480px;">-->
-        <!--&lt;!&ndash;<div id="blockly-workspace" style="width: 640px; height: 480px;"></div>&ndash;&gt;-->
-        <!--&lt;!&ndash;<button id="code-send">Submit Code</button>&ndash;&gt;-->
-        <!--<iframe src="blockly.html"></iframe>-->
-    <!--</div>-->
-    <iframe src="blockly.html" id="code-popup" class="popup" style="background: transparent; left: 0; bottom: 16px; width: 640px; height: 480px;"></iframe>
+    <iframe src="blockly.html" id="code-popup" class="code popup" style="background: transparent; left: 0; bottom: 16px; width: 640px; height: 480px;"></iframe>
 </div>
 
-<xml id="toolbox" style="display: none">
-    <block type="sc_set_scale"></block>
-    <block type="math_number"></block>
-    <block type="sc_change_shape"></block>
-    <block type="sc_pair"></block>
-    <block type="sc_set_thrust_power"></block>
-    <block type="sc_new_planet"></block>
-    <block type="sc_set_color"></block>
-    <block type="sc_translate"></block>
-    <block type="sc_shoot"></block>
-    <block type="sc_set_seeder_props"></block>
-</xml>
+<!--<div id="login" class="login popup">-->
+    <!--<div class="loginTitle">Login / register</div>-->
+    <!--<div class="loginField">Username: <input type="text" id="username" class="right"></div>-->
+    <!--<div class="loginField">Password: <input type="password" id="password" class="right"></div>-->
+    <!--<div class="loginField">Remember me <input type="checkbox" id="remember">-->
+        <!--<button type="submit" id="submit" class="right">Login/register</button></div>-->
+    <!--<div class="loginStatus"></div>-->
+<!--</div>-->
+
+<div id="login-window" class="modal popup">
+    <div class="accordion">
+        <h3>Login</h3>
+        <div>
+            <div class="form-row"><label for="username">Username</label> <input type="text" id="username" class="right"></div>
+            <div class="form-row"><label for="password">Password</label> <input type="password" id="password" class="right"></div>
+            <div class="form-row"><button id="userlogin" class="loginbutton">Login</button></div>
+        </div>
+        <h3>Guest Login</h3>
+        <div>
+            <div class="form-row"><label for="gt1">Gamertag</label>
+                <select id="gt1" class="select"></select>
+                <select id="gt2" class="select"></select>
+            </div>
+            <div class="form-row"><button id="guestlogin" class="loginbutton">Login</button></div>
+        </div>
+        <h3>Register</h3>
+        <div>
+            TODO
+        </div>
+    </div>
+
+    <div class="message ui-corner-all ui-state-error"></div>
+</div>
+
+
+</div>
 
 </body>
 </html>

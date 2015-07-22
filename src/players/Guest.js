@@ -8,12 +8,9 @@
 
 var Player = require('./Player.js');
 
-var id = 1;             // Counter for unique ids
-
-var Guest = function (socket) {
-    Player.call(this, socket);
-    this.id = 9000 + id++;
-    this.username = 'Guest' + this.id;
+var Guest = function (gamertag) {
+    Player.call(this);
+    this.username = gamertag || ('Guest' + this.id);
 };
 
 Guest.prototype = Object.create(Player.prototype);

@@ -5,16 +5,17 @@
  */
 'use strict';
 
-var id = 1;         // FIXME: Different id generation
-
-var Player = function (socket) {
-    this.id = 1000 + id++;
-    this.socket = socket;
+var Player = function (username) {
+    this.id = Player.id++;
+    this.username = username || ('Player' + this.id);
+    //this.socket = socket;
     this.ships = [];
     this.newborn = true;
     this.codeQueue = [];
     this.interpreter = null;
 };
+
+Player.id = 1;
 
 Player.prototype.addShip = function (ship) {
     this.ships.push(ship);

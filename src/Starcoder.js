@@ -35,6 +35,41 @@ var config = {
             mass: 20
         }
     },
+    gamerTags: {
+        1: [
+            'super',
+            'awesome',
+            'rainbow',
+            'double',
+            'triple',
+            'vampire',
+            'princess',
+            'ice',
+            'fire',
+            'robot',
+            'werewolf',
+            'sparkle',
+            'infinite',
+            'cool',
+            'yolo',
+            'swaggy'
+        ],
+        2: [
+            'tiger',
+            'ninja',
+            'princess',
+            'robot',
+            'pony',
+            'dancer',
+            'rocker',
+            'master',
+            'hacker',
+            'rainbow',
+            'kitten',
+            'puppy',
+            'boss'
+        ]
+    },
     initialBodies: [
         {type: 'Asteroid', number: 25, config: {
             position: {random: 'world'},

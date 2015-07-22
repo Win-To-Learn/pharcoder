@@ -15,7 +15,7 @@ var CodeEndpointServer = function () {};
  * Initialize interface
  */
 CodeEndpointServer.prototype.initCodeEndpointServer = function () {
-    this.clientReadyFunctions.push(this.attachHandler.bind(this));
+    this.onReadyCB.push(this.attachHandler);
 };
 
 /**

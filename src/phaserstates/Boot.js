@@ -19,7 +19,7 @@ var _connected = false;
 /**
  * Set properties that require booted game state, attach plugins, connect to game server
  */
-Boot.prototype.preload = function () {
+Boot.prototype.init = function () {
     //this.game.stage.disableVisibilityChange = true;
     this.game.scale.scaleMode = Phaser.ScaleManager.RESIZE;
     this.game.renderer.renderSession.roundPixels = true;
@@ -41,30 +41,47 @@ Boot.prototype.preload = function () {
             return floor(-pScale*a);
         }
     };
+    this.starcoder.serverConnect();
     //this.starcoder.controls = this.game.plugins.add(Controls,
     //    this.starcoder.cmdQueue);
     //this.game.joystick = this.starcoder.attachPlugin(Phaser.VirtualJoystick);
-    this.starcoder.controls = this.starcoder.attachPlugin(Controls, this.starcoder.cmdQueue);
+    //this.starcoder.controls = this.starcoder.attachPlugin(Controls, this.starcoder.cmdQueue);
     // Set up socket.io connection
-    this.starcoder.socket = this.starcoder.io(this.starcoder.config.serverUri,
-        this.starcoder.config.ioClientOptions);
-    this.starcoder.socket.on('server ready', function (playerMsg) {
-        // FIXME: Has to interact with session for authentication etc.
-        self.starcoder.player = playerMsg;
-        //self.starcoder.syncclient = self.game.plugins.add(SyncClient,
-        //    self.starcoder.socket, self.starcoder.cmdQueue);
-        self.starcoder.syncclient = self.starcoder.attachPlugin(SyncClient,
-            self.starcoder.socket, self.starcoder.cmdQueue);
-        _connected = true;
-    });
+    //this.starcoder.socket = this.starcoder.io(this.starcoder.config.serverUri,
+    //    this.starcoder.config.ioClientOptions);
+    //this.starcoder.socket.on('server ready', function (playerMsg) {
+    //    // FIXME: Has to interact with session for authentication etc.
+    //    self.starcoder.player = playerMsg;
+    //    //self.starcoder.syncclient = self.game.plugins.add(SyncClient,
+    //    //    self.starcoder.socket, self.starcoder.cmdQueue);
+    //    self.starcoder.syncclient = self.starcoder.attachPlugin(SyncClient,
+    //        self.starcoder.socket, self.starcoder.cmdQueue);
+    //    _connected = true;
+    //});
+};
+
+/**
+ * Preload minimal assets for progress screen
+ */
+Boot.prototype.preload = function () {
+
+};
+
+/**
+ * Kick into next state once initialization and preloading are done
+ */
+Boot.prototype.create = function () {
+    //this.game.state.start('preload');
 };
 
 /**
  * Advance game state once network connection is established
  */
 Boot.prototype.update = function () {
-    if (_connected) {
-        this.game.state.start('space');
+    // FIXME: don't wait here - should be in create
+    if (this.starcoder.connected) {
+        //this.game.state.start('space');
+        this.game.state.start('login');
     }
 };
 

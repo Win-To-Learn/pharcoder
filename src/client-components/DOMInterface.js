@@ -10,26 +10,10 @@ var DOMInterface = function () {};
 DOMInterface.prototype.initDOMInterface = function () {
     var self = this;
     this.dom = {};              // namespace
-    //this.dom.codeButton = document.getElementById('code-btn');
-    //this.dom.codePopup = document.getElementById('code-popup');
     this.dom.codeButton = $('#code-btn');
     this.dom.codePopup = $('#code-popup');
-    //this.dom.codeSend = document.getElementById('code-send');
-    //this.dom.blocklyWorkspace = document.getElementById('blockly-workspace');
-    //this.dom.codeText = document.getElementById('code-text');
-
-    //this.dom.codeText.addEventListener('focus', function () {
-    //    self.game.input.enabled = false;
-    //});
-    //
-    //this.dom.codeText.addEventListener('blur', function () {
-    //    self.game.input.enabled = true;
-    //});
-
-    //this.dom.codeButton.addEventListener('click', function () {
-    //    self.toggle(self.dom.codePopup);
-    //    //Blockly.fireUiEvent(self.dom.blocklyWorkspace, 'resize');
-    //});
+    this.dom.loginPopup= $('#login');
+    this.dom.loginButton = $('#submit');
 
     this.dom.codeButton.on('click', function () {
         self.dom.codePopup.toggle('slow');
@@ -41,44 +25,48 @@ DOMInterface.prototype.initDOMInterface = function () {
         }
     });
 
-    //this.dom.codeSend.addEventListener('click', function () {
-    //    //self.sendCode(self.dom.codeText.value);
-    //    console.log(Blockly.JavaScript.workspaceToCode(self.blocklyWorkspace));
-    //    self.sendCode(Blockly.JavaScript.workspaceToCode(self.blocklyWorkspace));
-    //});
-    //
-    //// Initialize blockly
-    //this.blocklyWorkspace = Blockly.inject('blockly-workspace',
-    //    {toolbox: document.getElementById('toolbox')});
-    //console.log('bd', this.blocklyWorkspace);
+    //this.dom.codePopup.hide();
+    for (var i = 1; i <= 2; i++) {
+        var tags = this.config.gamerTags[i];
+        for (var j = 0, l = tags.length; j < l; j++) {
+            $('#gt' + i).append('<option>' + tags[j] + '</option>');
+        }
+    }
+    $('.select').selectmenu();
+    $('.loginbutton').button({icons: {primary: 'ui-icon-triangle-1-e'}});
 
-    //this.toggle(this.dom.codePopup, false);
-    this.dom.codePopup.hide();
+    $('.accordion').accordion({heightStyle: 'content'});
+    $('.popup').hide();
+
 };
 
 /**
- * Set/toggle visibility of element
- *
- * @param el {object} - element to set
- * @param state {?boolean} - show (true), hide (false), toggle (undefined)
+ * Show login box and wire up handlers
  */
-//DOMInterface.prototype.toggle = function (el, state) {
-//    var display = el.style.display;
-//    if (!el.origDisplay) {
-//        if (display !== 'none') {
-//            el.origDisplay = display;
-//        } else {
-//            el.origDisplay = 'block';
-//        }
-//    }
-//    if (typeof state === 'undefined') {
-//        state = (display === 'none');
-//    }
-//    if (state) {
-//        el.style.display = el.origDisplay;
-//    } else {
-//        el.style.display = 'none';
-//    }
-//};
+DOMInterface.prototype.showLogin = function () {
+    var self = this;
+    $('#login-window .message').hide();
+    $('#login-window').show().position({my: 'center', at: 'center', of: window});
+    $('#userlogin').on('click', function () {
+        self.serverLogin($('#username').val(), $('#password').val());
+    });
+    $('#guestlogin').on('click', function () {
+        self.serverLogin($('#gt1').val() + ' ' + $('#gt2').val());
+    });
+};
+
+DOMInterface.prototype.setLoginError = function (error) {
+    var msg = $('#login-window .message');
+    if (!error) {
+        msg.hide();
+    } else {
+        msg.html(error);
+        msg.show();
+    }
+};
+
+DOMInterface.prototype.hideLogin = function () {
+    $('#login-window').hide();
+};
 
 module.exports = DOMInterface;

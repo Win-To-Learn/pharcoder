@@ -11,10 +11,53 @@
     color: #bbbbbb;
 }
 
-.popup {
+.code {
     position: absolute;
     border: 2px solid #445588;
     background: #222222;
     /*width: 480px;*/
     /*height: 360px;*/
+}
+
+.popup {
+    z-index: 100;
+}
+
+.modal {
+    width: 50%;
+    /*background: white;*/
+}
+
+.form-row {
+    margin: 8px 0px;
+    text-align: center;
+}
+
+.form-row label {
+    display: inline-block;
+    font-weight: bold;
+    text-align: right;
+    width: 20%;
+    margin-right: 12px;
+}
+
+.form-row input {
+    width: 35%;
+    margin: 0px 8px;
+}
+
+.form-row select {
+    width: 30%;
+    margin: 0px 24px;
+}
+
+.ui-selectmenu-button {
+    vertical-align: middle;
+}
+
+.message {
+    font-size: large;
+    text-align: center;
+    padding: 0 0.7em;
+    margin-top: 18px;
 }

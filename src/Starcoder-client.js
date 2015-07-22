@@ -17,7 +17,8 @@ Starcoder.mixinPrototype(Starcoder.prototype, CodeEndpointClient.prototype);
 
 var states = {
     boot: require('./phaserstates/Boot.js'),
-    space: require('./phaserstates/Space.js')
+    space: require('./phaserstates/Space.js'),
+    login: require('./phaserstates/Login.js')
 };
 
 Starcoder.prototype.init = function () {
@@ -32,7 +33,38 @@ Starcoder.prototype.init = function () {
         this.game.state.add(k, state);
     }
     this.cmdQueue = [];
+    this.connected = false;
+    this.lastNetError = null;
     this.initDOMInterface();
+};
+
+Starcoder.prototype.serverConnect = function () {
+    var self = this;
+    if (!this.socket) {
+        delete this.socket;
+        this.connected = false;
+        this.lastNetError = null;
+    }
+    this.socket = this.io(this.config.serverUri, this.config.ioClientOptions);
+    this.socket.on('connect', function () {
+        self.connected = true;
+        self.lastNetError = null;
+    });
+    this.socket.on('error', function (data) {
+        this.lastNetError = data;
+    });
+};
+
+Starcoder.prototype.serverLogin = function (username, password) {
+    var login = {};
+    if (!password) {
+        // Guest login
+        login.gamertag = username;
+    } else {
+        login.username = username;
+        login.password = password;
+    }
+    this.socket.emit('login', login);
 };
 
 Starcoder.prototype.start = function () {
