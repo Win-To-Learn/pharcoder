@@ -2,7 +2,7 @@ branch-defaults:
   aws:
     environment: pharcoder-single
   master:
-    environment: pharcoder-dev
+    environment: pharcoder-single-1
 global:
   application_name: pharcoder-dev
   default_ec2_keyname: null
