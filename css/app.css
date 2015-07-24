@@ -1,6 +1,13 @@
 /* Styles very experimental */
+body {
+  padding:0;
+  margin:0;
+}
+
 .playfield {
-    position: relative;
+  position: relative;
+  height: 100%;
+  width: 100%;
 }
 
 .open-btn {
@@ -15,6 +22,6 @@
     position: absolute;
     border: 2px solid #445588;
     background: #222222;
-    /*width: 480px;*/
-    /*height: 360px;*/
+    width: 480px;
+    height: 360px;
 }
