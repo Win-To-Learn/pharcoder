@@ -1,9 +1,10 @@
 {
   "name": "pharcoder",
-  "version": "0.0.0",
+  "version": "0.2.9",
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "node ./src/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
