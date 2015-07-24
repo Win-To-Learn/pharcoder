@@ -13,7 +13,7 @@ module.exports = function (app) {
         res.status(err.status).end();
       }
       else {
-        console.log('Sent:', root + filename);
+        //console.log('Sent:', root + filename);
       }
     });
   };

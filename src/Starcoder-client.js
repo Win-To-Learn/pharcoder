@@ -49,10 +49,13 @@ Starcoder.prototype.serverConnect = function () {
     }
     this.socket = this.io(this.config.serverUri, this.config.ioClientOptions);
     this.socket.on('connect', function () {
+      console.log('socket connected');
         self.connected = true;
         self.lastNetError = null;
     });
     this.socket.on('error', function (data) {
+      console.log('socket error');
+      console.log(data);
         this.lastNetError = data;
     });
 };
