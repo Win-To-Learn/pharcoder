@@ -62,6 +62,10 @@ module.exports = function (app) {
     return sendFile(path.join(__dirname, '../assets/bitmapfonts/'), req.params.name, res);
   });
 
+  app.get('/assets/joystick/:name', function (req, res) {
+    return sendFile(path.join(__dirname, '../assets/joystick/'), req.params.name, res);
+  });
+
   app.get('/assets/:name', function (req, res) {
     return sendFile(path.join(__dirname, '../assets/'), req.params.name, res);
   });
