@@ -12,15 +12,25 @@ var SyncBodyBase = function (config) {
     config = config || {};
     this.setDefaults(config);
     p2.Body.call(this, config);
-    //for (var i = 0, l = this.updateProperties.length; i < l; i++) {
-    //    var propname = this.updateProperties[i];
-    //    if (config[propname]) {
-    //        this[propname] = config[propname];
-    //    }
-    //}
     for (var k in config) {
-        if (!this[k]) {
-            this[k] = config[k];
+        switch (k) {
+            case 'x':
+                this.position[0] = config[k];
+                break;
+            case 'y':
+                this.position[1] = config[k];
+                break;
+            case 'vx':
+                this.velocity[0] = config[k];
+                break;
+            case 'vy':
+                this.velocity[1] = config[k];
+                break;
+            default:
+                if (!this[k]) {
+                    this[k] = config[k];
+                }
+                break;
         }
     }
     if (this.customize) {

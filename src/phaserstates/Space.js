@@ -27,13 +27,16 @@ Space.prototype.init = function () {
 Space.prototype.preload = function () {
     SimpleParticle.cacheTexture(this.game, ThrustGenerator.textureKey, '#ff6600', 8);
     SimpleParticle.cacheTexture(this.game, 'bullet', '#999999', 4);
+    SimpleParticle.cacheTexture(this.game, 'tractor', '#eeeeee', 8, true);
     this.game.load.audio('playerthrust', 'assets/sounds/thrustLoop.ogg');
     this.game.load.audio('chime', 'assets/sounds/chime.mp3');
     this.game.load.atlas('joystick', 'assets/joystick/generic-joystick.png', 'assets/joystick/generic-joystick.json');
+    this.game.load.bitmapFont('readout-yellow',
+        'assets/bitmapfonts/heavy-yellow24.png', 'assets/bitmapfonts/heavy-yellow24.xml');
 };
 
 Space.prototype.create = function () {
-    var rng = this.game.rnd;
+    //var rng = this.game.rnd;
     var wb = this.starcoder.config.worldBounds;
     var ps = this.starcoder.config.physicsScale;
     this.game.physics.startSystem(Phaser.Physics.P2JS);
@@ -62,7 +65,7 @@ Space.prototype.create = function () {
 
     // Background
     var starfield = this.game.make.bitmapData(600, 600);
-    drawStarField(starfield.ctx, 600, 16);
+    this.starcoder.drawStarField(starfield.ctx, 600, 16);
     this.game.add.tileSprite(wb[0]*ps, wb[1]*ps, (wb[2]-wb[0])*ps, (wb[3]-wb[1])*ps, starfield);
 
     this.starcoder.syncclient.start();
@@ -84,8 +87,9 @@ Space.prototype.create = function () {
     var label = this.game.make.text(this.game.width - 100, 25, 'INVENTORY', {font: '24px Arial', fill: '#ff9900', align: 'center'});
     label.anchor.setTo(0.5);
     this.game.ui.add(label);
-    this.game.inventorytext = this.game.make.text(this.game.width - 100, 50, '0 crystals',
-        {font: '24px Arial', fill: '#ccc000', align: 'center'});
+    //this.game.inventorytext = this.game.make.text(this.game.width - 100, 50, '0 crystals',
+    //    {font: '24px Arial', fill: '#ccc000', align: 'center'});
+    this.game.inventorytext = this.game.make.bitmapText(this.game.width - 100, 50, 'readout-yellow', '0');
     this.game.inventorytext.anchor.setTo(0.5);
     this.game.ui.add(this.game.inventorytext);
 
@@ -96,47 +100,47 @@ Space.prototype.create = function () {
     this.game.y = 10;
 
     // Helpers
-    function randomNormal () {
-        var t = 0;
-        for (var i=0; i<6; i++) {
-            t += rng.normal();
-        }
-        return t/6;
-    }
-
-    function drawStar (ctx, x, y, d, color) {
-        ctx.strokeStyle = color;
-        ctx.beginPath();
-        ctx.moveTo(x-d+1, y-d+1);
-        ctx.lineTo(x+d-1, y+d-1);
-        ctx.moveTo(x-d+1, y+d-1);
-        ctx.lineTo(x+d-1, y-d+1);
-        ctx.moveTo(x, y-d);
-        ctx.lineTo(x, y+d);
-        ctx.moveTo(x-d, y);
-        ctx.lineTo(x+d, y);
-        ctx.stroke();
-    }
-
-    function drawStarField (ctx, size, n) {
-        var xm = Math.round(size/2 + randomNormal()*size/4);
-        var ym = Math.round(size/2 + randomNormal()*size/4);
-        var quads = [[0,0,xm-1,ym-1], [xm,0,size-1,ym-1],
-            [0,ym,xm-1,size-1], [xm,ym,size-1,size-1]];
-        var color;
-        var i, j, l, q;
-
-        n = Math.round(n/4);
-        for (i=0, l=quads.length; i<l; i++) {
-            q = quads[i];
-            for (j=0; j<n; j++) {
-                color = 'hsl(60,100%,' + rng.between(90,99) + '%)';
-                drawStar(ctx,
-                    rng.between(q[0]+7, q[2]-7), rng.between(q[1]+7, q[3]-7),
-                    rng.between(2,4), color);
-            }
-        }
-    }
+    //function randomNormal () {
+    //    var t = 0;
+    //    for (var i=0; i<6; i++) {
+    //        t += rng.normal();
+    //    }
+    //    return t/6;
+    //}
+    //
+    //function drawStar (ctx, x, y, d, color) {
+    //    ctx.strokeStyle = color;
+    //    ctx.beginPath();
+    //    ctx.moveTo(x-d+1, y-d+1);
+    //    ctx.lineTo(x+d-1, y+d-1);
+    //    ctx.moveTo(x-d+1, y+d-1);
+    //    ctx.lineTo(x+d-1, y-d+1);
+    //    ctx.moveTo(x, y-d);
+    //    ctx.lineTo(x, y+d);
+    //    ctx.moveTo(x-d, y);
+    //    ctx.lineTo(x+d, y);
+    //    ctx.stroke();
+    //}
+    //
+    //function drawStarField (ctx, size, n) {
+    //    var xm = Math.round(size/2 + randomNormal()*size/4);
+    //    var ym = Math.round(size/2 + randomNormal()*size/4);
+    //    var quads = [[0,0,xm-1,ym-1], [xm,0,size-1,ym-1],
+    //        [0,ym,xm-1,size-1], [xm,ym,size-1,size-1]];
+    //    var color;
+    //    var i, j, l, q;
+    //
+    //    n = Math.round(n/4);
+    //    for (i=0, l=quads.length; i<l; i++) {
+    //        q = quads[i];
+    //        for (j=0; j<n; j++) {
+    //            color = 'hsl(60,100%,' + rng.between(90,99) + '%)';
+    //            drawStar(ctx,
+    //                rng.between(q[0]+7, q[2]-7), rng.between(q[1]+7, q[3]-7),
+    //                rng.between(2,4), color);
+    //        }
+    //    }
+    //}
 
 };
 

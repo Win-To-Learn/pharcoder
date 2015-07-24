@@ -27,6 +27,10 @@ Tree.prototype.updateProperties = ['vectorScale', 'lineColor', 'graph', 'step', 
 var Bullet = function () {};
 Bullet.prototype.updateProperties = [];
 
+var TractorBeam = function () {};
+TractorBeam.prototype.updateProperties = [];
+
+
 exports.Ship = Ship;
 exports.Asteroid = Asteroid;
 exports.Crystal = Crystal;
@@ -34,4 +38,4 @@ exports.GenericOrb = GenericOrb;
 exports.Bullet = Bullet;
 exports.Planetoid = Planetoid;
 exports.Tree = Tree;
-
+exports.TractorBeam = TractorBeam;

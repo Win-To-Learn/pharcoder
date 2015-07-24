@@ -109,7 +109,7 @@ SyncClient.prototype._sendCommands = function () {
     for (var i = this.cmdQueue.length-1; i >= 0; i--) {
         var action = this.cmdQueue[i];
         if (action.executed) {
-            actions.push(action);
+            actions.unshift(action);
             this.cmdQueue.splice(i, 1);
         }
     }

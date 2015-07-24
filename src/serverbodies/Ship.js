@@ -13,6 +13,7 @@ var SyncBodyBase = require('./SyncBodyBase.js');
 var UpdateProperties = require('../common/UpdateProperties.js').Ship;
 
 var Bullet = require('./Bullet.js');
+var TractorBeam = require('./TractorBeam.js');
 
 var Ship = function (config) {
     SyncBodyBase.call(this, config);
@@ -93,32 +94,65 @@ Ship.prototype.update = function () {
     this.angularForce = this.turningForce*this.state.turn;
     this.setPolarForce(this.thrustForce*this.state.thrust);
     if (this.state.firing && ((this.world.time - this._lastShot) > 1)) {
-        // FIXME: Probably a better way to do this
-        if (this.state.oneshot) {
-            this.state.oneshot = false;
-            this.state.firing = false;
-        }
-        var tod = this.world.time + this.bulletRange / this.bulletVelocity;
-        if (this.bulletSpread === 0 || this.bulletSalvoSize === 1) {
-            var n = 1;
-            var aDel = 0;
-            var aStart = this.angle;
-        } else {
-            n = this.bulletSalvoSize;
-            aDel = this.bulletSpread * Math.PI / (180 * (n - 1));
-            aStart = this.angle - 0.5 * this.bulletSpread * Math.PI / 180;
-        }
-        for (var i = 0, a = aStart; i < n; i++, a += aDel) {
-            var bullet = this.world.addSyncableBody(Bullet, {});
-            bullet.firer = this;
-            bullet.position[0] = this.position[0];
-            bullet.position[1] = this.position[1];
-            bullet.velocity[0] = this.bulletVelocity * Math.sin(a);
-            bullet.velocity[1] = -this.bulletVelocity * Math.cos(a);
-            bullet.tod = tod;
-        }
-        this._lastShot = this.world.time;
+        this.shoot();
     }
+    if (this.state.tractorFiring) {
+        this.state.tractorFiring = false;
+        this.toggleTractorBeam();
+    }
+};
+
+Ship.prototype.toggleTractorBeam = function () {
+    // FIXME: magic numbers
+    if (!this.beamChild) {
+        var dir = this.angle + Math.PI;
+        this.beamChild = this.world.addSyncableBody(TractorBeam, {
+            x: this.position[0],
+            y: this.position[1],
+            vx: 25 * Math.sin(dir),
+            vy: -25 * Math.cos(dir),
+            direction: dir,
+            gen: 10,
+            timer: this.world.time + 1 / 25,
+            beamParent: this
+        });
+    } else {
+        this.beamChild.cancel();
+        delete this.beamChild;
+    }
+    //beam.position[0] = this.position[0];
+    //beam.position[1] = this.position[1];
+    //beam.velocity[0] = -25 * Math.sin(this.angle);
+    //beam.velocity[1] = 25 * Math.cos(this.angle)
+    //beam.tod = this.world.time + this.bulletRange / this.bulletVelocity;
+};
+
+Ship.prototype.shoot = function () {
+    // FIXME: Probably a better way to do this
+    if (this.state.oneshot) {
+        this.state.oneshot = false;
+        this.state.firing = false;
+    }
+    var tod = this.world.time + this.bulletRange / this.bulletVelocity;
+    if (this.bulletSpread === 0 || this.bulletSalvoSize === 1) {
+        var n = 1;
+        var aDel = 0;
+        var aStart = this.angle;
+    } else {
+        n = this.bulletSalvoSize;
+        aDel = this.bulletSpread * Math.PI / (180 * (n - 1));
+        aStart = this.angle - 0.5 * this.bulletSpread * Math.PI / 180;
+    }
+    for (var i = 0, a = aStart; i < n; i++, a += aDel) {
+        var bullet = this.world.addSyncableBody(Bullet, {});
+        bullet.firer = this;
+        bullet.position[0] = this.position[0];
+        bullet.position[1] = this.position[1];
+        bullet.velocity[0] = this.bulletVelocity * Math.sin(a);
+        bullet.velocity[1] = -this.bulletVelocity * Math.cos(a);
+        bullet.tod = tod;
+    }
+    this._lastShot = this.world.time;
 };
 
 Ship.prototype.knockOut = function () {

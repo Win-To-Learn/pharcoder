@@ -55,6 +55,12 @@ ControlEndPoint.prototype.doAction = function (player, action) {
         case 'fire_released':
             ship.state.firing = false;
             break;
+        case 'tractor_pressed':
+            ship.state.tractorFiring = true;
+            break;
+        //case 'tractor_released':
+        //    ship.state.tractorFiring = false;
+        //    break;
     }
 };
 

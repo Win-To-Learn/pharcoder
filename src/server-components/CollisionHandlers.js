@@ -3,7 +3,7 @@
  */
 'use strict';
 
-//var p2 = require('p2');
+var p2 = require('p2');
 
 var CollisionHandlers = function () {};
 
@@ -28,6 +28,8 @@ CollisionHandlers.prototype.initCollisionHandlers = function () {
                 ShipPlanetoid.bind(self)(A, B, equations);
             } else if (A.serverType === 'Ship' && B.deadly) {
                 ShipDeadly.bind(self)(A, B);
+            } else if (A.serverType === 'TractorBeam' && B.serverType === 'Planetoid') {
+                TractorBeamPlanetoid(A, B);
             }
             // Swap A and B if we haven't already
             if (t) {
@@ -94,6 +96,22 @@ function BulletShip (bullet, ship) {
 function BulletTree (bullet, tree) {
     tree.lineColor = bullet.firer.lineColor;
     this.world.removeSyncableBody(bullet);
+}
+
+function TractorBeamPlanetoid (beam, planet) {
+    if (beam.canAttach(planet)) {
+        beam.attachTarget(planet);
+        //beam.velocity[0] = 0;
+        //beam.velocity[1] = 1;
+        //beam.mode = 'tractoring';
+        //beam.beamConstraint = new p2.DistanceConstraint(beam.beamParent, beam);
+        //beam.world.addConstraint(beam.beamConstraint);
+        //beam.tractorConstraint = new p2.DistanceConstraint(beam, planet);
+        //beam.world.addConstraint(beam.tractorConstraint);
+        //planet.mass = 10;
+        //planet.damping = 0.99;
+        //planet.updateMassProperties();
+    }
 }
 
 module.exports = CollisionHandlers;

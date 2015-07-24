@@ -10,10 +10,12 @@ var Starcoder = require('./Starcoder.js');
 var WorldApi = require('./client-components/WorldApi.js');
 var DOMInterface = require('./client-components/DOMInterface.js');
 var CodeEndpointClient = require('./client-components/CodeEndpointClient.js');
+var Starfield = require('./client-components/Starfield.js');
 
 Starcoder.mixinPrototype(Starcoder.prototype, WorldApi.prototype);
 Starcoder.mixinPrototype(Starcoder.prototype, DOMInterface.prototype);
 Starcoder.mixinPrototype(Starcoder.prototype, CodeEndpointClient.prototype);
+Starcoder.mixinPrototype(Starcoder.prototype, Starfield.prototype);
 
 var states = {
     boot: require('./phaserstates/Boot.js'),

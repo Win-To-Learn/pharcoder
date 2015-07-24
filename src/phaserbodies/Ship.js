@@ -87,7 +87,7 @@ Ship.prototype.update = function () {
             this.localState.thrust = 'off';
     }
     // Player ship only
-    this.game.inventorytext.setText(this.crystals);
+    this.game.inventorytext.setText(this.crystals.toString());
 };
 
 module.exports = Ship;

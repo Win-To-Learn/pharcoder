@@ -18,6 +18,7 @@ Controls.prototype.init = function (queue) {
     this.queue = queue;
     this.controls = this.game.input.keyboard.createCursorKeys();
     this.controls.fire = this.game.input.keyboard.addKey(Phaser.Keyboard.B);
+    this.controls.tractor = this.game.input.keyboard.addKey(Phaser.Keyboard.T);
     this.joystickState = {
         up: false,
         down: false,
@@ -33,7 +34,7 @@ Controls.prototype.init = function (queue) {
 };
 
 var seq = 0;
-var up = false, down = false, left = false, right = false, fire = false;
+var up = false, down = false, left = false, right = false, fire = false, tractor = false;
 
 Controls.prototype.addVirtualControls = function (x, y, scale, texture) {
     texture = texture || 'joystick';
@@ -125,6 +126,15 @@ Controls.prototype.preUpdate = function () {
     if (!state.fire && !controls.fire.isDown && fire) {
         fire = false;
         this.queue.push({type: 'fire_released', executed: false, seq: seq++});
+    }
+    // FIXME: add vstick controls
+    if (controls.tractor.isDown && !tractor) {
+        tractor = true;
+        this.queue.push({type: 'tractor_pressed', executed: false, seq: seq++});
+    }
+    if (!controls.tractor.isDown && tractor) {
+        tractor = false;//
+        this.queue.push({type: 'tractor_released', executed: false, seq: seq++});
     }
 };
 
