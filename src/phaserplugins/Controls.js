@@ -39,9 +39,14 @@ var up = false, down = false, left = false, right = false, fire = false, tractor
 Controls.prototype.addVirtualControls = function (x, y, scale, texture) {
     texture = texture || 'joystick';
     this.stick = this.joystick.addStick(x, y, 100,texture);
+    this.stick.motionLock = Phaser.VirtualJoystick.HORIZONTAL;
     this.stick.scale = scale;
-    this.firebutton = this.joystick.addButton(x + 200*scale, y, texture, 'button1-up', 'button1-down');
+    this.gobutton = this.joystick.addButton(x + 200*scale, y, texture, 'button1-up', 'button1-down');
+    this.firebutton = this.joystick.addButton(x + 350*scale, y, texture, 'button2-up', 'button2-down');
+    this.tractorbutton = this.joystick.addButton(x + 450*scale, y, texture, 'button3-up', 'button3-down');
     this.firebutton.scale = scale;
+    this.gobutton.scale = scale;
+    this.tractorbutton.scale = scale;
     this.stick.onMove.add(function () {
         if (this.stick.x >= 0.25) {
             this.joystickState.right = true;
@@ -76,6 +81,18 @@ Controls.prototype.addVirtualControls = function (x, y, scale, texture) {
     this.firebutton.onUp.add(function () {
         this.joystickState.fire = false;
     }, this);
+    this.gobutton.onDown.add(function () {
+        this.joystickState.up = true;
+    }, this);
+    this.gobutton.onUp.add(function () {
+        this.joystickState.up = false;
+    }, this);
+    this.tractorbutton.onDown.add(function () {
+        this.joystickState.tractor = true;
+    }, this);
+    this.tractorbutton.onUp.add(function () {
+        this.joystickState.tractor = false;
+    }, this);
 };
 
 Controls.prototype.reset = function () {
@@ -86,7 +103,7 @@ Controls.prototype.reset = function () {
 Controls.prototype.preUpdate = function () {
     // TODO: Support other interactions/methods
     var controls = this.controls;
-    var state = this.joystickState
+    var state = this.joystickState;
     if ((state.up || controls.up.isDown) && !up) {
         up = true;
         this.queue.push({type: 'up_pressed', executed: false, seq: seq++});
@@ -127,12 +144,11 @@ Controls.prototype.preUpdate = function () {
         fire = false;
         this.queue.push({type: 'fire_released', executed: false, seq: seq++});
     }
-    // FIXME: add vstick controls
-    if (controls.tractor.isDown && !tractor) {
+    if ((state.tractor || controls.tractor.isDown) && !tractor) {
         tractor = true;
         this.queue.push({type: 'tractor_pressed', executed: false, seq: seq++});
     }
-    if (!controls.tractor.isDown && tractor) {
+    if ((!state.tractor && !controls.tractor.isDown) && tractor) {
         tractor = false;//
         this.queue.push({type: 'tractor_released', executed: false, seq: seq++});
     }

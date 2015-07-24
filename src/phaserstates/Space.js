@@ -49,7 +49,7 @@ Space.prototype.create = function () {
     this.starcoder.controls.reset();
 
     // Virtual joystick
-    this.starcoder.controls.addVirtualControls(this.game.width - 150, this.game.height - 100, 0.5, 'joystick');
+    this.starcoder.controls.addVirtualControls(this.game.width - 275, this.game.height - 100, 0.5, 'joystick');
     //this.game.vcontrols = {};
     //this.game.vcontrols.stick = this.game.joystick.addStick(
     //    this.game.width - 150, this.game.height - 75, 100, 'joystick');
