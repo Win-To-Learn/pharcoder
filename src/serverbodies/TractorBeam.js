@@ -32,7 +32,7 @@ TractorBeam.prototype.fadeTime = 5 / 60;
 
 TractorBeam.prototype.adjustShape = function () {
     this.clearAllShapes();
-    var circle = new p2.Circle(RADIUS);
+    var circle = new p2.Circle({radius: RADIUS});
     circle.sensor = true;
     this.addShape(circle);
 };

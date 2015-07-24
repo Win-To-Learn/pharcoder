@@ -36,6 +36,7 @@ Space.prototype.preload = function () {
 };
 
 Space.prototype.create = function () {
+    //console.log('create');
     //var rng = this.game.rnd;
     var wb = this.starcoder.config.worldBounds;
     var ps = this.starcoder.config.physicsScale;
@@ -143,6 +144,10 @@ Space.prototype.create = function () {
     //}
 
 };
+
+//Space.prototype.resize = function () {
+//    console.log('resize');
+//};
 
 Space.prototype.update = function () {
     // FIXME: just a mess for testing

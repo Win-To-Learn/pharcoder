@@ -99,15 +99,18 @@ SyncClient.prototype.postRender = function () {
     this._updateComplete = false;
 };
 
+
+var actions = [];               // Module scope to avoid allocations
+var action;
 /**
  * Send queued commands that have been executed to the server
  *
  * @private
  */
 SyncClient.prototype._sendCommands = function () {
-    var actions = [];
+    actions.length = 0;
     for (var i = this.cmdQueue.length-1; i >= 0; i--) {
-        var action = this.cmdQueue[i];
+        action = this.cmdQueue[i];
         if (action.executed) {
             actions.unshift(action);
             this.cmdQueue.splice(i, 1);

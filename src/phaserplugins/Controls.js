@@ -154,10 +154,12 @@ Controls.prototype.preUpdate = function () {
     }
 };
 
+var action;             // Module scope to avoid allocations
+
 Controls.prototype.processQueue = function (cb, clear) {
     var queue = this.queue;
     for (var i = 0, l = queue.length; i < l; i++) {
-        var action = queue[i];
+        action = queue[i];
         if (action.executed) {
             continue;
         }
