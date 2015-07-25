@@ -22,17 +22,18 @@ Space.prototype.init = function () {
     this.starcoder.controls = this.starcoder.attachPlugin(Controls, this.starcoder.cmdQueue);
     this.starcoder.syncclient = this.starcoder.attachPlugin(SyncClient,
         this.starcoder.socket, this.starcoder.cmdQueue);
+    this.stage.disableVisibilityChange = true;
 };
 
 Space.prototype.preload = function () {
     SimpleParticle.cacheTexture(this.game, ThrustGenerator.textureKey, '#ff6600', 8);
     SimpleParticle.cacheTexture(this.game, 'bullet', '#999999', 4);
     SimpleParticle.cacheTexture(this.game, 'tractor', '#eeeeee', 8, true);
-    this.game.load.audio('playerthrust', 'assets/sounds/thrustLoop.ogg');
-    this.game.load.audio('chime', 'assets/sounds/chime.mp3');
-    this.game.load.atlas('joystick', 'assets/joystick/generic-joystick.png', 'assets/joystick/generic-joystick.json');
-    this.game.load.bitmapFont('readout-yellow',
-        'assets/bitmapfonts/heavy-yellow24.png', 'assets/bitmapfonts/heavy-yellow24.xml');
+    //this.game.load.audio('playerthrust', 'assets/sounds/thrustLoop.ogg');
+    //this.game.load.audio('chime', 'assets/sounds/chime.mp3');
+    //this.game.load.atlas('joystick', 'assets/joystick/generic-joystick.png', 'assets/joystick/generic-joystick.json');
+    //this.game.load.bitmapFont('readout-yellow',
+    //    'assets/bitmapfonts/heavy-yellow24.png', 'assets/bitmapfonts/heavy-yellow24.xml');
 };
 
 Space.prototype.create = function () {
@@ -65,9 +66,9 @@ Space.prototype.create = function () {
     this.game.sounds.chime = this.game.sound.add('chime', 1, false);
 
     // Background
-    var starfield = this.game.make.bitmapData(600, 600);
-    this.starcoder.drawStarField(starfield.ctx, 600, 16);
-    this.game.add.tileSprite(wb[0]*ps, wb[1]*ps, (wb[2]-wb[0])*ps, (wb[3]-wb[1])*ps, starfield);
+    //var starfield = this.game.make.bitmapData(600, 600);
+    //this.starcoder.drawStarField(starfield.ctx, 600, 16);
+    this.game.add.tileSprite(wb[0]*ps, wb[1]*ps, (wb[2]-wb[0])*ps, (wb[3]-wb[1])*ps, this.starcoder.starfield);
 
     this.starcoder.syncclient.start();
     //this.starcoder.socket.emit('client ready');

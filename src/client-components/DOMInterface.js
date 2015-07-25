@@ -20,8 +20,8 @@ DOMInterface.prototype.initDOMInterface = function () {
     });
 
     $(window).on('message', function (event) {
-        if (event.source === self.dom.codePopup.contentWindow) {
-            self.sendCode(event.data);
+        if (event.originalEvent.source === self.dom.codePopup[0].contentWindow) {
+            self.sendCode(event.originalEvent.data);
         }
     });
 

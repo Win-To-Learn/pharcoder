@@ -23,15 +23,15 @@ Login.prototype.init = function () {
     });
 };
 
-Login.prototype.preload = function () {
-    this.game.load.bitmapFont('title-font',
-        'assets/bitmapfonts/karnivore128.png', 'assets/bitmapfonts/karnivore128.xml');
-};
+//Login.prototype.preload = function () {
+//    this.game.load.bitmapFont('title-font',
+//        'assets/bitmapfonts/karnivore128.png', 'assets/bitmapfonts/karnivore128.xml');
+//};
 
 Login.prototype.create = function () {
-    var starfield = this.game.make.bitmapData(600, 600);
-    this.starcoder.drawStarField(starfield.ctx, 600, 16);
-    this.game.add.tileSprite(0, 0, this.game.width, this.game.height, starfield);
+    //var starfield = this.game.make.bitmapData(600, 600);
+    //this.starcoder.drawStarField(this.starcoder.starfield.ctx, 600, 16);
+    this.game.add.tileSprite(0, 0, this.game.width, this.game.height, this.starcoder.starfield);
     var title = this.game.add.bitmapText(this.game.world.centerX, 128, 'title-font', 'STARCODER');
     title.anchor.setTo(0.5, 0.5);
 };

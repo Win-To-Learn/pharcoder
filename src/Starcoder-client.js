@@ -20,7 +20,8 @@ Starcoder.mixinPrototype(Starcoder.prototype, Starfield.prototype);
 var states = {
     boot: require('./phaserstates/Boot.js'),
     space: require('./phaserstates/Space.js'),
-    login: require('./phaserstates/Login.js')
+    login: require('./phaserstates/Login.js'),
+    loader: require('./phaserstates/Loader.js')
 };
 
 Starcoder.prototype.init = function () {
