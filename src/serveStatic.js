@@ -22,6 +22,10 @@ module.exports = function (app) {
     return sendFile(path.join(__dirname, '../'), 'index.html', res);
   });
 
+  app.get('/loaderio-cba4b26d5a72654ff20e17307fdb2ba4.txt', function (req, res) {
+    return sendFile(path.join(__dirname, '../'), 'loaderio-cba4b26d5a72654ff20e17307fdb2ba4.txt', res);
+  });
+
   app.get('/blockly.html', function (req, res) {
     return sendFile(path.join(__dirname, '../'), 'blockly.html', res);
   });
