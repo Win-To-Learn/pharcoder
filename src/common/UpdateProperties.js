@@ -7,7 +7,7 @@
 
 var Ship = function () {};
 Ship.prototype.updateProperties = ['lineWidth', 'lineColor', 'fillColor', 'fillAlpha',
-    'vectorScale', 'shape', 'shapeClosed', 'playerid', 'crystals', 'dead'];
+    'vectorScale', 'shape', 'shapeClosed', 'playerid', 'crystals', 'dead', 'tag'];
 
 var Asteroid = function () {};
 Asteroid.prototype.updateProperties = ['vectorScale'];
@@ -30,6 +30,9 @@ Bullet.prototype.updateProperties = [];
 var TractorBeam = function () {};
 TractorBeam.prototype.updateProperties = [];
 
+var StarTarget = function () {};
+StarTarget.prototype.updateProperties = ['stars', 'lineColor', 'vectorScale'];
+
 
 exports.Ship = Ship;
 exports.Asteroid = Asteroid;
@@ -39,3 +42,4 @@ exports.Bullet = Bullet;
 exports.Planetoid = Planetoid;
 exports.Tree = Tree;
 exports.TractorBeam = TractorBeam;
+exports.StarTarget = StarTarget;

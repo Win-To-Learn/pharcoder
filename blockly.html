@@ -36,7 +36,8 @@
 
         button.addEventListener('click', function () {
             var code = Blockly.JavaScript.workspaceToCode(workspace);
-            window.parent.postMessage(code, 'http://localhost:8000');           // FIXME: target origin
+            //window.parent.postMessage(code, 'http://localhost:8000');
+            window.parent.postMessage(code, '*');
         });
     });
 </script>

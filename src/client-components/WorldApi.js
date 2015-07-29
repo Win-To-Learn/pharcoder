@@ -15,7 +15,8 @@ var bodyTypes = {
     GenericOrb: require('../phaserbodies/GenericOrb.js'),
     Planetoid: require('../phaserbodies/Planetoid.js'),
     Tree: require('../phaserbodies/Tree.js'),
-    TractorBeam: require('../phaserbodies/TractorBeam.js')
+    TractorBeam: require('../phaserbodies/TractorBeam.js'),
+    StarTarget: require('../phaserbodies/StarTarget.js')
 };
 
 /**
@@ -35,10 +36,12 @@ WorldApi.prototype.addBody = function (type, config) {
         return;
     }
     if (type === 'Ship' && config.properties.playerid === this.player.id) {
-        config.tag = this.player.username;
-        // Only the player's own ship is treated as dynamic in the local physics sim
-        config.mass = this.config.physicsProperties.Ship.mass;
-        playerShip = true;
+        //config.tag = this.player.username;
+        //if (config.properties.playerid === this.player.id) {
+            // Only the player's own ship is treated as dynamic in the local physics sim
+            config.mass = this.config.physicsProperties.Ship.mass;
+            playerShip = true;
+        //}
     }
     var body = new ctor(this.game, config);
     //this.game.add.existing(body);

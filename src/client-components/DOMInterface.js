@@ -20,8 +20,8 @@ DOMInterface.prototype.initDOMInterface = function () {
     });
 
     $(window).on('message', function (event) {
-        if (event.source === self.dom.codePopup.contentWindow) {
-            self.sendCode(event.data);
+        if (event.originalEvent.source === self.dom.codePopup[0].contentWindow) {
+            self.sendCode(event.originalEvent.data);
         }
     });
 
@@ -36,8 +36,13 @@ DOMInterface.prototype.initDOMInterface = function () {
     $('.loginbutton').button({icons: {primary: 'ui-icon-triangle-1-e'}});
 
     $('.accordion').accordion({heightStyle: 'content'});
-    $('.popup').hide();
+    $('.hidden').hide();
 
+};
+
+DOMInterface.prototype.layoutDOMSpaceState = function () {
+    $('#code-btn').show().position({my: 'left bottom', at: 'left bottom', of: '#main'});
+    $('#code-popup').position({my: 'left bottom', at: 'left top-16', of: '#code-btn'});
 };
 
 /**

@@ -20,7 +20,8 @@ Starcoder.mixinPrototype(Starcoder.prototype, Starfield.prototype);
 var states = {
     boot: require('./phaserstates/Boot.js'),
     space: require('./phaserstates/Space.js'),
-    login: require('./phaserstates/Login.js')
+    login: require('./phaserstates/Login.js'),
+    loader: require('./phaserstates/Loader.js')
 };
 
 Starcoder.prototype.init = function () {
@@ -47,7 +48,13 @@ Starcoder.prototype.serverConnect = function () {
         this.connected = false;
         this.lastNetError = null;
     }
-    this.socket = this.io(this.config.serverUri, this.config.ioClientOptions);
+    var serverUri = this.config.serverUri;
+    if (!serverUri) {
+        var protocol = this.config.serverProtol || window.location.protocol;
+        var port = this.config.serverPort || '8080';
+        serverUri = protocol + '//' + window.location.hostname + ':' + port;
+    }
+    this.socket = this.io(serverUri, this.config.ioClientOptions);
     this.socket.on('connect', function () {
       console.log('socket connected');
         self.connected = true;

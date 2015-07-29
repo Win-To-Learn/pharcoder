@@ -22,17 +22,18 @@ Space.prototype.init = function () {
     this.starcoder.controls = this.starcoder.attachPlugin(Controls, this.starcoder.cmdQueue);
     this.starcoder.syncclient = this.starcoder.attachPlugin(SyncClient,
         this.starcoder.socket, this.starcoder.cmdQueue);
+    this.stage.disableVisibilityChange = true;
 };
 
 Space.prototype.preload = function () {
     SimpleParticle.cacheTexture(this.game, ThrustGenerator.textureKey, '#ff6600', 8);
     SimpleParticle.cacheTexture(this.game, 'bullet', '#999999', 4);
     SimpleParticle.cacheTexture(this.game, 'tractor', '#eeeeee', 8, true);
-    this.game.load.audio('playerthrust', 'assets/sounds/thrustLoop.ogg');
-    this.game.load.audio('chime', 'assets/sounds/chime.mp3');
-    this.game.load.atlas('joystick', 'assets/joystick/generic-joystick.png', 'assets/joystick/generic-joystick.json');
-    this.game.load.bitmapFont('readout-yellow',
-        'assets/bitmapfonts/heavy-yellow24.png', 'assets/bitmapfonts/heavy-yellow24.xml');
+    //this.game.load.audio('playerthrust', 'assets/sounds/thrustLoop.ogg');
+    //this.game.load.audio('chime', 'assets/sounds/chime.mp3');
+    //this.game.load.atlas('joystick', 'assets/joystick/generic-joystick.png', 'assets/joystick/generic-joystick.json');
+    //this.game.load.bitmapFont('readout-yellow',
+    //    'assets/bitmapfonts/heavy-yellow24.png', 'assets/bitmapfonts/heavy-yellow24.xml');
 };
 
 Space.prototype.create = function () {
@@ -45,12 +46,15 @@ Space.prototype.create = function () {
     this.game.physics.p2.setBoundsToWorld(true, true, true, true, false);
 
     // Debugging
-    this.game.time.advancedTiming = true;
+    //this.game.time.advancedTiming = true;
+
+    // Set up DOM
+    this.starcoder.layoutDOMSpaceState();
 
     this.starcoder.controls.reset();
 
     // Virtual joystick
-    this.starcoder.controls.addVirtualControls(this.game.width - 275, this.game.height - 100, 0.5, 'joystick');
+    this.starcoder.controls.addVirtualControls('joystick');
     //this.game.vcontrols = {};
     //this.game.vcontrols.stick = this.game.joystick.addStick(
     //    this.game.width - 150, this.game.height - 75, 100, 'joystick');
@@ -63,11 +67,16 @@ Space.prototype.create = function () {
     this.game.sounds = {};
     this.game.sounds.playerthrust = this.game.sound.add('playerthrust', 1, true);
     this.game.sounds.chime = this.game.sound.add('chime', 1, false);
+    this.game.sounds.planttree = this.game.sound.add('planttree', 1, false);
+    this.game.sounds.bigpop = this.game.sound.add('bigpop', 1, false);
+    this.game.sounds.littlepop = this.game.sound.add('littlepop', 1, false);
+    this.game.sounds.tagged = this.game.sound.add('tagged', 1, false);
+    this.game.sounds.laser = this.game.sound.add('laser', 1, false);
 
     // Background
-    var starfield = this.game.make.bitmapData(600, 600);
-    this.starcoder.drawStarField(starfield.ctx, 600, 16);
-    this.game.add.tileSprite(wb[0]*ps, wb[1]*ps, (wb[2]-wb[0])*ps, (wb[3]-wb[1])*ps, starfield);
+    //var starfield = this.game.make.bitmapData(600, 600);
+    //this.starcoder.drawStarField(starfield.ctx, 600, 16);
+    this.game.add.tileSprite(wb[0]*ps, wb[1]*ps, (wb[2]-wb[0])*ps, (wb[3]-wb[1])*ps, this.starcoder.starfield);
 
     this.starcoder.syncclient.start();
     //this.starcoder.socket.emit('client ready');
@@ -145,9 +154,9 @@ Space.prototype.create = function () {
 
 };
 
-//Space.prototype.resize = function () {
-//    console.log('resize');
-//};
+Space.prototype.resize = function () {
+    console.log('resize');
+};
 
 Space.prototype.update = function () {
     // FIXME: just a mess for testing
@@ -172,7 +181,7 @@ Space.prototype.render = function () {
     //    console.log('Delta', d, this.game.time.elapsed, d / this.game.time.elapsed);
     //}
     //console.log('--------------------------------');
-    this.game.debug.text('Fps: ' + this.game.time.fps, 5, 20);
+    //this.game.debug.text('Fps: ' + this.game.time.fps, 5, 20);
     //this.game.vcontrols.stick.debug(true, true);
     //this.game.debug.cameraInfo(this.game.camera, 100, 20);
     //if (this.ship) {
@@ -185,6 +194,22 @@ Space.prototype._setupMessageHandlers = function (socket) {
     socket.on('msg crystal pickup', function (val) {
         self.game.sounds.chime.play();
         Toast.spinUp(self.game, self.game.playerShip.x, self.game.playerShip.y, '+' + val + ' crystals!');
+    });
+    socket.on('msg plant tree', function (val) {
+        self.game.sounds.planttree.play();
+    });
+    socket.on('msg asteroid pop', function (size) {
+        if (size > 1) {
+            self.game.sounds.bigpop.play();
+        } else {
+            self.game.sounds.littlepop.play();
+        }
+    });
+    socket.on('msg tagged', function (val) {
+        self.game.sounds.tagged.play();
+    });
+    socket.on('msg laser', function (val) {
+        self.game.sounds.laser.play();
     });
 };
 

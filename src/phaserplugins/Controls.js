@@ -36,32 +36,34 @@ Controls.prototype.init = function (queue) {
 var seq = 0;
 var up = false, down = false, left = false, right = false, fire = false, tractor = false;
 
-Controls.prototype.addVirtualControls = function (x, y, scale, texture) {
+Controls.prototype.addVirtualControls = function (texture) {
     texture = texture || 'joystick';
-    this.stick = this.joystick.addStick(x, y, 100,texture);
-    this.stick.motionLock = Phaser.VirtualJoystick.HORIZONTAL;
+    var scale = 1;            // FIXME
+    this.stick = this.joystick.addStick(0, 0, 100,texture);
+    //this.stick.motionLock = Phaser.VirtualJoystick.HORIZONTAL;
     this.stick.scale = scale;
-    this.gobutton = this.joystick.addButton(x + 200*scale, y, texture, 'button1-up', 'button1-down');
-    this.firebutton = this.joystick.addButton(x + 350*scale, y, texture, 'button2-up', 'button2-down');
-    this.tractorbutton = this.joystick.addButton(x + 450*scale, y, texture, 'button3-up', 'button3-down');
+    //this.gobutton = this.joystick.addButton(x + 200*scale, y, texture, 'button1-up', 'button1-down');
+    this.firebutton = this.joystick.addButton(0, 0, texture, 'button1-up', 'button1-down');
+    this.tractorbutton = this.joystick.addButton(0, 0, texture, 'button2-up', 'button2-down');
     this.firebutton.scale = scale;
-    this.gobutton.scale = scale;
+    //this.gobutton.scale = scale;
     this.tractorbutton.scale = scale;
-    this.stick.onMove.add(function () {
-        if (this.stick.x >= 0.25) {
+    this.layoutVirtualControls(scale);
+    this.stick.onMove.add(function (stick, f, fX, fY) {
+        if (fX >= 0.5) {
             this.joystickState.right = true;
             this.joystickState.left = false;
-        } else if (this.stick.x <= -0.25) {
+        } else if (fX <= -0.5) {
             this.joystickState.right = false;
             this.joystickState.left = true;
         } else {
             this.joystickState.right = false;
             this.joystickState.left = false;
         }
-        if (this.stick.y >= 0.25) {
+        if (fY >= 0.5) {
             this.joystickState.down = true;
             this.joystickState.up = false;
-        } else if (this.stick.y <= -0.25) {
+        } else if (fY <= -0.5) {
             this.joystickState.down = false;
             this.joystickState.up = true;
         } else {
@@ -81,18 +83,29 @@ Controls.prototype.addVirtualControls = function (x, y, scale, texture) {
     this.firebutton.onUp.add(function () {
         this.joystickState.fire = false;
     }, this);
-    this.gobutton.onDown.add(function () {
-        this.joystickState.up = true;
-    }, this);
-    this.gobutton.onUp.add(function () {
-        this.joystickState.up = false;
-    }, this);
+    //this.gobutton.onDown.add(function () {
+    //    this.joystickState.up = true;
+    //}, this);
+    //this.gobutton.onUp.add(function () {
+    //    this.joystickState.up = false;
+    //}, this);
     this.tractorbutton.onDown.add(function () {
         this.joystickState.tractor = true;
     }, this);
     this.tractorbutton.onUp.add(function () {
         this.joystickState.tractor = false;
     }, this);
+};
+
+Controls.prototype.layoutVirtualControls = function (scale) {
+    var y = this.game.height - 125 * scale;
+    var w = this.game.width;
+    this.stick.posX = 150 * scale;
+    this.stick.posY = y;
+    this.firebutton.posX = w - 250 * scale;
+    this.firebutton.posY = y;
+    this.tractorbutton.posX = w - 125 * scale;
+    this.tractorbutton.posY = y;
 };
 
 Controls.prototype.reset = function () {
