@@ -42,7 +42,7 @@ DOMInterface.prototype.initDOMInterface = function () {
 
 DOMInterface.prototype.layoutDOMSpaceState = function () {
     $('#code-btn').show().position({my: 'left bottom', at: 'left bottom', of: '#main'});
-    $('#code-popup').position({my: 'left bottom', at: 'left top', of: '#code-btn'});
+    $('#code-popup').position({my: 'left bottom', at: 'left top-16', of: '#code-btn'});
 };
 
 /**
