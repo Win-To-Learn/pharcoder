@@ -27,6 +27,12 @@ function make_browserify_task (task, sources, target) {
 
 make_browserify_task('browserify', ['src/client.js'], 'client.js');
 
+gulp.task('build', ['browserify', 'forceExit']);
+gulp.task('forceExit', function(cb) {
+  // not sure why browserify isn't exiting...
+  process.exit(0);
+});
+
 //gulp.task('browserify', function () {
 //    return browserify(['src/client.js']).bundle()
 //        .pipe(source('client.js'))
