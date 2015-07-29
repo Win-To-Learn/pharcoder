@@ -117,7 +117,7 @@ Blockly.Blocks['sc_set_thrust_power'] = {
  * @returns {string}
  */
 Blockly.JavaScript['sc_set_thrust_power'] = function (block) {
-    var arg = block.getFieldValue('VALUE');
+    var arg = Blockly.JavaScript.valueToCode(block, 'VALUE', Blockly.JavaScript.ORDER_NONE) || '1';
     return 'setThrustForce(' + arg + ')';
 };
 
