@@ -46,6 +46,7 @@ CollisionHandlers.prototype.initCollisionHandlers = function () {
 // Handlers
 function BulletAsteroid (bullet, asteroid) {
     asteroid.state = 'exploding';
+    this.send(bullet.firer.player, 'asteroid pop', asteroid.vectorScale);
     this.world.removeSyncableBody(bullet);
 }
 
@@ -76,6 +77,7 @@ function ShipPlanetoid (ship, planetoid, equations) {
         }  else {
             point = equations.contactPointB;
         }
+        this.send(ship.player, 'plant tree');
         planetoid.plantTree(point[0], point[1], ship);
     }
 }
@@ -88,6 +90,7 @@ function ShipDeadly (ship, obstacle) {
 
 function BulletShip (bullet, ship) {
     if (bullet.firer !== ship) {
+        this.send(ship.player, 'tagged');
         ship.lineColor = bullet.firer.lineColor;
         this.world.removeSyncableBody(bullet);
     }

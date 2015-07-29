@@ -64,25 +64,27 @@ Boot.prototype.init = function () {
  * Preload minimal assets for progress screen
  */
 Boot.prototype.preload = function () {
-
+    this.game.load.image('bar_left', 'assets/images/greenBarLeft.png');
+    this.game.load.image('bar_mid', 'assets/images/greenBarMid.png');
+    this.game.load.image('bar_right', 'assets/images/greenBarRight.png');
 };
 
 /**
  * Kick into next state once initialization and preloading are done
  */
 Boot.prototype.create = function () {
-    //this.game.state.start('preload');
+    this.game.state.start('loader');
 };
 
 /**
  * Advance game state once network connection is established
  */
-Boot.prototype.update = function () {
-    // FIXME: don't wait here - should be in create
-    if (this.starcoder.connected) {
-        //this.game.state.start('space');
-        this.game.state.start('login');
-    }
-};
+//Boot.prototype.update = function () {
+//    // FIXME: don't wait here - should be in create
+//    if (this.starcoder.connected) {
+//        //this.game.state.start('space');
+//        this.game.state.start('login');
+//    }
+//};
 
 module.exports = Boot;
