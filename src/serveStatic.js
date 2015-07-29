@@ -1,5 +1,8 @@
 "use strict";
 
+// this was a good, quick fix at first but it has become unruly
+// TODO: automatically serve static assets without having to add routes here
+
 module.exports = function (app) {
 
   var path = require('path');
@@ -64,6 +67,10 @@ module.exports = function (app) {
 
   app.get('/assets/bitmapfonts/:name', function (req, res) {
     return sendFile(path.join(__dirname, '../assets/bitmapfonts/'), req.params.name, res);
+  });
+
+  app.get('/assets/images/:name', function (req, res) {
+    return sendFile(path.join(__dirname, '../assets/images/'), req.params.name, res);
   });
 
   app.get('/assets/joystick/:name', function (req, res) {
