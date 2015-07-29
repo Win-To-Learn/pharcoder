@@ -58,6 +58,7 @@ Loader.prototype.preload = function () {
     this.game.load.audio('bigpop', 'assets/sounds/bigpop.ogg');
     this.game.load.audio('littlepop', 'assets/sounds/littlepop.ogg');
     this.game.load.audio('tagged', 'assets/sounds/tagged.ogg');
+    this.game.load.audio('laser', 'assets/sounds/laser.ogg');
     // Spritesheets
     this.game.load.atlas('joystick', 'assets/joystick/generic-joystick.png', 'assets/joystick/generic-joystick.json');
     // Images

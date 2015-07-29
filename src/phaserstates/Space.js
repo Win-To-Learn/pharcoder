@@ -71,6 +71,7 @@ Space.prototype.create = function () {
     this.game.sounds.bigpop = this.game.sound.add('bigpop', 1, false);
     this.game.sounds.littlepop = this.game.sound.add('littlepop', 1, false);
     this.game.sounds.tagged = this.game.sound.add('tagged', 1, false);
+    this.game.sounds.laser = this.game.sound.add('laser', 1, false);
 
     // Background
     //var starfield = this.game.make.bitmapData(600, 600);
@@ -206,6 +207,9 @@ Space.prototype._setupMessageHandlers = function (socket) {
     });
     socket.on('msg tagged', function (val) {
         self.game.sounds.tagged.play();
+    });
+    socket.on('msg laser', function (val) {
+        self.game.sounds.laser.play();
     });
 };
 

@@ -90,7 +90,6 @@ Ship.prototype.getPropertyUpdate = function (propname, properties) {
 };
 
 Ship.prototype.update = function () {
-    // TODO: Speed limits?
     this.angularForce = this.turningForce*this.state.turn;
     this.setPolarForce(this.thrustForce*this.state.thrust);
     if (this.state.firing && ((this.world.time - this._lastShot) > 1)) {
@@ -153,6 +152,7 @@ Ship.prototype.shoot = function () {
         bullet.tod = tod;
     }
     this._lastShot = this.world.time;
+    this.world.starcoder.send(this.player, 'laser');
 };
 
 Ship.prototype.knockOut = function () {
