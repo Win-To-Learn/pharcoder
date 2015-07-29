@@ -15,7 +15,7 @@
 
 var config = {
     version: '0.1',
-    serverUri: 'http://localhost:8080',
+    //serverUri: 'http://localhost:8080',
     //worldBounds: [-4200, -4200, 8400, 8400],
     worldBounds: [-200, -200, 200, 200],
     ioClientOptions: {
@@ -93,6 +93,11 @@ var config = {
             vectorScale: 2.5,
             mass: 100
         }},
+        //{type: 'StarTarget', number: 10, config: {
+        //    position: {random: 'world', pad: 30},
+        //    vectorScale: 0.5,
+        //    stars: [[0, 0], [1,1], [-1,1], [1,-1]]
+        //}}
         // FIXME: Trees just for testing
         //{type: 'Tree', number: 10, config: {
         //    position: {random: 'world', pad: 30},

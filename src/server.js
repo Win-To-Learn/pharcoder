@@ -16,4 +16,4 @@ app.use(function(req, res, next) {
 
 var starcoder = new Starcoder(app, io);
 
-server.listen(8080);
+server.listen(8080, '0.0.0.0');

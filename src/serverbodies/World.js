@@ -17,7 +17,8 @@ var bodyTypes = {
     Crystal: require('./Crystal.js'),
     Hydra: require('./Hydra.js'),
     Planetoid: require('./Planetoid.js'),
-    Tree: require('./Tree.js')
+    Tree: require('./Tree.js'),
+    StarTarget: require('./StarTarget')
 };
 
 /**
@@ -139,6 +140,7 @@ World.prototype.addPlayerShip = function (player) {
     var ship = this.addSyncableBody(bodyTypes.Ship,
         {position: {random: 'world', pad: 25}, lineColor: {random: 'color'}}, player);
     ship.player = player;
+    ship.tag = player.username;
     player.addShip(ship);
     this._ships.push(ship);
     return ship;

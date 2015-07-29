@@ -163,6 +163,9 @@ SyncClient.prototype._processPhysicsUpdates = function () {
 
         var span = after.timestamp - before.timestamp;
         var t = (interpTime - before.timestamp) / span;
+        if (t < 0 || t > 1) {
+            console.log('weird time', t);
+        }
         sprite.setPosAngle(linear(before.x, after.x, t), linear(before.y, after.y, t), linear(before.a, after.a, t));
     }
 };

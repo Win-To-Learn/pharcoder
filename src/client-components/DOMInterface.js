@@ -36,8 +36,13 @@ DOMInterface.prototype.initDOMInterface = function () {
     $('.loginbutton').button({icons: {primary: 'ui-icon-triangle-1-e'}});
 
     $('.accordion').accordion({heightStyle: 'content'});
-    $('.popup').hide();
+    $('.hidden').hide();
 
+};
+
+DOMInterface.prototype.layoutDOMSpaceState = function () {
+    $('#code-btn').show().position({my: 'left bottom', at: 'left bottom', of: '#main'});
+    $('#code-popup').position({my: 'left bottom', at: 'left top', of: '#code-btn'});
 };
 
 /**

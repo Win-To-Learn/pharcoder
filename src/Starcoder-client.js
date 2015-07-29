@@ -48,7 +48,13 @@ Starcoder.prototype.serverConnect = function () {
         this.connected = false;
         this.lastNetError = null;
     }
-    this.socket = this.io(this.config.serverUri, this.config.ioClientOptions);
+    var serverUri = this.config.serverUri;
+    if (!serverUri) {
+        var protocol = this.config.serverProtol || window.location.protocol;
+        var port = this.config.serverPort || '8080';
+        serverUri = protocol + '//' + window.location.hostname + ':' + port;
+    }
+    this.socket = this.io(serverUri, this.config.ioClientOptions);
     this.socket.on('connect', function () {
         self.connected = true;
         self.lastNetError = null;

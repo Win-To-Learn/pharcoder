@@ -46,12 +46,15 @@ Space.prototype.create = function () {
     this.game.physics.p2.setBoundsToWorld(true, true, true, true, false);
 
     // Debugging
-    this.game.time.advancedTiming = true;
+    //this.game.time.advancedTiming = true;
+
+    // Set up DOM
+    this.starcoder.layoutDOMSpaceState();
 
     this.starcoder.controls.reset();
 
     // Virtual joystick
-    this.starcoder.controls.addVirtualControls(this.game.width - 275, this.game.height - 100, 0.5, 'joystick');
+    this.starcoder.controls.addVirtualControls('joystick');
     //this.game.vcontrols = {};
     //this.game.vcontrols.stick = this.game.joystick.addStick(
     //    this.game.width - 150, this.game.height - 75, 100, 'joystick');
@@ -146,9 +149,9 @@ Space.prototype.create = function () {
 
 };
 
-//Space.prototype.resize = function () {
-//    console.log('resize');
-//};
+Space.prototype.resize = function () {
+    console.log('resize');
+};
 
 Space.prototype.update = function () {
     // FIXME: just a mess for testing
@@ -173,7 +176,7 @@ Space.prototype.render = function () {
     //    console.log('Delta', d, this.game.time.elapsed, d / this.game.time.elapsed);
     //}
     //console.log('--------------------------------');
-    this.game.debug.text('Fps: ' + this.game.time.fps, 5, 20);
+    //this.game.debug.text('Fps: ' + this.game.time.fps, 5, 20);
     //this.game.vcontrols.stick.debug(true, true);
     //this.game.debug.cameraInfo(this.game.camera, 100, 20);
     //if (this.ship) {

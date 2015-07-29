@@ -173,4 +173,14 @@ Object.defineProperty(Ship.prototype, 'crystals', {
     }
 });
 
+Object.defineProperty(Ship.prototype, 'tag', {
+    get: function () {
+        return this._tag;
+    },
+    set: function (val) {
+        this._tag = val;
+        this._dirtyProperties.tag = true;
+    }
+});
+
 module.exports = Ship;

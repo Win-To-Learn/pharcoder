@@ -1,5 +1,7 @@
 /**
  * Ship.js
+ *
+ * Client side implementation
  */
 'use strict';
 
@@ -24,7 +26,7 @@ var Ship = function (game, config) {
     //this.weapons.ship = this;
     //this.addChild(this.weapons);
     this.tagText = game.add.text(0, this.texture.height/2 + 1,
-        config.tag, {font: 'bold 18px Arial', fill: this.lineColor || '#ffffff', align: 'center'});
+        this.tag, {font: 'bold 18px Arial', fill: this.lineColor || '#ffffff', align: 'center'});
     this.tagText.anchor.setTo(0.5, 0);
     this.addChild(this.tagText);
     this.localState = {
@@ -87,10 +89,20 @@ Ship.prototype.update = function () {
             this.localState.thrust = 'off';
     }
     // Player ship only
-    if (this.playerid === this.game.starcoder.player.id) {
+    if (this.playerShip) {
         this.game.inventorytext.setText(this.crystals.toString());
     }
 };
+
+Object.defineProperty(VectorSprite.prototype, 'tag', {
+    get: function () {
+        return this._tag;
+    },
+    set: function (val) {
+        this._tag = val;
+        this._dirty = true;
+    }
+});
 
 module.exports = Ship;
 //Starcoder.Ship = Ship;
