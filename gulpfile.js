@@ -5,7 +5,6 @@ var buffer = require('vinyl-buffer');
 var watchify = require('watchify');
 var gutil = require('gulp-util');
 var runSequence = require('run-sequence');
-var git = require('gulp-git');
 
 function make_browserify_task (task, sources, target) {
     var opts = {
