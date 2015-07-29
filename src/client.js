@@ -17,6 +17,10 @@ localStorage.debug = '';                        // used to toggle socket.io debu
 //    starcoder.start();
 //});
 
+$(document).on('ready', function() {
+  $('#guestlogin').click();
+});
+
 $(function () {
     var starcoder = new Starcoder();
     starcoder.start();
