@@ -15,6 +15,7 @@
 
 var config = {
     version: '0.1',
+    //serverAddress: '1.2.3.4',
     //serverUri: 'http://localhost:8080',
     //worldBounds: [-4200, -4200, 8400, 8400],
     worldBounds: [-200, -200, 200, 200],
@@ -73,7 +74,7 @@ var config = {
     initialBodies: [
         {type: 'Asteroid', number: 25, config: {
             position: {random: 'world'},
-            velocity: {random: 'vector', lo: -10, hi: 10},
+            velocity: {random: 'vector', lo: -15, hi: 15},
             angularVelocity: {random: 'float', lo: -5, hi: 5},
             vectorScale: {random: 'float', lo: 0.6, hi: 1.4},
             mass: 10

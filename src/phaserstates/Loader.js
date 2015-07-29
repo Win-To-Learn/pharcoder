@@ -44,14 +44,23 @@ Loader.prototype.init = function () {
 };
 
 Loader.prototype.preload = function () {
-    console.log('loader preload');
+    // TODO: HD and SD versions
+    // Fonts
     this.game.load.bitmapFont('title-font',
         'assets/bitmapfonts/karnivore128.png', 'assets/bitmapfonts/karnivore128.xml');
-    this.game.load.audio('playerthrust', 'assets/sounds/thrustLoop.ogg');
-    this.game.load.audio('chime', 'assets/sounds/chime.mp3');
-    this.game.load.atlas('joystick', 'assets/joystick/generic-joystick.png', 'assets/joystick/generic-joystick.json');
     this.game.load.bitmapFont('readout-yellow',
         'assets/bitmapfonts/heavy-yellow24.png', 'assets/bitmapfonts/heavy-yellow24.xml');
+    this.game.load.audio('playerthrust', 'assets/sounds/thrustLoop.ogg');
+    // Sounds
+    this.game.load.audio('chime', 'assets/sounds/chime.ogg');
+    this.game.load.audio('levelup', 'assets/sounds/levelup.ogg');
+    this.game.load.audio('planttree', 'assets/sounds/planttree.ogg');
+    this.game.load.audio('bigpop', 'assets/sounds/bigpop.ogg');
+    this.game.load.audio('littlepop', 'assets/sounds/littlepop.ogg');
+    this.game.load.audio('tagged', 'assets/sounds/tagged.ogg');
+    // Spritesheets
+    this.game.load.atlas('joystick', 'assets/joystick/generic-joystick.png', 'assets/joystick/generic-joystick.json');
+    // Images
 
 };
 

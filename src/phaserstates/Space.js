@@ -67,6 +67,10 @@ Space.prototype.create = function () {
     this.game.sounds = {};
     this.game.sounds.playerthrust = this.game.sound.add('playerthrust', 1, true);
     this.game.sounds.chime = this.game.sound.add('chime', 1, false);
+    this.game.sounds.planttree = this.game.sound.add('planttree', 1, false);
+    this.game.sounds.bigpop = this.game.sound.add('bigpop', 1, false);
+    this.game.sounds.littlepop = this.game.sound.add('littlepop', 1, false);
+    this.game.sounds.tagged = this.game.sound.add('tagged', 1, false);
 
     // Background
     //var starfield = this.game.make.bitmapData(600, 600);
@@ -189,6 +193,19 @@ Space.prototype._setupMessageHandlers = function (socket) {
     socket.on('msg crystal pickup', function (val) {
         self.game.sounds.chime.play();
         Toast.spinUp(self.game, self.game.playerShip.x, self.game.playerShip.y, '+' + val + ' crystals!');
+    });
+    socket.on('msg plant tree', function (val) {
+        self.game.sounds.planttree.play();
+    });
+    socket.on('msg asteroid pop', function (size) {
+        if (size > 1) {
+            self.game.sounds.bigpop.play();
+        } else {
+            self.game.sounds.littlepop.play();
+        }
+    });
+    socket.on('msg tagged', function (val) {
+        self.game.sounds.tagged.play();
     });
 };
 
