@@ -4,7 +4,7 @@
  *
  * @type {Starcoder|exports}
  */
-// jason
+
 //require('./BlocklyCustom.js');
 
 var Starcoder = require('./Starcoder-client.js');
@@ -16,10 +16,6 @@ localStorage.debug = '';                        // used to toggle socket.io debu
 //    var starcoder = new Starcoder();
 //    starcoder.start();
 //});
-
-$(document).on('ready', function() {
-  $('#guestlogin').click();
-});
 
 $(function () {
     var starcoder = new Starcoder();
