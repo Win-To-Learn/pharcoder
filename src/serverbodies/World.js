@@ -245,11 +245,37 @@ World.prototype.preStep = function () {
         if (body.update) {
             body.update();
         }
+        if (body.timers.length) {
+            for (var j = body.timers.length - 1; j >= 0; j--) {
+                var timer = body.timers[j];
+                if (this.time >= timer.time) {
+                    body.runTimer(body.timers[j]);
+                    if (timer.repeat) {
+                        timer.time = this.time + timer.repeat;
+                    } else {
+                        body.timers.splice(j, 1);
+                    }
+                }
+            }
+        }
     }
     for (i = this._syncableBodiesNew.length - 1; i >= 0; i--) {
         body = this._syncableBodiesNew[i];
         if (body.update) {
             body.update();
+        }
+        if (body.timers.length) {
+            for (j = body.timers.length - 1; j >= 0; j--) {
+                timer = body.timers[j];
+                if (this.time >= timer.time) {
+                    body.runTimer(body.timers[j]);
+                    if (timer.repeat) {
+                        timer.time = this.time + timer.repeat;
+                    } else {
+                        body.timers.splice(j, 1);
+                    }
+                }
+            }
         }
     }
 };

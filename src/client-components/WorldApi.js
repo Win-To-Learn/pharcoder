@@ -44,6 +44,9 @@ WorldApi.prototype.addBody = function (type, config) {
         //}
     }
     var body = new ctor(this.game, config);
+    if (type === 'Ship') {
+        this.playerMap[config.properties.playerid] = body;
+    }
     //this.game.add.existing(body);
     this.game.playfield.add(body);
     if (playerShip) {

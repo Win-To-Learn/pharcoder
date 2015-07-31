@@ -14,6 +14,7 @@ var CodeEndpointServer = require('./server-components/CodeEndpointServer.js');
 //var RESTEndpoint = require('./server-components/RESTEndpoint.js');
 //var Sessions = require('./server-components/Sessions.js');
 var LoginEndpoint = require('./server-components/LoginEndpoint.js');
+var LeaderBoardEndpoint = require('./server-components/LeaderBoardEndpoint.js');
 
 var World = require('./serverbodies/World.js');
 
@@ -28,6 +29,7 @@ Starcoder.mixinPrototype(Starcoder.prototype, CodeEndpointServer.prototype);
 //Starcoder.mixinPrototype(Starcoder.prototype, RESTEndpoint.prototype);
 //Starcoder.mixinPrototype(Starcoder.prototype, Sessions.prototype);
 Starcoder.mixinPrototype(Starcoder.prototype, LoginEndpoint.prototype);
+Starcoder.mixinPrototype(Starcoder.prototype, LeaderBoardEndpoint.prototype);
 
 /**
  * Initialize Starcoder server
@@ -40,7 +42,6 @@ Starcoder.prototype.init = function (app, io) {
     this.io = io;
     this.players = {};          // Logged in players
     this.pending = {};          // Connections pending login
-    this.clientReadyFunctions = [];
     this.onConnectCB = [];
     this.onLoginCB = [];
     this.onReadyCB = [];
@@ -48,6 +49,10 @@ Starcoder.prototype.init = function (app, io) {
     this.world.starcoder = this;
     this.world.log = this.log;
     this.initLoginEndpoint();
+    this.initLeaderBoardEndpoint();
+    this.newLeaderBoardCategory('Ships Tagged');
+    this.newLeaderBoardCategory('Tag Streak');
+    this.newLeaderBoardCategory('Trees Planted');
     this.initControlEndPoint();
     this.initCollisionHandlers();
     this.initSyncServer();

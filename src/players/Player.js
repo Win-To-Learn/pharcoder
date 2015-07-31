@@ -11,6 +11,12 @@ var Player = function (username) {
     //this.socket = socket;
     this.ships = [];
     this.newborn = true;
+    this.stats = {
+        tags: 0,
+        treesPlanted: 0,
+        bestTagStreak: 0,
+        currentTagStreak: 0
+    };
     this.codeQueue = [];
     this.interpreter = null;
 };

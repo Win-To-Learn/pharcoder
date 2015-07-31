@@ -36,6 +36,7 @@ var SyncBodyBase = function (config) {
     if (this.customize) {
         this.customize(config);
     }
+    this.timers = [];
     this.adjustShape();
     this.newborn = true;
     this.dead = false;
@@ -52,6 +53,26 @@ SyncBodyBase.prototype.setDefaults = function (config) {
         if (!config[k]) {
             config[k] = this.defaults[k];
         }
+    }
+};
+
+SyncBodyBase.prototype.setTimer = function (time, spec, repeat) {
+    spec.time = this.world.time + time;
+    if (repeat) {
+        spec.repeat = repeat;
+    }
+    this.timers.push(spec);
+};
+
+SyncBodyBase.prototype.runTimer = function (timer) {
+    if (timer.props) {
+        for (var key in timer.props) {
+            this[key] = timer.props[key];
+        }
+    }
+    if (timer.fun) {
+        var args = timer.args || [];
+        timer.fun.apply(this, args);
     }
 };
 

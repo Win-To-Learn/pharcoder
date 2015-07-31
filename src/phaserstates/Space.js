@@ -8,6 +8,7 @@
 var SimpleParticle = require('../phaserbodies/SimpleParticle.js');
 var ThrustGenerator = require('../phaserbodies/ThrustGenerator.js');
 var MiniMap = require('../phaserui/MiniMap.js');
+var LeaderBoard = require('../phaserui/LeaderBoard.js');
 var Toast = require('../phaserbodies/Toast.js');
 
 var Controls = require('../phaserplugins/Controls.js');
@@ -73,6 +74,9 @@ Space.prototype.create = function () {
     this.game.sounds.tagged = this.game.sound.add('tagged', 1, false);
     this.game.sounds.laser = this.game.sound.add('laser', 1, false);
 
+    this.game.sounds.music = this.game.sound.add('music', 1, true);
+    this.game.sounds.music.play();
+
     // Background
     //var starfield = this.game.make.bitmapData(600, 600);
     //this.starcoder.drawStarField(starfield.ctx, 600, 16);
@@ -93,21 +97,30 @@ Space.prototype.create = function () {
     this.game.ui = this.game.add.group();
     this.game.ui.fixedToCamera = true;
 
-    // Inventory
-    var label = this.game.make.text(this.game.width - 100, 25, 'INVENTORY', {font: '24px Arial', fill: '#ff9900', align: 'center'});
-    label.anchor.setTo(0.5);
+    // Inventory - tinker with position
+    var label = this.game.make.text(this.game.width / 2, 25, 'INVENTORY',
+        {font: '24px Arial', fill: '#ff9900', align: 'center'});
+    label.anchor.setTo(0.5, 0.5);
     this.game.ui.add(label);
     //this.game.inventorytext = this.game.make.text(this.game.width - 100, 50, '0 crystals',
     //    {font: '24px Arial', fill: '#ccc000', align: 'center'});
-    this.game.inventorytext = this.game.make.bitmapText(this.game.width - 100, 50, 'readout-yellow', '0');
-    this.game.inventorytext.anchor.setTo(0.5);
+    this.game.inventorytext = this.game.make.bitmapText(this.game.width / 2, 50, 'readout-yellow', '0');
+    this.game.inventorytext.anchor.setTo(0.5, 0.5);
     this.game.ui.add(this.game.inventorytext);
 
-    //MiniMap
+    // MiniMap
     this.game.minimap = new MiniMap(this.game, 300, 300);
     this.game.ui.add(this.game.minimap);
-    this.game.x = 10;
-    this.game.y = 10;
+    this.game.minimap.x = 10;
+    this.game.minimap.y = 10;
+
+    // Leaderboard
+    this.game.leaderboard = new LeaderBoard(this.game, this.starcoder.playerMap, 150, 200);
+    this.game.ui.add(this.game.leaderboard);
+    this.game.leaderboard.x = this.game.width - 150;
+    this.game.leaderboard.y = 0;
+    this.game.leaderboard.visible = false;
+    var self = this;
 
     // Helpers
     //function randomNormal () {

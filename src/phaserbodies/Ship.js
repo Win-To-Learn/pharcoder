@@ -46,6 +46,8 @@ Ship.prototype.constructor = Ship;
 Starcoder.mixinPrototype(Ship.prototype, SyncBodyInterface.prototype);
 Starcoder.mixinPrototype(Ship.prototype, UpdateProperties.prototype);
 
+Ship.prototype.radarFactor = 3;
+
 //Ship.prototype.setLineStyle = function (color, lineWidth) {
 //    Starcoder.VectorSprite.prototype.setLineStyle.call(this, color, lineWidth);
 //    this.tagText.setStyle({fill: color});
@@ -89,7 +91,7 @@ Ship.prototype.update = function () {
             this.localState.thrust = 'off';
     }
     // Player ship only
-    if (this.playerShip) {
+    if (this.game.playerShip === this) {
         this.game.inventorytext.setText(this.crystals.toString());
     }
 };

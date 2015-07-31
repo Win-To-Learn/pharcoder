@@ -29,7 +29,7 @@ CollisionHandlers.prototype.initCollisionHandlers = function () {
             } else if (A.serverType === 'Ship' && B.deadly) {
                 ShipDeadly.bind(self)(A, B);
             } else if (A.serverType === 'TractorBeam' && B.serverType === 'Planetoid') {
-                TractorBeamPlanetoid(A, B);
+                TractorBeamPlanetoid.bind(self)(A, B);
             }
             // Swap A and B if we haven't already
             if (t) {
@@ -79,6 +79,8 @@ function ShipPlanetoid (ship, planetoid, equations) {
         }
         this.send(ship.player, 'plant tree');
         planetoid.plantTree(point[0], point[1], ship);
+        ship.player.stats.treesPlanted++;
+        this.updatePlayerScore('Trees Planted', ship.player.id, ship.player.stats.treesPlanted);
     }
 }
 
@@ -91,7 +93,16 @@ function ShipDeadly (ship, obstacle) {
 function BulletShip (bullet, ship) {
     if (bullet.firer !== ship) {
         this.send(ship.player, 'tagged');
+        ship.setTimer(2, {props: {lineColor: ship.lineColor}});
         ship.lineColor = bullet.firer.lineColor;
+        bullet.firer.player.stats.tags++;
+        this.updatePlayerScore('Ships Tagged', bullet.firer.player.id, bullet.firer.player.stats.tags);
+        bullet.firer.player.stats.currentTagStreak++;
+        if (bullet.firer.player.stats.currentTagStreak > bullet.firer.player.stats.bestTagStreak) {
+            bullet.firer.player.stats.bestTagStreak = bullet.firer.player.stats.currentTagStreak;
+            this.updatePlayerScore('Tag Streak', bullet.firer.player.id, bullet.firer.player.stats.bestTagStreak);
+        }
+        ship.player.stats.currentTagStreak = 0;
         this.world.removeSyncableBody(bullet);
     }
 }

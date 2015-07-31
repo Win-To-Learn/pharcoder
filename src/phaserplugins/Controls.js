@@ -50,20 +50,20 @@ Controls.prototype.addVirtualControls = function (texture) {
     this.tractorbutton.scale = scale;
     this.layoutVirtualControls(scale);
     this.stick.onMove.add(function (stick, f, fX, fY) {
-        if (fX >= 0.5) {
+        if (fX >= 0.35) {
             this.joystickState.right = true;
             this.joystickState.left = false;
-        } else if (fX <= -0.5) {
+        } else if (fX <= -0.35) {
             this.joystickState.right = false;
             this.joystickState.left = true;
         } else {
             this.joystickState.right = false;
             this.joystickState.left = false;
         }
-        if (fY >= 0.5) {
+        if (fY >= 0.35) {
             this.joystickState.down = true;
             this.joystickState.up = false;
-        } else if (fY <= -0.5) {
+        } else if (fY <= -0.35) {
             this.joystickState.down = false;
             this.joystickState.up = true;
         } else {

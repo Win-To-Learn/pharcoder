@@ -11,11 +11,13 @@ var WorldApi = require('./client-components/WorldApi.js');
 var DOMInterface = require('./client-components/DOMInterface.js');
 var CodeEndpointClient = require('./client-components/CodeEndpointClient.js');
 var Starfield = require('./client-components/Starfield.js');
+var LeaderBoardClient = require('./client-components/LeaderBoardClient.js');
 
 Starcoder.mixinPrototype(Starcoder.prototype, WorldApi.prototype);
 Starcoder.mixinPrototype(Starcoder.prototype, DOMInterface.prototype);
 Starcoder.mixinPrototype(Starcoder.prototype, CodeEndpointClient.prototype);
 Starcoder.mixinPrototype(Starcoder.prototype, Starfield.prototype);
+Starcoder.mixinPrototype(Starcoder.prototype, LeaderBoardClient.prototype);
 
 var states = {
     boot: require('./phaserstates/Boot.js'),
@@ -35,9 +37,12 @@ Starcoder.prototype.init = function () {
         state.starcoder = this;
         this.game.state.add(k, state);
     }
+    this.onConnectCB = [];
+    this.playerMap = {};
     this.cmdQueue = [];
     this.connected = false;
     this.lastNetError = null;
+    this.initLeaderBoardClient();
     this.initDOMInterface();
 };
 
@@ -58,6 +63,9 @@ Starcoder.prototype.serverConnect = function () {
     this.socket.on('connect', function () {
         self.connected = true;
         self.lastNetError = null;
+        for (var i = 0, l = self.onConnectCB.length; i < l; i++) {
+            self.onConnectCB[i].bind(self, self.socket)();
+        }
     });
     this.socket.on('error', function (data) {
         this.lastNetError = data;
