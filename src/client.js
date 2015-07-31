@@ -17,6 +17,8 @@ var Starcoder = require('./Starcoder-client.js');
 //    starcoder.start();
 //});
 
+// test
+
 $(function () {
     var starcoder = new Starcoder();
     starcoder.start();
