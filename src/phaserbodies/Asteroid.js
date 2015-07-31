@@ -31,7 +31,7 @@ Starcoder.mixinPrototype(Asteroid.prototype, SyncBodyInterface.prototype);
 Starcoder.mixinPrototype(Asteroid.prototype, UpdateProperties.prototype);
 
 Asteroid.prototype._lineColor = '#ff00ff';
-Asteroid.prototype._fillColor = '#00ff00';
+Asteroid.prototype._fillColor = '#ff0000';
 Asteroid.prototype._shapeClosed = true;
 Asteroid.prototype._lineWidth = 1;
 Asteroid.prototype._fillAlpha = 0.25;

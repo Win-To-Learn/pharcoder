@@ -46,7 +46,7 @@ Ship.prototype.constructor = Ship;
 Starcoder.mixinPrototype(Ship.prototype, SyncBodyInterface.prototype);
 Starcoder.mixinPrototype(Ship.prototype, UpdateProperties.prototype);
 
-Ship.prototype.radarFactor = 3;
+Ship.prototype.mapFactor = 3;
 
 //Ship.prototype.setLineStyle = function (color, lineWidth) {
 //    Starcoder.VectorSprite.prototype.setLineStyle.call(this, color, lineWidth);

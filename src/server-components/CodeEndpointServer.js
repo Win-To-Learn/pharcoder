@@ -81,7 +81,7 @@ CodeEndpointServer.prototype.newInterpreter = function (code, player) {
         interpreter.setProperty(scope, 'newPlanet', interpreter.createNativeFunction(wrapper));
         // set thrust power
         wrapper = function (power) {
-            player.getShip().thrustForce = Math.min(Math.max(power.toNumber(), 100), 1000);
+            player.getShip().thrustForce = Math.min(Math.max(power.toNumber(), 100), 1500);
         };
         interpreter.setProperty(scope, 'setThrustForce', interpreter.createNativeFunction(wrapper));
         // translate

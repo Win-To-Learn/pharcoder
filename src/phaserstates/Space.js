@@ -115,9 +115,9 @@ Space.prototype.create = function () {
     this.game.minimap.y = 10;
 
     // Leaderboard
-    this.game.leaderboard = new LeaderBoard(this.game, this.starcoder.playerMap, 150, 200);
+    this.game.leaderboard = new LeaderBoard(this.game, this.starcoder.playerMap, 200, 300);
     this.game.ui.add(this.game.leaderboard);
-    this.game.leaderboard.x = this.game.width - 150;
+    this.game.leaderboard.x = this.game.width - 200;
     this.game.leaderboard.y = 0;
     this.game.leaderboard.visible = false;
     var self = this;

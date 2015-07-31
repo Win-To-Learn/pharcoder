@@ -98,13 +98,13 @@ VectorSprite.prototype.updateAppearance = function () {
     this.setTexture(this.texture);
     // Draw small for minimap
     var mapScale = this.game.minimap.mapScale;
-    var radarFactor = this.radarFactor || 1;
+    var mapFactor = this.mapFactor || 1;
     this.graphics.clear();
     this.graphics._currentBounds = null;
     if (typeof this.drawProcedure !== 'undefined') {
-        this.drawProcedure(mapScale * radarFactor);
+        this.drawProcedure(mapScale * mapFactor);
     } else if (this.shape) {
-        this.draw(mapScale * radarFactor);
+        this.draw(mapScale * mapFactor);
     }
     bounds = this.graphics.getLocalBounds();
     this.minitexture.resize(bounds.width, bounds.height, true);

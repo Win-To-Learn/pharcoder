@@ -17,8 +17,8 @@ var TractorBeam = require('./TractorBeam.js');
 
 var Ship = function (config) {
     SyncBodyBase.call(this, config);
-    this.damping = 0.99;
-    this.angularDamping = 0.99;
+    this.damping = 0.85;
+    this.angularDamping = 0.85;
     this.state = {
         turn: 0,
         thrust: 0,
@@ -32,7 +32,7 @@ var Ship = function (config) {
         trunkLength: 2
     };
     // Engine
-    this.thrustForce = 500;
+    this.thrustForce = 750;
     this.turningForce = 50;
     // Weapons system
     this.bulletSalvoSize = 1;
