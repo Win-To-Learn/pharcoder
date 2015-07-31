@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node ./src/server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "preversion": "gulp build && git add -A",
+    "preversion": "gulp build && git add -A && git commit -am 'build and deploy'",
     "postversion": "git push && eb deploy"
   },
   "author": "",
