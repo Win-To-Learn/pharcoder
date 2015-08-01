@@ -38,6 +38,8 @@ Space.prototype.preload = function () {
 };
 
 Space.prototype.create = function () {
+    console.log('Space size', this.game.width, this.game.height, window.innerWidth, window.innerHeight);
+    window.scrollTo(0, 1);
     //console.log('create');
     //var rng = this.game.rnd;
     var wb = this.starcoder.config.worldBounds;
@@ -74,8 +76,8 @@ Space.prototype.create = function () {
     this.game.sounds.tagged = this.game.sound.add('tagged', 1, false);
     this.game.sounds.laser = this.game.sound.add('laser', 1, false);
 
-    this.game.sounds.music = this.game.sound.add('music', 1, true);
-    this.game.sounds.music.play();
+    //this.game.sounds.music = this.game.sound.add('music', 1, true);
+    //this.game.sounds.music.play();
 
     // Background
     //var starfield = this.game.make.bitmapData(600, 600);
@@ -167,8 +169,8 @@ Space.prototype.create = function () {
 
 };
 
-Space.prototype.resize = function () {
-    console.log('resize');
+Space.prototype.resize = function (w, h) {
+    console.log('rs Space', w, h);
 };
 
 Space.prototype.update = function () {

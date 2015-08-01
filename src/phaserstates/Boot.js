@@ -14,12 +14,14 @@ var Boot = function () {};
 Boot.prototype = Object.create(Phaser.State.prototype);
 Boot.prototype.constructor = Boot;
 
-var _connected = false;
+//var _connected = false;
 
 /**
  * Set properties that require booted game state, attach plugins, connect to game server
  */
 Boot.prototype.init = function () {
+    console.log('Init Boot', this.game.width, this.game.height);
+    console.log('iw Boot', window.innerWidth, window.innerHeight, screen.width, screen.height, window.devicePixelRatio);
     //this.game.stage.disableVisibilityChange = true;
     this.game.scale.scaleMode = Phaser.ScaleManager.RESIZE;
     this.game.renderer.renderSession.roundPixels = true;
@@ -74,6 +76,10 @@ Boot.prototype.preload = function () {
  */
 Boot.prototype.create = function () {
     this.game.state.start('loader');
+};
+
+Boot.prototype.resize = function (w, h) {
+    console.log('rs Boot', w, h);
 };
 
 /**

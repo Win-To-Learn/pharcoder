@@ -1,4 +1,9 @@
 /* Styles very experimental */
+body {
+    overflow: hidden;
+    margin: 0;
+}
+
 .playfield {
     position: relative;
 }
@@ -9,6 +14,7 @@
     border: 1px solid #445588;
     background: #222222;
     color: #bbbbbb;
+    font-size: x-large;
 }
 
 .code {

@@ -28,7 +28,7 @@ var states = {
 
 Starcoder.prototype.init = function () {
     this.io = io;
-    this.game = new Phaser.Game(1800, 950, Phaser.AUTO, 'main');
+    this.game = new Phaser.Game('100%', '100%', Phaser.AUTO, 'main');
     //this.game = new Phaser.Game(1800, 950, Phaser.CANVAS, 'main');
     this.game.forceSingleUpdate = true;
     this.game.starcoder = this;
