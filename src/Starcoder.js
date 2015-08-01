@@ -194,9 +194,33 @@ Starcoder.mixinPrototype = function (target, mixin) {
     }
 };
 
+/**
+ * Lightweight component implementation, more for logical than functional modularity
+ *
+ * @param mixin {object} - POJO with methods / properties to be added to prototype, with optional init method
+ */
+Starcoder.prototype.implementFeature = function (mixin) {
+    for (var prop in mixin) {
+        switch (prop) {
+            case 'onConnectCB':
+            case 'onReadyCB':
+            case 'onLoginCB':
+                this[prop].push(mixin[prop]);
+                break;
+            case 'init':
+                break;      // NoOp
+            default:
+                Starcoder.prototype[prop] = mixin[prop];
+        }
+    }
+    if (mixin.init) {
+        mixin.init.call(this);
+    }
+};
+
 Starcoder.prototype.banner = function () {
     this.log('Starcoder', this.role, 'v' + this.config.version, 'started at', Date());
-}
+};
 
 /**
  * Custom logging function to be featurefied as necessary

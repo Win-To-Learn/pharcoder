@@ -11,25 +11,18 @@ var MsgServer = require('./server-components/MsgServer.js');
 var ControlEndPoint = require('./server-components/ControlEndPoint.js');
 var CollisionHandlers = require('./server-components/CollisionHandlers.js');
 var CodeEndpointServer = require('./server-components/CodeEndpointServer.js');
-//var RESTEndpoint = require('./server-components/RESTEndpoint.js');
-//var Sessions = require('./server-components/Sessions.js');
 var LoginEndpoint = require('./server-components/LoginEndpoint.js');
 var LeaderBoardEndpoint = require('./server-components/LeaderBoardEndpoint.js');
 
 var World = require('./serverbodies/World.js');
 
-//var Player = require('./players/Player.js');
-//var Guest = require('./players/Guest.js');
-
-Starcoder.mixinPrototype(Starcoder.prototype, SyncServer.prototype);
-Starcoder.mixinPrototype(Starcoder.prototype, ControlEndPoint.prototype);
-Starcoder.mixinPrototype(Starcoder.prototype, CollisionHandlers.prototype);
-Starcoder.mixinPrototype(Starcoder.prototype, MsgServer.prototype);
-Starcoder.mixinPrototype(Starcoder.prototype, CodeEndpointServer.prototype);
-//Starcoder.mixinPrototype(Starcoder.prototype, RESTEndpoint.prototype);
-//Starcoder.mixinPrototype(Starcoder.prototype, Sessions.prototype);
-Starcoder.mixinPrototype(Starcoder.prototype, LoginEndpoint.prototype);
-Starcoder.mixinPrototype(Starcoder.prototype, LeaderBoardEndpoint.prototype);
+//Starcoder.mixinPrototype(Starcoder.prototype, SyncServer.prototype);
+//Starcoder.mixinPrototype(Starcoder.prototype, ControlEndPoint.prototype);
+//Starcoder.mixinPrototype(Starcoder.prototype, CollisionHandlers.prototype);
+//Starcoder.mixinPrototype(Starcoder.prototype, MsgServer.prototype);
+//Starcoder.mixinPrototype(Starcoder.prototype, CodeEndpointServer.prototype);
+//Starcoder.mixinPrototype(Starcoder.prototype, LoginEndpoint.prototype);
+//Starcoder.mixinPrototype(Starcoder.prototype, LeaderBoardEndpoint.prototype);
 
 /**
  * Initialize Starcoder server
@@ -48,19 +41,26 @@ Starcoder.prototype.init = function (app, io) {
     this.world = new World(this.config.worldBounds, this.config.initialBodies);
     this.world.starcoder = this;
     this.world.log = this.log;
-    this.initLoginEndpoint();
-    this.initLeaderBoardEndpoint();
-    this.newLeaderBoardCategory('Ships Tagged');
-    this.newLeaderBoardCategory('Tag Streak');
-    this.newLeaderBoardCategory('Trees Planted');
-    this.initControlEndPoint();
-    this.initCollisionHandlers();
-    this.initSyncServer();
-    this.initMsgServer();
-    this.initCodeEndpointServer();
+    //this.initLoginEndpoint();
+    this.implementFeature(LoginEndpoint);
+    //this.initLeaderBoardEndpoint();
+    this.implementFeature(LeaderBoardEndpoint);
+    //this.initControlEndPoint();
+    this.implementFeature(ControlEndPoint);
+    //this.initCollisionHandlers();
+    this.implementFeature(CollisionHandlers);
+    //this.initSyncServer();
+    this.implementFeature(SyncServer);
+    //this.initMsgServer();
+    this.implementFeature(MsgServer);
+    //this.initCodeEndpointServer();
+    this.implementFeature(CodeEndpointServer);
     //this.initSessions();
     //this.initRESTEndpoint();
     this.initSocket();
+    this.newLeaderBoardCategory('Ships Tagged');
+    this.newLeaderBoardCategory('Tag Streak');
+    this.newLeaderBoardCategory('Trees Planted');
     this.world.start(1/60);
 };
 
