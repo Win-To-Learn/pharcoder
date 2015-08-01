@@ -5,8 +5,6 @@
  */
 ' use strict';
 
-//var MsgServer = function () {};
-
 module.exports = {
     /**
      * Send generic message to given player
@@ -19,9 +17,3 @@ module.exports = {
         player.socket.emit('msg ' + msg, details);
     }
 };
-
-//MsgServer.prototype.send = function (player, msg, details) {
-//    player.socket.emit('msg ' + msg, details);
-//};
-
-//module.exports = MsgServer;

@@ -43,44 +43,6 @@ module.exports = {
     }
 };
 
-//var CollisionHandlers = function () {};
-//
-//CollisionHandlers.prototype.initCollisionHandlers = function () {
-//    var self = this;
-//    this.world.on('beginContact', function (e) {
-//        var A = e.bodyA;
-//        var B = e.bodyB;
-//        var equations = e.contactEquations;
-//        var t = null;
-//        // Run tests twice - once each way
-//        while (true) {
-//            if (A.serverType === 'Bullet' && B.serverType === 'Asteroid') {
-//                BulletAsteroid.bind(self)(A, B);
-//            } else if (A.serverType === 'Bullet' && B.serverType === 'Ship') {
-//                BulletShip.bind(self)(A, B);
-//            } else if (A.serverType === 'Bullet' && B.serverType === 'Tree') {
-//                BulletTree.bind(self)(A, B);
-//            } else if (A.serverType === 'Ship' && B.serverType === 'Crystal') {
-//                ShipCrystal.bind(self)(A, B);
-//            } else if (A.serverType === 'Ship' && B.serverType === 'Planetoid') {
-//                ShipPlanetoid.bind(self)(A, B, equations);
-//            } else if (A.serverType === 'Ship' && B.deadly) {
-//                ShipDeadly.bind(self)(A, B);
-//            } else if (A.serverType === 'TractorBeam' && B.serverType === 'Planetoid') {
-//                TractorBeamPlanetoid.bind(self)(A, B);
-//            }
-//            // Swap A and B if we haven't already
-//            if (t) {
-//                break;
-//            } else {
-//                t = A;
-//                A = B;
-//                B = t;
-//            }
-//        }
-//    });
-//};
-
 // Handlers
 function BulletAsteroid (bullet, asteroid) {
     asteroid.state = 'exploding';
