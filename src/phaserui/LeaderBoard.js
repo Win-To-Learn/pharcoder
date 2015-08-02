@@ -109,7 +109,7 @@ LeaderBoard.prototype.setContent = function (title, list, playerid) {
         if (pid && this.playerMap[pid]) {
             var tag = this.playerMap[pid].tag;
             var line = this.lines[i];
-            line.setText((i + 1) + '. ' + tag);
+            line.setText((i + 1) + '. ' + tag + ' (' + list[i].val + ')');
             if (pid === playerid) {
                 line.fontWeight = 'bold';
                 playerVisible = true;
@@ -130,7 +130,7 @@ LeaderBoard.prototype.setContent = function (title, list, playerid) {
         }
         // Found - display at end
         if (i < list.length) {
-            line[this.numLines - 1].setText((i + 1) + '. ' + this.playerMap[playerid]);
+            line[this.numLines - 1].setText((i + 1) + '. ' + this.playerMap[playerid] + ' (' + list[i].val + ')');
         }
     }
 };

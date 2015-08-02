@@ -86,7 +86,8 @@ module.exports = {
         if (++j < i) {
             data.splice(i, 1);
             data.splice(j, 0, prec);
-            this.leaderBoardCategories[cat].dirty = true;
+            //this.leaderBoardCategories[cat].dirty = true;
         }
+        this.leaderBoardCategories[cat].dirty = true;
     }
 };
