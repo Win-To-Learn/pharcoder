@@ -3,11 +3,10 @@
  *
  * Methods for sending code to server and dealing with code related responses
  */
+'use strict';
 
-var CodeEndpointClient = function () {};
-
-CodeEndpointClient.prototype.sendCode = function (code) {
-    this.socket.emit('code', code);
+module.exports = {
+    sendCode: function (code) {
+        this.socket.emit('code', code);
+    }
 };
-
-module.exports = CodeEndpointClient;

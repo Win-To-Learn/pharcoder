@@ -13,12 +13,6 @@ var CodeEndpointClient = require('./client-components/CodeEndpointClient.js');
 var Starfield = require('./client-components/Starfield.js');
 var LeaderBoardClient = require('./client-components/LeaderBoardClient.js');
 
-Starcoder.mixinPrototype(Starcoder.prototype, WorldApi.prototype);
-Starcoder.mixinPrototype(Starcoder.prototype, DOMInterface.prototype);
-Starcoder.mixinPrototype(Starcoder.prototype, CodeEndpointClient.prototype);
-Starcoder.mixinPrototype(Starcoder.prototype, Starfield.prototype);
-Starcoder.mixinPrototype(Starcoder.prototype, LeaderBoardClient.prototype);
-
 var states = {
     boot: require('./phaserstates/Boot.js'),
     space: require('./phaserstates/Space.js'),
@@ -42,8 +36,11 @@ Starcoder.prototype.init = function () {
     this.cmdQueue = [];
     this.connected = false;
     this.lastNetError = null;
-    this.initLeaderBoardClient();
-    this.initDOMInterface();
+    this.implementFeature(WorldApi);
+    this.implementFeature(CodeEndpointClient);
+    this.implementFeature(Starfield);
+    this.implementFeature(LeaderBoardClient);
+    this.implementFeature(DOMInterface);
 };
 
 Starcoder.prototype.serverConnect = function () {
