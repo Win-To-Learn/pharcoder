@@ -31,6 +31,7 @@ module.exports = {
             this.onLoginCB[i].bind(this, socket, player)();
         }
         socket.on('ready', this.onReady.bind(this, player));
+        //socket.on('disconnect', this.disconnect.bind(this, socket, player));
         socket.removeAllListeners('login');
         socket.emit('logged in', player.msgNew());
     },

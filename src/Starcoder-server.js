@@ -30,6 +30,7 @@ Starcoder.prototype.init = function (app, io) {
     this.onConnectCB = [];
     this.onLoginCB = [];
     this.onReadyCB = [];
+    this.onDisconnectCB = [];
     this.world = new World(this.config.worldBounds, this.config.initialBodies);
     this.world.starcoder = this;
     this.world.log = this.log;
@@ -48,9 +49,22 @@ Starcoder.prototype.init = function (app, io) {
         self.pending[socket.id] = socket;
         for (var i = 0, l = self.onConnectCB.length; i < l; i++) {
             self.onConnectCB[i].bind(self, socket)();
+            socket.on('disconnect', self.onDisconnect.bind(self, socket));
         }
     });
     this.world.start(1/60);
+};
+
+Starcoder.prototype.onDisconnect = function (socket) {
+    var player = this.players[socket.id];
+    for (var i = 0, l = this.onDisconnectCB.length; i < l; i++) {
+        this.onDisconnectCB[i].call(this, socket, player);
+    }
+    if (player) {
+        delete this.players[socket.id];
+        this.world.removeSyncableBody(player.getShip());
+    }
+    // TODO: Confirm no other socket.io methods need to be called
 };
 
 Starcoder.prototype.onReady = function (player) {

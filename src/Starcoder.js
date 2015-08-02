@@ -205,6 +205,7 @@ Starcoder.prototype.implementFeature = function (mixin) {
             case 'onConnectCB':
             case 'onReadyCB':
             case 'onLoginCB':
+            case 'onDisconnectCB':
                 this[prop].push(mixin[prop]);
                 break;
             case 'init':
