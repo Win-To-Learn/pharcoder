@@ -35,6 +35,20 @@ module.exports = {
         }
     },
 
+    onDisconnectCB: function (socket, player) {
+        for (var k in this.leaderBoardCategories) {
+            var rec = this.leaderBoardCategories[k];
+            for (var i = 0, l = rec.data.length; i < l; i++) {
+                if (rec.data[i].id === player.id) {
+                    rec.data.splice(i, 1);
+                    break;
+                }
+            }
+            rec.dirty = true;
+        }
+
+    },
+
     newLeaderBoardCategory: function (cat, asc) {
         this.leaderBoardCategories[cat] = {
             data: [],
