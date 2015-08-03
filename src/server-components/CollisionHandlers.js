@@ -27,8 +27,8 @@ module.exports = {
                     ShipPlanetoid.bind(self)(A, B, equations);
                 } else if (A.serverType === 'Ship' && B.deadly) {
                     ShipDeadly.bind(self)(A, B);
-                } else if (A.serverType === 'TractorBeam' && B.serverType === 'Planetoid') {
-                    TractorBeamPlanetoid.bind(self)(A, B);
+                } else if (A.serverType === 'TractorBeam' && B.tractorable) {
+                    TractorBeamTractorable.bind(self)(A, B);
                 }
                 // Swap A and B if we haven't already
                 if (t) {
@@ -112,9 +112,9 @@ function BulletTree (bullet, tree) {
     this.world.removeSyncableBody(bullet);
 }
 
-function TractorBeamPlanetoid (beam, planet) {
-    if (beam.canAttach(planet)) {
-        beam.attachTarget(planet);
+function TractorBeamTractorable (beam, target) {
+    if (beam.canAttach(target)) {
+        beam.attachTarget(target);
         //beam.velocity[0] = 0;
         //beam.velocity[1] = 1;
         //beam.mode = 'tractoring';

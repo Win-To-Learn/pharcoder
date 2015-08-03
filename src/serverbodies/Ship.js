@@ -89,6 +89,12 @@ Ship.prototype.getPropertyUpdate = function (propname, properties) {
     }
 };
 
+Ship.prototype.onWorldRemove = function () {
+    if (this.beamChild) {
+        this.beamChild.cancel(true);
+    }
+};
+
 Ship.prototype.update = function () {
     this.angularForce = this.turningForce*this.state.turn;
     this.setPolarForce(this.thrustForce*this.state.thrust);

@@ -40,6 +40,7 @@ Asteroid.prototype.serverType = 'Asteroid';
 Asteroid.prototype._shape = Paths.octagon;
 
 Asteroid.prototype.deadly = true;
+Asteroid.prototype.tractorable = true;
 
 //Asteroid.prototype.updateProperties = ['vectorScale', 'state'];
 

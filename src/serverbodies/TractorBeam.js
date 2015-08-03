@@ -16,6 +16,9 @@ var UpdateProperties = require('../common/UpdateProperties.js').TractorBeam;
 
 var TractorBeam = function (config) {
     SyncBodyBase.call(this, config);
+    if (!(this.beamParent instanceof TractorBeam)) {
+        this.onWorldAdd = this.onWorldAddFirstGen;
+    }
 };
 
 TractorBeam.prototype = Object.create(SyncBodyBase.prototype);
@@ -26,9 +29,11 @@ Starcoder.mixinPrototype(TractorBeam.prototype, UpdateProperties.prototype);
 TractorBeam.prototype.clientType = 'TractorBeam';
 TractorBeam.prototype.serverType = 'TractorBeam';
 
-TractorBeam.prototype.defaults = {mode: 'firing', terminal: true, mass: 0.1};
+TractorBeam.prototype.defaults = {mode: 'expanding', terminal: true, mass: 0.1};
 
-TractorBeam.prototype.fadeTime = 5 / 60;
+TractorBeam.prototype.expandTime = 1 / 25;
+TractorBeam.prototype.retractTime = 5 / 60;
+TractorBeam.prototype.lifeSpan = 1;
 
 TractorBeam.prototype.adjustShape = function () {
     this.clearAllShapes();
@@ -37,57 +42,69 @@ TractorBeam.prototype.adjustShape = function () {
     this.addShape(circle);
 };
 
-TractorBeam.prototype.update = function () {
-    if (this.terminal && this.world.time >= this.timer) {
-        switch (this.mode) {
-            case 'firing':
-                if (this.gen > 0) {
-                    this.beamChild = this.world.addSyncableBody(TractorBeam, {
-                        x: this.position[0],
-                        y: this.position[1],
-                        vx: 25 * Math.sin(this.direction),
-                        vy: -25 * Math.cos(this.direction),
-                        direction: this.direction,
-                        gen: this.gen - 1,
-                        timer: this.world.time + 1 / 25,
-                        beamParent: this
-                    });
-                    this.terminal = false;
-                } else if (this.gen === 0) {
-                    this.mode = 'fading';
-                    this.timer = this.world.time + 1;
-                }
-                this.beamConstraint = new p2.DistanceConstraint(this.beamParent, this);
-                this.world.addConstraint(this.beamConstraint);
-                break;
-            case 'fading':
-                this.beamParent.mode = 'fading';
-                this.beamParent.terminal = true;
-                this.beamParent.timer = this.world.time + this.fadeTime;
-                delete this.beamParent.beamChild;
-                if (this.beamConstraint) {
-                    this.world.removeConstraint(this.beamConstraint);
-                    delete this.beamConstraint;
-                }
-                this.world.removeSyncableBody(this);
-                break;
+TractorBeam.prototype.onWorldAddFirstGen = function () {
+    this.setTimer(this.expandTime, {fun: this.expand.bind(this)});
+};
+
+TractorBeam.prototype.expand = function () {
+    if (this.mode === 'attached') {
+        return;
+    }
+    this.beamConstraint = new p2.DistanceConstraint(this.beamParent, this);
+    this.world.addConstraint(this.beamConstraint);
+    if (this.gen > 0) {
+        this.beamChild = this.world.addSyncableBody(TractorBeam, {
+            x: this.position[0],
+            y: this.position[1],
+            vx: 25 * Math.sin(this.direction),
+            vy: -25 * Math.cos(this.direction),
+            direction: this.direction,
+            gen: this.gen - 1,
+            timer: this.world.time + 1 / 25,
+            beamParent: this
+        });
+        this.terminal = false;
+        this.beamChild.setTimer(1 / 25, {fun: this.expand.bind(this.beamChild)});
+    } else {
+        this.mode = 'waiting';
+        this.setTimer(this.lifeSpan, {fun: this.retract.bind(this)});
+    }
+};
+
+TractorBeam.prototype.retract = function (instant) {
+    if (this.mode === 'attached') {
+        return;
+    }
+    if (this.beamConstraint) {
+        this.world.removeConstraint(this.beamConstraint);
+        delete this.beamConstraint;
+    }
+    delete this.beamParent.beamChild;
+    this.world.removeSyncableBody(this);
+    if (this.beamParent instanceof TractorBeam) {
+        if (instant) {
+            this.beamParent.retract(true);
+        } else {
+            this.beamParent.terminal = true;
+            this.beamParent.mode = 'retracting';
+            this.beamParent.setTimer(this.retractTime, {fun: this.retract.bind(this.beamParent)});
         }
     }
 };
 
 TractorBeam.prototype.canAttach = function(target) {
     // TODO: more checks?
-    return (this.mode !== 'tractoring' && this.terminal);
+    return (this.mode !== 'attached' && this.terminal);
 }
 
 TractorBeam.prototype.attachTarget = function (target, mass, damping) {
-    if (this.mode === 'firing') {
+    if (this.mode === 'expanding') {
         this.velocity[0] = 0;
         this.velocity[1] = 1;
         this.beamConstraint = new p2.DistanceConstraint(this.beamParent, this);
         this.world.addConstraint(this.beamConstraint);
     }
-    this.mode = 'tractoring';
+    this.mode = 'attached';
     mass = mass || 0.1;
     damping = damping || 0.99;
     this.tractorConstraint = new p2.DistanceConstraint(this, target);
@@ -109,7 +126,7 @@ TractorBeam.prototype.detachTarget = function () {
     delete this.attachedTarget;
 };
 
-TractorBeam.prototype.cancel = function () {
+TractorBeam.prototype.cancel = function (instant) {
     var beam = this;
     while (!beam.terminal) {
         beam = beam.beamChild;
@@ -117,8 +134,12 @@ TractorBeam.prototype.cancel = function () {
     if (beam.attachedTarget) {
         beam.detachTarget();
     }
-    beam.mode = 'fading';
-    beam.timer = this.world.time + this.fadeTime;
-}
+    if (instant) {
+        this.retract(true);
+    } else {
+        beam.mode = 'retracting'
+        beam.setTimer(this.retractTime, {fun: this.retract.bind(beam)});
+    }
+};
 
 module.exports = TractorBeam;

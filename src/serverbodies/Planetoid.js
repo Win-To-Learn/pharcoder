@@ -30,6 +30,8 @@ Starcoder.mixinPrototype(Planetoid.prototype, UpdateProperties.prototype);
 Planetoid.prototype.clientType = 'Planetoid';
 Planetoid.prototype.serverType = 'Planetoid';
 
+Planetoid.prototype.tractorable = true;
+
 Planetoid.prototype._lineColor = '#0000ff';
 Planetoid.prototype._fillColor = '#ff0000';
 Planetoid.prototype._lineWidth = 1;
