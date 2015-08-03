@@ -42,3 +42,6 @@ unroll the change that created it.~~
 ## Hacking
 
 I'd prefer it if changes were pushed to new branches, particularly if they're just tinkering.
+
+## Deploy
+https://www.evernote.com/l/AARJSlBJQuJE_JH5mkbbS9UwrzHpwlFVIvo
