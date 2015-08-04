@@ -58,6 +58,7 @@ Starcoder.prototype.serverConnect = function () {
     }
     this.socket = this.io(serverUri, this.config.ioClientOptions);
     this.socket.on('connect', function () {
+      console.log('socket connected');
         self.connected = true;
         self.lastNetError = null;
         for (var i = 0, l = self.onConnectCB.length; i < l; i++) {
@@ -65,6 +66,8 @@ Starcoder.prototype.serverConnect = function () {
         }
     });
     this.socket.on('error', function (data) {
+      console.log('socket error');
+      console.log(data);
         this.lastNetError = data;
     });
 };

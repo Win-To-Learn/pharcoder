@@ -4,6 +4,7 @@ var source = require('vinyl-source-stream');
 var buffer = require('vinyl-buffer');
 var watchify = require('watchify');
 var gutil = require('gulp-util');
+var runSequence = require('run-sequence');
 
 function make_browserify_task (task, sources, target) {
     var opts = {
@@ -27,9 +28,21 @@ function make_browserify_task (task, sources, target) {
 
 make_browserify_task('browserify', ['src/client.js'], 'client.js');
 
-//gulp.task('browserify', function () {
-//    return browserify(['src/client.js']).bundle()
-//        .pipe(source('client.js'))
-//        .pipe(buffer())
-//        .pipe(gulp.dest('js/'));
-//});
+gulp.task('forceExit', function(cb) {
+  // not sure why browserify isn't exiting...
+  process.exit(0);
+});
+
+gulp.task('build', function (callback) {
+  runSequence(
+    'browserify',
+    'forceExit',
+    function (error) {
+      if (error) {
+        console.log(error.message);
+      } else {
+        console.log('RELEASE FINISHED SUCCESSFULLY');
+      }
+      callback(error);
+    });
+});
