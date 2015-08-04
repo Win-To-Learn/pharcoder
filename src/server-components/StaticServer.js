@@ -1,4 +1,11 @@
-"use strict";
+/**
+ * StaticServer.js
+ *
+ * Basic http server for static files
+ */
+'use strict';
+
+var path = require('path');
 
 // TODO: automatically serve static assets without having to add routes here
 
@@ -21,47 +28,47 @@ module.exports = {
         });
 
         this.app.get('/css/:name', function (req, res) {
-            return sendFile(path.join(__dirname, '../css/../'), req.params.name, res);
+            return sendFile(path.join(__dirname, '../../css/'), req.params.name, res);
         });
 
         this.app.get('/css/images/:name', function (req, res) {
-            return sendFile(path.join(__dirname, '../css/images/../'), req.params.name, res);
+            return sendFile(path.join(__dirname, '../../css/images/'), req.params.name, res);
         });
 
         this.app.get('/js/:name', function (req, res) {
-            return sendFile(path.join(__dirname, '../js/../'), req.params.name, res);
+            return sendFile(path.join(__dirname, '../../js/'), req.params.name, res);
         });
 
         this.app.get('/lib/msg/json/:name', function (req, res) {
-            return sendFile(path.join(__dirname, '../lib/msg/json/../'), req.params.name, res);
+            return sendFile(path.join(__dirname, '../../lib/msg/json/'), req.params.name, res);
         });
 
         this.app.get('/lib/msg/js/:name', function (req, res) {
-            return sendFile(path.join(__dirname, '../lib/msg/js/../'), req.params.name, res);
+            return sendFile(path.join(__dirname, '../../lib/msg/js/'), req.params.name, res);
         });
 
         this.app.get('/lib/:name', function (req, res) {
-            return sendFile(path.join(__dirname, '../lib/../'), req.params.name, res);
+            return sendFile(path.join(__dirname, '../../lib/'), req.params.name, res);
         });
 
         this.app.get('/assets/sounds/:name', function (req, res) {
-            return sendFile(path.join(__dirname, '../assets/sounds/../'), req.params.name, res);
+            return sendFile(path.join(__dirname, '../../assets/sounds/'), req.params.name, res);
         });
 
         this.app.get('/assets/bitmapfonts/:name', function (req, res) {
-            return sendFile(path.join(__dirname, '../assets/bitmapfonts/../'), req.params.name, res);
+            return sendFile(path.join(__dirname, '../../assets/bitmapfonts/'), req.params.name, res);
         });
 
         this.app.get('/assets/images/:name', function (req, res) {
-            return sendFile(path.join(__dirname, '../assets/images/../'), req.params.name, res);
+            return sendFile(path.join(__dirname, '../../assets/images/'), req.params.name, res);
         });
 
         this.app.get('/assets/joystick/:name', function (req, res) {
-            return sendFile(path.join(__dirname, '../assets/joystick/../'), req.params.name, res);
+            return sendFile(path.join(__dirname, '../../assets/joystick/'), req.params.name, res);
         });
 
         this.app.get('/assets/:name', function (req, res) {
-            return sendFile(path.join(__dirname, '../assets/../'), req.params.name, res);
+            return sendFile(path.join(__dirname, '../../assets/'), req.params.name, res);
         });
     }
 };
@@ -70,10 +77,10 @@ function sendFile (root, filename, res) {
     return res.sendFile(filename, {root: root},
         function (err) {
             if (err) {
-            console.log(err);
-            res.status(err.status).end();
+                console.log(err);
+                res.status(err.status).end();
             } else {
-              //console.log('Sent:', root + filename);
+                //console.log('Sent:', root + filename);
             }
         });
 }

@@ -13,6 +13,7 @@ var CollisionHandlers = require('./server-components/CollisionHandlers.js');
 var CodeEndpointServer = require('./server-components/CodeEndpointServer.js');
 var LoginEndpoint = require('./server-components/LoginEndpoint.js');
 var LeaderBoardEndpoint = require('./server-components/LeaderBoardEndpoint.js');
+var StaticServer = require('./server-components/StaticServer.js');
 
 var World = require('./serverbodies/World.js');
 
@@ -34,6 +35,7 @@ Starcoder.prototype.init = function (app, io) {
     this.world = new World(this.config.worldBounds, this.config.initialBodies);
     this.world.starcoder = this;
     this.world.log = this.log;
+    this.implementFeature(StaticServer);
     this.implementFeature(LoginEndpoint);
     this.implementFeature(LeaderBoardEndpoint);
     this.implementFeature(ControlEndPoint);
@@ -46,7 +48,7 @@ Starcoder.prototype.init = function (app, io) {
     this.newLeaderBoardCategory('Trees Planted');
     var self = this;
     this.io.on('connect', function (socket) {
-        self.pending[socket.id] = socket;
+        //self.pending[socket.id] = socket;
         for (var i = 0, l = self.onConnectCB.length; i < l; i++) {
             self.onConnectCB[i].bind(self, socket)();
             socket.on('disconnect', self.onDisconnect.bind(self, socket));

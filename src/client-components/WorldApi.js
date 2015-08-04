@@ -48,7 +48,7 @@ module.exports = {
         // Remove minisprite
         if (sprite.minisprite) {
             //sprite.minisprite.kill();
-            sprite.destroy();
+            sprite.minisprite.destroy();
         }
         //this.game.physics.p2.removeBody(sprite.body);
     }

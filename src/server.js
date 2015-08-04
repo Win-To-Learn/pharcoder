@@ -3,7 +3,7 @@
 var app = require('express')();
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
-var serveStatic = require('./serveStatic')(app);
+//var serveStatic = require('./serveStatic')(app);
 var Starcoder = require('./Starcoder-server.js');
 
 //var argv = require('minimist')(process.argv.slice(2));
