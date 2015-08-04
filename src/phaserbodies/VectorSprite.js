@@ -22,6 +22,11 @@ var VectorSprite = function (game, config) {
     this.graphics = this.game.sharedGraphics;
     //this.texture = this.game.add.renderTexture();
     //this.minitexture = this.game.add.renderTexture();
+
+    game.physics.p2.enable(this, false, false);
+    this.setPosAngle(config.x, config.y, config.a);
+    this.config(config.properties);
+
     if (this.visibleOnMap) {
         this.minisprite = this.game.minimap.create();
         this.minisprite.anchor.setTo(0.5, 0.5);
@@ -48,9 +53,6 @@ var VectorSprite = function (game, config) {
         this.updateTextures();
     }
 
-    game.physics.p2.enable(this, false, false);
-    this.setPosAngle(config.x, config.y, config.a);
-    this.config(config.properties);
     //this.updateTextures();
     if (this.fps) {
         this._msPerFrame = 1000 / this.fps;

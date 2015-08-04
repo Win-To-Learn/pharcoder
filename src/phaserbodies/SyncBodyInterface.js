@@ -20,6 +20,7 @@ SyncBodyInterface.prototype.setPosAngle = function (x, y, a) {
 };
 
 SyncBodyInterface.prototype.config = function (properties) {
+    console.log('configging', properties);
     for (var i = 0, l = this.updateProperties.length; i < l; i++) {
         var k = this.updateProperties[i];
         if (typeof properties[k] !== 'undefined') {

@@ -42,6 +42,7 @@ var Ship = function (config) {
     this._lastShot = 0;
     // Inventory
     this._crystals = 0;
+    //this._crystals = 150;
 };
 
 Ship.prototype = Object.create(SyncBodyBase.prototype);
