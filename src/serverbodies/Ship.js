@@ -36,8 +36,8 @@ var Ship = function (config) {
     this.turningForce = 50;
     // Weapons system
     this.bulletSalvoSize = 1;
-    this.bulletVelocity = 15;
-    this.bulletRange = 25;
+    this.bulletVelocity = 50;
+    this.bulletRange = 40;
     this.bulletSpread = 0;
     this._lastShot = 0;
     // Inventory
@@ -125,11 +125,6 @@ Ship.prototype.toggleTractorBeam = function () {
         this.beamChild.cancel();
         delete this.beamChild;
     }
-    //beam.position[0] = this.position[0];
-    //beam.position[1] = this.position[1];
-    //beam.velocity[0] = -25 * Math.sin(this.angle);
-    //beam.velocity[1] = 25 * Math.cos(this.angle)
-    //beam.tod = this.world.time + this.bulletRange / this.bulletVelocity;
 };
 
 Ship.prototype.shoot = function () {
