@@ -25,6 +25,7 @@ Boot.prototype.init = function () {
     //this.game.stage.disableVisibilityChange = true;
     this.game.scale.scaleMode = Phaser.ScaleManager.RESIZE;
     this.game.renderer.renderSession.roundPixels = true;
+    this.game.sharedGraphics = this.game.make.graphics();
     var self = this;
     var pScale = this.starcoder.config.physicsScale;
     var ipScale = 1/pScale;

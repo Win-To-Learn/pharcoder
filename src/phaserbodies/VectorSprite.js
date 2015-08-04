@@ -5,6 +5,9 @@
 
 //var Starcoder = require('../../Starcoder-client.js');
 
+var frameTexturePool = {};
+var mapTexturePool = {};
+
 /**
  * Base class for Vector-based sprites
  *
@@ -15,16 +18,44 @@
 var VectorSprite = function (game, config) {
     Phaser.Sprite.call(this, game);
 
-    this.graphics = game.make.graphics();
-    this.texture = this.game.add.renderTexture();
-    this.minitexture = this.game.add.renderTexture();
-    this.minisprite = this.game.minimap.create();
-    this.minisprite.anchor.setTo(0.5, 0.5);
+    //this.graphics = game.make.graphics();
+    this.graphics = this.game.sharedGraphics;
+    //this.texture = this.game.add.renderTexture();
+    //this.minitexture = this.game.add.renderTexture();
+    if (this.visibleOnMap) {
+        this.minisprite = this.game.minimap.create();
+        this.minisprite.anchor.setTo(0.5, 0.5);
+    }
+
+    if (this.sharedTextureKey) {
+        this.frames = this.getFramePool(this.sharedTextureKey);
+        if (this.minisprite) {
+            this.minitexture = this.getMapPool(this.sharedTextureKey);
+        }
+        if (this.frames.length === 0) {
+            this.updateTextures();
+        } else {
+            this.setTexture(this.frames[this.vFrame]);
+            if (this.minisprite) {
+                this.minisprite.setTexture(this.minitexture);
+            }
+        }
+    } else {
+        this.frames = [];
+        if (this.minisprite) {
+            this.minitexture = this.game.add.renderTexture();
+        }
+        this.updateTextures();
+    }
 
     game.physics.p2.enable(this, false, false);
     this.setPosAngle(config.x, config.y, config.a);
     this.config(config.properties);
-    this.updateAppearance();
+    //this.updateTextures();
+    if (this.fps) {
+        this._msPerFrame = 1000 / this.fps;
+        this._lastVFrame = this.game.time.now;
+    }
     this.updateBody();
     this.body.mass = 0;
 };
@@ -41,7 +72,7 @@ VectorSprite.add = function (game, x, y) {
     var v = new VectorSprite(game, x, y);
     game.add.existing(v);
     return v;
-}
+};
 
 VectorSprite.prototype = Object.create(Phaser.Sprite.prototype);
 VectorSprite.prototype.constructor = VectorSprite;
@@ -66,9 +97,29 @@ VectorSprite.prototype._vectorScale = 1;
 
 VectorSprite.prototype.physicsBodyType = 'circle';
 
+VectorSprite.prototype.numFrames = 1;
+VectorSprite.prototype.mapFrame = 0;
+VectorSprite.prototype.vFrame = 0;
+
+VectorSprite.prototype.visibleOnMap = true;
+
+VectorSprite.prototype.getFramePool = function (key) {
+    if (!frameTexturePool[key]) {
+        return frameTexturePool[key] = [];
+    }
+    return frameTexturePool[key];
+};
+
+VectorSprite.prototype.getMapPool = function (key) {
+    if (!mapTexturePool[key]) {
+        mapTexturePool[key] = this.game.add.renderTexture();
+    }
+    return mapTexturePool[key];
+}
+
 VectorSprite.prototype.setShape = function (shape) {
     this.shape = shape;
-    this.updateAppearance();
+    this.updateTextures();
 };
 
 VectorSprite.prototype.setLineStyle = function (color, lineWidth) {
@@ -77,39 +128,58 @@ VectorSprite.prototype.setLineStyle = function (color, lineWidth) {
     }
     this.color = color;
     this.lineWidth = lineWidth;
-    this.updateAppearance();
+    this.updateTextures();
 };
 
 /**
  * Update cached bitmaps for object after vector properties change
  */
-VectorSprite.prototype.updateAppearance = function () {
+VectorSprite.prototype.updateTextures = function () {
     // Draw full sized
-    this.graphics.clear();
-    this.graphics._currentBounds = null;
-    if (typeof this.drawProcedure !== 'undefined') {
-        this.drawProcedure(1);
-    } else if (this.shape) {
-        this.draw(1);
+    if (this.numFrames === 1) {
+        this.graphics.clear();
+        this.graphics._currentBounds = null;
+        if (typeof this.drawProcedure !== 'undefined') {
+            this.drawProcedure(1, 0);
+        } else if (this.shape) {
+            this.draw(1);
+        }
+        if (!this.frames[0]) {
+            this.frames[0] = this.game.add.renderTexture();
+        }
+        var bounds = this.graphics.getLocalBounds();
+        this.frames[0].resize(bounds.width, bounds.height, true);
+        this.frames[0].renderXY(this.graphics, -bounds.x, -bounds.y, true);
+    } else {
+        for (var i = 0; i < this.numFrames; i++) {
+            this.graphics.clear();
+            this.graphics._currentBounds = null;
+            this.drawProcedure(1, i);
+            if (!this.frames[i]) {
+                this.frames[i] = this.game.add.renderTexture();
+            }
+            bounds = this.graphics.getLocalBounds();
+            this.frames[i].resize(bounds.width, bounds.height, true);
+            this.frames[i].renderXY(this.graphics, -bounds.x, -bounds.y, true);
+        }
     }
-    var bounds = this.graphics.getLocalBounds();
-    this.texture.resize(bounds.width, bounds.height, true);
-    this.texture.renderXY(this.graphics, -bounds.x, -bounds.y, true);
-    this.setTexture(this.texture);
+    this.setTexture(this.frames[this.vFrame]);
     // Draw small for minimap
-    var mapScale = this.game.minimap.mapScale;
-    var mapFactor = this.mapFactor || 1;
-    this.graphics.clear();
-    this.graphics._currentBounds = null;
-    if (typeof this.drawProcedure !== 'undefined') {
-        this.drawProcedure(mapScale * mapFactor);
-    } else if (this.shape) {
-        this.draw(mapScale * mapFactor);
+    if (this.minisprite) {
+        var mapScale = this.game.minimap.mapScale;
+        var mapFactor = this.mapFactor || 1;
+        this.graphics.clear();
+        this.graphics._currentBounds = null;
+        if (typeof this.drawProcedure !== 'undefined') {
+            this.drawProcedure(mapScale * mapFactor, this.mapFrame);
+        } else if (this.shape) {
+            this.draw(mapScale * mapFactor);
+        }
+        bounds = this.graphics.getLocalBounds();
+        this.minitexture.resize(bounds.width, bounds.height, true);
+        this.minitexture.renderXY(this.graphics, -bounds.x, -bounds.y, true);
+        this.minisprite.setTexture(this.minitexture);
     }
-    bounds = this.graphics.getLocalBounds();
-    this.minitexture.resize(bounds.width, bounds.height, true);
-    this.minitexture.renderXY(this.graphics, -bounds.x, -bounds.y, true);
-    this.minisprite.setTexture(this.minitexture);
     this._dirty = false;
 };
 
@@ -193,8 +263,12 @@ VectorSprite.prototype._drawPolygon = function (points, closed, renderScale) {
  */
 VectorSprite.prototype.update = function () {
     if (this._dirty) {
-        console.log('dirty VS');
-        this.updateAppearance();
+        this.updateTextures();
+    }
+    if (this._msPerFrame && (this.game.time.now >= this._lastVFrame + this._msPerFrame)) {
+        this.vFrame = (this.vFrame + 1) % this.numFrames;
+        this.setTexture(this.frames[this.vFrame]);
+        this._lastVFrame = this.game.time.now;
     }
 };
 

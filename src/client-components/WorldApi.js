@@ -43,12 +43,14 @@ module.exports = {
     },
 
     removeBody: function (sprite) {
-        sprite.kill();
+        //sprite.kill();
+        sprite.destroy();
         // Remove minisprite
         if (sprite.minisprite) {
-            sprite.minisprite.kill();
+            //sprite.minisprite.kill();
+            sprite.destroy();
         }
-        this.game.physics.p2.removeBody(sprite.body);
+        //this.game.physics.p2.removeBody(sprite.body);
     }
 };
 

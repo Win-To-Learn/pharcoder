@@ -25,7 +25,7 @@ var Tree = function () {};
 Tree.prototype.updateProperties = ['vectorScale', 'lineColor', 'graph', 'step', 'depth'];
 
 var Bullet = function () {};
-Bullet.prototype.updateProperties = [];
+Bullet.prototype.updateProperties = ['lineColor'];
 
 var TractorBeam = function () {};
 TractorBeam.prototype.updateProperties = [];
