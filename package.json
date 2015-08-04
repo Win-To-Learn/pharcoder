@@ -29,6 +29,7 @@
     "poly-decomp": "git://github.com/schteppe/poly-decomp.js",
     "acorn": "~2.0.4",
     "body-parser": "~1.13.2",
-    "express-session": "~1.11.3"
+    "express-session": "~1.11.3",
+    "minimist": "~1.1.2"
   }
 }
