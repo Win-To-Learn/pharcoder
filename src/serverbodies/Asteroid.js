@@ -51,16 +51,22 @@ Asteroid.prototype.tractorable = true;
 //    }
 //};
 
-Asteroid.prototype.update = function () {
-    if (this.state === 'exploding') {
-        // FIXME: (maybe) timing, effects, etc.
-        this.state = 'exploded';
-    } else if (this.state === 'exploded') {
-        var crystal = this.world.addSyncableBody(Crystal, {mass: 10});
-        crystal.position[0] = this.position[0];
-        crystal.position[1] = this.position[1];
-        this.world.removeSyncableBody(this);
+Asteroid.prototype.explode = function (respawn) {
+    this.world.addSyncableBody(Crystal, {
+        x: this.position[0],
+        y: this.position[1],
+        mass: 10
+    });
+    this.world.removeSyncableBody(this);
+    if (respawn) {
+        this.world.addSyncableBody(Asteroid, {
+            position: {random: 'world'},
+            velocity: {random: 'vector', lo: -15, hi: 15},
+            angularVelocity: {random: 'float', lo: -5, hi: 5},
+            vectorScale: {random: 'float', lo: 0.6, hi: 1.4},
+            mass: 10
+        });
     }
-}
+};
 
 module.exports = Asteroid;

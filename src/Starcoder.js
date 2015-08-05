@@ -54,7 +54,18 @@ var config = {
             'infinite',
             'cool',
             'yolo',
-            'swaggy'
+            'swaggy',
+            'zombie',
+            'samurai',
+            'dancing',
+            'power',
+            'gold',
+            'silver',
+            'radioactive',
+            'quantum',
+            'brilliant',
+            'mighty',
+            'random'
         ],
         2: [
             'tiger',
@@ -69,7 +80,14 @@ var config = {
             'rainbow',
             'kitten',
             'puppy',
-            'boss'
+            'boss',
+            'wizard',
+            'hero',
+            'dragon',
+            'tribute',
+            'genius',
+            'blaster',
+            'spider'
         ]
     },
     initialBodies: [

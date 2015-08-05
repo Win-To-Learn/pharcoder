@@ -45,8 +45,8 @@ module.exports = {
 
 // Handlers
 function BulletAsteroid (bullet, asteroid) {
-    asteroid.state = 'exploding';
     this.send(bullet.firer.player, 'asteroid pop', asteroid.vectorScale);
+    asteroid.explode(true);
     this.world.removeSyncableBody(bullet);
 }
 
