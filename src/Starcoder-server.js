@@ -47,6 +47,7 @@ Starcoder.prototype.init = function (app, io) {
     this.newLeaderBoardCategory('Tag Streak');
     this.newLeaderBoardCategory('Trees Planted');
     var self = this;
+    this.io.set('origins', '*:*'); // no domain when coming from native mobile
     this.io.on('connect', function (socket) {
         //self.pending[socket.id] = socket;
         for (var i = 0, l = self.onConnectCB.length; i < l; i++) {
