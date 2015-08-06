@@ -12,7 +12,7 @@ Loader.prototype.constructor = Loader;
 
 Loader.prototype.init = function () {
     // Init and draw starfield
-    this.starcoder.starfield = this.game.make.bitmapData(600, 600);
+    this.starcoder.starfield = this.game.make.bitmapData(600, 600, 'starfield', true);
     this.starcoder.drawStarField(this.starcoder.starfield.ctx, 600, 16);
     this.game.add.tileSprite(0, 0, this.game.width, this.game.height, this.starcoder.starfield);
 
