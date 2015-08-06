@@ -5,44 +5,70 @@ var buffer = require('vinyl-buffer');
 var watchify = require('watchify');
 var gutil = require('gulp-util');
 var runSequence = require('run-sequence');
+var gulpzip = require('gulp-zip');
+var uglify = require('gulp-uglify');
 
-function make_browserify_task (task, sources, target) {
+function make_browserify_task (task, config, sources, target) {
     var opts = {
         cache: {},
         packageCache: {},
         debug: true,
         entries: sources
     };
-    var b = watchify(browserify(opts));
+    if (config.watchify) {
+        var b = watchify(browserify(opts));
+    } else {
+        b = browserify(opts);
+    }
     function bundle () {
-        return b.bundle()
-            .on('error', gutil.log.bind(gutil, 'Browserify Error'))
-            .pipe(source(target))
-            .pipe(buffer())
-            .pipe(gulp.dest('js/'));
+        if (config.uglify) {
+            return b.bundle()
+                .on('error', gutil.log.bind(gutil, 'Browserify Error'))
+                .pipe(source(target))
+                .pipe(buffer())
+                .pipe(uglify())
+                .pipe(gulp.dest('js/'));
+        } else {
+            return b.bundle()
+                .on('error', gutil.log.bind(gutil, 'Browserify Error'))
+                .pipe(source(target))
+                .pipe(buffer())
+                .pipe(gulp.dest('js/'));
+        }
     }
     gulp.task(task, bundle);
     b.on('update', bundle);
     b.on('log', gutil.log);
 }
 
-make_browserify_task('browserify', ['src/client.js'], 'client.js');
+make_browserify_task('watchify', {watchify: true}, ['src/client.js'], 'client.js');
+make_browserify_task('browserify', {}, ['src/client.js'], 'client.js');
+make_browserify_task('browserify-ugly', {uglify: true}, ['src/client.js'], 'client.js');
 
 gulp.task('forceExit', function(cb) {
   // not sure why browserify isn't exiting...
   process.exit(0);
 });
 
-gulp.task('build', function (callback) {
-  runSequence(
-    'browserify',
-    'forceExit',
-    function (error) {
-      if (error) {
-        console.log(error.message);
-      } else {
-        console.log('RELEASE FINISHED SUCCESSFULLY');
-      }
-      callback(error);
-    });
+gulp.task('zip-eb', ['browserify-ugly'], function () {
+    return gulp.src(['index.html', 'src/**', 'package.json', 'blockly.html', 'assets/**', 'lib/**', 'css/**', 'js/**', '.ebextensions/**'], {base: '.'})
+        .pipe(gulpzip('web.zip'))
+        .pipe(gulp.dest('deployments/'));
 });
+
+gulp.task('build', ['zip-eb']);
+
+//
+//gulp.task('build', function (callback) {
+//  runSequence(
+//    'browserify',
+//    'forceExit',
+//    function (error) {
+//      if (error) {
+//        console.log(error.message);
+//      } else {
+//        console.log('RELEASE FINISHED SUCCESSFULLY');
+//      }
+//      callback(error);
+//    });
+//});

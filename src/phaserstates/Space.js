@@ -125,7 +125,7 @@ Space.prototype.create = function () {
     this.game.leaderboard.y = 0;
     this.game.leaderboard.visible = false;
     var self = this;
-    
+
 };
 
 Space.prototype.update = function () {
