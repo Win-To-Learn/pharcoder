@@ -3,6 +3,8 @@
 # Generated js needs to be included for aws deployments. The beanstalk cli won't deploy anything in .gitignore.
 # js/
 
+deployments/
+
 # Include lib js
 !lib/**/js/
 
