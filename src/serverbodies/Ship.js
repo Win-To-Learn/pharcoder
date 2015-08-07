@@ -159,11 +159,15 @@ Ship.prototype.shoot = function () {
 };
 
 Ship.prototype.knockOut = function () {
-    var self = this;
+    //var self = this;
     this.dead = true;
-    setTimeout(function () {
-        self.world.respawn(self, {position: {random: 'world'}});
-    }, 1000);
+    if (this.beamChild) {
+        this.beamChild.cancel(true);
+    }
+    //setTimeout(function () {
+    //    self.world.respawn(self, {position: {random: 'world'}});
+    //}, 1000);
+    this.setTimer(1, {fun: this.world.respawn.bind(this.world, this, {position: {random: 'world'}})});
 };
 
 Object.defineProperty(Ship.prototype, 'crystals', {

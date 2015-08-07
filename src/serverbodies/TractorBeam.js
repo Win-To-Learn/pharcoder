@@ -79,6 +79,10 @@ TractorBeam.prototype.retract = function (instant) {
         this.world.removeConstraint(this.beamConstraint);
         delete this.beamConstraint;
     }
+    //if (this.tractorConstraint) {
+    //    this.world.removeConstraint(this.tractorConstraint);
+    //    delete this.tractorConstraint;
+    //}
     delete this.beamParent.beamChild;
     this.world.removeSyncableBody(this);
     if (this.beamParent instanceof TractorBeam) {
@@ -124,6 +128,7 @@ TractorBeam.prototype.detachTarget = function () {
     this.world.removeConstraint(this.tractorConstraint);
     delete this.tractorConstraint;
     delete this.attachedTarget;
+    this.mode ='waiting';
 };
 
 TractorBeam.prototype.cancel = function (instant) {
@@ -134,10 +139,11 @@ TractorBeam.prototype.cancel = function (instant) {
     if (beam.attachedTarget) {
         beam.detachTarget();
     }
+    //beam.mode = 'retracting';
     if (instant) {
-        this.retract(true);
+        beam.retract(true);
     } else {
-        beam.mode = 'retracting'
+        //beam.mode = 'retracting'
         beam.setTimer(this.retractTime, {fun: this.retract.bind(beam)});
     }
 };
