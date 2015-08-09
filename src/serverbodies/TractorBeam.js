@@ -47,7 +47,7 @@ TractorBeam.prototype.onWorldAddFirstGen = function () {
 };
 
 TractorBeam.prototype.expand = function () {
-    if (this.mode === 'attached') {
+    if (this.mode !== 'expanding') {
         return;
     }
     this.beamConstraint = new p2.DistanceConstraint(this.beamParent, this);
@@ -60,7 +60,6 @@ TractorBeam.prototype.expand = function () {
             vy: -25 * Math.cos(this.direction),
             direction: this.direction,
             gen: this.gen - 1,
-            timer: this.world.time + 1 / 25,
             beamParent: this
         });
         this.terminal = false;
@@ -139,7 +138,7 @@ TractorBeam.prototype.cancel = function (instant) {
     if (beam.attachedTarget) {
         beam.detachTarget();
     }
-    //beam.mode = 'retracting';
+    beam.mode = 'retracting';
     if (instant) {
         beam.retract(true);
     } else {

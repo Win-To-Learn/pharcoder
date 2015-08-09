@@ -11,4 +11,4 @@ global:
   profile: eb-cli
   sc: git
 deploy:
-  artifact: /home/jay/pharcoder/deployments/web.zip
+  artifact: deployments/web.zip
