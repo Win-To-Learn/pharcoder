@@ -1,0 +1,19 @@
+{
+  "name": "Starcoder",
+  "short_name": "Starcoder",
+  "display": "standalone",
+  "icons": [
+    {
+      "src": "icon.png",
+      "sizes": "72x72"
+    }
+  ],
+  "start_url": "index.html",
+  "xwalk_app_version": "1.0.1",
+  "xwalk_package_id": "org.starcoder.pharcoder",
+  "xwalk_target_platforms": "android",
+  "xwalk_android_animatable_view": false,
+  "xwalk_android_keep_screen_on": false,
+  "xwalk_windows_update_id": "61015998-6885-2645-5582-259832881391",
+  "xwalk_windows_vendor": "(Vendor)"
+}

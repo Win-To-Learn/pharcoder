@@ -15,9 +15,10 @@
 
 var config = {
     version: '0.1',
-    serverUri: 'http://pharcoder-env-west2.elasticbeanstalk.com:8080',
-    //serverUri: 'http://localhost:8081',
-    //serverAddress: '1.2.3.4',
+    //serverUri: 'http://pharcoder-env-west2.elasticbeanstalk.com',
+    serverUri: 'http://pharcoder-west.elasticbeanstalk.com',
+    //serverUri: 'http://localhost:8080',
+    //serverAddress: '127.0.0.1',
     //worldBounds: [-4200, -4200, 8400, 8400],
     worldBounds: [-200, -200, 200, 200],
     ioClientOptions: {

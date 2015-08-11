@@ -7,6 +7,8 @@ var gutil = require('gulp-util');
 var runSequence = require('run-sequence');
 var gulpzip = require('gulp-zip');
 var uglify = require('gulp-uglify');
+var del = require('del');
+var shell = require('gulp-shell');
 
 function make_browserify_task (task, config, sources, target) {
     var opts = {
@@ -58,17 +60,36 @@ gulp.task('zip-eb', ['browserify-ugly'], function () {
 
 gulp.task('build', ['zip-eb']);
 
-//
-//gulp.task('build', function (callback) {
-//  runSequence(
-//    'browserify',
-//    'forceExit',
-//    function (error) {
-//      if (error) {
-//        console.log(error.message);
-//      } else {
-//        console.log('RELEASE FINISHED SUCCESSFULLY');
-//      }
-//      callback(error);
-//    });
-//});
+// run in series
+gulp.task('android:build', ['android:clean', 'android:assemble', 'android:package']);
+
+gulp.task('android:clean', function(cb) {
+  return del([
+    'android/org.starcoder.pharcoder/app/*.apk',
+    'android/org.starcoder.pharcoder/app/**/*'
+  ], cb);
+});
+
+gulp.task('android:assemble', ['android:clean'], function(cb) {
+  return gulp
+    .src(['manifest.json','index.html', 'blockly.html', 'icon.png', 'assets/**', 'css/**', 'js/**', 'lib/**', 'src/**'], {base: '.'})
+    .pipe(gulp.dest('android/org.starcoder.pharcoder/app'), cb);
+});
+
+gulp.task('android:package', ['android:assemble'],
+  shell.task([
+    'crosswalk-app build release'
+  ], {cwd: './android/org.starcoder.pharcoder'})
+);
+
+gulp.task('android:emulator',
+  shell.task([
+    'emulator @Nexus'
+  ])
+);
+
+gulp.task('android:install',
+  shell.task([
+    'adb install -r org.starcoder.pharcoder-debug.x86.apk'
+  ], {cwd: './android/org.starcoder.pharcoder'})
+);
