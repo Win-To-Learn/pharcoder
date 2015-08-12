@@ -56,7 +56,7 @@ Starcoder.prototype.init = function (app, io) {
         }
     });
     this.world.start(1/60);
-    console.log('v0812151940');
+    console.log('v0812151950');
 };
 
 Starcoder.prototype.onDisconnect = function (socket) {
