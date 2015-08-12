@@ -15,7 +15,7 @@
 
 var config = {
     version: '0.1',
-    //serverUri: 'http://pharcoder-single-1.elasticbeanstalk.com:8080',
+    serverUri: 'http://pharcoder-single-1.elasticbeanstalk.com:8080',
     //serverUri: 'http://localhost:8081',
     //serverAddress: '1.2.3.4',
     //worldBounds: [-4200, -4200, 8400, 8400],

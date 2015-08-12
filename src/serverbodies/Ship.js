@@ -119,7 +119,6 @@ Ship.prototype.toggleTractorBeam = function () {
             vy: -25 * Math.cos(dir),
             direction: dir,
             gen: 10,
-            timer: this.world.time + 1 / 25,
             beamParent: this
         });
     } else {
