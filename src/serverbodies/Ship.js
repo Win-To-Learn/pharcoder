@@ -35,6 +35,9 @@ var Ship = function (config) {
     this.thrustForce = 750;
     this.turningForce = 50;
     // Weapons system
+    this.charge = 5;
+    this.maxCharge = 5;
+    this.chargeRate = 0.5;
     this.bulletSalvoSize = 1;
     this.bulletVelocity = 50;
     this.bulletRange = 40;
@@ -80,6 +83,10 @@ Ship.prototype._shapeClosed = true;
 //    //options.angularVelocity = 2.5;
 //};
 
+Ship.prototype.onWorldAdd = function () {
+    this.setTimer(this.chargeRate, {fun: this.rechargeLasers.bind(this)});
+};
+
 Ship.prototype.getPropertyUpdate = function (propname, properties) {
     switch (propname) {
         case 'playerid':
@@ -99,7 +106,7 @@ Ship.prototype.onWorldRemove = function () {
 Ship.prototype.update = function () {
     this.angularForce = this.turningForce*this.state.turn;
     this.setPolarForce(this.thrustForce*this.state.thrust);
-    if (this.state.firing && ((this.world.time - this._lastShot) > 1)) {
+    if (this.state.firing && ((this.world.time - this._lastShot) > 0.25) && (this.charge > 0)) {
         this.shoot();
     }
     if (this.state.tractorFiring) {
@@ -123,7 +130,7 @@ Ship.prototype.toggleTractorBeam = function () {
         });
     } else {
         this.beamChild.cancel();
-        delete this.beamChild;
+        //delete this.beamChild;
     }
 };
 
@@ -136,10 +143,12 @@ Ship.prototype.shoot = function () {
     var tod = this.world.time + this.bulletRange / this.bulletVelocity;
     if (this.bulletSpread === 0 || this.bulletSalvoSize === 1) {
         var n = 1;
+        this.charge -= 1;
         var aDel = 0;
         var aStart = this.angle;
     } else {
-        n = this.bulletSalvoSize;
+        n = Math.min(this.bulletSalvoSize, this.charge);
+        this.charge -= n;
         aDel = this.bulletSpread * Math.PI / (180 * (n - 1));
         aStart = this.angle - 0.5 * this.bulletSpread * Math.PI / 180;
     }
@@ -169,6 +178,13 @@ Ship.prototype.knockOut = function () {
     this.setTimer(1, {fun: this.world.respawn.bind(this.world, this, {position: {random: 'world'}})});
 };
 
+Ship.prototype.rechargeLasers = function () {
+    if (this.charge < this.maxCharge) {
+        this.charge += 1;
+    }
+    this.setTimer(this.chargeRate, {fun: this.rechargeLasers.bind(this)});
+};
+
 Object.defineProperty(Ship.prototype, 'crystals', {
     get: function () {
         return this._crystals;
@@ -176,6 +192,16 @@ Object.defineProperty(Ship.prototype, 'crystals', {
     set: function (val) {
         this._crystals = val;
         this._dirtyProperties.crystals = true;
+    }
+});
+
+Object.defineProperty(Ship.prototype, 'charge', {
+    get: function () {
+        return this._charge;
+    },
+    set: function (val) {
+        this._charge = val;
+        this._dirtyProperties.charge = true;
     }
 });
 

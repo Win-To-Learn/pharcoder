@@ -45,6 +45,7 @@ Planetoid.prototype.plantTree = function (x, y, ship) {
         position: [this.position[0] + x, this.position[1] + y],
         angle: Math.atan2(x, -y),
         lineColor: ship.lineColor,
+        owner: ship.player,
         depth: ship.seederProperties.depth,
         branchFactor: ship.seederProperties.branchFactor,
         branchDecay: ship.seederProperties.branchDecay,
@@ -52,8 +53,8 @@ Planetoid.prototype.plantTree = function (x, y, ship) {
         trunkLength: ship.seederProperties.trunkLength
     });
     //tree.angle = Math.atan2(x, -y);
-    var constraint = new p2.LockConstraint(this, tree);
-    this.world.addConstraint(constraint);
+    tree.attachmentConstraint = new p2.LockConstraint(this, tree);
+    this.world.addConstraint(tree.attachmentConstraint);
 };
 
 module.exports = Planetoid;

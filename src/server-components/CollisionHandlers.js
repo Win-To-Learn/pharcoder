@@ -127,3 +127,8 @@ function TractorBeamTractorable (beam, target) {
         //planet.updateMassProperties();
     }
 }
+
+function AsteroidTree (asteroid, tree) {
+    this.world.remove(tree.attachmentConstraint);
+    this.world.removeSyncableBody(tree);
+}
