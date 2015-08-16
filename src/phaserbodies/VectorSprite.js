@@ -23,8 +23,12 @@ var VectorSprite = function (game, config) {
     //this.texture = this.game.add.renderTexture();
     //this.minitexture = this.game.add.renderTexture();
 
-    game.physics.p2.enable(this, false, false);
-    this.setPosAngle(config.x, config.y, config.a);
+    if (!config.nophysics) {
+        game.physics.p2.enable(this, false, false);
+        this.setPosAngle(config.x, config.y, config.a);
+        this.updateBody();
+        this.body.mass = 0;
+    }
     this.config(config.properties);
 
     if (this.visibleOnMap) {
@@ -58,8 +62,6 @@ var VectorSprite = function (game, config) {
         this._msPerFrame = 1000 / this.fps;
         this._lastVFrame = this.game.time.now;
     }
-    this.updateBody();
-    this.body.mass = 0;
 };
 
 /**
@@ -280,8 +282,7 @@ Object.defineProperty(VectorSprite.prototype, 'lineColor', {
     get: function () {
         return this._lineColor;
     },
-    set: function (val) {
-        this._lineColor = val;
+    set: function (val) {this._lineColor = val;
         this._dirty = true;
     }
 });

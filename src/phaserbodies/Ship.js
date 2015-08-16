@@ -32,6 +32,7 @@ var Ship = function (game, config) {
     this.localState = {
         thrust: 'off'
     }
+    this.game.hud.setLaserColor(this.lineColor);
 };
 
 Ship.add = function (game, options) {

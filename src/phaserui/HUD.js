@@ -6,6 +6,7 @@
 'use strict';
 
 var Paths = require('../common/Paths.js');
+var Bullet = require('../phaserbodies/Bullet.js');
 
 var HUD = function (game, x, y, width, height) {
     Phaser.Graphics.call(this, game, x, y);
@@ -49,12 +50,23 @@ HUD.prototype.layout = function (width, height) {
         {font: '26px Arial', fill: '#00ff00', align: 'center'});
     this.treetext.anchor.setTo(0.5, 0.5);
     this.addChild(this.treetext);
-    // Laser charge display - just for debugging
-    this.lasertext = this.game.make.text(xunit * 15, yunit * 7.25, '0',
-        {font: '26px Arial', fill: '#ff0000', align: 'center'});
-    this.lasertext.anchor.setTo(0.5, 0.5);
-    this.addChild(this.lasertext);
+    this.lasers = [];
+    for (i = 0; i < 5; i++) {
+        var laser = new Bullet(this.game, {nophysics: true, properties: {lineColor: '#ff0000'}});
+        laser.x = xunit * 2 + i * 24;
+        laser.y = yunit * 7;
+        laser.anchor.setTo(0.5);
+        laser.angle = 90;
+        this.addChild(laser);
+        this.lasers.push(laser);
+    }
 
+};
+
+HUD.prototype.setLaserColor = function (color) {
+    console.log('slc', color);
+    this.lasers[0].config({lineColor: color});
+    this.lasers[0].updateTextures();
 };
 
 HUD.prototype.setCrystals = function (x) {
@@ -63,7 +75,13 @@ HUD.prototype.setCrystals = function (x) {
 
 
 HUD.prototype.setCharge = function (x) {
-    this.lasertext.setText(x.toString());
+    for (var i = 0, l = this.lasers.length; i < l; i++) {
+        if (x > i) {
+            this.lasers[i].visible = true;
+        } else {
+            this.lasers[i].visible = false;
+        }
+    }
 };
 
 var treeIconPaths = [
