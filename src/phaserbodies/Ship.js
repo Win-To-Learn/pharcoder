@@ -96,6 +96,7 @@ Ship.prototype.update = function () {
         //this.game.inventorytext.setText(this.crystals.toString());
         this.game.hud.setCrystals(this.crystals);
         this.game.hud.setCharge(this.charge);
+        this.game.hud.setTrees(this.trees);
     }
 };
 

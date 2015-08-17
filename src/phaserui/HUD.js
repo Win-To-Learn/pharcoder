@@ -64,7 +64,6 @@ HUD.prototype.layout = function (width, height) {
 };
 
 HUD.prototype.setLaserColor = function (color) {
-    console.log('slc', color);
     this.lasers[0].config({lineColor: color});
     this.lasers[0].updateTextures();
 };
@@ -73,6 +72,10 @@ HUD.prototype.setCrystals = function (x) {
     this.crystaltext.setText(x.toString());
 };
 
+
+HUD.prototype.setTrees = function (x) {
+    this.treetext.setText(x.toString());
+};
 
 HUD.prototype.setCharge = function (x) {
     for (var i = 0, l = this.lasers.length; i < l; i++) {

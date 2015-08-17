@@ -15,6 +15,8 @@ var UpdateProperties = require('../common/UpdateProperties.js').Ship;
 var Bullet = require('./Bullet.js');
 var TractorBeam = require('./TractorBeam.js');
 
+var LOG5 = Math.log(0.9);                           // LOG of charge rate decay factor for faster exponentiation
+
 var Ship = function (config) {
     SyncBodyBase.call(this, config);
     this.damping = 0.85;
@@ -37,15 +39,16 @@ var Ship = function (config) {
     // Weapons system
     this.charge = 5;
     this.maxCharge = 5;
-    this.chargeRate = 0.5;
+    this.chargeRate = 5;
     this.bulletSalvoSize = 1;
     this.bulletVelocity = 50;
     this.bulletRange = 40;
     this.bulletSpread = 0;
     this._lastShot = 0;
     // Inventory
-    this._crystals = 0;
-    //this._crystals = 150;
+    //this._crystals = 0;
+    this._trees = 0;
+    this._crystals = 150;
 };
 
 Ship.prototype = Object.create(SyncBodyBase.prototype);
@@ -192,6 +195,18 @@ Object.defineProperty(Ship.prototype, 'crystals', {
     set: function (val) {
         this._crystals = val;
         this._dirtyProperties.crystals = true;
+    }
+});
+
+
+Object.defineProperty(Ship.prototype, 'trees', {
+    get: function () {
+        return this._trees;
+    },
+    set: function (val) {
+        this._trees = val;
+        this.chargeRate = 5 * Math.exp(LOG5 * val);
+        this._dirtyProperties.trees = true;
     }
 });
 

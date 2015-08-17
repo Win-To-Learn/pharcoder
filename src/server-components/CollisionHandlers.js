@@ -19,8 +19,8 @@ module.exports = {
                     BulletAsteroid.bind(self)(A, B);
                 } else if (A.serverType === 'Bullet' && B.serverType === 'Ship') {
                     BulletShip.bind(self)(A, B);
-                } else if (A.serverType === 'Bullet' && B.serverType === 'Tree') {
-                    BulletTree.bind(self)(A, B);
+                //} else if (A.serverType === 'Bullet' && B.serverType === 'Tree') {
+                //    BulletTree.bind(self)(A, B);
                 } else if (A.serverType === 'Ship' && B.serverType === 'Crystal') {
                     ShipCrystal.bind(self)(A, B);
                 } else if (A.serverType === 'Ship' && B.serverType === 'Planetoid') {
@@ -29,6 +29,10 @@ module.exports = {
                     ShipDeadly.bind(self)(A, B);
                 } else if (A.serverType === 'TractorBeam' && B.tractorable) {
                     TractorBeamTractorable.bind(self)(A, B);
+                } else if (A.serverType === 'Asteroid' && B.serverType === 'Tree') {
+                    AsteroidTree.call(self, A, B);
+                } else if (A.serverType === 'Ship' && B.serverType === 'Tree') {
+                    ShipTree.call(this, A, B);
                 }
                 // Swap A and B if we haven't already
                 if (t) {
@@ -107,10 +111,10 @@ function BulletShip (bullet, ship) {
     }
 }
 
-function BulletTree (bullet, tree) {
-    tree.lineColor = bullet.firer.lineColor;
-    this.world.removeSyncableBody(bullet);
-}
+//function BulletTree (bullet, tree) {
+//    tree.lineColor = bullet.firer.lineColor;
+//    this.world.removeSyncableBody(bullet);
+//}
 
 function TractorBeamTractorable (beam, target) {
     if (beam.canAttach(target)) {
@@ -129,6 +133,13 @@ function TractorBeamTractorable (beam, target) {
 }
 
 function AsteroidTree (asteroid, tree) {
-    this.world.remove(tree.attachmentConstraint);
+    this.world.removeConstraint(tree.attachmentConstraint);
     this.world.removeSyncableBody(tree);
+}
+
+function ShipTree (ship, tree) {
+    if (ship.owner !== ship.player) {
+        tree.owner = ship.player;
+        tree.lineColor = ship.lineColor;
+    }
 }
