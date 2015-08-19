@@ -29,9 +29,9 @@ Login.prototype.init = function () {
 //        'assets/bitmapfonts/karnivore128.png', 'assets/bitmapfonts/karnivore128.xml');
 //};
 
-Login.prototype.resize = function (w, h) {
-    console.log('rs Login', w, h);
-};
+//Login.prototype.resize = function (w, h) {
+//    console.log('rs Login', w, h);
+//};
 
 Login.prototype.create = function () {
     //var starfield = this.game.make.bitmapData(600, 600);

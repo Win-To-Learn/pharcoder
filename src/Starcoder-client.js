@@ -95,6 +95,10 @@ Starcoder.prototype.attachPlugin = function () {
     return plugin;
 };
 
+Starcoder.prototype.banner = function () {
+    console.log('Starcoder client v' + this.config.version, 'built on', this.config.buildTime);
+};
+
 Starcoder.prototype.role = 'Client';
 
 module.exports = Starcoder;

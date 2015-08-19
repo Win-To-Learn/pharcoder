@@ -56,7 +56,6 @@ Starcoder.prototype.init = function (app, io) {
         }
     });
     this.world.start(1/60);
-    console.log('v081720150856');
 };
 
 Starcoder.prototype.onDisconnect = function (socket) {
@@ -98,6 +97,10 @@ Starcoder.prototype.onReady = function (player) {
 
 Starcoder.prototype.addPlayer = function (player) {
     this.players[player.socket.id] = player;
+};
+
+Starcoder.prototype.banner = function () {
+    console.log('Starcoder server v' + this.config.version, 'started at', Date());
 };
 
 /**

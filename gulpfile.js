@@ -7,6 +7,8 @@ var gutil = require('gulp-util');
 var runSequence = require('run-sequence');
 var gulpzip = require('gulp-zip');
 var uglify = require('gulp-uglify');
+var replace = require('gulp-replace');
+var fs = require('fs');
 
 function make_browserify_task (task, config, sources, target) {
     var opts = {
@@ -20,12 +22,19 @@ function make_browserify_task (task, config, sources, target) {
     } else {
         b = browserify(opts);
     }
+    if (config.buildConfig) {
+        var buildConfig = fs.readFileSync(config.buildConfig, 'utf8');
+    } else {
+        buildConfig = '';
+    }
     function bundle () {
         if (config.uglify) {
             return b.bundle()
                 .on('error', gutil.log.bind(gutil, 'Browserify Error'))
                 .pipe(source(target))
                 .pipe(buffer())
+                .pipe(replace(/^\/\/\s*@BUILDCONFIG@.*$/m, buildConfig))
+                .pipe(replace(/^\/\/\s*@BUILDTIME@.*$/m, 'buildConfig.buildTime = "' + Date() + '";'))
                 .pipe(uglify())
                 .pipe(gulp.dest('js/'));
         } else {
@@ -33,6 +42,8 @@ function make_browserify_task (task, config, sources, target) {
                 .on('error', gutil.log.bind(gutil, 'Browserify Error'))
                 .pipe(source(target))
                 .pipe(buffer())
+                .pipe(replace(/^\/\/\s*@BUILDCONFIG@.*$/m, buildConfig))
+                .pipe(replace(/^\/\/\s*@BUILDTIME@.*$/m, 'buildConfig.buildTime = "' + Date() + '";'))
                 .pipe(gulp.dest('js/'));
         }
     }
