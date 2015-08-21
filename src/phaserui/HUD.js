@@ -36,8 +36,10 @@ HUD.prototype.layout = function (width, height) {
     this.drawPolygon(Paths.normalize(Paths.octagon, 5, xunit * 2, yunit * 5, true));
     this.drawPolygon(Paths.normalize(Paths.d2cross, 5, xunit * 2, yunit * 5, true));
     // Amount
-    this.crystaltext = this.game.make.text(xunit * 6, yunit * 5.25, '0',
-        {font: '26px Arial', fill: '#00ffff', align: 'center'});
+    //this.crystaltext = this.game.make.text(xunit * 6, yunit * 5.25, '0',
+    //    {font: '26px Arial', fill: '#00ffff', align: 'center'});
+    this.crystaltext = this.game.starcoder.makeFlexText(xunit * 6, yunit * 5.25, '0',
+        this.game.starcoder.config.fonts.hudCode);
     this.crystaltext.anchor.setTo(0.5, 0.5);
     this.addChild(this.crystaltext);
     // Tree icon

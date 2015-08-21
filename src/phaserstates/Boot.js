@@ -20,7 +20,6 @@ Boot.prototype.constructor = Boot;
  * Set properties that require booted game state, attach plugins, connect to game server
  */
 Boot.prototype.init = function () {
-    console.log('custom zip test v2.0');
     //console.log('Init Boot', this.game.width, this.game.height);
     //console.log('iw Boot', window.innerWidth, window.innerHeight, screen.width, screen.height, window.devicePixelRatio);
     //this.game.stage.disableVisibilityChange = true;

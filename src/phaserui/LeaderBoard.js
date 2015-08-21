@@ -29,19 +29,17 @@ var LeaderBoard = function (game, playermap, width, height) {
     this.main.add(new Phaser.Sprite(game, 0, 0, bitmap));
 
     // Title
-    this.title = game.make.text((width - this.iconSize) / 2, 4, 'Tags',
-        {font: '20px Arial bold', align: 'center', fill: '#ff0000'});
+    this.title = game.starcoder.addFlexText((width - this.iconSize) / 2, 4, 'Tags',
+        this.game.starcoder.config.fonts.leaderBoardTitle, this.main);
     this.title.anchor.setTo(0.5, 0);
-    this.main.add(this.title);
 
     // Display lines
     this.lines = [];
     for (var i = 0; i < this.numLines; i++) {
-        var line = game.make.text(4, this.iconSize + 2 + i * (this.fontSize + 2),
-            '-', {font: '18px Arial', fill: '#0000ff'});
+        var line = game.starcoder.addFlexText(4, this.iconSize + 2 + i * (this.fontSize + 2),
+            '-', this.game.starcoder.config.fonts.leaderBoard, this.main);
         line.kill();
         this.lines.push(line);
-        this.main.add(line);
     }
 
     // Toggle button
@@ -91,8 +89,8 @@ LeaderBoard.prototype.makeButton = function () {
     ctx.moveTo(1.5*unit, 3*unit);
     ctx.lineTo(1.5*unit, 2*unit);
     ctx.lineTo(2.5*unit, 2*unit);
-    ctx.lineTo(2.5*unit, 1*unit);
-    ctx.lineTo(3.5*unit, 1*unit);
+    ctx.lineTo(2.5*unit, unit);
+    ctx.lineTo(3.5*unit, unit);
     ctx.lineTo(3.5*unit, 2*unit);
     ctx.lineTo(4.5*unit, 2*unit);
     ctx.lineTo(4.5*unit, 3*unit);

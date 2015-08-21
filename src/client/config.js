@@ -10,7 +10,9 @@ module.exports = {
         reconnection: false
     },
     fonts: {
-
+        hudCode: {font: '26px Arial', fill: '#00ffff', align: 'center'},
+        leaderBoard: {font: '18px Arial', fill: '#0000ff'},
+        leaderBoardTitle: {font: 'bold 20px Arial', align: 'center', fill: '#ff0000'}
     },
     gamerTags: {
         1: [
