@@ -256,3 +256,26 @@ Blockly.JavaScript['sc_set_seeder_props'] = function (block) {
     var dp = block.getFieldValue('DP');
     return 'setSeederProperties(' + tl + ',' + bf + ',' + bd + ',' + sp + ',' + dp + ')';
 };
+
+/**
+ * scan - test implementation
+ *
+ * @type {{init: Function}}
+ */
+Blockly.Blocks['sc_scan'] = {
+    init: function () {
+        this.setColour(270);
+        this.appendDummyInput()
+            .appendField('scan');
+    }
+};
+
+/**
+ * code generation for scan
+ *
+ * @param block
+ * @returns {string}
+ */
+Blockly.JavaScript['sc_scan'] = function (block) {
+    return 'scan()';
+};

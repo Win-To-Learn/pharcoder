@@ -9,6 +9,9 @@ var Interpreter = require('../js-interp/interpreter.js');
 
 var Planetoid = require('../serverbodies/Planetoid.js');
 
+var API = require('../server/interpreter/API.js');
+var Marshal = require('../server/interpreter/Marshal.js');
+
 module.exports = {
     /**
      * Attach network handlers for each player
@@ -41,27 +44,34 @@ module.exports = {
         var starcoder = this;
         var initFunc = function (interpreter, scope) {
             // FIXME: Just proof of concept. Need to be more systematic about api
-            // changeColor
-            var wrapper = function (color) {
-                player.getShip().lineColor = color.toString();
-            };
-            interpreter.setProperty(scope, 'changeColor', interpreter.createNativeFunction(wrapper));
             // setScale
-            wrapper = function (scale) {
+            var wrapper = function (scale) {
                 player.getShip().vectorScale = scale.toNumber();
             };
             interpreter.setProperty(scope, 'setScale', interpreter.createNativeFunction(wrapper));
+            // changeColor
+            //wrapper = function (color) {
+            //    player.getShip().lineColor = color.toString();
+            //};
+            //interpreter.setProperty(scope, 'changeColor', interpreter.createNativeFunction(wrapper));
+            wrapper = Marshal.wrap(interpreter, API.changeLineColor, [player.getShip()]);
+            interpreter.setProperty(scope, 'changeColor', interpreter.createNativeFunction(wrapper));
             // changeShape
-            wrapper = function (shape) {
-                //console.dir(shape);
-                var points = [];
-                for (var i = 0, l = shape.length; i < l; i++) {
-                    points.push([shape.properties[i].properties[0].toNumber(),
-                        shape.properties[i].properties[1].toNumber()]);
-                }
-                player.getShip().shape = points;
-            };
+            //wrapper = function (shape) {
+            //    //console.dir(shape);
+            //    var points = [];
+            //    for (var i = 0, l = shape.length; i < l; i++) {
+            //        points.push([shape.properties[i].properties[0].toNumber(),
+            //            shape.properties[i].properties[1].toNumber()]);
+            //    }
+            //    player.getShip().shape = points;
+            //};
+            wrapper = Marshal.wrap(interpreter, API.changeShape, [player.getShip()]);
             interpreter.setProperty(scope, 'changeShape', interpreter.createNativeFunction(wrapper));
+            // * scan *
+            wrapper = Marshal.wrap(interpreter, API.scan, [player.getShip(), 25, 'Asteroid']);
+            interpreter.setProperty(scope, 'scan', interpreter.createNativeFunction(wrapper));
+            // * end scan *
             // new planet
             wrapper = function (x, y, scale) {
                 starcoder.world.addSyncableBody(Planetoid, {
