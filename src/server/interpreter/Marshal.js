@@ -7,44 +7,8 @@
 
 var Marshal = {};
 
-//Marshal.wrap = function (interpreter, func, prepop) {
-//    var argMarshalers = [];
-//    var argPrepop = [];
-//    for (var i = 0, l = func.meta.args.length; i < l; i++) {
-//        var meta = func.meta.args[i];
-//        if (prepop[meta.name]) {
-//            argPrepop[i] = prepop[meta.name];
-//        } else {
-//            argMarshalers[i] = interpToNative[meta.type];
-//        }
-//    }
-//    if (func.meta.returns) {
-//        var returnMarshaler = nativeToInterp[func.meta.returns.type];
-//    }
-//    return function () {
-//        var skipped = 0;
-//        var args = [];
-//        var l = Math.max(arguments.length, argMarshalers.length, argPrepop.length);
-//        for (var i = 0; i < l; i++) {
-//            var arg = arguments[i - skipped];
-//            if (argPrepop[i]) {
-//                args.push(argPrepop[i]);
-//                skipped++;
-//            } else if (arg && argMarshalers[i]) {
-//                args.push(argMarshalers[i](arg));
-//            } else {
-//                args.push(undefined);
-//            }
-//        }
-//        var r = func.apply(interpreter, args);      // Maybe need different/custom context
-//        if (returnMarshaler) {
-//            return returnMarshaler(r);
-//        }
-//    };
-//};
-
 Marshal.wrap = function (interpreter, func, prepop) {
-    return function () {
+    var wrapper = function () {
         var aL = arguments.length;
         var pL = prepop.length;
         var skipped = 0;
@@ -64,13 +28,23 @@ Marshal.wrap = function (interpreter, func, prepop) {
         if (r) {
             return nativeToInterp[typeof r](interpreter, r);
         }
-    }
+    };
+    return interpreter.createNativeFunction(wrapper);
 };
 
 var interpToNative = {};
 
 interpToNative.string = function (s) {
     return s.toString();
+};
+
+
+interpToNative.number = function (s) {
+    return s.toNumber();
+};
+
+interpToNative.boolean = function (s) {
+    return s.toBoolean();
 };
 
 interpToNative.object = function (o) {
@@ -97,7 +71,6 @@ interpToNative.object = function (o) {
 var nativeToInterp = {};
 
 nativeToInterp.string = function (interpreter, s) {
-    console.log('primitive', s);
     return interpreter.createPrimitive(s);
 };
 nativeToInterp.number = nativeToInterp.string;
@@ -131,6 +104,8 @@ nativeToInterp.object = function (interpreter, o) {
             }
         }
     }
+    delete o.__pseudo;
+    return pseudo;
 };
 
 module.exports = Marshal;

@@ -18,6 +18,7 @@ var Player = function (username) {
         currentTagStreak: 0
     };
     this.codeQueue = [];
+    this.codeEventQueue = [];
     this.interpreter = null;
 };
 

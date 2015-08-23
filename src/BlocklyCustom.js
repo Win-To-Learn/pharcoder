@@ -28,7 +28,7 @@ Blockly.Blocks['sc_set_scale'] = {
  */
 Blockly.JavaScript['sc_set_scale'] = function (block) {
     var arg = Blockly.JavaScript.valueToCode(block, 'VALUE', Blockly.JavaScript.ORDER_NONE) || '1';
-    return 'setScale(' + arg + ')';
+    return 'setShipScale(' + arg + ');\n';
 };
 
 /**
@@ -90,7 +90,7 @@ Blockly.JavaScript['sc_change_shape'] = function (block) {
     }
     if (pairList.length > 2) {
         // Don't generate code for fewer than 3 points
-        return 'changeShape([' + pairList.join(',') + '])';
+        return 'changeShipShape([' + pairList.join(',') + ']);\n';
     }
     return null;
 };
@@ -118,39 +118,39 @@ Blockly.Blocks['sc_set_thrust_power'] = {
  */
 Blockly.JavaScript['sc_set_thrust_power'] = function (block) {
     var arg = Blockly.JavaScript.valueToCode(block, 'VALUE', Blockly.JavaScript.ORDER_NONE) || '1';
-    return 'setThrustForce(' + arg + ')';
+    return 'setThrustForce(' + arg + ');\n';
 };
 
 /**
  * create new planet
  */
-Blockly.Blocks['sc_new_planet'] = {
-    init: function () {
-        this.setColour(120);
-        this.appendDummyInput()
-            .appendField('new planet');
-        this.appendDummyInput()
-            .appendField('x')
-            .appendField(new Blockly.FieldTextInput('0', Blockly.FieldTextInput.numberValidator), 'X')
-            .appendField('y')
-            .appendField(new Blockly.FieldTextInput('0', Blockly.FieldTextInput.numberValidator), 'Y');
-        this.appendDummyInput()
-            .appendField('scale')
-            .appendField(new Blockly.FieldTextInput('2', Blockly.FieldTextInput.numberValidator), 'SCALE');
-        this.setPreviousStatement(true);
-        this.setNextStatement(true);
-    }
-};
+//Blockly.Blocks['sc_new_planet'] = {
+//    init: function () {
+//        this.setColour(120);
+//        this.appendDummyInput()
+//            .appendField('new planet');
+//        this.appendDummyInput()
+//            .appendField('x')
+//            .appendField(new Blockly.FieldTextInput('0', Blockly.FieldTextInput.numberValidator), 'X')
+//            .appendField('y')
+//            .appendField(new Blockly.FieldTextInput('0', Blockly.FieldTextInput.numberValidator), 'Y');
+//        this.appendDummyInput()
+//            .appendField('scale')
+//            .appendField(new Blockly.FieldTextInput('2', Blockly.FieldTextInput.numberValidator), 'SCALE');
+//        this.setPreviousStatement(true);
+//        this.setNextStatement(true);
+//    }
+//};
 
 /**
  * code generation for new planet
  */
-Blockly.JavaScript['sc_new_planet'] = function (block) {
-    var x = block.getFieldValue('X');
-    var y = block.getFieldValue('Y');
-    var scale = block.getFieldValue('SCALE');
-    return 'newPlanet(' + x + ',' + y + ',' + scale + ')';
-};
+//Blockly.JavaScript['sc_new_planet'] = function (block) {
+//    var x = block.getFieldValue('X');
+//    var y = block.getFieldValue('Y');
+//    var scale = block.getFieldValue('SCALE');
+//    return 'newPlanet(' + x + ',' + y + ',' + scale + ')';
+//};
 
 /**
  * set ship color
@@ -171,7 +171,7 @@ Blockly.Blocks['sc_set_color'] = {
  */
 Blockly.JavaScript['sc_set_color'] = function (block) {
     var color = block.getFieldValue('COLOR');
-    return 'changeColor(\'' + color + '\')';
+    return 'changeShipColor(\'' + color + '\');\n';
 };
 
 /**
@@ -196,7 +196,7 @@ Blockly.Blocks['sc_translate'] = {
 Blockly.JavaScript['sc_translate'] = function (block) {
     var x = block.getFieldValue('X');
     var y = block.getFieldValue('Y');
-    return 'translate(' + x + ',' + y + ')';
+    return 'translate(' + x + ',' + y + ');\n';
 }
 
 /**
@@ -216,7 +216,7 @@ Blockly.Blocks['sc_shoot'] = {
  * code generation for shoot
  */
 Blockly.JavaScript['sc_shoot'] = function () {
-    return 'shoot()';
+    return 'shoot();\n';
 };
 
 /**
@@ -254,7 +254,7 @@ Blockly.JavaScript['sc_set_seeder_props'] = function (block) {
     var bd = block.getFieldValue('BD');
     var sp = block.getFieldValue('SP');
     var dp = block.getFieldValue('DP');
-    return 'setSeederProperties(' + tl + ',' + bf + ',' + bd + ',' + sp + ',' + dp + ')';
+    return 'setSeederProperties(' + tl + ',' + bf + ',' + bd + ',' + sp + ',' + dp + ');\n';
 };
 
 /**
@@ -267,6 +267,7 @@ Blockly.Blocks['sc_scan'] = {
         this.setColour(270);
         this.appendDummyInput()
             .appendField('scan');
+        this.setOutput(true, 'Array');
     }
 };
 
@@ -277,5 +278,55 @@ Blockly.Blocks['sc_scan'] = {
  * @returns {string}
  */
 Blockly.JavaScript['sc_scan'] = function (block) {
-    return 'scan()';
+    return ['localScan()', Blockly.JavaScript.ORDER_NONE];
+};
+
+Blockly.Blocks['sc_var'] = {
+    init: function () {
+        this.setColour(90);
+        this.appendDummyInput()
+            .appendField(new Blockly.FieldVariable('i'), 'VAR');
+        this.setOutput('true');
+    }
+};
+
+Blockly.JavaScript['sc_var'] = function (block) {
+    var code = Blockly.JavaScript.variableDB_.getName(block.getFieldValue('VAR'), Blockly.Variables.NAME_TYPE);
+    return [code, Blockly.JavaScript.ORDER_NONE];
+};
+
+Blockly.Blocks['sc_console_log'] = {
+    init: function () {
+        this.setColour(60);
+        this.appendDummyInput()
+            .appendField('log to server console');
+        this.appendValueInput('VAL');
+        this.setPreviousStatement(true);
+        this.setNextStatement(true);
+    }
+};
+
+Blockly.JavaScript['sc_console_log'] = function (block) {
+    var v = Blockly.JavaScript.valueToCode(block, 'VAL', Blockly.JavaScript.ORDER_NONE);
+    return 'log(' + v + ');\n';
+};
+
+Blockly.Blocks['sc_set_timer'] = {
+    init: function () {
+        this.setColour(180);
+        this.appendDummyInput()
+            .appendField('set timer');
+        this.appendValueInput('TIMEOUT');
+        this.appendStatementInput('STATEMENTS');
+        this.setPreviousStatement(true);
+        this.setNextStatement(true);
+    }
+};
+
+Blockly.JavaScript['sc_set_timer'] = function (block) {
+    var timeout = Blockly.JavaScript.valueToCode(block, 'TIMEOUT', Blockly.JavaScript.ORDER_COMMA);
+    var statements = Blockly.JavaScript.statementToCode(block,'STATEMENTS');
+    return 'setTimer(function () {\n' +
+            statements +
+            '}, ' + timeout + ');\n';
 };
