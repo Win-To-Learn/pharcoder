@@ -13,119 +13,119 @@
 //    States: {}
 //};
 
-//var config = {
-//    version: '0.1',
-//    //serverUri: 'http://pharcoder-single-1.elasticbeanstalk.com:8080',
-//    //serverUri: 'http://localhost:8081',
-//    //serverAddress: '1.2.3.4',
-//    //worldBounds: [-4200, -4200, 8400, 8400],
-//    worldBounds: [-200, -200, 200, 200],
-//    ioClientOptions: {
-//        //forceNew: true
-//        reconnection: false
-//    },
-//    updateInterval: 50,
-//    renderLatency: 100,
-//    physicsScale: 20,
-//    frameRate: (1 / 60),
-//    timeSyncFreq: 10,
-//    physicsProperties: {
-//        Ship: {
-//            mass: 10
-//        },
-//        Asteroid: {
-//            mass: 20
-//        }
-//    },
-//    gamerTags: {
-//        1: [
-//            'super',
-//            'awesome',
-//            'rainbow',
-//            'double',
-//            'triple',
-//            'vampire',
-//            'princess',
-//            'ice',
-//            'fire',
-//            'robot',
-//            'werewolf',
-//            'sparkle',
-//            'infinite',
-//            'cool',
-//            'yolo',
-//            'swaggy',
-//            'zombie',
-//            'samurai',
-//            'dancing',
-//            'power',
-//            'gold',
-//            'silver',
-//            'radioactive',
-//            'quantum',
-//            'brilliant',
-//            'mighty',
-//            'random'
-//        ],
-//        2: [
-//            'tiger',
-//            'ninja',
-//            'princess',
-//            'robot',
-//            'pony',
-//            'dancer',
-//            'rocker',
-//            'master',
-//            'hacker',
-//            'rainbow',
-//            'kitten',
-//            'puppy',
-//            'boss',
-//            'wizard',
-//            'hero',
-//            'dragon',
-//            'tribute',
-//            'genius',
-//            'blaster',
-//            'spider'
-//        ]
-//    },
-//    initialBodies: [
-//        {type: 'Asteroid', number: 25, config: {
-//            position: {random: 'world'},
-//            velocity: {random: 'vector', lo: -15, hi: 15},
-//            angularVelocity: {random: 'float', lo: -5, hi: 5},
-//            vectorScale: {random: 'float', lo: 0.6, hi: 1.4},
-//            mass: 10
-//        }},
-//        //{type: 'Crystal', number: 10, config: {
-//        //    position: {random: 'world'},
-//        //    velocity: {random: 'vector', lo: -4, hi: 4, normal: true},
-//        //    vectorScale: {random: 'float', lo: 0.4, hi: 0.8},
-//        //    mass: 5
-//        //}}
-//        {type: 'Hydra', number: 1, config: {
-//            position: {random: 'world', pad: 50}
-//        }},
-//        {type: 'Planetoid', number: 6, config: {
-//            position: {random: 'world', pad: 30},
-//            angularVelocity: {random: 'float', lo: -2, hi: 2},
-//            vectorScale: 2.5,
-//            mass: 100
-//        }},
-//        //{type: 'StarTarget', number: 10, config: {
-//        //    position: {random: 'world', pad: 30},
-//        //    vectorScale: 0.5,
-//        //    stars: [[0, 0], [1,1], [-1,1], [1,-1]]
-//        //}}
-//        // FIXME: Trees just for testing
-//        //{type: 'Tree', number: 10, config: {
-//        //    position: {random: 'world', pad: 30},
-//        //    vectorScale: 1,
-//        //    mass: 5
-//        //}}
-//    ]
-//};
+var config = {
+    version: '0.1',
+    //serverUri: 'http://pharcoder-single-1.elasticbeanstalk.com:8080',
+    //serverUri: 'http://localhost:8081',
+    //serverAddress: '1.2.3.4',
+    //worldBounds: [-4200, -4200, 8400, 8400],
+    worldBounds: [-200, -200, 200, 200],
+    ioClientOptions: {
+        //forceNew: true
+        reconnection: false
+    },
+    updateInterval: 50,
+    renderLatency: 100,
+    physicsScale: 20,
+    frameRate: (1 / 60),
+    timeSyncFreq: 10,
+    physicsProperties: {
+        Ship: {
+            mass: 10
+        },
+        Asteroid: {
+            mass: 20
+        }
+    },
+    gamerTags: {
+        1: [
+            'super',
+            'awesome',
+            'rainbow',
+            'double',
+            'triple',
+            'vampire',
+            'princess',
+            'ice',
+            'fire',
+            'robot',
+            'werewolf',
+            'sparkle',
+            'infinite',
+            'cool',
+            'yolo',
+            'swaggy',
+            'zombie',
+            'samurai',
+            'dancing',
+            'power',
+            'gold',
+            'silver',
+            'radioactive',
+            'quantum',
+            'brilliant',
+            'mighty',
+            'random'
+        ],
+        2: [
+            'tiger',
+            'ninja',
+            'princess',
+            'robot',
+            'pony',
+            'dancer',
+            'rocker',
+            'master',
+            'hacker',
+            'rainbow',
+            'kitten',
+            'puppy',
+            'boss',
+            'wizard',
+            'hero',
+            'dragon',
+            'tribute',
+            'genius',
+            'blaster',
+            'spider'
+        ]
+    },
+    initialBodies: [
+        {type: 'Asteroid', number: 25, config: {
+            position: {random: 'world'},
+            velocity: {random: 'vector', lo: -15, hi: 15},
+            angularVelocity: {random: 'float', lo: -5, hi: 5},
+            vectorScale: {random: 'float', lo: 0.6, hi: 1.4},
+            mass: 10
+        }},
+        //{type: 'Crystal', number: 10, config: {
+        //    position: {random: 'world'},
+        //    velocity: {random: 'vector', lo: -4, hi: 4, normal: true},
+        //    vectorScale: {random: 'float', lo: 0.4, hi: 0.8},
+        //    mass: 5
+        //}}
+        {type: 'Hydra', number: 1, config: {
+            position: {random: 'world', pad: 50}
+        }},
+        {type: 'Planetoid', number: 6, config: {
+            position: {random: 'world', pad: 30},
+            angularVelocity: {random: 'float', lo: -2, hi: 2},
+            vectorScale: 2.5,
+            mass: 100
+        }},
+        //{type: 'StarTarget', number: 10, config: {
+        //    position: {random: 'world', pad: 30},
+        //    vectorScale: 0.5,
+        //    stars: [[0, 0], [1,1], [-1,1], [1,-1]]
+        //}}
+        // FIXME: Trees just for testing
+        //{type: 'Tree', number: 10, config: {
+        //    position: {random: 'world', pad: 30},
+        //    vectorScale: 1,
+        //    mass: 5
+        //}}
+    ]
+};
 
 var Starcoder = function () {
     // Initializers virtualized according to role
@@ -135,6 +135,8 @@ var Starcoder = function () {
     for (var i = 0, l = configs.length; i < l; i++) {
         this.extendConfig(configs[i]);
     }
+    // HACK
+    this.extendConfig(config);
     this.banner();
     this.init.apply(this, args);
     //this.initNet.call(this);
