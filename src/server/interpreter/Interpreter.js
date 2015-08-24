@@ -72,6 +72,10 @@ Interpreter.prototype.mainLoopShift = function () {
 
 var interpToNative = {};
 
+interpToNative.undefined = function (u) {
+    return undefined;
+};
+
 interpToNative.string = function (s) {
     return s.toString();
 };

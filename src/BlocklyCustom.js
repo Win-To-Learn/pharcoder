@@ -262,12 +262,29 @@ Blockly.JavaScript['sc_set_seeder_props'] = function (block) {
  *
  * @type {{init: Function}}
  */
+//Blockly.Blocks['sc_scan'] = {
+//    init: function () {
+//        this.setColour(270);
+//        this.appendDummyInput()
+//            .appendField('scan');
+//        this.setOutput(true, 'Array');
+//    }
+//};
 Blockly.Blocks['sc_scan'] = {
     init: function () {
-        this.setColour(270);
-        this.appendDummyInput()
-            .appendField('scan');
-        this.setOutput(true, 'Array');
+        this.jsonInit({
+            message0: 'scan of %1 nearby',
+            args0: [
+                {type: 'field_dropdown', name: 'BODYTYPE', options: [
+                    ['other ships', 'Ship'],
+                    ['asteroids', 'Asteroid'],
+                    ['planetoids', 'Planetoids'],
+                    ['trees', 'Trees']
+                ]}
+            ],
+            output: 'Array',
+            colour: 270
+        });
     }
 };
 
@@ -278,7 +295,8 @@ Blockly.Blocks['sc_scan'] = {
  * @returns {string}
  */
 Blockly.JavaScript['sc_scan'] = function (block) {
-    return ['localScan()', Blockly.JavaScript.ORDER_NONE];
+    var bodytype = block.getFieldValue('BODYTYPE');
+    return ['localScan("' + bodytype + '")', Blockly.JavaScript.ORDER_FUNCTION_CALL];
 };
 
 Blockly.Blocks['sc_var'] = {
@@ -297,18 +315,19 @@ Blockly.JavaScript['sc_var'] = function (block) {
 
 Blockly.Blocks['sc_console_log'] = {
     init: function () {
-        this.setColour(60);
-        this.appendDummyInput()
-            .appendField('log to server console');
-        this.appendValueInput('VAL');
-        this.setPreviousStatement(true);
-        this.setNextStatement(true);
+        this.jsonInit({
+            message0: 'log %1 to server console',
+            args0: [{type: 'input_value', name: 'MSG'}],
+            previousStatement: null,
+            nextStatement: null,
+            colour: 30
+        })
     }
 };
 
 Blockly.JavaScript['sc_console_log'] = function (block) {
-    var v = Blockly.JavaScript.valueToCode(block, 'VAL', Blockly.JavaScript.ORDER_NONE);
-    return 'log(' + v + ');\n';
+    var msg = Blockly.JavaScript.valueToCode(block, 'MSG', Blockly.JavaScript.ORDER_NONE);
+    return 'log(' + msg + ');\n';
 };
 
 Blockly.Blocks['sc_set_timer'] = {
@@ -325,8 +344,97 @@ Blockly.Blocks['sc_set_timer'] = {
 
 Blockly.JavaScript['sc_set_timer'] = function (block) {
     var timeout = Blockly.JavaScript.valueToCode(block, 'TIMEOUT', Blockly.JavaScript.ORDER_COMMA);
-    var statements = Blockly.JavaScript.statementToCode(block,'STATEMENTS');
+    var statements = Blockly.JavaScript.statementToCode(block, 'STATEMENTS');
     return 'setTimer(function () {\n' +
             statements +
             '}, ' + timeout + ');\n';
+};
+
+/**
+ * Get property of world body
+ *
+ * @type {{init: Function}}
+ */
+Blockly.Blocks['sc_get_body_property'] = {
+    init: function () {
+        this.jsonInit({
+            message0: '%1 of %2',
+            args0: [
+                {type: 'field_dropdown', name: 'PROP', options: [
+                    ['x coordinate', 'x'],
+                    ['y coordinate', 'y'],
+                    ['velocity in x direction', 'vx'],
+                    ['velocity in y direction', 'vy'],
+                    ['id', 'id'],
+                    ['distance from ship', 'distance']
+                ]},
+                {type: 'input_value', name: 'BODY'}
+            ],
+            output: null,
+            colour: 120
+        })
+    }
+};
+
+/**
+ * Code generation for getbody property
+ *
+ * @param block
+ * @returns {*[]}
+ */
+Blockly.JavaScript['sc_get_body_property'] = function (block) {
+    var prop = block.getFieldValue('PROP');
+    var body = Blockly.JavaScript.valueToCode(block, 'BODY', Blockly.JavaScript.ORDER_COMMA);
+    return ['getBodyProperty(' + body + ', "' + prop + '")', Blockly.JavaScript.ORDER_FUNCTION_CALL];
+};
+
+/**
+ * Sort list of bodies proximity to ship
+ *
+ * @type {{init: Function}}
+ */
+Blockly.Blocks['sc_sort_by_distance'] = {
+    init: function () {
+        this.jsonInit({
+            message0: 'sort %1 by distance from ship %2',
+            args0: [
+                {type: 'input_value', name: 'BODIES', check:'Array'},
+                {type: 'field_dropdown', name: 'DIR', options: [
+                    ['near to far', 'false'],
+                    ['far to near', 'true']
+                ]}
+            ],
+            output: 'Array',
+            colour: 240
+        })
+    }
+};
+
+/**
+ * Code generation for sort by distance
+ *
+ * @param block
+ * @returns {*[]}
+ */
+Blockly.JavaScript['sc_sort_by_distance'] = function (block) {
+    var bodies = Blockly.JavaScript.valueToCode(block, 'BODIES', Blockly.JavaScript.ORDER_COMMA);
+    var dir = block.getFieldValue('DIR');
+    return ['sortByDistance(' + bodies + ','+ dir + ')', Blockly.JavaScript.ORDER_FUNCTION_CALL];
+};
+
+Blockly.Blocks['sc_point_to_body'] = {
+    init: function () {
+        this.jsonInit({
+            message0: 'point ship at %1',
+            args0: [{type: 'input_value', name: 'BODY'}],
+            previousStatement: null,
+            nextStatement: null,
+            colour: 180
+        })
+    }
+};
+
+Blockly.JavaScript['sc_point_to_body'] = function (block) {
+    var body = Blockly.JavaScript.valueToCode(block, 'BODY', Blockly.JavaScript.ORDER_NONE);
+    return 'pointToBody(' + body + ');\n';
 };

@@ -9,6 +9,8 @@ var API = {};
 
 var max = Math.max;
 var min = Math.min;
+var sqrt = Math.sqrt;
+var atan2 = Math.atan2;
 var clamp = function (a, x, b) {
     return  x < a ? a : (x > b ? b : x);
 };
@@ -50,6 +52,9 @@ API.scan = function (player, body, range, bodytype) {
     var result = [];
     for (var i = 0, l = body.world.bodies.length; i < l; i++) {
         var target = body.world.bodies[i];
+        if (target === body) {
+            continue;
+        }
         if (target.serverType && (!bodytype || bodytype === target.serverType)) {
             if ((x-target.position[0])*(x-target.position[0]) + (y-target.position[1])*(y-target.position[1]) <= r2) {
                 result.push(target);
@@ -145,10 +150,84 @@ API.setSeederProperties = function (player, trunkLength, branchFactor, branchDec
 };
 
 API.setTimer = function (player, func, timeout) {
-    setInterval(function () {
+    setTimeout(function () {
         player.codeEventQueue.push(func);
     }, timeout);
 };
 API.setTimer.async = true;
+
+/**
+ * Return selected properties of body
+ *
+ * @param player {Player}
+ * @param body {object}
+ * @param property {string}
+ * @returns {*}
+ */
+API.getBodyProperty = function (player, body, property) {
+    switch (property) {
+        case 'x':
+        case 'y':
+        case 'vx':
+        case 'vy':
+        case 'id':
+            return body[property];
+        case 'distance':
+            var ship = player.getShip();
+            var dx = ship.position[0] - body.x;
+            var dy = ship.position[1] - body.y;
+            return sqrt(dx*dx+ dy*dy);
+    }
+};
+
+/**
+ * Sort array of bodies by distance from player ship
+ * Default is near to far. far to near if reverse is true
+ *
+ * @param player {Player}
+ * @param bodies {Array}
+ * @param reverse {boolean}
+ * @returns {Array.<T>|string|*|Array|Blob|ArrayBuffer}
+ */
+API.sortByDistance = function (player, bodies, reverse) {
+    var ship = player.getShip();
+    var x = ship.position[0];
+    var y = ship.position[1];
+    var dir = reverse ? -1 : 1;
+    var cmp = function (a, b) {
+        var da = (a.x - x)*(a.x - x) + (a.y - y)*(a.y - y);
+        var db = (b.x - x)*(b.x - x) + (b.y - y)*(b.y - y);
+        return dir*(da - db);
+    }
+    bodies = bodies.slice();
+    bodies.sort(cmp);
+    return bodies;
+};
+
+/**
+ * Set player ships heading to face body
+ *
+ * @param player {Player}
+ * @param body {object}
+ */
+API.pointToBody = function (player, body) {
+    if (!body) {
+        return;
+    }
+    var ship = player.getShip();
+    var dx = ship.position[0] - body.x;
+    var dy = ship.position[1] - body.y;
+    ship.angle = -atan2(dx, dy);
+};
+
+/**
+ * console.log wrapper for testing
+ *
+ * @param player
+ * @param msg
+ */
+API.log = function (player, msg) {
+    console.log(msg);
+};
 
 module.exports = API;
