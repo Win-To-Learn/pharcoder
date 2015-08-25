@@ -278,7 +278,7 @@ Blockly.Blocks['sc_scan'] = {
                 {type: 'field_dropdown', name: 'BODYTYPE', options: [
                     ['other ships', 'Ship'],
                     ['asteroids', 'Asteroid'],
-                    ['planetoids', 'Planetoids'],
+                    ['planetoids', 'Planetoid'],
                     ['trees', 'Trees']
                 ]}
             ],
@@ -354,7 +354,8 @@ Blockly.Blocks['sc_set_timer'] = {
             args1: [{type: 'field_checkbox', name: 'REPEAT'}],
             previousStatement: null,
             nextStatement: null,
-            colour: 180,
+            inputsInline: true,
+            colour: 180
         });
     }
 };

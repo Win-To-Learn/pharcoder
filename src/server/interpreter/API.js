@@ -236,6 +236,9 @@ API.sortByDistance = function (player, bodies, reverse) {
  * @param body {object}
  */
 API.pointToBody = function (player, body) {
+    if (Array.isArray(body)) {
+        body = body[0];
+    }
     if (!body) {
         return;
     }
