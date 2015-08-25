@@ -146,15 +146,40 @@ API.setSeederProperties = function (player, trunkLength, branchFactor, branchDec
     seeder.branchFactor = branchFactor;
     seeder.branchDecay = branchDecay;
     seeder.spread = clamp(30, spread, 160);
-    seeder.depth = clamp(1, 5);
+    seeder.depth = clamp(1, depth, 5);
 };
 
-API.setTimer = function (player, func, timeout) {
-    setTimeout(function () {
-        player.codeEventQueue.push(func);
-    }, timeout);
+/**
+ * set timer for delayed or repeating actions
+ *
+ * @param player {Player}
+ * @param func {function}
+ * @param timeout {number}
+ * @param repeat {boolean}
+ */
+API.setTimer = function (player, func, timeout, repeat) {
+    var interpreter = player.interpreter;
+    if (repeat) {
+        interpreter.intervalCache.push(setInterval(function () {
+            interpreter.eventQueue.push(func);
+        }, timeout*1000));
+    } else {
+        interpreter.timeoutCache.push(setTimeout(function () {
+                interpreter.eventQueue.push(func);
+        }, timeout*1000));
+    }
+    interpreter.toggleEventLoop(true);
 };
-API.setTimer.async = true;
+//API.setTimer.async = true;
+
+/**
+ * End event loop and allow interpreter to exit
+ *
+ * @param player {Player}
+ */
+API.cancelEventLoop = function (player) {
+    player.interpreter.toggleEventLoop(false);
+};
 
 /**
  * Return selected properties of body

@@ -330,24 +330,42 @@ Blockly.JavaScript['sc_console_log'] = function (block) {
     return 'log(' + msg + ');\n';
 };
 
+//Blockly.Blocks['sc_set_timer'] = {
+//    init: function () {
+//        this.setColour(180);
+//        this.appendDummyInput()
+//            .appendField('set timer');
+//        this.appendValueInput('TIMEOUT');
+//        this.appendStatementInput('STATEMENTS');
+//        this.setPreviousStatement(true);
+//        this.setNextStatement(true);
+//    }
+//};
+
 Blockly.Blocks['sc_set_timer'] = {
     init: function () {
-        this.setColour(180);
-        this.appendDummyInput()
-            .appendField('set timer');
-        this.appendValueInput('TIMEOUT');
-        this.appendStatementInput('STATEMENTS');
-        this.setPreviousStatement(true);
-        this.setNextStatement(true);
+        this.jsonInit({
+            message0: 'do %1 in %2 seconds',
+            args0: [
+                {type: 'input_statement', name: 'STATEMENTS'},
+                {type: 'input_value', name: 'TIMEOUT', check: 'Number'}
+            ],
+            message1: 'repeat %1',
+            args1: [{type: 'field_checkbox', name: 'REPEAT'}],
+            previousStatement: null,
+            nextStatement: null,
+            colour: 180,
+        });
     }
 };
 
 Blockly.JavaScript['sc_set_timer'] = function (block) {
     var timeout = Blockly.JavaScript.valueToCode(block, 'TIMEOUT', Blockly.JavaScript.ORDER_COMMA);
     var statements = Blockly.JavaScript.statementToCode(block, 'STATEMENTS');
+    var repeat = block.getFieldValue('REPEAT').toLowerCase();
     return 'setTimer(function () {\n' +
             statements +
-            '}, ' + timeout + ');\n';
+            '}, ' + timeout + ', ' + repeat + ');\n';
 };
 
 /**
@@ -437,4 +455,24 @@ Blockly.Blocks['sc_point_to_body'] = {
 Blockly.JavaScript['sc_point_to_body'] = function (block) {
     var body = Blockly.JavaScript.valueToCode(block, 'BODY', Blockly.JavaScript.ORDER_NONE);
     return 'pointToBody(' + body + ');\n';
+};
+
+/**
+ * End event loop and allow interpreter to terminate
+ *
+ * @type {{init: Function}}
+ */
+Blockly.Blocks['sc_cancel_event_loop'] = {
+    init: function () {
+        this.jsonInit({
+            message0: 'cancel event loop',
+            previousStatement: null,
+            nextStatement: null,
+            colour: 150
+        });
+    }
+};
+
+Blockly.JavaScript['sc_cancel_event_loop'] = function (block) {
+    return 'cancelEventLoop();\n';
 };

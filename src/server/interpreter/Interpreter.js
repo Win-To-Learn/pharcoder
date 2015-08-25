@@ -16,6 +16,9 @@ var Interpreter = function (code, player) {
     this.mainloop = 'mainloop_' + randstem;
     this.curevent = 'curevent_' + randstem;
     this.player = player;
+    this.eventQueue = [];
+    this.timeoutCache = [];
+    this.intervalCache = [];
     code += 'while (' + this.loopflag + ') {\n' +
             this.mainloop + '();\n' +
             'if (' + this.curevent + ') {\n' +
@@ -43,6 +46,15 @@ Interpreter.prototype.initStarcoder = function (interpreter, scope) {
     interpreter.setProperty(scope, this.mainloop , this.wrapNativeJS(this.mainLoopShift), false, true);
 };
 
+Interpreter.prototype.cleanup = function () {
+    for (var i = 0, l = this.timeoutCache.length; i < l; i++) {
+        clearTimeout(this.timeoutCache[i]);
+    }
+    for (i = 0, l = this.intervalCache.length; i < l; i++) {
+        clearTimeout(this.intervalCache[i]);
+    }
+};
+
 Interpreter.prototype.wrapNativeJS = function (func) {
     var self = this;
     var wrapper = function () {
@@ -54,15 +66,19 @@ Interpreter.prototype.wrapNativeJS = function (func) {
         if (r) {
             return nativeToInterp[typeof r](self, r);
         }
-        if (func.async) {
-            self.setProperty(self.topScope, self.loopflag, self.createPrimitive(true));
-        }
+        //if (func.async) {
+        //    self.setProperty(self.topScope, self.loopflag, self.createPrimitive(true));
+        //}
     };
     return this.createNativeFunction(wrapper);
 };
 
+Interpreter.prototype.toggleEventLoop = function (state) {
+    this.setProperty(this.topScope, this.loopflag, this.createPrimitive(state));
+};
+
 Interpreter.prototype.mainLoopShift = function () {
-    var event = this.player.codeEventQueue.shift();
+    var event = this.eventQueue.shift();
     if (event) {
         this.setProperty(this.topScope, this.curevent, event);
     } else {

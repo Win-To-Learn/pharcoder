@@ -133,10 +133,12 @@ module.exports = {
             var code = player.codeQueue.shift();
             //player.interpreter = new Interpreter(code, this.initInterpreter.bind(this));
             //player.interpreter = self.newInterpreter(code, player);
+            player.interpreter.cleanup();
             player.interpreter = new Interpreter(code, player);
             setImmediate(this.interpreterStep.bind(this), player);
         } else {
             // Done for now
+            player.interpreter.cleanup();
             player.interpreter = null;
         }
     }
