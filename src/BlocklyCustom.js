@@ -11,12 +11,13 @@
  */
 Blockly.Blocks['sc_set_scale'] = {
     init: function () {
-        this.setColour(160);
-        this.appendValueInput('VALUE')
-            .setCheck('Number')
-            .appendField('set ship scale');
-        this.setPreviousStatement(true);
-        this.setNextStatement(true);
+        this.jsonInit({
+            message0: 'set ship scale to %1',
+            args0: [{type: 'input_value', name: 'VALUE', check: 'Number'}],
+            previousStatement: null,
+            nextStatement: null,
+            colour: 160
+        });
     }
 };
 
@@ -60,11 +61,13 @@ Blockly.JavaScript['sc_pair'] = function (block) {
  */
 Blockly.Blocks['sc_change_shape'] = {
     init: function () {
-        this.setColour(300);
-        this.appendDummyInput()
-            .appendField('player shape');
-        this.appendStatementInput('PAIRS')
-            .setCheck('Pair');
+        this.jsonInit({
+            message0: 'set ship shape %1',
+            args0: [{type: 'input_statement', name: 'PAIRS', check: 'Pair'}],
+            previousStatement: null,
+            nextStatement: null,
+            colour: 300
+        });
     }
 };
 
@@ -101,12 +104,13 @@ Blockly.JavaScript['sc_change_shape'] = function (block) {
  */
 Blockly.Blocks['sc_set_thrust_power'] = {
     init: function () {
-        this.setColour(160);
-        this.appendValueInput('VALUE')
-            .setCheck('Number')
-            .appendField('set ship thrust force');
-        this.setPreviousStatement(true);
-        this.setNextStatement(true);
+        this.jsonInit({
+            message0: 'set ship thrust force to %1',
+            args0: [{type: 'input_value', name: 'VALUE', check: 'Number'}],
+            previousStatement: null,
+            nextStatement: null,
+            colour: 160
+        });
     }
 };
 
@@ -157,12 +161,13 @@ Blockly.JavaScript['sc_set_thrust_power'] = function (block) {
  */
 Blockly.Blocks['sc_set_color'] = {
     init: function () {
-        this.setColour(30);
-        this.appendDummyInput()
-            .appendField('ship color')
-            .appendField(new Blockly.FieldColour('#ff0000'), 'COLOR');
-        this.setPreviousStatement(true);
-        this.setNextStatement(true);
+        this.jsonInit({
+            message0: 'set ship color %1',
+            args0: [{type: 'field_colour', name: 'COLOR', colour: '#ff0000'}],
+            previousStatement: null,
+            nextStatement: null,
+            colour: 30
+        });
     }
 };
 
@@ -197,18 +202,19 @@ Blockly.JavaScript['sc_translate'] = function (block) {
     var x = block.getFieldValue('X');
     var y = block.getFieldValue('Y');
     return 'translate(' + x + ',' + y + ');\n';
-}
+};
 
 /**
  * shoot ship's weapon
  */
 Blockly.Blocks['sc_shoot'] = {
     init: function () {
-        this.setColour(180);
-        this.appendDummyInput()
-            .appendField('shoot');
-        this.setPreviousStatement(true);
-        this.setNextStatement(true);
+        this.jsonInit({
+            message0: 'shoot laser',
+            previousStatement: null,
+            nextStatement: null,
+            colour: 180
+        });
     }
 };
 
@@ -242,6 +248,8 @@ Blockly.Blocks['sc_set_seeder_props'] = {
         this.appendDummyInput()
             .appendField('depth')
             .appendField(new Blockly.FieldTextInput('5', Blockly.FieldTextInput.numberValidator), 'DP');
+        this.setPreviousStatement(true);
+        this.setNextStatement(true);
     }
 };
 
@@ -354,7 +362,6 @@ Blockly.Blocks['sc_set_timer'] = {
             args1: [{type: 'field_checkbox', name: 'REPEAT'}],
             previousStatement: null,
             nextStatement: null,
-            inputsInline: true,
             colour: 180
         });
     }
