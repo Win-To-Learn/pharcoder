@@ -24,12 +24,14 @@ module.exports = {
         player.socket.on('code', function (code) {
             if (player.interpreter) {
                 // Code already running - push onto queue
-                player.codeQueue.push(code);
+                //player.codeQueue.push(code);
+                player.interpreter.addEvent(code);
             } else {
                 // No code running - create an interpreter and start scheduling steps
                 //player.interpreter = new Interpreter(code, self.initInterpreter.bind(self));
                 //player.interpreter = self.newInterpreter(code, player);
-                player.interpreter = new Interpreter(code, player);
+                player.interpreter = new Interpreter(player);
+                player.interpreter.addEvent(code);
                 setImmediate(self.interpreterStep.bind(self), player);
             }
         });

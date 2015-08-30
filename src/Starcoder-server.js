@@ -113,9 +113,6 @@ Starcoder.prototype.hrtime = function () {
     return Math.floor(hr[0]*1000 + hr[1]*1e-6);
 };
 
-
 Starcoder.prototype.role = 'Server';
-
-// FIXME: Extend object
 
 module.exports = Starcoder;

@@ -5,27 +5,34 @@
  */
 'use strict';
 
+var acorn = require('acorn');
+
 var JSInterpreter = require('./js-interp/interpreter.js');
 
 var API = require('./API.js');
 //var Marshal = require('./Marshal.js');
 
-var Interpreter = function (code, player) {
+var Interpreter = function (player) {
     var randstem = ((Math.random() + 1)*1e31).toString(36);
     this.loopflag = 'loopflag_' + randstem;
     this.mainloop = 'mainloop_' + randstem;
     this.curevent = 'curevent_' + randstem;
+    this.curargs = 'curargs_' + randstem;
     this.player = player;
+    this.idle = true;
     this.eventQueue = [];
+    this.eventQueueArgs = [];
     this.timeoutCache = [];
     this.intervalCache = [];
-    code += 'while (' + this.loopflag + ') {\n' +
-            this.mainloop + '();\n' +
-            'if (' + this.curevent + ') {\n' +
-            this.curevent + '.call(null);\n'+
-            '}\n' +
-            '}';
-    //console.log(code);
+    var code = [
+        'while (' + this.loopflag + ') {',
+        '    ' + this.mainloop + '();',
+        '    if (' + this.curevent + ') {',
+        '        ' + this.curevent + '.apply(null, ' + this.curargs + ');',
+        '    }',
+        '}'
+    ];
+    code = code.join('\n');
     JSInterpreter.call(this, code, this.initStarcoder.bind(this));
 };
 
@@ -34,6 +41,9 @@ Interpreter.prototype.constructor = Interpreter;
 
 Interpreter.prototype.initStarcoder = function (interpreter, scope) {
     this.topScope = scope;
+    this.truePrimitive = interpreter.createPrimitive(true);
+    this.falsePrimitive = interpreter.createPrimitive(false);
+    this.emptyList = interpreter.createObject(interpreter.ARRAY);       // Just for empty arg lists
     for (var key in API) {
         var elem = API[key];
         // TODO: Handle constants, complex objects, etc.
@@ -42,7 +52,7 @@ Interpreter.prototype.initStarcoder = function (interpreter, scope) {
         }
         interpreter.setProperty(scope, key, this.wrapNativeJS(elem));
     }
-    interpreter.setProperty(scope, this.loopflag, interpreter.createPrimitive(false), false, true);
+    interpreter.setProperty(scope, this.loopflag, this.truePrimitive, false, true);
     interpreter.setProperty(scope, this.mainloop , this.wrapNativeJS(this.mainLoopShift), false, true);
 };
 
@@ -73,16 +83,50 @@ Interpreter.prototype.wrapNativeJS = function (func) {
     return this.createNativeFunction(wrapper);
 };
 
+Interpreter.prototype.wrapCodeString = function (code) {
+    var ast = acorn.parse(code);
+    ast.type = 'BlockStatement';
+    var t = this.createFunction({
+        type: 'FunctionExpression',
+        id: null,
+        params: [],
+        body: ast
+    });
+    console.log(t);
+    return t;
+};
+
+Interpreter.prototype.addEvent = function (code, args) {
+    if (typeof code === 'string') {
+        code = this.wrapCodeString(code);
+    }
+    if (args) {
+        args = nativeToInterp.object(args);
+    } else {
+        args = this.emptyList;
+    }
+    this.eventQueue.push(code);
+    this.eventQueueArgs.push(args);
+};
+
 Interpreter.prototype.toggleEventLoop = function (state) {
-    this.setProperty(this.topScope, this.loopflag, this.createPrimitive(state));
+    if (state) {
+        this.setProperty(this.topScope, this.loopflag, this.truePrimitive);
+    } else {
+        this.setProperty(this.topScope, this.loopflag, this.falsePrimitive);
+    }
 };
 
 Interpreter.prototype.mainLoopShift = function () {
     var event = this.eventQueue.shift();
+    var args = this.eventQueueArgs.shift();
     if (event) {
         this.setProperty(this.topScope, this.curevent, event);
+        this.setProperty(this.topScope, this.curargs, args);
+        this.idle = false;
     } else {
         this.setProperty(this.topScope, this.curevent, this.UNDEFINED);
+        this.idle = true;
     }
 };
 

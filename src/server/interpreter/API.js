@@ -161,11 +161,11 @@ API.setTimer = function (player, func, timeout, repeat) {
     var interpreter = player.interpreter;
     if (repeat) {
         interpreter.intervalCache.push(setInterval(function () {
-            interpreter.eventQueue.push(func);
+            interpreter.addEvent(func);
         }, timeout*1000));
     } else {
         interpreter.timeoutCache.push(setTimeout(function () {
-                interpreter.eventQueue.push(func);
+            interpreter.addEvent(func);
         }, timeout*1000));
     }
     interpreter.toggleEventLoop(true);
