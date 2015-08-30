@@ -47,6 +47,14 @@ module.exports = {
             return sendFile(path.join(__dirname, '../../lib/msg/js/'), req.params.name, res);
         });
 
+        this.app.get('/lib/ace/:name', function (req, res) {
+            return sendFile(path.join(__dirname, '../../lib/ace/'), req.params.name, res);
+        });
+
+        this.app.get('/lib/ace/snippets/:name', function (req, res) {
+            return sendFile(path.join(__dirname, '../../lib/ace/snippets/'), req.params.name, res);
+        });
+
         this.app.get('/lib/:name', function (req, res) {
             return sendFile(path.join(__dirname, '../../lib/'), req.params.name, res);
         });
