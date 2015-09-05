@@ -29,6 +29,12 @@ var config = {
     physicsScale: 20,
     frameRate: (1 / 60),
     timeSyncFreq: 10,
+    interpreterRate: (1 / 30),
+    interpreterStatusThresholds: {
+        kill: 10,
+        critical: 5,
+        warn: 1
+    },
     physicsProperties: {
         Ship: {
             mass: 10

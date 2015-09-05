@@ -86,14 +86,12 @@ Interpreter.prototype.wrapNativeJS = function (func) {
 Interpreter.prototype.wrapCodeString = function (code) {
     var ast = acorn.parse(code);
     ast.type = 'BlockStatement';
-    var t = this.createFunction({
+    return this.createFunction({
         type: 'FunctionExpression',
         id: null,
         params: [],
         body: ast
     });
-    console.log(t);
-    return t;
 };
 
 Interpreter.prototype.addEvent = function (code, args) {
