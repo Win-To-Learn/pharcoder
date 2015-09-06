@@ -5,6 +5,7 @@
  */
 
 module.exports = {
+    updateInterval: 50,
     initialBodies: [
         {type: 'Asteroid', number: 25, config: {
             position: {random: 'world'},

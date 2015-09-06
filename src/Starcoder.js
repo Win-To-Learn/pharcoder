@@ -142,7 +142,7 @@ var Starcoder = function () {
         this.extendConfig(configs[i]);
     }
     // HACK
-    this.extendConfig(config);
+    //this.extendConfig(config);
     this.banner();
     this.init.apply(this, args);
     //this.initNet.call(this);
