@@ -9,8 +9,8 @@ var Guest = require('../players/Guest.js');
 module.exports = {
     onConnectCB: function (socket) {
         var self = this;
-        socket.on('login', function (id) {
-            self.checkLogin(socket, id);
+        socket.on('login', function (token) {
+            self.checkLogin(socket, token);
         });
     },
 
@@ -25,17 +25,19 @@ module.exports = {
     //    }
     //},
 
-    checkLogin: function (socket, id) {
-        var player = this.pending[id];
-        if (player) {
-            this.loginSuccess(socket, player);
-        } else {
-            loginFailure(socket, 'Login failure');
-        }
+    checkLogin: function (socket, token) {
+        //var player = this.pending[id];
+        var self = this;
+        this.getPlayerOrGuest(token, function (player) {
+            if (player) {
+                self.loginSuccess(socket, player);
+            } else {
+                self.loginFailure(socket, 'Login failure');
+            }
+        });
     },
 
     loginSuccess: function (socket, player) {
-        console.log('login success');
         player.socket = socket;
         for (var i = 0, l = this.onLoginCB.length; i < l; i++) {
             this.onLoginCB[i].bind(this, socket, player)();

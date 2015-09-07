@@ -8,14 +8,21 @@
 
 var Player = require('./Player.js');
 
-var Guest = function (gamertag) {
+var Guest = function () {
     Player.call(this);
-    this.username = gamertag || ('Guest' + this.id);
+    //this.username = gamertag || ('Guest' + this.id);
 };
 
 Guest.prototype = Object.create(Player.prototype);
 Guest.prototype.constructor = Guest;
 
 Player.playerTypes['Guest'] = Guest;
+
+Guest.fromDB = function (record) {
+    var player = new Guest();
+    player.id = record._id;
+    player.username = record.username;
+    return player;
+};
 
 module.exports = Guest;

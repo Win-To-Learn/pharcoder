@@ -56,9 +56,10 @@ Starcoder.prototype.serverConnect = function () {
         url: '/api/identity',
         method: 'GET',
         success: function (data, status) {
-            console.log('data', data);
+            //console.log('data', data);
             var serverUri = data.serverUri;
             self.player = data.player;
+            self.player.id = self.player._id;
             self.socket = self.io(serverUri, self.config.ioClientOptions);
             self.socket.on('connect', function () {
                 self.connected = true;
@@ -66,7 +67,7 @@ Starcoder.prototype.serverConnect = function () {
                 for (var i = 0, l = self.onConnectCB.length; i < l; i++) {
                     self.onConnectCB[i].call(self, self.socket);
                 }
-                self.socket.emit('login', self.player.id);
+                self.socket.emit('login', self.player);
             })
         }
     })

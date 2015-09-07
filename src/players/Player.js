@@ -5,9 +5,9 @@
  */
 'use strict';
 
-var Player = function (username) {
-    this.id = Player.id++;
-    this.username = username || ('Player' + this.id);
+var Player = function () {
+    //this.id = Player.id++;
+    //this.username = username || ('Player' + this.id);
     //this.socket = socket;
     this.ships = [];
     this.newborn = true;
@@ -46,6 +46,14 @@ Player.prototype.getPOJO = function () {
 
 Player.playerTypes = {};
 Player.playerTypes['Player'] = Player;
+
+Player.fromDB = function (record) {
+    var player = new Player();
+    player.id = record._id;
+    player.username = record.username;
+    player.password = record.password;
+    return player;
+};
 
 Player.create = function (record) {
     var constructor = Player.playerTypes[record.role];

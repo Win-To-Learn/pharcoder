@@ -78,7 +78,6 @@ Starcoder.prototype.onDisconnect = function (socket) {
 };
 
 Starcoder.prototype.onReady = function (player) {
-    console.log('ready run');
     var self = this;
     this.addPlayer(player);
     this.world.addPlayerShip(player);
