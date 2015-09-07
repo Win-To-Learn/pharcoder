@@ -1,0 +1,20 @@
+- Setup
+    - Android
+        - I’ve found installing Android Studio is a good way to go.
+        - https://developer.android.com/sdk/index.html
+    - Crosswalk
+        - Follow the instructions for Linux
+        - https://crosswalk-project.org/documentation/android.html
+        - Binary package
+            - https://download.01.org/crosswalk/releases/crosswalk/android/stable/14.43.343.23/crosswalk-14.43.343.23.zip
+
+- Gulp
+    - Four android tasks
+        - clean
+            - deletes previous builds
+        - assemble
+            - copies the needed files to a single location
+        - package
+            - runs the crosswalk build command
+        - build
+            - runs the previous three tasks in a series
