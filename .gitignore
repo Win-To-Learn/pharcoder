@@ -1,7 +1,7 @@
 ## Project specific
 
 # Generated js needs to be included for aws deployments. The beanstalk cli won't deploy anything in .gitignore.
-# js/
+js/
 
 deployments/
 

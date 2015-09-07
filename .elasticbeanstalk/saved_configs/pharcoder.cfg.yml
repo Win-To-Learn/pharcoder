@@ -1,0 +1,29 @@
+EnvironmentConfigurationMetadata:
+  DateModified: '1439261818000'
+  DateCreated: '1439261818000'
+Tags:
+  NODE_ENV: production
+AWSConfigurationTemplateVersion: 1.1.0.0
+EnvironmentTier:
+  Name: WebServer
+  Type: Standard
+SolutionStack: 64bit Amazon Linux 2015.03 v1.4.4 running Node.js
+OptionSettings:
+  aws:ec2:vpc:
+    VPCId: vpc-fedcce9b
+    AssociatePublicIpAddress: true
+    Subnets: subnet-142b6e4d
+  aws:autoscaling:launchconfiguration:
+    IamInstanceProfile: aws-elasticbeanstalk-ec2-role
+    SecurityGroups: sg-254b8042
+    EC2KeyName: ''
+    InstanceType: c4.large
+  aws:elasticbeanstalk:environment:
+    EnvironmentType: SingleInstance
+  aws:elasticbeanstalk:application:environment:
+    NODE_ENV: production
+  aws:elasticbeanstalk:sns:topics:
+    Notification Endpoint: ''
+  aws:elasticbeanstalk:container:nodejs:
+    NodeCommand: node ./src/server.js
+    ProxyServer: none

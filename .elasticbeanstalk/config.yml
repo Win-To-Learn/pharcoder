@@ -4,7 +4,7 @@ branch-defaults:
   master:
     environment: pharcoder-single-1
 deploy:
-  artifact: /Users/dhyasama/Source/pharcoder/deployments/web.zip
+  artifact: deployments/web.zip
 global:
   application_name: pharcoder-dev
   default_ec2_keyname: null

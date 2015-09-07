@@ -24,7 +24,8 @@
     "vinyl-buffer": "~1.0.0",
     "vinyl-source-stream": "~1.1.0",
     "vinyl-transform": "~1.0.0",
-    "watchify": "~3.2.1"
+    "watchify": "~3.2.1",
+    "yargs": "^3.18.0"
   },
   "dependencies": {
     "acorn": "~2.0.4",
@@ -32,6 +33,7 @@
     "express": "~4.12.4",
     "express-session": "~1.11.3",
     "minimist": "~1.1.2",
+    "nexe": "^0.4.1",
     "p2": "~0.7.0",
     "poly-decomp": "git://github.com/schteppe/poly-decomp.js",
     "randomcolor": "~0.2.0",

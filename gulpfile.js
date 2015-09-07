@@ -9,6 +9,7 @@ var gulpzip = require('gulp-zip');
 var uglify = require('gulp-uglify');
 var del = require('del');
 var shell = require('gulp-shell');
+var argv = require('yargs').argv;
 
 function make_browserify_task (task, config, sources, target) {
     var opts = {
@@ -58,7 +59,11 @@ gulp.task('zip-eb', ['browserify-ugly'], function () {
         .pipe(gulp.dest('deployments/'));
 });
 
-gulp.task('build', ['zip-eb']);
+gulp.task('updateServerUri', function(cb) {
+
+});
+
+gulp.task('build', ['updateServerUri', 'zip-eb']);
 
 // run in series
 gulp.task('android:build', ['android:clean', 'android:assemble', 'android:package']);
@@ -78,13 +83,13 @@ gulp.task('android:assemble', ['android:clean'], function(cb) {
 
 gulp.task('android:package', ['android:assemble'],
   shell.task([
-    'crosswalk-app build release'
+    'crosswalk-app build ' + ((argv.release === undefined) ? 'debug' : 'release')
   ], {cwd: './android/org.starcoder.pharcoder'})
 );
 
 gulp.task('android:emulator',
   shell.task([
-    'emulator @Nexus'
+    'emulator ' + ((argv.name === undefined) ? '@Nexus' : argv.name)
   ])
 );
 
@@ -93,3 +98,18 @@ gulp.task('android:install',
     'adb install -r org.starcoder.pharcoder-debug.x86.apk'
   ], {cwd: './android/org.starcoder.pharcoder'})
 );
+
+gulp.task('exe', function(cb) {
+  var nexe = require('nexe');
+  nexe.compile({
+    nodeVersion: '0.12.6',
+    python: '/Users/dhyasama/Library/Python/2.7/lib/python/site-packages',
+    input: './src/server.js',
+    output: './build',
+    nodeTempDir: './tmp/nexe',
+    flags: false,
+    framework: 'nodejs'
+  }, function(err) {
+    console.error(err);
+  });
+});
