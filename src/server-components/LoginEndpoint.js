@@ -9,23 +9,33 @@ var Guest = require('../players/Guest.js');
 module.exports = {
     onConnectCB: function (socket) {
         var self = this;
-        socket.on('login', function (credentials) {
-            self.checkLogin(socket, credentials);
+        socket.on('login', function (id) {
+            self.checkLogin(socket, id);
         });
     },
 
-    checkLogin: function (socket, credentials) {
-        // FIXME: Interface with backend DB
-        if (credentials.gamertag) {
-            this.loginSuccess(socket, new Guest(credentials.gamertag));
-        } else if (credentials.username && credentials.password === 'star') {
-            this.loginSuccess(socket, new Player(credentials.username));
+    //checkLogin: function (socket, credentials) {
+    //    // FIXME: Interface with backend DB
+    //    if (credentials.gamertag) {
+    //        this.loginSuccess(socket, new Guest(credentials.gamertag));
+    //    } else if (credentials.username && credentials.password === 'star') {
+    //        this.loginSuccess(socket, new Player(credentials.username));
+    //    } else {
+    //        this.loginFailure(socket, 'Unknown username or password. Try again.');
+    //    }
+    //},
+
+    checkLogin: function (socket, id) {
+        var player = this.pending[id];
+        if (player) {
+            this.loginSuccess(socket, player);
         } else {
-            this.loginFailure(socket, 'Unknown username or password. Try again.');
+            loginFailure(socket, 'Login failure');
         }
     },
 
     loginSuccess: function (socket, player) {
+        console.log('login success');
         player.socket = socket;
         for (var i = 0, l = this.onLoginCB.length; i < l; i++) {
             this.onLoginCB[i].bind(this, socket, player)();
@@ -33,7 +43,7 @@ module.exports = {
         socket.on('ready', this.onReady.bind(this, player));
         //socket.on('disconnect', this.disconnect.bind(this, socket, player));
         socket.removeAllListeners('login');
-        socket.emit('logged in', player.msgNew());
+        //socket.emit('logged in', player.msgNew());
     },
 
     loginFailure: function (socket, msg) {

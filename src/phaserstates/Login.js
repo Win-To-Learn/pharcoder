@@ -11,7 +11,6 @@ Login.prototype = Object.create(Phaser.State.prototype);
 Login.prototype.constructor = Login;
 
 Login.prototype.init = function () {
-    console.log('login');
     var self = this;
     this.starcoder.showLogin();
     this.starcoder.socket.on('logged in', function (player) {

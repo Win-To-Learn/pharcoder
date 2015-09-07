@@ -14,6 +14,8 @@ var CodeEndpointServer = require('./server-components/CodeEndpointServer.js');
 var LoginEndpoint = require('./server-components/LoginEndpoint.js');
 var LeaderBoardEndpoint = require('./server-components/LeaderBoardEndpoint.js');
 var StaticServer = require('./server-components/StaticServer.js');
+var MongoInterface = require('./server-components/MongoInterface.js');
+var SessionHandler = require('./server-components/SessionHandler.js');
 
 var World = require('./serverbodies/World.js');
 
@@ -27,7 +29,6 @@ Starcoder.prototype.init = function (app, io) {
     this.app = app;
     this.io = io;
     this.players = {};          // Logged in players
-    this.pending = {};          // Connections pending login
     this.onConnectCB = [];
     this.onLoginCB = [];
     this.onReadyCB = [];
@@ -35,6 +36,7 @@ Starcoder.prototype.init = function (app, io) {
     this.world = new World(this.config.worldBounds, this.config.initialBodies);
     this.world.starcoder = this;
     this.world.log = this.log;
+    this.implementFeature(SessionHandler);
     this.implementFeature(StaticServer);
     this.implementFeature(LoginEndpoint);
     this.implementFeature(LeaderBoardEndpoint);
@@ -43,6 +45,7 @@ Starcoder.prototype.init = function (app, io) {
     this.implementFeature(SyncServer);
     this.implementFeature(MsgServer);
     this.implementFeature(CodeEndpointServer);
+    this.implementFeature(MongoInterface);
     this.newLeaderBoardCategory('Ships Tagged');
     this.newLeaderBoardCategory('Tag Streak');
     this.newLeaderBoardCategory('Trees Planted');
@@ -52,10 +55,14 @@ Starcoder.prototype.init = function (app, io) {
         //self.pending[socket.id] = socket;
         for (var i = 0, l = self.onConnectCB.length; i < l; i++) {
             self.onConnectCB[i].bind(self, socket)();
-            socket.on('disconnect', self.onDisconnect.bind(self, socket));
         }
+        socket.on('disconnect', self.onDisconnect.bind(self, socket));
     });
-    this.world.start(1/60);
+    //this.world.start(1/60);
+    var self = this;
+    this.mongoConnect(function () {
+        self.world.start(1/60);
+    })
 };
 
 Starcoder.prototype.onDisconnect = function (socket) {
@@ -71,6 +78,7 @@ Starcoder.prototype.onDisconnect = function (socket) {
 };
 
 Starcoder.prototype.onReady = function (player) {
+    console.log('ready run');
     var self = this;
     this.addPlayer(player);
     this.world.addPlayerShip(player);
@@ -94,6 +102,20 @@ Starcoder.prototype.onReady = function (player) {
 //    var player = new type(socket, descriptor);
 //    return player;
 //};
+
+// Not sure this should go here; maybe move into component
+Starcoder.prototype.getServerUri = function (player, req) {
+    // TODO: Use database
+    var serverUri;
+    serverUri = this.config.serverUri;
+    if (!serverUri) {
+        var protocol = this.config.serverProtocol || req.protocol || 'http';
+        var host = this.config.serverHost || req.hostname || 'localhost';
+        var port = this.config.serverPort || req.port || 8080;
+        serverUri = protocol + '://' + host + ':' + port;
+    }
+    return serverUri;
+};
 
 Starcoder.prototype.addPlayer = function (player) {
     this.players[player.socket.id] = player;

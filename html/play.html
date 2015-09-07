@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>STARCODER</title>
+    <link href="css/jquery-ui.structure.css" rel="stylesheet">
+    <link href="css/jquery-ui.theme.css" rel="stylesheet">
+    <link href="css/app.css" rel="stylesheet">
+</head>
+<body>
+
+<script src="lib/phaser.js"></script>
+<script src="lib/phaser-virtual-joystick.js"></script>
+<script src="lib/socket.io.js"></script>
+<script src="lib/jquery-2.1.4.min.js"></script>
+<script src="lib/jquery-ui.min.js"></script>
+<script src="js/client.js"></script>
+
+<div id="main" class="playfield" style="overflow: hidden; height: 100vh;">
+    <div id="code-btn" class="open-btn hidden">CODE</div>
+    <iframe src="blockly.html" id="code-popup" class="code popup hidden" style="background: transparent; width: 80%; height: 90vh;"></iframe>
+</div>
+
+<div id="login" class="login popup">
+    <div class="loginTitle">Login / register</div>
+    <div class="loginField">Username: <input type="text" id="username" class="right"></div>
+    <div class="loginField">Password: <input type="password" id="password" class="right"></div>
+    <div class="loginField">Remember me <input type="checkbox" id="remember">
+        <button type="submit" id="submit" class="right">Login/register</button></div>
+    <div class="loginStatus"></div>
+</div>
+
+<div id="login-window" class="modal popup hidden">
+    <div class="accordion">
+        <h3>Login</h3>
+        <div>
+            <div class="form-row"><label for="username">Username</label> <input type="text" id="username" class="right"></div>
+            <div class="form-row"><label for="password">Password</label> <input type="password" id="password" class="right"></div>
+            <div class="form-row"><button id="userlogin" class="loginbutton">Login</button></div>
+        </div>
+        <h3>Guest Login</h3>
+        <div>
+            <div class="form-row"><label for="gt1">Gamertag</label>
+                <select id="gt1" class="select"></select>
+                <select id="gt2" class="select"></select>
+            </div>
+            <div class="form-row"><button id="guestlogin" class="loginbutton">Login</button></div>
+        </div>
+        <h3>Register</h3>
+        <div>
+            TODO
+        </div>
+
+    <div class="message ui-corner-all ui-state-error"></div>
+</div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,64 @@
+/* Frontend / general styles */
+
+body {
+    background-color: #000000;
+    background-image: url(/assets/images/space-tile.png);
+    background-repeat: repeat;
+}
+
+.logo {
+    display: block;
+    margin: 0 auto;
+}
+
+#header {
+    margin: 0 0 1.5em;
+}
+
+#footer {
+    text-align: center;
+}
+
+#content {
+    margin: 0 auto;
+}
+
+.form-row {
+    margin: 8px auto;
+    text-align: center;
+}
+
+.form-row label {
+    display: inline-block;
+    font-weight: bold;
+    text-align: right;
+    width: 20%;
+    margin-right: 12px;
+}
+
+.form-row input {
+    width: 35%;
+    margin: 0px 8px;
+}
+
+.form-row select {
+    width: 30%;
+    margin: 0px 24px;
+}
+
+.ui-selectmenu-button {
+    vertical-align: middle;
+}
+
+
+/* Login Screen */
+
+#login-page #content {
+    width: 70%;
+}
+
+#login-dialog {
+    margin: 2em 0 2em;
+}
+
+/* Game specific styles */

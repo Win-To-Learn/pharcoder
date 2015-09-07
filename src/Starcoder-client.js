@@ -47,44 +47,70 @@ Starcoder.prototype.init = function () {
 
 Starcoder.prototype.serverConnect = function () {
     var self = this;
-    if (!this.socket) {
+    if (this.socket) {
         delete this.socket;
         this.connected = false;
         this.lastNetError = null;
     }
-    var serverUri = this.config.serverUri;
-    if (!serverUri) {
-        var protocol = this.config.serverProtol || window.location.protocol;
-        var port = this.config.serverPort || '8080';
-        serverUri = protocol + '//' + window.location.hostname + ':' + port;
-    }
-    this.socket = this.io(serverUri, this.config.ioClientOptions);
-    this.socket.on('connect', function () {
-      console.log('socket connected');
-        self.connected = true;
-        self.lastNetError = null;
-        for (var i = 0, l = self.onConnectCB.length; i < l; i++) {
-            self.onConnectCB[i].bind(self, self.socket)();
+    $.ajax({
+        url: '/api/identity',
+        method: 'GET',
+        success: function (data, status) {
+            console.log('data', data);
+            var serverUri = data.serverUri;
+            self.player = data.player;
+            self.socket = self.io(serverUri, self.config.ioClientOptions);
+            self.socket.on('connect', function () {
+                self.connected = true;
+                self.lastNetError = null;
+                for (var i = 0, l = self.onConnectCB.length; i < l; i++) {
+                    self.onConnectCB[i].call(self, self.socket);
+                }
+                self.socket.emit('login', self.player.id);
+            })
         }
-    });
-    this.socket.on('error', function (data) {
-      console.log('socket error');
-      console.log(data);
-        this.lastNetError = data;
-    });
+    })
 };
 
-Starcoder.prototype.serverLogin = function (username, password) {
-    var login = {};
-    if (!password) {
-        // Guest login
-        login.gamertag = username;
-    } else {
-        login.username = username;
-        login.password = password;
-    }
-    this.socket.emit('login', login);
-};
+//Starcoder.prototype.serverConnect = function () {
+//    var self = this;
+//    if (!this.socket) {
+//        delete this.socket;
+//        this.connected = false;
+//        this.lastNetError = null;
+//    }
+//    var serverUri = this.config.serverUri;
+//    if (!serverUri) {
+//        var protocol = this.config.serverProtol || window.location.protocol;
+//        var port = this.config.serverPort || '8080';
+//        serverUri = protocol + '//' + window.location.hostname + ':' + port;
+//    }
+//    this.socket = this.io(serverUri, this.config.ioClientOptions);
+//    this.socket.on('connect', function () {
+//        self.connected = true;
+//        self.lastNetError = null;
+//        for (var i = 0, l = self.onConnectCB.length; i < l; i++) {
+//            self.onConnectCB[i].bind(self, self.socket)();
+//        }
+//    });
+//    this.socket.on('error', function (data) {
+//      console.log('socket error');
+//      console.log(data);
+//        this.lastNetError = data;
+//    });
+//};
+
+//Starcoder.prototype.serverLogin = function (username, password) {
+//    var login = {};
+//    if (!password) {
+//        // Guest login
+//        login.gamertag = username;
+//    } else {
+//        login.username = username;
+//        login.password = password;
+//    }
+//    this.socket.emit('login', login);
+//};
 
 Starcoder.prototype.start = function () {
     this.game.state.start('boot');

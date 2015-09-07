@@ -52,9 +52,12 @@ function make_browserify_task (task, config, sources, target) {
     b.on('log', gutil.log);
 }
 
-make_browserify_task('watchify', {watchify: true}, ['src/client.js'], 'client.js');
+make_browserify_task('watchify-client', {watchify: true}, ['src/client.js'], 'client.js');
+make_browserify_task('watchify-frontend', {watchify: true}, ['src/frontend/Frontend.js'], 'frontend.js');
 make_browserify_task('browserify', {}, ['src/client.js'], 'client.js');
 make_browserify_task('browserify-ugly', {uglify: true}, ['src/client.js'], 'client.js');
+
+gulp.task('watchify', ['watchify-client', 'watchify-frontend']);
 
 gulp.task('forceExit', function(cb) {
   // not sure why browserify isn't exiting...

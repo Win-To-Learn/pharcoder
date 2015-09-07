@@ -39,7 +39,17 @@ Player.prototype.msgNew = function () {
     return {id: this.id, username: this.username};
 };
 
+Player.prototype.getPOJO = function () {
+    // TODO: More info
+    return {id: this.id, username: this.username};
+};
+
 Player.playerTypes = {};
 Player.playerTypes['Player'] = Player;
+
+Player.create = function (record) {
+    var constructor = Player.playerTypes[record.role];
+    return new constructor(record.username);
+};
 
 module.exports = Player;

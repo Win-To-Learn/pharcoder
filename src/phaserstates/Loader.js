@@ -68,8 +68,8 @@ Loader.prototype.preload = function () {
 
 Loader.prototype.update = function () {
     if (this.starcoder.connected) {
-        //this.game.state.start('space');
-        this.game.state.start('login');
+        this.game.state.start('space');
+        //this.game.state.start('login');
     }
 };
 

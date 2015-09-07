@@ -6,6 +6,8 @@
 
 module.exports = {
     updateInterval: 50,
+    mongoUri: 'mongodb://8f430f6d1c664352bc7a03fd25a4eeeb:a0bc1ff6774045ceae6b8b37a9292910@ds061200.mongolab.com:61200/starcoder',
+    sessionSecret: 'thisisabadsecret',
     initialBodies: [
         {type: 'Asteroid', number: 25, config: {
             position: {random: 'world'},

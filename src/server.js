@@ -25,4 +25,3 @@ app.use(function(req, res, next) {
 var starcoder = new Starcoder([commonConfig, serverConfig, buildConfig], app, io);
 
 server.listen(8080, starcoder.config.serverAddress || '0.0.0.0');
-

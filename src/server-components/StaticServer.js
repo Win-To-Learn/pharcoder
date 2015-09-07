@@ -78,6 +78,13 @@ module.exports = {
         this.app.get('/assets/:name', function (req, res) {
             return sendFile(path.join(__dirname, '../../assets/'), req.params.name, res);
         });
+        // Experimental for new login interface
+        this.app.get('/login.html', function (req, res) {
+            return sendFile(path.join(__dirname, '../../html/'), 'login.html', res);
+        });
+        this.app.get('/play.html', function (req, res) {
+            return sendFile(path.join(__dirname, '../../html/'), 'play.html', res);
+        });
     }
 };
 

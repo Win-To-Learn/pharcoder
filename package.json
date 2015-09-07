@@ -33,6 +33,9 @@
     "acorn": "~2.0.4",
     "body-parser": "~1.13.2",
     "express-session": "~1.11.3",
-    "minimist": "~1.1.2"
+    "minimist": "~1.1.2",
+    "connect-mongo": "~0.8.2",
+    "mongodb": "~2.0.42",
+    "bcryptjs": "~2.2.1"
   }
 }
