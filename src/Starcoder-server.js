@@ -99,6 +99,10 @@ Starcoder.prototype.addPlayer = function (player) {
     this.players[player.socket.id] = player;
 };
 
+Starcoder.prototype.banner = function () {
+    console.log('Starcoder server v' + this.config.version, 'started at', Date());
+};
+
 /**
  * Get high resolution time in milliseconds
  *

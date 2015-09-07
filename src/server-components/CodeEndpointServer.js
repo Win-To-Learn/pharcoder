@@ -5,9 +5,13 @@
  */
 'use strict';
 
-var Interpreter = require('../js-interp/interpreter.js');
+//var Interpreter = require('../js-interp/interpreter.js');
+var Interpreter = require('../server/interpreter/Interpreter.js');
 
 var Planetoid = require('../serverbodies/Planetoid.js');
+
+var API = require('../server/interpreter/API.js');
+var Marshal = require('../server/interpreter/Marshal.js');
 
 module.exports = {
     /**
@@ -24,7 +28,8 @@ module.exports = {
             } else {
                 // No code running - create an interpreter and start scheduling steps
                 //player.interpreter = new Interpreter(code, self.initInterpreter.bind(self));
-                player.interpreter = self.newInterpreter(code, player);
+                //player.interpreter = self.newInterpreter(code, player);
+                player.interpreter = new Interpreter(code, player);
                 setImmediate(self.interpreterStep.bind(self), player);
             }
         });
@@ -37,70 +42,80 @@ module.exports = {
      * @param player
      * @returns {Interpreter}
      */
-    newInterpreter: function (code, player) {
-        var starcoder = this;
-        var initFunc = function (interpreter, scope) {
-            // FIXME: Just proof of concept. Need to be more systematic about api
-            // changeColor
-            var wrapper = function (color) {
-                player.getShip().lineColor = color.toString();
-            };
-            interpreter.setProperty(scope, 'changeColor', interpreter.createNativeFunction(wrapper));
-            // setScale
-            wrapper = function (scale) {
-                player.getShip().vectorScale = scale.toNumber();
-            };
-            interpreter.setProperty(scope, 'setScale', interpreter.createNativeFunction(wrapper));
-            // changeShape
-            wrapper = function (shape) {
-                //console.dir(shape);
-                var points = [];
-                for (var i = 0, l = shape.length; i < l; i++) {
-                    points.push([shape.properties[i].properties[0].toNumber(),
-                        shape.properties[i].properties[1].toNumber()]);
-                }
-                player.getShip().shape = points;
-            };
-            interpreter.setProperty(scope, 'changeShape', interpreter.createNativeFunction(wrapper));
-            // new planet
-            wrapper = function (x, y, scale) {
-                starcoder.world.addSyncableBody(Planetoid, {
-                    position: [x.toNumber(), y.toNumber()],
-                    vectorScale: scale.toNumber(),
-                    mass: 1000
-                });
-            };
-            interpreter.setProperty(scope, 'newPlanet', interpreter.createNativeFunction(wrapper));
-            // set thrust power
-            wrapper = function (power) {
-                player.getShip().thrustForce = Math.min(Math.max(power.toNumber(), 100), 1500);
-            };
-            interpreter.setProperty(scope, 'setThrustForce', interpreter.createNativeFunction(wrapper));
-            // translate
-            wrapper = function (x, y) {
-                player.getShip().position[0] = x.toNumber();
-                player.getShip().position[1] = y.toNumber();
-            };
-            interpreter.setProperty(scope, 'translate', interpreter.createNativeFunction(wrapper));
-            // shoot
-            wrapper = function () {
-                player.getShip().state.firing = true;
-                player.getShip().state.oneshot = true;
-            };
-            interpreter.setProperty(scope, 'shoot', interpreter.createNativeFunction(wrapper));
-            // set tree properties
-            wrapper = function (trunkLength, branchFactor, branchDecay, spread, depth) {
-                var sp = player.getShip().seederProperties;
-                sp.trunkLength = trunkLength.toNumber();
-                sp.branchFactor = branchFactor.toNumber();
-                sp.branchDecay= branchDecay.toNumber();
-                sp.spread = spread.toNumber();
-                sp.depth = depth.toNumber();
-            };
-            interpreter.setProperty(scope, 'setSeederProperties', interpreter.createNativeFunction(wrapper));
-        };
-        return new Interpreter(code, initFunc);
-    },
+    //newInterpreter: function (code, player) {
+    //    var starcoder = this;
+    //    var initFunc = function (interpreter, scope) {
+    //        // FIXME: Just proof of concept. Need to be more systematic about api
+    //        // setScale
+    //        var wrapper = function (scale) {
+    //            player.getShip().vectorScale = scale.toNumber();
+    //        };
+    //        interpreter.setProperty(scope, 'setScale', interpreter.createNativeFunction(wrapper));
+    //        // changeColor
+    //        //wrapper = function (color) {
+    //        //    player.getShip().lineColor = color.toString();
+    //        //};
+    //        //interpreter.setProperty(scope, 'changeColor', interpreter.createNativeFunction(wrapper));
+    //        wrapper = Marshal.wrap(interpreter, API.changeLineColor, [player.getShip()]);
+    //        interpreter.setProperty(scope, 'changeColor', interpreter.createNativeFunction(wrapper));
+    //        // changeShape
+    //        //wrapper = function (shape) {
+    //        //    //console.dir(shape);
+    //        //    var points = [];
+    //        //    for (var i = 0, l = shape.length; i < l; i++) {
+    //        //        points.push([shape.properties[i].properties[0].toNumber(),
+    //        //            shape.properties[i].properties[1].toNumber()]);
+    //        //    }
+    //        //    player.getShip().shape = points;
+    //        //};
+    //        wrapper = Marshal.wrap(interpreter, API.changeShape, [player.getShip()]);
+    //        interpreter.setProperty(scope, 'changeShape', interpreter.createNativeFunction(wrapper));
+    //        // * scan *
+    //        wrapper = Marshal.wrap(interpreter, API.scan, [player.getShip(), 25, 'Asteroid']);
+    //        interpreter.setProperty(scope, 'scan', interpreter.createNativeFunction(wrapper));
+    //        // * end scan *
+    //        // * debug *
+    //        wrapper = Marshal.wrap(interpreter, console.log, []);
+    //        interpreter.setProperty(scope, 'log', interpreter.createNativeFunction(wrapper));
+    //        // new planet
+    //        wrapper = function (x, y, scale) {
+    //            starcoder.world.addSyncableBody(Planetoid, {
+    //                position: [x.toNumber(), y.toNumber()],
+    //                vectorScale: scale.toNumber(),
+    //                mass: 1000
+    //            });
+    //        };
+    //        interpreter.setProperty(scope, 'newPlanet', interpreter.createNativeFunction(wrapper));
+    //        // set thrust power
+    //        wrapper = function (power) {
+    //            player.getShip().thrustForce = Math.min(Math.max(power.toNumber(), 100), 1500);
+    //        };
+    //        interpreter.setProperty(scope, 'setThrustForce', interpreter.createNativeFunction(wrapper));
+    //        // translate
+    //        wrapper = function (x, y) {
+    //            player.getShip().position[0] = x.toNumber();
+    //            player.getShip().position[1] = y.toNumber();
+    //        };
+    //        interpreter.setProperty(scope, 'translate', interpreter.createNativeFunction(wrapper));
+    //        // shoot
+    //        wrapper = function () {
+    //            player.getShip().state.firing = true;
+    //            player.getShip().state.oneshot = true;
+    //        };
+    //        interpreter.setProperty(scope, 'shoot', interpreter.createNativeFunction(wrapper));
+    //        // set tree properties
+    //        wrapper = function (trunkLength, branchFactor, branchDecay, spread, depth) {
+    //            var sp = player.getShip().seederProperties;
+    //            sp.trunkLength = trunkLength.toNumber();
+    //            sp.branchFactor = branchFactor.toNumber();
+    //            sp.branchDecay= branchDecay.toNumber();
+    //            sp.spread = spread.toNumber();
+    //            sp.depth = depth.toNumber();
+    //        };
+    //        interpreter.setProperty(scope, 'setSeederProperties', interpreter.createNativeFunction(wrapper));
+    //    };
+    //    return new Interpreter(code, initFunc);
+    //},
 
     /**
      * Execute a step of the interpreter for the given player
@@ -117,10 +132,13 @@ module.exports = {
             // Get next code and schedule next step
             var code = player.codeQueue.shift();
             //player.interpreter = new Interpreter(code, this.initInterpreter.bind(this));
-            player.interpreter = self.newInterpreter(code, player);
+            //player.interpreter = self.newInterpreter(code, player);
+            player.interpreter.cleanup();
+            player.interpreter = new Interpreter(code, player);
             setImmediate(this.interpreterStep.bind(this), player);
         } else {
             // Done for now
+            player.interpreter.cleanup();
             player.interpreter = null;
         }
     }

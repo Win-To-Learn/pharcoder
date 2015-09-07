@@ -12,6 +12,7 @@ var DOMInterface = require('./client-components/DOMInterface.js');
 var CodeEndpointClient = require('./client-components/CodeEndpointClient.js');
 var Starfield = require('./client-components/Starfield.js');
 var LeaderBoardClient = require('./client-components/LeaderBoardClient.js');
+var FlexTextWrapper = require('./client-components/FlexTextWrapper.js');
 
 var states = {
     boot: require('./phaserstates/Boot.js'),
@@ -41,6 +42,7 @@ Starcoder.prototype.init = function () {
     this.implementFeature(Starfield);
     this.implementFeature(LeaderBoardClient);
     this.implementFeature(DOMInterface);
+    this.implementFeature(FlexTextWrapper);
 };
 
 Starcoder.prototype.serverConnect = function () {
@@ -93,6 +95,10 @@ Starcoder.prototype.attachPlugin = function () {
     plugin.starcoder = this;
     plugin.log = this.log;
     return plugin;
+};
+
+Starcoder.prototype.banner = function () {
+    console.log('Starcoder client v' + this.config.version, 'built on', this.config.buildTime);
 };
 
 Starcoder.prototype.role = 'Client';

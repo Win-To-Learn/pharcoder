@@ -10,6 +10,7 @@ var ThrustGenerator = require('../phaserbodies/ThrustGenerator.js');
 var MiniMap = require('../phaserui/MiniMap.js');
 var LeaderBoard = require('../phaserui/LeaderBoard.js');
 var Toast = require('../phaserbodies/Toast.js');
+var HUD = require('../phaserui/HUD.js');
 
 var Controls = require('../phaserplugins/Controls.js');
 var SyncClient = require('../phaserplugins/SyncClient.js');
@@ -102,15 +103,18 @@ Space.prototype.create = function () {
     this.game.ui.fixedToCamera = true;
 
     // Inventory - tinker with position
-    var label = this.game.make.text(this.game.width / 2, 25, 'INVENTORY',
-        {font: '24px Arial', fill: '#ff9900', align: 'center'});
-    label.anchor.setTo(0.5, 0.5);
-    this.game.ui.add(label);
+    //var label = this.game.make.text(this.game.width / 2, 25, 'INVENTORY',
+    //    {font: '24px Arial', fill: '#ff9900', align: 'center'});
+    //label.anchor.setTo(0.5, 0.5);
+    //this.game.ui.add(label);
     //this.game.inventorytext = this.game.make.text(this.game.width - 100, 50, '0 crystals',
     //    {font: '24px Arial', fill: '#ccc000', align: 'center'});
-    this.game.inventorytext = this.game.make.bitmapText(this.game.width / 2, 50, 'readout-yellow', '0');
-    this.game.inventorytext.anchor.setTo(0.5, 0.5);
-    this.game.ui.add(this.game.inventorytext);
+    //this.game.inventorytext = this.game.make.bitmapText(2000, 50, 'readout-yellow', '0');
+    //this.game.inventorytext.anchor.setTo(0.5, 0.5);
+    //this.game.ui.add(this.game.inventorytext);
+    this.game.hud = new HUD(this.game, (this.game.width - 180)/ 2, 2, 180, 120);
+    this.game.ui.add(this.game.hud);
+    //this.game.hud.anchor.setTo(0.5, 0);
 
     // MiniMap
     this.game.minimap = new MiniMap(this.game, 300, 300);

@@ -128,9 +128,16 @@ var config = {
 
 var Starcoder = function () {
     // Initializers virtualized according to role
-    this.config = config;
+    var configs = arguments[0];
+    var args = Array.prototype.slice.call(arguments, 1);
+    this.config = {};
+    for (var i = 0, l = configs.length; i < l; i++) {
+        this.extendConfig(configs[i]);
+    }
+    // HACK
+    this.extendConfig(config);
     this.banner();
-    this.init.apply(this, arguments);
+    this.init.apply(this, args);
     //this.initNet.call(this);
 };
 
@@ -235,10 +242,6 @@ Starcoder.prototype.implementFeature = function (mixin) {
     if (mixin.init) {
         mixin.init.call(this);
     }
-};
-
-Starcoder.prototype.banner = function () {
-    this.log('Starcoder', this.role, 'v' + this.config.version, 'started at', Date());
 };
 
 /**

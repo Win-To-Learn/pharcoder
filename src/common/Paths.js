@@ -10,6 +10,19 @@ var TAU = 2*PI;
 var sin = Math.sin;
 var cos = Math.cos;
 
+exports.normalize = function (path, scale, x, y, close) {
+    path = path.slice();
+    var output = [];
+    if (close) {
+        path.push(path[0]);
+    }
+    for (var i = 0, l = path.length; i < l; i++) {
+        var o = {x: path[i][0] * scale + x, y: path[i][1] * scale + y};
+        output.push(o);
+    }
+    return output;
+};
+
 exports.octagon = [
     [2,1],
     [1,2],

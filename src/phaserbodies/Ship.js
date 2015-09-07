@@ -32,6 +32,7 @@ var Ship = function (game, config) {
     this.localState = {
         thrust: 'off'
     }
+    this.game.hud.setLaserColor(this.lineColor);
 };
 
 Ship.add = function (game, options) {
@@ -92,7 +93,10 @@ Ship.prototype.update = function () {
     }
     // Player ship only
     if (this.game.playerShip === this) {
-        this.game.inventorytext.setText(this.crystals.toString());
+        //this.game.inventorytext.setText(this.crystals.toString());
+        this.game.hud.setCrystals(this.crystals);
+        this.game.hud.setCharge(this.charge);
+        this.game.hud.setTrees(this.trees);
     }
 };
 
