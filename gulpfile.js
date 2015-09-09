@@ -31,6 +31,7 @@ function make_browserify_task (task, config, sources, target) {
         buildConfig = '';
     }
     function bundle () {
+        var serverUri = process.env.NODE_ENV == 'production' ? 'http://pharcoder-single-1.elasticbeanstalk.com:7610' : 'http://localhost:8080';
         if (config.uglify) {
             return b.bundle()
                 .on('error', gutil.log.bind(gutil, 'Browserify Error'))
@@ -38,6 +39,7 @@ function make_browserify_task (task, config, sources, target) {
                 .pipe(buffer())
                 .pipe(replace(/^\/\/\s*@BUILDCONFIG@.*$/m, buildConfig))
                 .pipe(replace(/^\/\/\s*@BUILDTIME@.*$/m, 'buildConfig.buildTime = "' + Date() + '";'))
+                .pipe(replace('GULP_REPLACE_SERVER_URI', serverUri))
                 .pipe(uglify())
                 .pipe(gulp.dest('js/'));
         } else {
@@ -47,6 +49,7 @@ function make_browserify_task (task, config, sources, target) {
                 .pipe(buffer())
                 .pipe(replace(/^\/\/\s*@BUILDCONFIG@.*$/m, buildConfig))
                 .pipe(replace(/^\/\/\s*@BUILDTIME@.*$/m, 'buildConfig.buildTime = "' + Date() + '";'))
+                .pipe(replace('GULP_REPLACE_SERVER_URI', serverUri))
                 .pipe(gulp.dest('js/'));
         }
     }

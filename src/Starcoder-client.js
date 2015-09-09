@@ -54,6 +54,7 @@ Starcoder.prototype.serverConnect = function () {
     }
     var serverUri = this.config.serverUri;
     if (!serverUri) {
+      console.log('oh noes');
         var protocol = this.config.serverProtol || window.location.protocol;
         var port = this.config.serverPort || '8080';
         serverUri = protocol + '//' + window.location.hostname + ':' + port;
