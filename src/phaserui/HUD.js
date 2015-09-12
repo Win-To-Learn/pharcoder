@@ -26,9 +26,11 @@ HUD.prototype.layout = function (width, height) {
     this.lineTo(width, 4 * yunit);
     this.drawRect(0, 0, width, height);
     // Code Area
-    this.codetext = this.game.make.text(xunit * 9, yunit * 2, 'CODE',
+    this.codetext = this.game.starcoder.makeFlexText(xunit * 9, yunit * 2, 'CODE',
         {font: '24px Arial', fill: '#ff9900', align: 'center'});
     this.codetext.anchor.setTo(0.5, 0.5);
+    this.codetext.inputEnabled = true;
+    this.codetext.events.onInputDown.add(this.game.starcoder.toggleCodeWindow, this.game.starcoder);
     this.addChild(this.codetext);
     // Inventory area
     // Crystal icon

@@ -8,11 +8,13 @@
 var Starcoder = require('./Starcoder.js');
 
 var WorldApi = require('./client-components/WorldApi.js');
-var DOMInterface = require('./client-components/DOMInterface.js');
+//var DOMInterface = require('./client-components/DOMInterface.js');
 var CodeEndpointClient = require('./client-components/CodeEndpointClient.js');
 var Starfield = require('./client-components/Starfield.js');
 var LeaderBoardClient = require('./client-components/LeaderBoardClient.js');
 var FlexTextWrapper = require('./client-components/FlexTextWrapper.js');
+var CodeUI = require('./client-components/CodeUI.js');
+
 
 var states = {
     boot: require('./phaserstates/Boot.js'),
@@ -41,7 +43,8 @@ Starcoder.prototype.init = function () {
     this.implementFeature(CodeEndpointClient);
     this.implementFeature(Starfield);
     this.implementFeature(LeaderBoardClient);
-    this.implementFeature(DOMInterface);
+    //this.implementFeature(DOMInterface);
+    this.implementFeature(CodeUI);
     this.implementFeature(FlexTextWrapper);
 };
 

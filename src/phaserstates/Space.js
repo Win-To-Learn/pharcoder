@@ -53,7 +53,7 @@ Space.prototype.create = function () {
     //this.game.time.advancedTiming = true;
 
     // Set up DOM
-    this.starcoder.layoutDOMSpaceState();
+    //this.starcoder.layoutDOMSpaceState();
 
     this.starcoder.controls.reset();
 
