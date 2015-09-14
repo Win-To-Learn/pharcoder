@@ -3,6 +3,8 @@ branch-defaults:
     environment: pharcoder-single-1
   master:
     environment: pharcoder-single-1
+deploy:
+  artifact: deployments/web.zip
 global:
   application_name: pharcoder-dev
   default_ec2_keyname: null
@@ -10,5 +12,3 @@ global:
   default_region: us-east-1
   profile: eb-cli
   sc: git
-deploy:
-  artifact: deployments/web.zip

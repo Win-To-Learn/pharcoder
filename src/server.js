@@ -10,10 +10,7 @@ var buildConfig = buildConfig || {};
 var app = require('express')();
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
-//var serveStatic = require('./serveStatic')(app);
 var Starcoder = require('./Starcoder-server.js');
-
-//var argv = require('minimist')(process.argv.slice(2));
 
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
@@ -24,4 +21,6 @@ app.use(function(req, res, next) {
 
 var starcoder = new Starcoder([commonConfig, serverConfig, buildConfig], app, io);
 
+
+//server.listen(process.env.NODE_ENV == 'production' ? 7610 : 8080, starcoder.config.serverAddress || '0.0.0.0');
 server.listen(8080, starcoder.config.serverAddress || '0.0.0.0');

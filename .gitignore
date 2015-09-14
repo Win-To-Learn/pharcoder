@@ -1,6 +1,5 @@
 ## Project specific
 
-# Generated js needs to be included for aws deployments. The beanstalk cli won't deploy anything in .gitignore.
 js/
 
 deployments/
@@ -85,3 +84,5 @@ build/Release
 # Dependency directory
 # https://www.npmjs.org/doc/misc/npm-faq.html#should-i-check-my-node_modules-folder-into-git
 node_modules
+
+android/
