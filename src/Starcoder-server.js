@@ -17,6 +17,8 @@ var StaticServer = require('./server-components/StaticServer.js');
 var MongoInterface = require('./server-components/MongoInterface.js');
 var SessionHandler = require('./server-components/SessionHandler.js');
 
+var API = require('./server/interpreter/API.js');
+
 var World = require('./serverbodies/World.js');
 
 /**
@@ -62,7 +64,8 @@ Starcoder.prototype.init = function (app, io) {
     var self = this;
     this.mongoConnect(function () {
         self.world.start(1/60);
-    })
+    });
+    API.init(this);
 };
 
 Starcoder.prototype.onDisconnect = function (socket) {

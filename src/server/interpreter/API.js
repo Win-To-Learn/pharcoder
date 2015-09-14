@@ -16,6 +16,22 @@ var clamp = function (a, x, b) {
 };
 var D2R = Math.PI / 180;
 
+var starcoder = null;
+
+/**
+ * init
+ *
+ * Init api and import references
+ *
+ * @param sc {Starcoder}
+ */
+Object.defineProperty(API, 'init', {
+    value: function (sc) {
+        starcoder = sc;
+    },
+    enumerable: false
+});
+
 /**
  * Set line color for ship
  *
@@ -223,7 +239,7 @@ API.sortByDistance = function (player, bodies, reverse) {
         var da = (a.x - x)*(a.x - x) + (a.y - y)*(a.y - y);
         var db = (b.x - x)*(b.x - x) + (b.y - y)*(b.y - y);
         return dir*(da - db);
-    }
+    };
     bodies = bodies.slice();
     bodies.sort(cmp);
     return bodies;
@@ -256,6 +272,24 @@ API.pointToBody = function (player, body) {
  */
 API.log = function (player, msg) {
     console.log(msg);
+};
+
+/**
+ * Turn music on
+ *
+ * @param player
+ */
+API.musicOn = function (player) {
+    player.socket.emit('music', 'on');
+};
+
+/**
+ * Turn music off
+ *
+ * @param player
+ */
+API.musicOff = function (player) {
+    player.socket.emit('music', 'off');
 };
 
 module.exports = API;

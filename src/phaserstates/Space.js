@@ -185,6 +185,13 @@ Space.prototype._setupMessageHandlers = function (socket) {
     socket.on('msg laser', function (val) {
         self.game.sounds.laser.play();
     });
+    socket.on('music', function (state) {
+        if (state === 'on') {
+            self.game.sounds.music.resume();
+        } else {
+            self.game.sounds.music.pause();
+        }
+    });
 };
 
 module.exports = Space;

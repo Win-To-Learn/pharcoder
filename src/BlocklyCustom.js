@@ -484,3 +484,44 @@ Blockly.Blocks['sc_cancel_event_loop'] = {
 Blockly.JavaScript['sc_cancel_event_loop'] = function (block) {
     return 'cancelEventLoop();\n';
 };
+
+/**
+ * Turn music on
+ *
+ * @type {{init: Function}}
+ */
+Blockly.Blocks['sc_music_on'] = {
+    init: function () {
+        this.jsonInit({
+            message0: 'turn music on',
+            previousStatement: null,
+            nextStatement: null,
+            colour: 300
+        });
+    }
+};
+
+Blockly.JavaScript['sc_music_on'] = function (block) {
+    return 'musicOn();\n';
+};
+
+
+/**
+ * Turn music on
+ *
+ * @type {{init: Function}}
+ */
+Blockly.Blocks['sc_music_off'] = {
+    init: function () {
+        this.jsonInit({
+            message0: 'turn music off',
+            previousStatement: null,
+            nextStatement: null,
+            colour: 300
+        });
+    }
+};
+
+Blockly.JavaScript['sc_music_off'] = function (block) {
+    return 'musicOff();\n';
+};
