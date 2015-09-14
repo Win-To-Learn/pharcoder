@@ -12,7 +12,13 @@ var path = require('path');
 module.exports = {
     init: function () {
         this.app.get('/', function (req, res) {
-            return sendFile(path.join(__dirname, '../../'), 'index.html', res);
+            if (!req.session || !req.session.player) {
+                res.redirect('/login.html');
+            } else {
+                res.redirect('/play.html');
+            }
+            //return sendFile(path.join(__dirname, '../../'), 'index.html', res);
+            return res;
         });
 
         this.app.get('/loaderio-cba4b26d5a72654ff20e17307fdb2ba4.txt', function (req, res) {
@@ -83,6 +89,10 @@ module.exports = {
             return sendFile(path.join(__dirname, '../../html/'), 'login.html', res);
         });
         this.app.get('/play.html', function (req, res) {
+            if (!req.session || !req.session.player) {
+                res.redirect('/login.html');
+                return res;
+            }
             return sendFile(path.join(__dirname, '../../html/'), 'play.html', res);
         });
     }

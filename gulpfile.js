@@ -71,7 +71,8 @@ gulp.task('forceExit', function(cb) {
 });
 
 gulp.task('zip-eb', ['browserify-ugly'], function () {
-    return gulp.src(['index.html', 'src/**', 'package.json', 'blockly.html', 'assets/**', 'lib/**', 'css/**', 'js/**', '.ebextensions/**'], {base: '.'})
+    return gulp.src(['index.html', 'src/**', 'package.json', 'blockly.html', 'assets/**', 'lib/**', 'css/**',
+        'js/**', '.ebextensions/**', 'html/**'], {base: '.'})
         .pipe(gulpzip('web.zip'))
         .pipe(gulp.dest('deployments/'));
 });
