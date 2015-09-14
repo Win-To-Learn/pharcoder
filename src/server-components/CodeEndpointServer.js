@@ -21,7 +21,7 @@ module.exports = {
      */
     onReadyCB: function (player) {
         var self = this;
-        player.socket.on('code', function (code) {
+        player.socket.on('code exec', function (code) {
             try {
                 if (player.interpreter) {
                     // Code already running - push onto queue
@@ -41,6 +41,36 @@ module.exports = {
                 self.sendCodeMessage(player, 'syntax error', error);
             }
         });
+        player.socket.on('code save', function (code) {
+            //console.log('save code', code);
+            if (code.js) {
+                player.codeSnippets[code.label] =  {js: code.js};
+            } else {
+                player.codeSnippets[code.label] = {blockly: code.blockly};
+            }
+            if (player.role === 'player') {
+                console.log('savingto db');
+                self.updatePlayerSnippets(player, function () {
+                    self.sendCodeMessage(player, 'saved', code.label);
+                });
+            } else {
+                console.log('guest no save');
+                self.sendCodeMessage(player, 'saved', code.label);
+            }
+        });
+        player.socket.on('code load', function (label) {
+            console.log('load code', label);
+            var code = player.codeSnippets[label];
+            if (code) {
+                if (code.js) {
+                    self.sendCodeMessage(player, 'loaded', {label: label, js: code.js});
+                } else {
+                    self.sendCodeMessage(player, 'loaded', {label: label, blockly: code.blockly});
+                }
+            }
+        });
+        // Send code labels
+        this.sendCodeMessage(player, 'labels', Object.keys(player.codeSnippets));
     },
 
     /**

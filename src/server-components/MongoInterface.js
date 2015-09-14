@@ -50,6 +50,11 @@ module.exports = {
         })
     },
 
+    updatePlayerSnippets: function (player, cb) {
+        this.mongoPeople.findOneAndUpdate({_id: player.id}, {$set: {codeSnippets: player.codeSnippets}}).then(cb,
+            this.handleDBError.bind(this));
+    },
+
     handleDBError: function (err) {
         // FIXME: be smarter
         console.log('DB Error', err);

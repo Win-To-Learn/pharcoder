@@ -20,9 +20,12 @@ var Player = function () {
     this.codeQueue = [];
     this.codeEventQueue = [];
     this.interpreter = null;
+    this.codeSnippets = {};
 };
 
 Player.id = 1;
+
+Player.prototype.role = 'player';
 
 Player.prototype.addShip = function (ship) {
     this.ships.push(ship);
@@ -52,6 +55,7 @@ Player.fromDB = function (record) {
     player.id = record._id;
     player.username = record.username;
     player.password = record.password;
+    player.codeSnippets = record.codeSnippets;
     return player;
 };
 

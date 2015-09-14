@@ -17,9 +17,22 @@ module.exports = {
         socket.on('code runtime error', function (error) {
             console.log('RUNTIME', error);
         });
+        socket.on('code saved', function (label) {
+            self.addCodeLabel(label);
+        });
+        socket.on('code loaded', function (code) {
+            //console.log('load code', code);
+            self.setCodeForUI(code);
+        });
+        socket.on('code labels', function (labels) {
+            for (var i = 0, l = labels.length; i < l; i++) {
+                self.addCodeLabel(labels[i]);
+            }
+        });
     },
 
-    sendCode: function (code) {
-        this.socket.emit('code', code);
+    sendCodeMessage: function (kind, data) {
+        console.log('sending', kind, data);
+        this.socket.emit('code ' + kind, data);
     }
 };

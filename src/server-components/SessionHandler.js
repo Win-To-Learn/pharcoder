@@ -21,6 +21,8 @@ module.exports = {
             saveUninitialized: false,
             store: new MongoStore({
                 url: this.config.mongoUri
+                //unserialize: _unserialize,
+                //serialize: _serialize
             })
         });
         //this.io.use(function (socket, next) {
@@ -28,11 +30,11 @@ module.exports = {
         //});
         this.app.use(sessionMiddleware);
 
-        this.app.post('/api/login', this.postLogin.bind(this));
-        this.app.get('/api/identity', this.getIdentity.bind(this));
+        this.app.post('/api/login', this.loginPOST.bind(this));
+        this.app.get('/api/identity', this.identityGET.bind(this));
     },
 
-    postLogin: function (req, res) {
+    loginPOST: function (req, res) {
         var self = this;
         if (req.body.user) {
             this.getPlayerByUsername(req.body.user, function (player) {
@@ -63,7 +65,7 @@ module.exports = {
         }
     },
 
-    getIdentity: function (req, res) {
+    identityGET: function (req, res) {
         var player = req.session.player;
         if (player) {
             res.status(200).send({player: player, serverUri: this.getServerUri(player, req)}).end();
@@ -72,3 +74,30 @@ module.exports = {
         }
     }
 };
+
+//function _unserialize (obj) {
+//    var session = {};
+//    for (var prop in obj) {
+//        if (prop === 'player') {
+//            session.player = Player.fromDB(obj.player);
+//        } else {
+//            session[prop] = obj[prop];
+//        }
+//    }
+//}
+//
+//function _serialize (session) {
+//    // Copy each property of the session to a new object
+//    var obj = {};
+//    for (var prop in session) {
+//        if (prop === 'cookie') {
+//            // Convert the cookie instance to an object, if possible
+//            // This gets rid of the duplicate object under session.cookie.data property
+//                obj.cookie = session.cookie.toJSON ? session.cookie.toJSON() : session.cookie;
+//        } else {
+//                obj[prop] = session[prop];
+//        }
+//    }
+//
+//    return obj;
+//}
