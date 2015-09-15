@@ -53,11 +53,11 @@ body {
 
 /* Login Screen */
 
-#login-page #content {
+#login-page #content,  #register-page #content{
     width: 70%;
 }
 
-#login-dialog {
+#login-dialog, #register-dialog {
     margin: 2em 0 2em;
 }
 

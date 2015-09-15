@@ -128,7 +128,7 @@ Space.prototype.create = function () {
     this.game.leaderboard.x = this.game.width - 200;
     this.game.leaderboard.y = 0;
     this.game.leaderboard.visible = false;
-    var self = this;
+    this.game.starcoder.startLeaderBoard();
 
 };
 

@@ -27,6 +27,10 @@ Player.id = 1;
 
 Player.prototype.role = 'player';
 
+Player.prototype.init = function (username) {
+    this.username = username;
+}
+
 Player.prototype.addShip = function (ship) {
     this.ships.push(ship);
     ship.player = this;
@@ -36,6 +40,10 @@ Player.prototype.getShip = function (which) {
     which = which || 0;
     return this.ships[which];
 };
+
+//Player.prototype.fromDB = function (rec) {
+//
+//};
 
 Player.prototype.msgNew = function () {
     // TODO: More info

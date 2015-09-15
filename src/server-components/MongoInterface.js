@@ -55,8 +55,15 @@ module.exports = {
             this.handleDBError.bind(this));
     },
 
+    registerUser: function (username, password, cb) {
+        this.mongoPeople.insertOne({username: username, password: password, codeSnippets: {}}).then(function (res) {
+            cb(res.ops[0]);
+        }, this.handleDBError.bind(this))
+    },
+
     handleDBError: function (err) {
         // FIXME: be smarter
         console.log('DB Error', err);
     }
+
 };

@@ -85,6 +85,9 @@ module.exports = {
             return sendFile(path.join(__dirname, '../../assets/'), req.params.name, res);
         });
         // Experimental for new login interface
+        this.app.get('/register.html', function (req, res) {
+            return sendFile(path.join(__dirname, '../../html/'), 'register.html', res);
+        });
         this.app.get('/login.html', function (req, res) {
             return sendFile(path.join(__dirname, '../../html/'), 'login.html', res);
         });

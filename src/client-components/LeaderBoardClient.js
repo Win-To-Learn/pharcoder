@@ -10,9 +10,9 @@ module.exports = {
         this.leaderBoardState = null;
     },
 
-    onConnectCB: function (socket) {
+    startLeaderBoard: function () {
         var self = this;
-        socket.on('leaderboard', function (lb) {
+        this.socket.on('leaderboard', function (lb) {
             for (var cat in lb) {
                 // Record new category
                 if (!(cat in self.leaderBoard)) {
@@ -37,6 +37,8 @@ module.exports = {
     cycleLeaderBoard: function () {
         this.leaderBoardState = (this.leaderBoardState + 1) % this.leaderBoardCats.length;
         var cat = this.leaderBoardCats[this.leaderBoardState];
-        this.game.leaderboard.setContent(cat, this.leaderBoard[cat], this.player.id);
+        if (this.game.leaderboard) {
+            this.game.leaderboard.setContent(cat, this.leaderBoard[cat], this.player.id);
+        }
     }
 };

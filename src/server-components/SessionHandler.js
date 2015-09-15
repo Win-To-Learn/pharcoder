@@ -32,6 +32,28 @@ module.exports = {
 
         this.app.post('/api/login', this.loginPOST.bind(this));
         this.app.get('/api/identity', this.identityGET.bind(this));
+        this.app.post('/api/register', this.registerPOST.bind(this));
+    },
+
+    registerPOST: function (req, res) {
+        // FIXME: Really sloppy
+        var self = this;
+        bcrypt.hash(req.body.pass, 8, function (err, hash) {
+            if (err || !hash) {
+                res.status(401).end();
+            } else {
+                self.registerUser(req.body.user, hash, function (player) {
+                    if (player) {
+                        delete player.password;
+                        req.session.player = player;
+                        req.session.player.role = 'player';
+                        res.status(200).send({goto: 'play.html'}).end();
+                    } else {
+                        res.status(401).end();
+                    }
+                });
+            }
+        });
     },
 
     loginPOST: function (req, res) {
