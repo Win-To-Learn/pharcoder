@@ -125,6 +125,34 @@ Blockly.JavaScript['sc_set_thrust_power'] = function (block) {
     return 'setThrustForce(' + arg + ');\n';
 };
 
+
+/**
+ * set ship turning power
+ * @type {{init: Function}}
+ */
+Blockly.Blocks['sc_set_turning_power'] = {
+    init: function () {
+        this.jsonInit({
+            message0: 'set ship turning force to %1',
+            args0: [{type: 'input_value', name: 'VALUE', check: 'Number'}],
+            previousStatement: null,
+            nextStatement: null,
+            colour: 160
+        });
+    }
+};
+
+/**
+ * Code generation for set_turning_power
+ *
+ * @param block
+ * @returns {string}
+ */
+Blockly.JavaScript['sc_set_turning_power'] = function (block) {
+    var arg = Blockly.JavaScript.valueToCode(block, 'VALUE', Blockly.JavaScript.ORDER_NONE) || '1';
+    return 'setTurningForce(' + arg + ');\n';
+};
+
 /**
  * create new planet
  */

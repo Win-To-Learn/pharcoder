@@ -5,7 +5,7 @@
 
 var MiniMap = function (game, width, height) {
     Phaser.Group.call(this, game);
-    
+
     var xr = width / this.game.starcoder.phaserWidth;
     var yr = height / this.game.starcoder.phaserHeight;
     if (xr <= yr) {

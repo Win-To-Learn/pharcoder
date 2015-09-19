@@ -123,6 +123,17 @@ API.setThrustForce = function (player, force) {
     player.getShip().thrustForce = clamp(100, force, 1500);
 };
 
+
+/**
+ * Set turn force for player ship
+ *
+ * @param player {Player}
+ * @param scale {number}
+ */
+API.setTurningForce = function (player, force) {
+    player.getShip().turningForce = clamp(10, force, 150);
+};
+
 /**
  * Move ship to new position
  *
