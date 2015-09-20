@@ -76,6 +76,7 @@ Space.prototype.create = function () {
     this.game.sounds.littlepop = this.game.sound.add('littlepop', 1, false);
     this.game.sounds.tagged = this.game.sound.add('tagged', 1, false);
     this.game.sounds.laser = this.game.sound.add('laser', 1, false);
+    this.game.sounds.alert = this.game.sound.add('alert', 1, false);
 
     this.game.sounds.music = this.game.sound.add('music', 1, true);
     this.game.sounds.music.play();
@@ -191,6 +192,12 @@ Space.prototype._setupMessageHandlers = function (socket) {
         } else {
             self.game.sounds.music.pause();
         }
+    });
+    socket.on('alert', function (text) {
+        self.game.sounds.alert.play();
+        console.log(self.game.camera.view);
+        console.log(self.game.playerShip.x, self.game.playerShip.y);
+        Toast.growUp(self.game, self.game.camera.view.centerX, self.game.camera.view.bottom, text);
     });
 };
 

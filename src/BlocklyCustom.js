@@ -99,6 +99,61 @@ Blockly.JavaScript['sc_change_shape'] = function (block) {
 };
 
 /**
+ * Block representing a turtle graphics like movement instruction
+ */
+Blockly.Blocks['sc_turtle_command'] = {
+    init: function () {
+        this.appendDummyInput()
+            .appendField(new Blockly.FieldDropdown([['go forward', 'fd'], ['go back', 'bk'], ['turn right', 'rt'],
+            ['turn left', 'lt']]), 'COMMAND')
+            .appendField(new Blockly.FieldTextInput('0', Blockly.FieldTextInput.numberValidator), 'VAL');
+        this.setColour(160);
+        this.setNextStatement(true, '');
+        this.setPreviousStatement(true, 'TurtleCommand');
+    }
+};
+
+/**
+ * Code generation for turtle command is a NOOP bc it has no meaning outside of a container
+ */
+Blockly.JavaScript['sc_turtle_command'] = function (block) {
+    return null;
+};
+
+/**
+ * Block representing a set of turtle like instructions for changing shape
+ */
+Blockly.Blocks['sc_change_shape_relative'] = {
+    init: function () {
+        this.jsonInit({
+            message0: 'trace shape %1',
+            args0: [{type: 'input_statement', name: 'COMMANDS', check: 'TurtleCommand'}],
+            previousStatement: null,
+            nextStatement: null,
+            colour: 300
+        });
+    }
+};
+
+/**
+ * Generate code for ordered pair blocks
+ * Bypass normal Blockly code generation methods bc our pair values are
+ * 'statements' in Blockly-speak
+ */
+Blockly.JavaScript['sc_change_shape_relative'] = function (block) {
+    var commandList = [];
+    var commandBlock = block.getInputTargetBlock('COMMANDS');
+    while (commandBlock) {
+        console.log('LOOP');
+        var command = commandBlock.getFieldValue('COMMAND');
+        var val = commandBlock.getFieldValue('VAL');
+        commandList.push('"' + command + ' ' + val + '"');
+        commandBlock = commandBlock.nextConnection && commandBlock.nextConnection.targetBlock();
+    }
+    return 'changeShipShapeRelative([' + commandList.join(',') + '])\n';
+};
+
+/**
  * set ship thrust power
  * @type {{init: Function}}
  */
@@ -552,4 +607,32 @@ Blockly.Blocks['sc_music_off'] = {
 
 Blockly.JavaScript['sc_music_off'] = function (block) {
     return 'musicOff();\n';
+};
+
+/**
+ * Show short text alert
+ *
+ * @type {{init: Function}}
+ */
+Blockly.Blocks['sc_alert'] = {
+    init: function () {
+        this.jsonInit({
+            message0: 'show alert %1',
+            args0: [{type: 'input_value', name: 'VALUE', check: 'String'}],
+            previousStatement: null,
+            nextStatement: null,
+            colour: 160
+        });
+    }
+};
+
+/**
+ * Code generation for set_scale
+ *
+ * @param block
+ * @returns {string}
+ */
+Blockly.JavaScript['sc_alert'] = function (block) {
+    var arg = Blockly.JavaScript.valueToCode(block, 'VALUE', Blockly.JavaScript.ORDER_NONE) || '1';
+    return 'alert(' + arg + ');\n';
 };
