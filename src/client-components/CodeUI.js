@@ -9,6 +9,7 @@ module.exports = {
         this.codeWindowMode = 'blockly';
         this.codeLabelCache = {};
         this.blocklyWorkspace = Blockly.inject('blockly', {toolbox: document.getElementById('toolbox')});
+        Blockly.svgResize(self.blocklyWorkspace);
         //var button = $('#send-code');
         this.aceEditor = ace.edit('aceeditor');
         var JavaScriptMode = ace.require("ace/mode/javascript").Mode;
@@ -40,6 +41,7 @@ module.exports = {
         });
 
         $('#send-code').on('click', function () {
+            self.toggleCodeWindow(false);
             if (self.codeWindowMode === 'blockly') {
                 self.sendCodeMessage('exec', Blockly.JavaScript.workspaceToCode(self.blocklyWorkspace));
             } else {
@@ -77,8 +79,8 @@ module.exports = {
         }
         if (this.codeWindowState) {
             $('#code-window').show();
-            $('.blocklyToolboxDiv').show();
             if (this.codeWindowMode === 'blockly') {
+                $('.blocklyToolboxDiv').show();
                 Blockly.svgResize(this.blocklyWorkspace);
             } else if (this.codeWindowMode === 'ace') {
                 this.aceEditor.resize();

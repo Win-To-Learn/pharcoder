@@ -32,12 +32,17 @@ var Toast = function (game, x, y, text, config) {
             this.fontSize = '20pt';
             spec.rotation = config.revolutions ? config.revolutions * 2 * Math.PI : 2 * Math.PI;
             var tween = game.add.tween(this).to(spec, config.duration, config.easing, true);
-            tween.onComplete.add(function (toast) {
-                toast.kill();
-            });
             break;
             // TODO: More kinds
+        case 'grower':
+            tween = game.add.tween(this).to(spec, config.duration, config.easing, true);
+            var scaletween = game.add.tween(this.scale).to({x: config.scale, y: config.scale},
+                config.duration, config.easing, true);
+            break;
     }
+    tween.onComplete.add(function (toast) {
+        toast.destroy();
+    });
 };
 
 /**
@@ -63,6 +68,17 @@ Toast.spinUp = function (game, x, y, text) {
         duration: 500,
         easing: Phaser.Easing.Elastic.Out,
         up: 100
+    });
+    game.add.existing(toast);
+};
+
+Toast.growUp = function (game, x, y, text) {
+    var toast = new Toast(game, x, y, text, {
+        type: 'grower',
+        scale: 2,
+        up: 300,
+        duration: 2000,
+        easing: Phaser.Easing.Elastic.Out
     });
     game.add.existing(toast);
 };

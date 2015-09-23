@@ -11,6 +11,8 @@ var max = Math.max;
 var min = Math.min;
 var sqrt = Math.sqrt;
 var atan2 = Math.atan2;
+var cos = Math.cos;
+var sin = Math.sin;
 var clamp = function (a, x, b) {
     return  x < a ? a : (x > b ? b : x);
 };
@@ -49,6 +51,45 @@ API.changeShipColor = function (player, color) {
  * @param shape {Array<Array>}
  */
 API.changeShipShape = function (player, shape) {
+    // Reversing x's due to coordinate system weirdness. Should probably be fixed elsewhere but this'll do for now
+    for (var i = 0, l = shape.length; i < l; i++) {
+        shape[i][0] = -shape[i][0];
+    }
+    player.getShip().shape = shape;
+};
+
+API.changeShipShapeRelative = function (player, directions) {
+    var x = 0, y = 0;
+    var heading = Math.PI / 2;
+    var shape = [[0, 0]];
+    for (var i = 0, l = directions.length; i < l; i++) {
+        var step = directions[i].split(/\s+/);
+        var command = step[0].toLowerCase();
+        var param = Number(step[1]);
+        switch (command) {
+            case 'fd':
+            case 'forward':
+                x += cos(heading) * param;
+                y += sin(heading) * param;
+                shape.push([x,y]);
+                break;
+            case 'bk':
+            case 'back':
+                x -= cos(heading) * param;
+                y -= sin(heading) * param;
+                shape.push([x,y]);
+                break;
+            case 'rt':
+            case 'right':
+                heading += param * D2R;
+                break;
+            case 'lt':
+            case 'left':
+                heading -= param * D2R;
+                break;
+        }
+
+    }
     player.getShip().shape = shape;
 };
 
@@ -301,6 +342,17 @@ API.musicOn = function (player) {
  */
 API.musicOff = function (player) {
     player.socket.emit('music', 'off');
+};
+
+
+/**
+ * Show a short text string on the screen
+ *
+ * @param player
+ * @param text {string}
+ */
+API.alert = function (player, text) {
+    player.socket.emit('alert', text);
 };
 
 module.exports = API;
