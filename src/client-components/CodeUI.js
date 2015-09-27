@@ -72,19 +72,23 @@ module.exports = {
     },
 
     toggleCodeWindow: function (state) {
+        var self = this;
         if (typeof state !== 'boolean') {
             this.codeWindowState = !this.codeWindowState;
         } else {
             this.codeWindowState = state;
         }
         if (this.codeWindowState) {
-            $('#code-window').show();
+            $('#code-window').show(function () {
+                Blockly.svgResize(self.blocklyWorkspace);
+                this.aceEditor.resize();
+            });
             if (this.codeWindowMode === 'blockly') {
                 $('.blocklyToolboxDiv').show();
-                Blockly.svgResize(this.blocklyWorkspace);
-            } else if (this.codeWindowMode === 'ace') {
-                this.aceEditor.resize();
-            }
+                //Blockly.svgResize(this.blocklyWorkspace);
+            } //else if (this.codeWindowMode === 'ace') {
+            //    this.aceEditor.resize();
+            //}
             this.game.input.keyboard.enabled = false;
         } else {
             $('#code-window').hide();

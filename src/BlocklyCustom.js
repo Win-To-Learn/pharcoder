@@ -37,15 +37,17 @@ Blockly.JavaScript['sc_set_scale'] = function (block) {
  */
 Blockly.Blocks['sc_pair'] = {
     init: function () {
-        this.appendDummyInput()
-            .appendField('(')
-            .appendField(new Blockly.FieldTextInput('0', Blockly.FieldTextInput.numberValidator), 'X')
-            .appendField(',')
-            .appendField(new Blockly.FieldTextInput('0', Blockly.FieldTextInput.numberValidator), 'Y')
-            .appendField(')');
-        this.setColour(160);
-        this.setNextStatement(true, 'Pair');
-        this.setPreviousStatement(true, 'Pair');
+        this.jsonInit({
+            message0: '(%1,%2)',
+            args0: [
+                {type: 'input_value', name: 'X', check: 'Number'},
+                {type: 'input_value', name: 'Y', check: 'Number'}
+            ],
+            previousStatement: 'Pair',
+            nextStatement: 'Pair',
+            colour: 160,
+            inputsInline: true
+        });
     }
 };
 
@@ -144,7 +146,6 @@ Blockly.JavaScript['sc_change_shape_relative'] = function (block) {
     var commandList = [];
     var commandBlock = block.getInputTargetBlock('COMMANDS');
     while (commandBlock) {
-        console.log('LOOP');
         var command = commandBlock.getFieldValue('COMMAND');
         var val = commandBlock.getFieldValue('VAL');
         commandList.push('"' + command + ' ' + val + '"');
@@ -265,16 +266,31 @@ Blockly.JavaScript['sc_set_color'] = function (block) {
 /**
  * translate ship to new position
  */
+//Blockly.Blocks['sc_translate'] = {
+//    init: function () {
+//        this.setColour(240);
+//        this.appendDummyInput()
+//            .appendField('x')
+//            .appendField(new Blockly.FieldTextInput('0', Blockly.FieldTextInput.numberValidator), 'X')
+//            .appendField('y')
+//            .appendField(new Blockly.FieldTextInput('0', Blockly.FieldTextInput.numberValidator), 'Y');
+//        this.setPreviousStatement(true);
+//        this.setNextStatement(true);
+//    }
+//};
 Blockly.Blocks['sc_translate'] = {
     init: function () {
-        this.setColour(240);
-        this.appendDummyInput()
-            .appendField('x')
-            .appendField(new Blockly.FieldTextInput('0', Blockly.FieldTextInput.numberValidator), 'X')
-            .appendField('y')
-            .appendField(new Blockly.FieldTextInput('0', Blockly.FieldTextInput.numberValidator), 'Y');
-        this.setPreviousStatement(true);
-        this.setNextStatement(true);
+        this.jsonInit({
+            message0: 'warp ship to (%1,%2)',
+            args0: [
+                {type: 'input_value', name: 'X', check: 'Number'},
+                {type: 'input_value', name: 'Y', check: 'Number'}
+            ],
+            previousStatement: null,
+            nextStatement: null,
+            colour: 240,
+            inputsInline: true
+        });
     }
 };
 
@@ -311,28 +327,46 @@ Blockly.JavaScript['sc_shoot'] = function () {
 /**
  * set seeder (tree default) properties
  */
+//Blockly.Blocks['sc_set_seeder_props'] = {
+//    init: function () {
+//        this.setColour(210);
+//        this.appendDummyInput()
+//            .appendField('set tree seeder properties');
+//        this.appendDummyInput()
+//            .appendField('trunk length')
+//            .appendField(new Blockly.FieldTextInput('1', Blockly.FieldTextInput.numberValidator), 'TL');
+//        this.appendDummyInput()
+//            .appendField('branch factor')
+//            .appendField(new Blockly.FieldTextInput('4', Blockly.FieldTextInput.numberValidator), 'BF');
+//        this.appendDummyInput()
+//            .appendField('branch decay')
+//            .appendField(new Blockly.FieldTextInput('0.75', Blockly.FieldTextInput.numberValidator), 'BD');
+//        this.appendDummyInput()
+//            .appendField('spread')
+//            .appendField(new Blockly.FieldTextInput('90', Blockly.FieldTextInput.numberValidator), 'SP');
+//        this.appendDummyInput()
+//            .appendField('depth')
+//            .appendField(new Blockly.FieldTextInput('5', Blockly.FieldTextInput.numberValidator), 'DP');
+//        this.setPreviousStatement(true);
+//        this.setNextStatement(true);
+//    }
+//};
 Blockly.Blocks['sc_set_seeder_props'] = {
     init: function () {
-        this.setColour(210);
-        this.appendDummyInput()
-            .appendField('set tree seeder properties');
-        this.appendDummyInput()
-            .appendField('trunk length')
-            .appendField(new Blockly.FieldTextInput('1', Blockly.FieldTextInput.numberValidator), 'TL');
-        this.appendDummyInput()
-            .appendField('branch factor')
-            .appendField(new Blockly.FieldTextInput('4', Blockly.FieldTextInput.numberValidator), 'BF');
-        this.appendDummyInput()
-            .appendField('branch decay')
-            .appendField(new Blockly.FieldTextInput('0.75', Blockly.FieldTextInput.numberValidator), 'BD');
-        this.appendDummyInput()
-            .appendField('spread')
-            .appendField(new Blockly.FieldTextInput('90', Blockly.FieldTextInput.numberValidator), 'SP');
-        this.appendDummyInput()
-            .appendField('depth')
-            .appendField(new Blockly.FieldTextInput('5', Blockly.FieldTextInput.numberValidator), 'DP');
-        this.setPreviousStatement(true);
-        this.setNextStatement(true);
+        this.jsonInit({
+            message0: 'set seeder properties',
+            message1: 'trunk length %1 branch factor %2 branch decay %3 spread %4 depth %5',
+            args1: [
+                {type: 'input_value', name: 'TL', check: 'Number'},
+                {type: 'input_value', name: 'BF', check: 'Number'},
+                {type: 'input_value', name: 'BD', check: 'Number'},
+                {type: 'input_value', name: 'SP', check: 'Number'},
+                {type: 'input_value', name: 'DP', check: 'Number'}
+            ],
+            colour: 210,
+            previousStatement: true,
+            nextStatement: true
+        });
     }
 };
 

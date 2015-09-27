@@ -5,6 +5,9 @@
  */
 'use strict';
 
+var decomp = require('poly-decomp');
+var SCError = require('./SCError.js');
+
 var API = {};
 
 var max = Math.max;
@@ -51,9 +54,18 @@ API.changeShipColor = function (player, color) {
  * @param shape {Array<Array>}
  */
 API.changeShipShape = function (player, shape) {
+    if (shape.length < 3) {
+        throw new SCError('Path must contain at least three points');
+    }
     // Reversing x's due to coordinate system weirdness. Should probably be fixed elsewhere but this'll do for now
     for (var i = 0, l = shape.length; i < l; i++) {
         shape[i][0] = -shape[i][0];
+    }
+    // Check to make sure poly isn't self intersecting
+    var p = new decomp.Polygon();
+    p.vertices = shape;
+    if (!p.isSimple()) {
+        throw new SCError('Path cannot cross itself');
     }
     player.getShip().shape = shape;
 };
