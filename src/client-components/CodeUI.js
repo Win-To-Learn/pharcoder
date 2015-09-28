@@ -81,11 +81,11 @@ module.exports = {
         if (this.codeWindowState) {
             $('#code-window').show(function () {
                 Blockly.svgResize(self.blocklyWorkspace);
-                this.aceEditor.resize();
+                //this.aceEditor.resize();
             });
             if (this.codeWindowMode === 'blockly') {
                 $('.blocklyToolboxDiv').show();
-                //Blockly.svgResize(this.blocklyWorkspace);
+                Blockly.svgResize(this.blocklyWorkspace);
             } //else if (this.codeWindowMode === 'ace') {
             //    this.aceEditor.resize();
             //}

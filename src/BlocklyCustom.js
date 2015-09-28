@@ -43,8 +43,7 @@ Blockly.Blocks['sc_pair'] = {
                 {type: 'input_value', name: 'X', check: 'Number'},
                 {type: 'input_value', name: 'Y', check: 'Number'}
             ],
-            previousStatement: 'Pair',
-            nextStatement: 'Pair',
+            output: 'Pair',
             colour: 160,
             inputsInline: true
         });
@@ -52,10 +51,12 @@ Blockly.Blocks['sc_pair'] = {
 };
 
 /**
- * Code generation for pair is a NOOP bc it has no meaning outside of a container
+ * Code generation for pair
  */
 Blockly.JavaScript['sc_pair'] = function (block) {
-    return null;
+    var x = Blockly.JavaScript.valueToCode(block, 'X', Blockly.JavaScript.ORDER_COMMA) || '0';
+    var y = Blockly.JavaScript.valueToCode(block, 'Y', Blockly.JavaScript.ORDER_COMMA) || '0';
+    return ['[' + x + ',' + y + ']', Blockly.JavaScript.ORDER_ATOMIC];
 };
 
 /**
@@ -65,7 +66,7 @@ Blockly.Blocks['sc_change_shape'] = {
     init: function () {
         this.jsonInit({
             message0: 'set ship shape %1',
-            args0: [{type: 'input_statement', name: 'PAIRS', check: 'Pair'}],
+            args0: [{type: 'input_value', name: 'PAIRS', check: 'Array'}],
             previousStatement: null,
             nextStatement: null,
             colour: 300
@@ -75,29 +76,10 @@ Blockly.Blocks['sc_change_shape'] = {
 
 /**
  * Generate code for ordered pair blocks
- * Bypass normal Blockly code generation methods bc our pair values are
- * 'statements' in Blockly-speak
  */
 Blockly.JavaScript['sc_change_shape'] = function (block) {
-    var x, y;
-    var pairList = [];
-    var pairBlock = block.getInputTargetBlock('PAIRS');
-    while (pairBlock) {
-        if (pairBlock.type === 'sc_pair') {
-            x = pairBlock.getFieldValue('X');
-            y = pairBlock.getFieldValue('Y');
-        } else {
-            x = Blockly.JavaScript.valueToCode(pairBlock, 'X', Blockly.JavaScript.ORDER_COMMA) || '0';
-            y = Blockly.JavaScript.valueToCode(pairBlock, 'Y', Blockly.JavaScript.ORDER_COMMA) || '0';
-        }
-        pairList.push('[' + x + ',' + y + ']');
-        pairBlock = pairBlock.nextConnection && pairBlock.nextConnection.targetBlock();
-    }
-    if (pairList.length > 2) {
-        // Don't generate code for fewer than 3 points
-        return 'changeShipShape([' + pairList.join(',') + ']);\n';
-    }
-    return null;
+    var pairs = Blockly.JavaScript.valueToCode(block, 'PAIRS', Blockly.JavaScript.ORDER_NONE) || '[]';
+    return 'changeShipShape(' + pairs + ');\n';
 };
 
 /**
@@ -105,21 +87,29 @@ Blockly.JavaScript['sc_change_shape'] = function (block) {
  */
 Blockly.Blocks['sc_turtle_command'] = {
     init: function () {
-        this.appendDummyInput()
-            .appendField(new Blockly.FieldDropdown([['go forward', 'fd'], ['go back', 'bk'], ['turn right', 'rt'],
-            ['turn left', 'lt']]), 'COMMAND')
-            .appendField(new Blockly.FieldTextInput('0', Blockly.FieldTextInput.numberValidator), 'VAL');
-        this.setColour(160);
-        this.setNextStatement(true, '');
-        this.setPreviousStatement(true, 'TurtleCommand');
+        this.jsonInit({
+            message0: '%1 %2',
+            args0: [
+                {
+                    type: 'field_dropdown', name: 'COMMAND',
+                    options: [['go forward', 'fd'], ['go back', 'bk'], ['turn right', 'rt'], ['turn left', 'lt']]
+                },
+                {type: 'input_value', name: 'VAL', check: 'Number'}
+            ],
+            output: 'String',
+            inputsLine: true,
+            colour: 160
+        });
     }
 };
 
 /**
- * Code generation for turtle command is a NOOP bc it has no meaning outside of a container
+ * Code generation for turtle command
  */
 Blockly.JavaScript['sc_turtle_command'] = function (block) {
-    return null;
+    var command = block.getFieldValue('COMMAND');
+    var val = Blockly.JavaScript.valueToCode(block, 'VAL', Blockly.JavaScript.ORDER_NONE) || '0';
+    return ['"' + command + ' ' + val + '"', Blockly.JavaScript.ORDER_ATOMIC];
 };
 
 /**
@@ -129,7 +119,7 @@ Blockly.Blocks['sc_change_shape_relative'] = {
     init: function () {
         this.jsonInit({
             message0: 'trace shape %1',
-            args0: [{type: 'input_statement', name: 'COMMANDS', check: 'TurtleCommand'}],
+            args0: [{type: 'input_value', name: 'COMMANDS', check: 'Array'}],
             previousStatement: null,
             nextStatement: null,
             colour: 300
@@ -139,19 +129,10 @@ Blockly.Blocks['sc_change_shape_relative'] = {
 
 /**
  * Generate code for ordered pair blocks
- * Bypass normal Blockly code generation methods bc our pair values are
- * 'statements' in Blockly-speak
  */
 Blockly.JavaScript['sc_change_shape_relative'] = function (block) {
-    var commandList = [];
-    var commandBlock = block.getInputTargetBlock('COMMANDS');
-    while (commandBlock) {
-        var command = commandBlock.getFieldValue('COMMAND');
-        var val = commandBlock.getFieldValue('VAL');
-        commandList.push('"' + command + ' ' + val + '"');
-        commandBlock = commandBlock.nextConnection && commandBlock.nextConnection.targetBlock();
-    }
-    return 'changeShipShapeRelative([' + commandList.join(',') + '])\n';
+    var commands = Blockly.JavaScript.valueToCode(block, 'COMMANDS', Blockly.JavaScript.ORDER_NONE) || '[]';
+    return 'changeShipShapeRelative(' + commands + ')\n';
 };
 
 /**
@@ -266,18 +247,6 @@ Blockly.JavaScript['sc_set_color'] = function (block) {
 /**
  * translate ship to new position
  */
-//Blockly.Blocks['sc_translate'] = {
-//    init: function () {
-//        this.setColour(240);
-//        this.appendDummyInput()
-//            .appendField('x')
-//            .appendField(new Blockly.FieldTextInput('0', Blockly.FieldTextInput.numberValidator), 'X')
-//            .appendField('y')
-//            .appendField(new Blockly.FieldTextInput('0', Blockly.FieldTextInput.numberValidator), 'Y');
-//        this.setPreviousStatement(true);
-//        this.setNextStatement(true);
-//    }
-//};
 Blockly.Blocks['sc_translate'] = {
     init: function () {
         this.jsonInit({
@@ -327,30 +296,6 @@ Blockly.JavaScript['sc_shoot'] = function () {
 /**
  * set seeder (tree default) properties
  */
-//Blockly.Blocks['sc_set_seeder_props'] = {
-//    init: function () {
-//        this.setColour(210);
-//        this.appendDummyInput()
-//            .appendField('set tree seeder properties');
-//        this.appendDummyInput()
-//            .appendField('trunk length')
-//            .appendField(new Blockly.FieldTextInput('1', Blockly.FieldTextInput.numberValidator), 'TL');
-//        this.appendDummyInput()
-//            .appendField('branch factor')
-//            .appendField(new Blockly.FieldTextInput('4', Blockly.FieldTextInput.numberValidator), 'BF');
-//        this.appendDummyInput()
-//            .appendField('branch decay')
-//            .appendField(new Blockly.FieldTextInput('0.75', Blockly.FieldTextInput.numberValidator), 'BD');
-//        this.appendDummyInput()
-//            .appendField('spread')
-//            .appendField(new Blockly.FieldTextInput('90', Blockly.FieldTextInput.numberValidator), 'SP');
-//        this.appendDummyInput()
-//            .appendField('depth')
-//            .appendField(new Blockly.FieldTextInput('5', Blockly.FieldTextInput.numberValidator), 'DP');
-//        this.setPreviousStatement(true);
-//        this.setNextStatement(true);
-//    }
-//};
 Blockly.Blocks['sc_set_seeder_props'] = {
     init: function () {
         this.jsonInit({
@@ -387,14 +332,6 @@ Blockly.JavaScript['sc_set_seeder_props'] = function (block) {
  *
  * @type {{init: Function}}
  */
-//Blockly.Blocks['sc_scan'] = {
-//    init: function () {
-//        this.setColour(270);
-//        this.appendDummyInput()
-//            .appendField('scan');
-//        this.setOutput(true, 'Array');
-//    }
-//};
 Blockly.Blocks['sc_scan'] = {
     init: function () {
         this.jsonInit({
@@ -454,18 +391,6 @@ Blockly.JavaScript['sc_console_log'] = function (block) {
     var msg = Blockly.JavaScript.valueToCode(block, 'MSG', Blockly.JavaScript.ORDER_NONE);
     return 'log(' + msg + ');\n';
 };
-
-//Blockly.Blocks['sc_set_timer'] = {
-//    init: function () {
-//        this.setColour(180);
-//        this.appendDummyInput()
-//            .appendField('set timer');
-//        this.appendValueInput('TIMEOUT');
-//        this.appendStatementInput('STATEMENTS');
-//        this.setPreviousStatement(true);
-//        this.setNextStatement(true);
-//    }
-//};
 
 Blockly.Blocks['sc_set_timer'] = {
     init: function () {
