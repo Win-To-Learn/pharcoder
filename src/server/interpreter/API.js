@@ -102,6 +102,14 @@ API.changeShipShapeRelative = function (player, directions) {
         }
 
     }
+    if (shape.length < 3) {
+        throw new SCError('Path must contain at least three points');
+    }
+    var p = new decomp.Polygon();
+    p.vertices = shape;
+    if (!p.isSimple()) {
+        throw new SCError('Path cannot cross itself');
+    }
     player.getShip().shape = shape;
 };
 
