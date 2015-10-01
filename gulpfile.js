@@ -101,9 +101,15 @@ gulp.task('android:assemble', ['android:clean'], function(cb) {
 
 gulp.task('android:package', ['android:assemble'],
   shell.task([
-    'crosswalk-app build ' + ((argv.release === undefined) ? 'debug' : 'release')
+    'crosswalk-app build ' + 'release'
   ], {cwd: './android/org.starcoder.pharcoder'})
 );
+
+//gulp.task('android:package', ['android:assemble'],
+//  shell.task([
+//    'crosswalk-app build ' + ((argv.release === undefined) ? 'debug' : 'release')
+//  ], {cwd: './android/org.starcoder.pharcoder'})
+//);
 
 gulp.task('android:emulator',
   shell.task([
@@ -115,6 +121,22 @@ gulp.task('android:install',
   shell.task([
     'adb install -r org.starcoder.pharcoder-debug.x86.apk'
   ], {cwd: './android/org.starcoder.pharcoder'})
+);
+
+gulp.task('android:zipalign',
+  shell.task([
+    './zipalign -f 4 ./org.starcoder.pharcoder/org.starcoder.pharcoder-release-unsigned.x86.apk  ./org.starcoder.pharcoder/org.starcoder.pharcoder-release-unsigned-zipaligned.x86.apk',
+    './zipalign -f 4 ./org.starcoder.pharcoder/org.starcoder.pharcoder-release-unsigned.armeabi-v7a.apk  ./org.starcoder.pharcoder/org.starcoder.pharcoder-release-unsigned-zipaligned.armeabi-v7a.apk'
+  ], {cwd: './android'})
+);
+
+gulp.task('android:sign',
+  shell.task([
+    'jarsigner -verbose -keystore ./org.starcoder.pharcoder/pharcoder.keystore -storepass Asteroids71 -keypass Asteroids71 ./org.starcoder.pharcoder/org.starcoder.pharcoder-release-unsigned-zipaligned.armeabi-v7a.apk pharcoder',
+    'mv ./org.starcoder.pharcoder/org.starcoder.pharcoder-release-unsigned-zipaligned.armeabi-v7a.apk ./org.starcoder.pharcoder/org.starcoder.pharcoder-release-signed-zipaligned.armeabi-v7a.apk',
+    'jarsigner -verbose -keystore ./org.starcoder.pharcoder/pharcoder.keystore -storepass Asteroids71 -keypass Asteroids71 ./org.starcoder.pharcoder/org.starcoder.pharcoder-release-unsigned-zipaligned.x86.apk pharcoder',
+    'mv ./org.starcoder.pharcoder/org.starcoder.pharcoder-release-unsigned-zipaligned.x86.apk ./org.starcoder.pharcoder/org.starcoder.pharcoder-release-signed-zipaligned.x86.apk',
+  ], {cwd: './android'})
 );
 
 gulp.task('exe', function(cb) {
