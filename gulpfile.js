@@ -62,6 +62,7 @@ make_browserify_task('watchify-client', {watchify: true}, ['src/client.js'], 'cl
 make_browserify_task('watchify-frontend', {watchify: true}, ['src/frontend/Frontend.js'], 'frontend.js');
 make_browserify_task('browserify', {}, ['src/client.js'], 'client.js');
 make_browserify_task('browserify-ugly', {uglify: true}, ['src/client.js'], 'client.js');
+make_browserify_task('browserify-frontend-ugly', {uglify: true}, ['src/frontend/Frontend.js'], 'frontend.js');
 
 gulp.task('watchify', ['watchify-client', 'watchify-frontend']);
 
@@ -70,7 +71,7 @@ gulp.task('forceExit', function(cb) {
   process.exit(0);
 });
 
-gulp.task('zip-eb', ['browserify-ugly'], function () {
+gulp.task('zip-eb', ['browserify-ugly', 'browserify-frontend-ugly'], function () {
     return gulp.src(['index.html', 'src/**', 'package.json', 'blockly.html', 'assets/**', 'lib/**', 'css/**',
         'js/**', '.ebextensions/**', 'html/**'], {base: '.'})
         .pipe(gulpzip('web.zip'))
