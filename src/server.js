@@ -22,5 +22,5 @@ app.use(function(req, res, next) {
 var starcoder = new Starcoder([commonConfig, serverConfig, buildConfig], app, io);
 
 
-//server.listen(process.env.NODE_ENV == 'production' ? 7610 : 8080, starcoder.config.serverAddress || '0.0.0.0');
-server.listen(8080, starcoder.config.serverAddress || '0.0.0.0');
+server.listen(process.env.NODE_ENV == 'production' ? 7610 : 8080, starcoder.config.serverAddress || '0.0.0.0');
+//server.listen(8080, starcoder.config.serverAddress || '0.0.0.0');
