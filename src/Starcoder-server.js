@@ -113,7 +113,7 @@ Starcoder.prototype.getServerUri = function (player, req) {
     if (!serverUri) {
         var protocol = this.config.serverProtocol || req.protocol || 'http';
         var host = this.config.serverHost || req.hostname || 'localhost';
-        var port = this.config.serverPort || req.port || 8080;
+        var port = this.config.serverPort || req.port || 7610;
         serverUri = protocol + '://' + host + ':' + port;
     }
     return serverUri;
