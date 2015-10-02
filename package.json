@@ -14,7 +14,7 @@
     "crosswalk-app-tools": "^0.6.1",
     "del": "^1.2.0",
     "git": "^0.1.5",
-    "gulp": "^3.9.0",
+    "gulp": "~3.9.0",
     "gulp-shell": "^0.4.2",
     "gulp-uglify": "~1.2.0",
     "gulp-util": "~3.0.4",
@@ -24,7 +24,9 @@
     "vinyl-source-stream": "~1.1.0",
     "vinyl-transform": "~1.0.0",
     "watchify": "~3.2.1",
-    "yargs": "^3.18.0"
+    "yargs": "^3.18.0",
+    "replace": "~0.3.0",
+    "gulp-replace": "~0.5.4"
   },
   "dependencies": {
     "acorn": "~2.0.4",
