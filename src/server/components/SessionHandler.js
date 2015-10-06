@@ -8,7 +8,7 @@ var MongoStore = require('connect-mongo')(session);
 var bodyParser = require('body-parser');
 var bcrypt = require('bcryptjs');
 
-var Player = require('../../players/Player.js');
+var Player = require('../../schema/Player.js');
 
 module.exports = {
     init: function () {

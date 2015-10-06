@@ -33,7 +33,7 @@ module.exports = {
         for (var i = pids.length - 1; i >= 0; i--) {
             var player = this.players[pids[i]];
             var update = {w: wtime, r: rtime, b: [], rm: removed};
-            // Old bodies - only send full updates to new players
+            // Old bodies - only send full updates to new schema
             for (j = world._syncableBodies.length - 1; j >= 0; j--) {
                 var body = world._syncableBodies[j];
                 if (player.newborn) {

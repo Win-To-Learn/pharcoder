@@ -5,22 +5,22 @@
  */
 'use strict';
 
-var Starcoder = require('./Starcoder.js');
+var Starcoder = require('../common/Starcoder.js');
 
-var WorldApi = require('./client/components/WorldApi.js');
+var WorldApi = require('./components/WorldApi.js');
 //var DOMInterface = require('./components/DOMInterface.js');
-var CodeEndpointClient = require('./client/components/CodeEndpointClient.js');
-var Starfield = require('./client/components/Starfield.js');
-var LeaderBoardClient = require('./client/components/LeaderBoardClient.js');
-var FlexTextWrapper = require('./client/components/FlexTextWrapper.js');
-var CodeUI = require('./client/components/CodeUI.js');
+var CodeEndpointClient = require('./components/CodeEndpointClient.js');
+var Starfield = require('./components/Starfield.js');
+var LeaderBoardClient = require('./components/LeaderBoardClient.js');
+var FlexTextWrapper = require('./components/FlexTextWrapper.js');
+var CodeUI = require('./components/CodeUI.js');
 
 
 var states = {
-    boot: require('./client/states/Boot.js'),
-    space: require('./client/states/Space.js'),
-    login: require('./client/states/Login.js'),
-    loader: require('./client/states/Loader.js')
+    boot: require('./states/Boot.js'),
+    space: require('./states/Space.js'),
+    login: require('./states/Login.js'),
+    loader: require('./states/Loader.js')
 };
 
 Starcoder.prototype.init = function () {

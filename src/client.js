@@ -6,17 +6,19 @@
  */
 'use strict';
 
-//require('./BlocklyCustom.js');
+//require('./BlocklyAPI.js');
 
 var commonConfig = require('./common/config.js');
 var clientConfig = require('./client/config.js');
 var buildConfig = buildConfig || {};
 
-var Starcoder = require('./Starcoder-client.js');
+var Starcoder = require('./client/Starcoder-client.js');
 
 // @BUILDCONFIG@
 
 // @BUILDTIME@
+
+// @BUILDVERSION@
 
 //localStorage.debug = '';                        // used to toggle socket.io debugging output
 

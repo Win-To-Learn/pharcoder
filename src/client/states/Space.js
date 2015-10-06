@@ -82,8 +82,6 @@ Space.prototype.create = function () {
     this.game.sounds.music.play();
 
     // Background
-    //var starfield = this.game.make.bitmapData(600, 600);
-    //this.starcoder.drawStarField(starfield.ctx, 600, 16);
     this.starcoder.starfield = this.game.make.bitmapData(600, 600, 'starfield', true);
     this.starcoder.drawStarField(this.starcoder.starfield.ctx, 600, 16);
     this.game.add.tileSprite(wb[0]*ps, wb[1]*ps, (wb[2]-wb[0])*ps, (wb[3]-wb[1])*ps, this.starcoder.starfield);
@@ -103,16 +101,6 @@ Space.prototype.create = function () {
     this.game.ui = this.game.add.group();
     this.game.ui.fixedToCamera = true;
 
-    // Inventory - tinker with position
-    //var label = this.game.make.text(this.game.width / 2, 25, 'INVENTORY',
-    //    {font: '24px Arial', fill: '#ff9900', align: 'center'});
-    //label.anchor.setTo(0.5, 0.5);
-    //this.game.ui.add(label);
-    //this.game.inventorytext = this.game.make.text(this.game.width - 100, 50, '0 crystals',
-    //    {font: '24px Arial', fill: '#ccc000', align: 'center'});
-    //this.game.inventorytext = this.game.make.bitmapText(2000, 50, 'readout-yellow', '0');
-    //this.game.inventorytext.anchor.setTo(0.5, 0.5);
-    //this.game.ui.add(this.game.inventorytext);
     this.game.hud = new HUD(this.game, (this.game.width - 180)/ 2, 2, 180, 120);
     this.game.ui.add(this.game.hud);
     //this.game.hud.anchor.setTo(0.5, 0);
@@ -149,7 +137,7 @@ Space.prototype.update = function () {
     });
 };
 
-Space.prototype.render = function () {
+//Space.prototype.render = function () {
     //console.log('+render+');
     //if (this.starcoder.tempsprite) {
     //    var d = this.starcoder.tempsprite.position.x - this.starcoder.tempsprite.previousPosition.x;
@@ -162,7 +150,7 @@ Space.prototype.render = function () {
     //if (this.ship) {
     //    this.game.debug.spriteInfo(this.ship, 420, 20);
     //}
-};
+//};
 
 Space.prototype._setupMessageHandlers = function (socket) {
     var self = this;
@@ -195,8 +183,6 @@ Space.prototype._setupMessageHandlers = function (socket) {
     });
     socket.on('alert', function (text) {
         self.game.sounds.alert.play();
-        console.log(self.game.camera.view);
-        console.log(self.game.playerShip.x, self.game.playerShip.y);
         Toast.growUp(self.game, self.game.camera.view.centerX, self.game.camera.view.bottom, text);
     });
 };

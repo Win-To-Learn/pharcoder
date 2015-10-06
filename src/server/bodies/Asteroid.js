@@ -5,7 +5,7 @@
  */
 'use strict';
 
-var Starcoder = require('../../Starcoder.js');
+var Starcoder = require('../../common/Starcoder.js');
 
 var SyncBodyBase = require('./SyncBodyBase.js');
 

@@ -7,10 +7,11 @@ var commonConfig = require('./common/config.js');
 var serverConfig = require('./server/config.js');
 var buildConfig = buildConfig || {};
 
+var fs = require('fs');
 var app = require('express')();
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
-var Starcoder = require('./Starcoder-server.js');
+var Starcoder = require('./server/Starcoder-server.js');
 
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
@@ -19,6 +20,7 @@ app.use(function(req, res, next) {
     next();
 });
 
+buildConfig.version = JSON.parse(fs.readFileSync('package.json', 'utf8')).version;
 var starcoder = new Starcoder([commonConfig, serverConfig, buildConfig], app, io);
 
 

@@ -4,7 +4,7 @@
  * Client side
  */
 
-var Starcoder = require('../../Starcoder.js');
+var Starcoder = require('../../common/Starcoder.js');
 
 var VectorSprite = require('./VectorSprite.js');
 var SyncBodyInterface = require('./SyncBodyInterface.js');

@@ -1,5 +1,5 @@
 /**
- * BlocklyCustom.js
+ * BlocklyAPI.js
  *
  * Definitions and code generation for StarCoder oriented blocks
  */
@@ -595,3 +595,5 @@ Blockly.JavaScript['sc_alert'] = function (block) {
     var arg = Blockly.JavaScript.valueToCode(block, 'VALUE', Blockly.JavaScript.ORDER_NONE) || '1';
     return 'alert(' + arg + ');\n';
 };
+
+module.exports = {};            // TODO: Maybe export some meta info

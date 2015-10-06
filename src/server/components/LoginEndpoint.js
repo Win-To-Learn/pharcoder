@@ -3,8 +3,8 @@
  */
 'use strict';
 
-var Player = require('../../players/Player.js');
-var Guest = require('../../players/Guest.js');
+var Player = require('../../schema/Player.js');
+var Guest = require('../../schema/Guest.js');
 
 module.exports = {
     onConnectCB: function (socket) {

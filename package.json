@@ -26,7 +26,8 @@
     "watchify": "~3.2.1",
     "yargs": "^3.18.0",
     "replace": "~0.3.0",
-    "gulp-replace": "~0.5.4"
+    "gulp-replace": "~0.5.4",
+    "gulp-bump": "~1.0.0"
   },
   "dependencies": {
     "acorn": "~2.0.4",

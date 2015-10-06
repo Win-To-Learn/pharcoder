@@ -5,6 +5,8 @@
  */
 'use strict';
 
+var BlocklyAPI = require('./BlocklyAPI.js');
+
 module.exports = {
     onConnectCB: function (socket) {
         var self = this;

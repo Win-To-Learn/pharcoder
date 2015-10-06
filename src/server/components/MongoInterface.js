@@ -6,8 +6,8 @@
 var MongoClient = require('mongodb').MongoClient;
 var ObjectId = require('mongodb').ObjectID;
 
-var Player = require('../../players/Player.js');
-var Guest = require('../../players/Guest');
+var Player = require('../../schema/Player.js');
+var Guest = require('../../schema/Guest.js');
 
 module.exports = {
     mongoConnect: function (cb) {

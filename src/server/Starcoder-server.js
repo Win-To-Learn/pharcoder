@@ -5,21 +5,21 @@
  */
 'use strict';
 
-var Starcoder = require('./Starcoder.js');
-var SyncServer = require('./server/components/SyncServer.js');
-var MsgServer = require('./server/components/MsgServer.js');
-var ControlEndPoint = require('./server/components/ControlEndPoint.js');
-var CollisionHandlers = require('./server/components/CollisionHandlers.js');
-var CodeEndpointServer = require('./server/components/CodeEndpointServer.js');
-var LoginEndpoint = require('./server/components/LoginEndpoint.js');
-var LeaderBoardEndpoint = require('./server/components/LeaderBoardEndpoint.js');
-var StaticServer = require('./server/components/StaticServer.js');
-var MongoInterface = require('./server/components/MongoInterface.js');
-var SessionHandler = require('./server/components/SessionHandler.js');
+var Starcoder = require('../common/Starcoder.js');
+var SyncServer = require('./components/SyncServer.js');
+var MsgServer = require('./components/MsgServer.js');
+var ControlEndPoint = require('./components/ControlEndPoint.js');
+var CollisionHandlers = require('./components/CollisionHandlers.js');
+var CodeEndpointServer = require('./components/CodeEndpointServer.js');
+var LoginEndpoint = require('./components/LoginEndpoint.js');
+var LeaderBoardEndpoint = require('./components/LeaderBoardEndpoint.js');
+var StaticServer = require('./components/StaticServer.js');
+var MongoInterface = require('./components/MongoInterface.js');
+var SessionHandler = require('./components/SessionHandler.js');
 
-var API = require('./server/code/API.js');
+var API = require('./code/API.js');
 
-var World = require('./server/bodies/World.js');
+var World = require('./bodies/World.js');
 
 /**
  * Initialize Starcoder server
@@ -30,7 +30,7 @@ var World = require('./server/bodies/World.js');
 Starcoder.prototype.init = function (app, io) {
     this.app = app;
     this.io = io;
-    this.players = {};          // Logged in players
+    this.players = {};          // Logged in schema
     this.onConnectCB = [];
     this.onLoginCB = [];
     this.onReadyCB = [];

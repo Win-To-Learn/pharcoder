@@ -29,8 +29,8 @@ module.exports = {
             return sendFile(path.join(__dirname, '../../../'), 'blockly.html', res);
         });
 
-        this.app.get('/src/BlocklyCustom.js', function (req, res) {
-            return sendFile(path.join(__dirname, '../../../'), '/src/BlocklyCustom.js', res);
+        this.app.get('/src/BlocklyAPI.js', function (req, res) {
+            return sendFile(path.join(__dirname, '../../../'), '/src/BlocklyAPI.js', res);
         });
 
         this.app.get('/css/:name', function (req, res) {

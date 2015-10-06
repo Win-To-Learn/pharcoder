@@ -12,6 +12,12 @@ var shell = require('gulp-shell');
 var argv = require('yargs').argv;
 var replace = require('gulp-replace');
 var fs = require('fs');
+var bump = require('gulp-bump');
+
+function get_package_version() {
+    var pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'))
+    return pkg.version;
+}
 
 function make_browserify_task (task, config, sources, target) {
     var opts = {
@@ -38,6 +44,7 @@ function make_browserify_task (task, config, sources, target) {
                 .pipe(source(target))
                 .pipe(buffer())
                 .pipe(replace(/^\/\/\s*@BUILDCONFIG@.*$/m, buildConfig))
+                .pipe(replace(/^\/\/\s*@BUILDVERSION@.*$/m, 'buildConfig.version = "' + get_package_version() + '";'))
                 .pipe(replace(/^\/\/\s*@BUILDTIME@.*$/m, 'buildConfig.buildTime = "' + Date() + '";'))
                 .pipe(replace('GULP_REPLACE_SERVER_URI', serverUri))
                 .pipe(uglify())
@@ -48,6 +55,7 @@ function make_browserify_task (task, config, sources, target) {
                 .pipe(source(target))
                 .pipe(buffer())
                 .pipe(replace(/^\/\/\s*@BUILDCONFIG@.*$/m, buildConfig))
+                .pipe(replace(/^\/\/\s*@BUILDVERSION@.*$/m, 'buildConfig.version = "' + get_package_version() + '";'))
                 .pipe(replace(/^\/\/\s*@BUILDTIME@.*$/m, 'buildConfig.buildTime = "' + Date() + '";'))
                 .pipe(replace('GULP_REPLACE_SERVER_URI', serverUri))
                 .pipe(gulp.dest('js/'));
@@ -63,6 +71,24 @@ make_browserify_task('watchify-frontend', {watchify: true}, ['src/frontend/Front
 make_browserify_task('browserify', {}, ['src/client.js'], 'client.js');
 make_browserify_task('browserify-ugly', {uglify: true}, ['src/client.js'], 'client.js');
 make_browserify_task('browserify-frontend-ugly', {uglify: true}, ['src/frontend/Frontend.js'], 'frontend.js');
+
+gulp.task('bump-patch', function () {
+    gulp.src('./package.json')
+        .pipe(bump({type: 'patch'}))
+        .pipe(gulp.dest('.'));
+});
+
+gulp.task('bump-minor', function () {
+    gulp.src('./package.json')
+        .pipe(bump({type: 'minor'}))
+        .pipe(gulp.dest('.'));
+});
+
+gulp.task('bump-major', function () {
+    gulp.src('./package.json')
+        .pipe(bump({type: 'major'}))
+        .pipe(gulp.dest('.'));
+});
 
 gulp.task('watchify', ['watchify-client', 'watchify-frontend']);
 
@@ -82,7 +108,7 @@ gulp.task('updateServerUri', function(cb) {
 
 });
 
-gulp.task('build', ['updateServerUri', 'zip-eb']);
+gulp.task('build', ['bump-patch', 'updateServerUri', 'zip-eb']);
 
 // run in series
 gulp.task('android:build', ['android:clean', 'android:assemble', 'android:package']);

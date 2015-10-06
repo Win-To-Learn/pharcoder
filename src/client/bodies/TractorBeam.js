@@ -7,7 +7,7 @@
 
 //FIXME: Nicer implementation
 
-var Starcoder = require('../../Starcoder.js');
+var Starcoder = require('../../common/Starcoder.js');
 
 var SimpleParticle = require('./SimpleParticle.js');
 var SyncBodyInterface = require('./SyncBodyInterface.js');

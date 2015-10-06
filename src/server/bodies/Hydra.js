@@ -6,7 +6,7 @@
 
 var p2 = require('p2');
 
-var Starcoder = require('../../Starcoder.js');
+var Starcoder = require('../../common/Starcoder.js');
 
 var SyncBodyBase = require('./SyncBodyBase');
 var UpdateProperties = require('../../common/UpdateProperties.js').GenericOrb;
