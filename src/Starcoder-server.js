@@ -6,20 +6,20 @@
 'use strict';
 
 var Starcoder = require('./Starcoder.js');
-var SyncServer = require('./server-components/SyncServer.js');
-var MsgServer = require('./server-components/MsgServer.js');
-var ControlEndPoint = require('./server-components/ControlEndPoint.js');
-var CollisionHandlers = require('./server-components/CollisionHandlers.js');
-var CodeEndpointServer = require('./server-components/CodeEndpointServer.js');
-var LoginEndpoint = require('./server-components/LoginEndpoint.js');
-var LeaderBoardEndpoint = require('./server-components/LeaderBoardEndpoint.js');
-var StaticServer = require('./server-components/StaticServer.js');
-var MongoInterface = require('./server-components/MongoInterface.js');
-var SessionHandler = require('./server-components/SessionHandler.js');
+var SyncServer = require('./server/components/SyncServer.js');
+var MsgServer = require('./server/components/MsgServer.js');
+var ControlEndPoint = require('./server/components/ControlEndPoint.js');
+var CollisionHandlers = require('./server/components/CollisionHandlers.js');
+var CodeEndpointServer = require('./server/components/CodeEndpointServer.js');
+var LoginEndpoint = require('./server/components/LoginEndpoint.js');
+var LeaderBoardEndpoint = require('./server/components/LeaderBoardEndpoint.js');
+var StaticServer = require('./server/components/StaticServer.js');
+var MongoInterface = require('./server/components/MongoInterface.js');
+var SessionHandler = require('./server/components/SessionHandler.js');
 
-var API = require('./server/interpreter/API.js');
+var API = require('./server/code/API.js');
 
-var World = require('./serverbodies/World.js');
+var World = require('./server/bodies/World.js');
 
 /**
  * Initialize Starcoder server

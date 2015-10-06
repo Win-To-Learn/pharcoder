@@ -508,7 +508,7 @@ Blockly.JavaScript['sc_point_to_body'] = function (block) {
 };
 
 /**
- * End event loop and allow interpreter to terminate
+ * End event loop and allow code to terminate
  *
  * @type {{init: Function}}
  */
