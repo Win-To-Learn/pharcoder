@@ -1,8 +1,8 @@
 branch-defaults:
   aws:
-    environment: pharcoder-single-1
+    environment: pharcoder-dev
   master:
-    environment: pharcoder-single-1
+    environment: pharcoder-dev
 deploy:
   artifact: deployments/web.zip
 global:

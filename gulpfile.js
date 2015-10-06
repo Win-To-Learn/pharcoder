@@ -13,6 +13,7 @@ var argv = require('yargs').argv;
 var replace = require('gulp-replace');
 var fs = require('fs');
 var bump = require('gulp-bump');
+var rename = require('gulp-rename');
 
 function get_package_version() {
     var pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'))
@@ -98,8 +99,11 @@ gulp.task('forceExit', function(cb) {
 });
 
 gulp.task('zip-eb', ['browserify-ugly', 'browserify-frontend-ugly'], function () {
-    return gulp.src(['index.html', 'src/**', 'package.json', 'blockly.html', 'assets/**', 'lib/**', 'css/**',
+    return gulp.src(['src/server.js', 'src/server/**', 'package.json', 'assets/**', 'lib/**', 'css/**',
         'js/**', '.ebextensions/**', 'html/**'], {base: '.'})
+        //.pipe(rename(function (path) {
+        //    console.log('NN', path.dirname, path.basename);
+        //}))
         .pipe(gulpzip('web.zip'))
         .pipe(gulp.dest('deployments/'));
 });
