@@ -99,8 +99,8 @@ gulp.task('forceExit', function(cb) {
 });
 
 gulp.task('zip-eb', ['browserify-ugly', 'browserify-frontend-ugly'], function () {
-    return gulp.src(['src/server.js', 'src/server/**', 'package.json', 'assets/**', 'lib/**', 'css/**',
-        'js/**', '.ebextensions/**', 'html/**'], {base: '.'})
+    return gulp.src(['src/server.js', 'src/server/**', 'src/common/**', 'package.json', 'assets/**', 'lib/**',
+        'css/**', 'js/**', '.ebextensions/**', 'html/**'], {base: '.'})
         //.pipe(rename(function (path) {
         //    console.log('NN', path.dirname, path.basename);
         //}))
@@ -113,6 +113,7 @@ gulp.task('updateServerUri', function(cb) {
 });
 
 gulp.task('build', ['bump-patch', 'updateServerUri', 'zip-eb']);
+gulp.task('build-nobump', ['updateServerUri', 'zip-eb']);
 
 // run in series
 gulp.task('android:build', ['android:clean', 'android:assemble', 'android:package']);
