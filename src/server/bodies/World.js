@@ -58,8 +58,12 @@ World.prototype.setCollisionGroup = function (body, groupname) {
     if (!gid) {
         gid = this._createCollisionGroup(groupname);
     }
+    body.coreCollisionGroup = gid;
     for (var i = 0, l = body.shapes.length; i < l; i++) {
-        body.shapes[i].collisionGroup = gid;
+        var shape = body.shapes[i];
+        if (!shape.special) {
+            shape.collisionGroup = gid;
+        }
     }
 };
 
@@ -71,7 +75,7 @@ World.prototype.setCollisionGroup = function (body, groupname) {
  * @param exclude {Array} - List of groups to disable collisions for
  */
 World.prototype.setCollisionMask = function (body, include, exclude) {
-    if (include && include.length > 1) {
+    if (include && include.length >= 1) {
         var mask = 0x0001;                          // For wall collisions
         for (var i = 0, l = include.length; i < l; i++) {
             var gid = this._cGroups[include[i]];
@@ -83,7 +87,7 @@ World.prototype.setCollisionMask = function (body, include, exclude) {
     } else {
         mask = 0xffff;
     }
-    if (exclude && exclude.length > 1) {
+    if (exclude && exclude.length >= 1) {
         for (var i = 0, l = exclude.length; i < l; i++) {
             gid = this._cGroups[exclude[i]];
             if (!gid) {
@@ -92,8 +96,12 @@ World.prototype.setCollisionMask = function (body, include, exclude) {
             mask &= ~gid;
         }
     }
+    body.coreCollisionMask = mask;
     for (var i = 0, l = body.shapes.length; i < l; i++) {
-        body.shapes[i].collisionMask = mask;
+        var shape = body.shapes[i];
+        if (!shape.special) {
+            shape.collisionMask = mask;
+        }
     }
 };
 

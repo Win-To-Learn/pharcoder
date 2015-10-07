@@ -90,11 +90,11 @@ SyncBodyBase.prototype.clearAllShapes = function () {
  */
 SyncBodyBase.prototype.adjustShape = function () {
     var oldGroup, oldMask;
-    if (this.shapes.length > 0) {
-        // For now all bodies are made of shapes with same collision group/mask
-        oldGroup = this.shapes[0].collisionGroup;
-        oldMask = this.shapes[0].collisionMask;
-    }
+    //if (this.shapes.length > 0) {
+    //    // For now all bodies are made of shapes with same collision group/mask
+    //    oldGroup = this.shapes[0].collisionGroup;
+    //    oldMask = this.shapes[0].collisionMask;
+    //}
     var polyflag = false;
     if (this._shape) {
         var vertices = [];
@@ -117,8 +117,8 @@ SyncBodyBase.prototype.adjustShape = function () {
     // Reset old group/mask on all shapes
     if (oldGroup || oldMask) {
         for (i = 0, l = this.shapes.length; i < l; i++) {
-            this.shapes[i].collisionGroup = oldGroup;
-            this.shapes[i].collisionMask = oldMask;
+            this.shapes[i].collisionGroup = this.coreCollisionGroup;
+            this.shapes[i].collisionMask = this.coreCollisionMask;
         }
     }
 };
