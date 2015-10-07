@@ -41,7 +41,7 @@ module.exports = {
         });
 
         $('#send-code').on('click', function () {
-            self.toggleCodeWindow(false);
+            //self.toggleCodeWindow(false);
             if (self.codeWindowMode === 'blockly') {
                 self.sendCodeMessage('exec', Blockly.JavaScript.workspaceToCode(self.blocklyWorkspace));
             } else {
