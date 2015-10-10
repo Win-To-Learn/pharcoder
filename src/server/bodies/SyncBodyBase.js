@@ -39,7 +39,6 @@ var SyncBodyBase = function (config) {
         this.customize(config);
     }
     this.timers = [];
-    this.offset = [0.5, 0.5];       // FIXME: or not
     this.adjustShape();
     this.newborn = true;
     this.dead = false;
@@ -119,67 +118,29 @@ SyncBodyBase.prototype.adjustShape = function () {
     aabb.setFromPoints(outline);
     var centroid = vec2.fromValues((aabb.lowerBound[0] + aabb.upperBound[0])/2,
         (aabb.lowerBound[1] + aabb.upperBound[1])/2);
-    console.log('Centroid', centroid[0], centroid[1]);
     for (i = 0, l = convexes.length; i< l;  i++) {
         var c = new p2.Convex({ vertices: convexes[i].vertices });
         for (var j = 0, ll = c.vertices.length; j < ll; j++) {
             var v = c.vertices[j];
             vec2.sub(v, v, c.centerOfMass);
         }
-        console.log('sCM', c.centerOfMass[0], c.centerOfMass[1]);
         //vec2.scale(t, c.centerOfMass, c.area);
         //vec2.add(sum, sum, t);
         //area += c.area;
         vec2.sub(pos, c.centerOfMass, centroid);
         c.updateTriangles();
         c.updateCenterOfMass();
-        console.log('new sCM', c.centerOfMass[0], c.centerOfMass[1]);
         c.updateBoundingRadius();
         this.addShape(c, pos);
     }
-    //this.updateAABB();
-    //var centroid = vec2.fromValues((this.aabb.lowerBound[0] + this.aabb.upperBound[0])/2,
-    //    (this.aabb.lowerBound[1] + this.aabb.upperBound[1])/2);
-
-    //vec2.scale(cm, sum, 1/area);
-    //for (i = 0, l = this.shapes.length; i < l; i++) {
-    //    s = this.shapes[i];
-    //    //vec2.sub(s.position, s.position, cm);
-    //    console.log('Old pos', s.position[0], s.position[1]);
-    //    vec2.sub(s.position, s.position, centroid);
-    //}
 
     this.updateMassProperties();
     this.updateBoundingRadius();
     this.updateAABB();
 
-    //console.log('AABB', aabb.lowerBound[0], aabb.lowerBound[1], aabb.upperBound[0], aabb.upperBound[1]);
-    //console.log('CM', cm[0], cm[1]);
-    //this.offset = [1 - (cm[0] - aabb.lowerBound[0])/(aabb.upperBound[0] - aabb.lowerBound[0]),
-    //    1 - (cm[1] - aabb.lowerBound[1])/(aabb.upperBound[1] - aabb.lowerBound[1])];
-    //this.offset = [(-cm[0] - this.position[0] + this.aabb.upperBound[0])/(this.aabb.upperBound[0] - this.aabb.lowerBound[0]),
-    //    (-cm[1] - this.position[1] + this.aabb.upperBound[1])/(this.aabb.upperBound[1] - this.aabb.lowerBound[1])];
-    //this.offset = [0, 0];
+    //this.outline = outline;
 
-    //if (Math.abs(this.offset[0] - 0.5) > .001 || Math.abs(this.offset[1] - 0.5) > .001) {
-    //    console.log('weird shape');
-    //    this.shapes[0].position[1] = -(20/3 - 5);
-    //    this.offset[0] = 0.5;
-    //    this.offset[1] = 0.5;
-    //}
-    this.offset = [0.5, 0.5];
-    this._dirtyProperties.offset = true;
-    //console.log('Off', this.offset[0], this.offset[1]);
-    //for (i = 0, l = outline.length; i < l; i++) {
-    //    outline[i][0] -= cm[0];
-    //    outline[i][1] -= cm[1];
-    //}
-    this.outline = outline;
-
-    //vec2.sub(this.position, this.position, cm);
-
-    //this.needsAABBBUpdate = true;
-
+    // Set collision properties on new shapes
     if (this.coreCollisionGroup || this.coreCollisionMask) {
         for (i = 0, l = this.shapes.length; i < l; i++) {
             this.shapes[i].collisionGroup = this.coreCollisionGroup;
@@ -189,8 +150,8 @@ SyncBodyBase.prototype.adjustShape = function () {
 
 };
 
-
-SyncBodyBase.prototype.XXadjustShape = function () {
+/*
+SyncBodyBase.prototype.adjustShape = function () {
     //var oldGroup, oldMask;
     //if (this.shapes.length > 0) {
     //    // For now all bodies are made of shapes with same collision group/mask
@@ -270,6 +231,7 @@ SyncBodyBase.prototype.XXadjustShape = function () {
     //    }
     //}
 };
+*/
 
 /**
  * Generate plain object representation of object state for client

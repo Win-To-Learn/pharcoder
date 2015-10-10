@@ -17,7 +17,6 @@ var mapTexturePool = {};
  */
 var VectorSprite = function (game, config) {
     Phaser.Sprite.call(this, game);
-    this.offset = [0.5, 0.5];
     //this.graphics = game.make.graphics();
     this.graphics = this.game.sharedGraphics;
     //this.texture = this.game.add.renderTexture();
@@ -145,8 +144,8 @@ VectorSprite.prototype.updateTextures = function () {
         this.graphics._currentBounds = null;
         if (typeof this.drawProcedure !== 'undefined') {
             this.drawProcedure(1, 0);
-        //} else if (this.shape) {
-        } else if (this.outline) {
+        } else if (this.shape) {
+        //} else if (this.outline) {
             this.draw(1);
         }
         if (!this.frames[0]) {
@@ -169,8 +168,6 @@ VectorSprite.prototype.updateTextures = function () {
         }
     }
     this.setTexture(this.frames[this.vFrame]);
-    //this.anchor.setTo(0.5 + this.offset[0], 0.5 + this.offset[1]);
-    this.anchor.setTo(this.offset[0], this.offset[1]);
     // Draw small for minimap
     if (this.minisprite) {
         var mapScale = this.game.minimap.mapScale;
@@ -179,8 +176,8 @@ VectorSprite.prototype.updateTextures = function () {
         this.graphics._currentBounds = null;
         if (typeof this.drawProcedure !== 'undefined') {
             this.drawProcedure(mapScale * mapFactor, this.mapFrame);
-        //} else if (this.shape) {
-        } else if (this.outline) {
+        } else if (this.shape) {
+        //} else if (this.outline) {
             this.draw(mapScale * mapFactor);
         }
         bounds = this.graphics.getLocalBounds();
@@ -227,14 +224,14 @@ VectorSprite.prototype.draw = function (renderScale) {
                         lineColor = Phaser.Color.hexToRGB(this.lineColor);
                     }
                     this.graphics.lineStyle(lineWidth, lineColor, 1);
-                    this._drawPolygon(g.points, g.closed, renderScale * this.vectorScale);
+                    this._drawPolygon(g.points, g.closed, renderScale);
                     break;
             }
         }
     }
     // Draw simple shape, if given
-    //if (this.shape) {
-    if (this.outline) {
+    if (this.shape) {
+    //if (this.outline) {
         lineColor = Phaser.Color.hexToRGB(this.lineColor);
         if (renderScale === 1) {
             lineWidth = this.lineWidth;
@@ -247,8 +244,8 @@ VectorSprite.prototype.draw = function (renderScale) {
             this.graphics.beginFill(fillColor, fillAlpha);
         }
         this.graphics.lineStyle(lineWidth, lineColor, 1);
-        //this._drawPolygon(this.shape, this.shapeClosed, renderScale);
-        this._drawPolygon(this.outline, this.shapeClosed, renderScale);
+        this._drawPolygon(this.shape, this.shapeClosed, renderScale);
+        //this._drawPolygon(this.outline, this.shapeClosed, renderScale);
         if ((renderScale === 1) && this.fillColor) {
             this.graphics.endFill();
         }
@@ -267,15 +264,15 @@ VectorSprite.prototype.draw = function (renderScale) {
  * @private
  */
 VectorSprite.prototype._drawPolygon = function (points, closed, renderScale) {
-    //var sc = this.game.physics.p2.mpxi(this.vectorScale)*renderScale;
-    var sc = this.game.physics.p2.mpxi(renderScale);
+    var sc = this.game.physics.p2.mpxi(this.vectorScale)*renderScale;
+    //var sc = this.game.physics.p2.mpxi(renderScale);
     points = points.slice();
     if (closed) {
         points.push(points[0]);
     }
-    this.graphics.moveTo(points[0][0] * sc, -points[0][1] * sc);
+    this.graphics.moveTo(points[0][0] * sc, points[0][1] * sc);
     for (var i = 1, l = points.length; i < l; i++) {
-        this.graphics.lineTo(points[i][0] * sc, -points[i][1] * sc);
+        this.graphics.lineTo(points[i][0] * sc, points[i][1] * sc);
     }
 };
 
@@ -364,15 +361,15 @@ Object.defineProperty(VectorSprite.prototype, 'shape', {
     }
 });
 
-Object.defineProperty(VectorSprite.prototype, 'outline', {
-    get: function () {
-        return this._outline;
-    },
-    set: function (val) {
-        this._outline = val;
-        this._dirty = true;
-    }
-});
+//Object.defineProperty(VectorSprite.prototype, 'outline', {
+//    get: function () {
+//        return this._outline;
+//    },
+//    set: function (val) {
+//        this._outline = val;
+//        this._dirty = true;
+//    }
+//});
 
 Object.defineProperty(VectorSprite.prototype, 'geometry', {
     get: function () {

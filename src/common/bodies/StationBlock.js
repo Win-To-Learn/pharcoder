@@ -11,6 +11,6 @@ module.exports = {
     _lineWidth: 4,
     _fillAlpha: 0,
     _shapeClosed: true,
-    updateProperties: ['lineColor', 'vectorScale', 'shape', 'triangles', 'outline', 'offset']
+    updateProperties: ['lineColor', 'vectorScale', 'shape', 'triangles']
 };
 
