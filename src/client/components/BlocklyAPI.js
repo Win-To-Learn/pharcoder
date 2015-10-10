@@ -115,13 +115,12 @@ Blockly.JavaScript['sc_turtle_command'] = function (block) {
 /**
  * Block representing a set of turtle like instructions for changing shape
  */
-Blockly.Blocks['sc_change_shape_relative'] = {
+Blockly.Blocks['sc_directions_to_points'] = {
     init: function () {
         this.jsonInit({
-            message0: 'trace shape %1',
+            message0: 'create shape from directions %1',
             args0: [{type: 'input_value', name: 'COMMANDS', check: 'Array'}],
-            previousStatement: null,
-            nextStatement: null,
+            output: 'Array',
             colour: 300
         });
     }
@@ -130,9 +129,9 @@ Blockly.Blocks['sc_change_shape_relative'] = {
 /**
  * Generate code for ordered pair blocks
  */
-Blockly.JavaScript['sc_change_shape_relative'] = function (block) {
+Blockly.JavaScript['sc_directions_to_points'] = function (block) {
     var commands = Blockly.JavaScript.valueToCode(block, 'COMMANDS', Blockly.JavaScript.ORDER_NONE) || '[]';
-    return 'changeShipShapeRelative(' + commands + ')\n';
+    return ['directionsToPoints(' + commands + ')', Blockly.JavaScript.ORDER_ATOMIC];
 };
 
 /**

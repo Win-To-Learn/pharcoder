@@ -67,12 +67,10 @@ API.changeShipShape = function (player, shape) {
     if (!p.isSimple()) {
         throw new SCError('Path cannot cross itself');
     }
-    console.log('ST');
     player.getShip().shape = shape;
-    console.log('>>ST');
 };
 
-API.changeShipShapeRelative = function (player, directions) {
+API.directionsToPoints = function (player, directions) {
     var x = 0, y = 0;
     var heading = Math.PI / 2;
     var shape = [[0, 0]];
@@ -85,34 +83,27 @@ API.changeShipShapeRelative = function (player, directions) {
             case 'forward':
                 x += cos(heading) * param;
                 y += sin(heading) * param;
-                shape.push([x,y]);
+                shape.push([x, y]);
                 break;
             case 'bk':
             case 'back':
                 x -= cos(heading) * param;
                 y -= sin(heading) * param;
-                shape.push([x,y]);
+                shape.push([x, y]);
                 break;
             case 'rt':
             case 'right':
-                heading += param * D2R;
+                heading -= param * D2R;
                 break;
             case 'lt':
             case 'left':
-                heading -= param * D2R;
+                heading += param * D2R;
                 break;
+            default:
+                throw new SCError('Unrecognized direction');
         }
-
     }
-    if (shape.length < 3) {
-        throw new SCError('Path must contain at least three points');
-    }
-    var p = new decomp.Polygon();
-    p.vertices = shape;
-    if (!p.isSimple()) {
-        throw new SCError('Path cannot cross itself');
-    }
-    player.getShip().shape = shape;
+    return shape;
 };
 
 /**
