@@ -595,4 +595,25 @@ Blockly.JavaScript['sc_alert'] = function (block) {
     return 'alert(' + arg + ');\n';
 };
 
-module.exports = {};            // TODO: Maybe export some meta info
+var BlocklyAPI = {
+    /**
+     * Automagically create xml dom for Starcoder Blockly blocks
+     * TBD: Smarter categories and sorting
+     *
+     * @param xml
+     */
+    addAllBlocks: function (xml) {
+        var maincat = document.createElement('category');
+        maincat.setAttribute('name', 'Starcoder');
+        for (var k in Blockly.Blocks) {
+            if (k.slice(0, 3) === 'sc_') {
+                var block = document.createElement('block');
+                block.setAttribute('type', k);
+                maincat.appendChild(block);
+            }
+        }
+        xml.insertBefore(maincat, xml.firstChild);
+    }
+};
+
+module.exports = BlocklyAPI;

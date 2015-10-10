@@ -3,12 +3,16 @@
  */
 'use strict';
 
+var BlocklyAPI = require('./BlocklyAPI.js');
+
 module.exports = {
     init: function () {
         var self = this;
         this.codeWindowMode = 'blockly';
         this.codeLabelCache = {};
-        this.blocklyWorkspace = Blockly.inject('blockly', {toolbox: document.getElementById('toolbox')});
+        var xml = document.getElementById('toolbox');
+        BlocklyAPI.addAllBlocks(xml);
+        this.blocklyWorkspace = Blockly.inject('blockly', {toolbox: xml});
         Blockly.svgResize(self.blocklyWorkspace);
         //var button = $('#send-code');
         this.aceEditor = ace.edit('aceeditor');
