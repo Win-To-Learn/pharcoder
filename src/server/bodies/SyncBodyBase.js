@@ -6,6 +6,8 @@
 'use strict';
 
 var p2 = require('p2');
+var vec2 = p2.vec2;
+var decomp = require('poly-decomp');
 
 var SyncBodyBase = function (config) {
     this._dirtyProperties = {};
@@ -37,6 +39,7 @@ var SyncBodyBase = function (config) {
         this.customize(config);
     }
     this.timers = [];
+    this.offset = [0.5, 0.5];       // FIXME: or not
     this.adjustShape();
     this.newborn = true;
     this.dead = false;
@@ -89,7 +92,106 @@ SyncBodyBase.prototype.clearAllShapes = function () {
  * Adjust body shape based on shape property with some reasonable fallbacks
  */
 SyncBodyBase.prototype.adjustShape = function () {
-    var oldGroup, oldMask;
+    if (!this._shape || this._shape.length === 0) {
+        return;
+    }
+    this.clearAllShapes();
+    var outline = [];
+    var p = new decomp.Polygon();
+    p.vertices = [];
+    for (var i = 0, l = this._shape.length; i < l; i++) {
+        var s = this._shape[i];
+        var x = s[0] * -this.vectorScale;
+        var y = s[1] * -this.vectorScale;
+        outline.push([x, y]);
+        p.vertices.push([x, y]);
+    }
+
+    p.makeCCW();
+    p.removeCollinearPoints(Math.PI / 12);
+    var convexes = p.quickDecomp();
+
+    //var area = 0;
+    //var t = vec2.create();
+    //var sum = vec2.fromValues(0, 0);
+    var pos = vec2.create();
+    var aabb = new p2.AABB();
+    aabb.setFromPoints(outline);
+    var centroid = vec2.fromValues((aabb.lowerBound[0] + aabb.upperBound[0])/2,
+        (aabb.lowerBound[1] + aabb.upperBound[1])/2);
+    console.log('Centroid', centroid[0], centroid[1]);
+    for (i = 0, l = convexes.length; i< l;  i++) {
+        var c = new p2.Convex({ vertices: convexes[i].vertices });
+        for (var j = 0, ll = c.vertices.length; j < ll; j++) {
+            var v = c.vertices[j];
+            vec2.sub(v, v, c.centerOfMass);
+        }
+        console.log('sCM', c.centerOfMass[0], c.centerOfMass[1]);
+        //vec2.scale(t, c.centerOfMass, c.area);
+        //vec2.add(sum, sum, t);
+        //area += c.area;
+        vec2.sub(pos, c.centerOfMass, centroid);
+        c.updateTriangles();
+        c.updateCenterOfMass();
+        console.log('new sCM', c.centerOfMass[0], c.centerOfMass[1]);
+        c.updateBoundingRadius();
+        this.addShape(c, pos);
+    }
+    //this.updateAABB();
+    //var centroid = vec2.fromValues((this.aabb.lowerBound[0] + this.aabb.upperBound[0])/2,
+    //    (this.aabb.lowerBound[1] + this.aabb.upperBound[1])/2);
+
+    //vec2.scale(cm, sum, 1/area);
+    //for (i = 0, l = this.shapes.length; i < l; i++) {
+    //    s = this.shapes[i];
+    //    //vec2.sub(s.position, s.position, cm);
+    //    console.log('Old pos', s.position[0], s.position[1]);
+    //    vec2.sub(s.position, s.position, centroid);
+    //}
+
+    this.updateMassProperties();
+    this.updateBoundingRadius();
+    this.updateAABB();
+
+    //console.log('AABB', aabb.lowerBound[0], aabb.lowerBound[1], aabb.upperBound[0], aabb.upperBound[1]);
+    //console.log('CM', cm[0], cm[1]);
+    //this.offset = [1 - (cm[0] - aabb.lowerBound[0])/(aabb.upperBound[0] - aabb.lowerBound[0]),
+    //    1 - (cm[1] - aabb.lowerBound[1])/(aabb.upperBound[1] - aabb.lowerBound[1])];
+    //this.offset = [(-cm[0] - this.position[0] + this.aabb.upperBound[0])/(this.aabb.upperBound[0] - this.aabb.lowerBound[0]),
+    //    (-cm[1] - this.position[1] + this.aabb.upperBound[1])/(this.aabb.upperBound[1] - this.aabb.lowerBound[1])];
+    //this.offset = [0, 0];
+
+    //if (Math.abs(this.offset[0] - 0.5) > .001 || Math.abs(this.offset[1] - 0.5) > .001) {
+    //    console.log('weird shape');
+    //    this.shapes[0].position[1] = -(20/3 - 5);
+    //    this.offset[0] = 0.5;
+    //    this.offset[1] = 0.5;
+    //}
+    this.offset = [0.5, 0.5];
+    this._dirtyProperties.offset = true;
+    //console.log('Off', this.offset[0], this.offset[1]);
+    //for (i = 0, l = outline.length; i < l; i++) {
+    //    outline[i][0] -= cm[0];
+    //    outline[i][1] -= cm[1];
+    //}
+    this.outline = outline;
+
+    //vec2.sub(this.position, this.position, cm);
+
+    //this.needsAABBBUpdate = true;
+
+    if (this.coreCollisionGroup || this.coreCollisionMask) {
+        for (i = 0, l = this.shapes.length; i < l; i++) {
+            this.shapes[i].collisionGroup = this.coreCollisionGroup;
+            this.shapes[i].collisionMask = this.coreCollisionMask;
+        }
+    }
+
+};
+
+
+SyncBodyBase.prototype.XXadjustShape = function () {
+    //var oldGroup, oldMask;
     //if (this.shapes.length > 0) {
     //    // For now all bodies are made of shapes with same collision group/mask
     //    oldGroup = this.shapes[0].collisionGroup;
@@ -100,27 +202,73 @@ SyncBodyBase.prototype.adjustShape = function () {
         var vertices = [];
         var x = this.position[0], y = this.position[1];
         for (var i = 0, l = this.shape.length; i < l; i++) {
-            vertices.push([x + this.shape[i][0]*this.vectorScale, y + this.shape[i][1]*this.vectorScale]);
+            //vertices.push([x + this.shape[i][0]*this.vectorScale, y + -this.shape[i][1]*this.vectorScale]);
+            vertices.push([-this.shape[i][0]*this.vectorScale, -this.shape[i][1]*this.vectorScale]);
         }
         polyflag = this.fromPolygon(vertices);
     }
+    var dx = this.position[0] - x, dy = this.position[1] - y;
     if (polyflag) {
         // Not entirely sure why this is necessary
         this.position[0] = x;
         this.position[1] = y;
     } else {
         this.clearAllShapes();
-        this.addShape(new p2.Circle(this._radius || 1));
+        this.addShape(new p2.Circle({radius: this._radius || 1}));
     }
     //this.world.setCollisionGroup(this, this.collisionGroup || this.serverType || 'general');
     //this.world.setCollisionMask(this, this.collisionInclude, this.collisionExclude);
     // Reset old group/mask on all shapes
-    if (oldGroup || oldMask) {
+    if (this.coreCollisionGroup || this.coreCollisionMask) {
         for (i = 0, l = this.shapes.length; i < l; i++) {
             this.shapes[i].collisionGroup = this.coreCollisionGroup;
             this.shapes[i].collisionMask = this.coreCollisionMask;
         }
     }
+
+    //var d = vec2.fromValues(dx, dy);
+    //for (i = 0, l = this.shapes.length; i < l; i++) {
+    //    var shape = this.shapes[i];
+    //    vec2.add(shape.position, shape.position, d);
+    //}
+    this.outline = this.concavePath;
+
+    // Find center of mass FIXME: ugly and redundant
+    //var sum = vec2.fromValues(0, 0);
+    //var t = vec2.fromValues(0, 0);
+    //var cm = vec2.fromValues(0, 0);
+    //var area = 0;
+    //
+    //if (this.concavePath) {
+    //    //for (i = 0, l = this.shapes.length; i <l; i++) {
+    //    //    var shape = this.shapes[i];
+    //    //    vec2.scale(t, shape.position, shape.area);
+    //    //    vec2.add(sum, sum, t);
+    //    //    area += shape.area;
+    //    //    console.log('Shp', shape.position[0], shape.position[1], shape.centerOfMass[0], shape.centerOfMass[1], shape.area, area);
+    //    //}
+    //    //vec2.scale(cm, sum, 1/area);
+    //    //console.log('CM', cm[0], cm[1]);
+    //    console.log('D', dx, dy);
+    //    this.outline = [];
+    //    for (i = 0, l = this.concavePath.length; i < l; i++) {
+    //        var p = this.concavePath[i];
+    //        this.outline.push([p[0] - dx, p[1] - dy]);
+    //    }
+    //}
+    //console.log('S', this.shape);
+    //console.log('P', this.concavePath);
+    //this.outline = this.concavePath;
+    //this._shape = this.concavePath;
+    //this._dirtyProperties.shape = true;
+    //for (i = 0, l = this.shapes.length; i < l; i++) {
+    //    if (!this.shapes[i].vertices) {
+    //        continue;
+    //    }
+    //    for (var j = 0; j < this.shapes[i].vertices.length; j++) {
+    //        console.log('Vert', this.shapes[i].vertices[j][0], this.shapes[i].vertices[j][1]);
+    //    }
+    //}
 };
 
 /**
@@ -269,6 +417,17 @@ Object.defineProperty(SyncBodyBase.prototype, 'shape', {
         this._shape = val;
         this._dirtyProperties.shape = true;
         this.adjustShape();
+    }
+});
+
+Object.defineProperty(SyncBodyBase.prototype, 'outline', {
+    get: function () {
+        return this._outline;
+    },
+    set: function (val) {
+        // TODO: add test to ensure shape is simple
+        this._outline = val;
+        this._dirtyProperties.outline = true;
     }
 });
 

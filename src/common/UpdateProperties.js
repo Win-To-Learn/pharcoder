@@ -7,31 +7,31 @@
 
 var Ship = function () {};
 Ship.prototype.updateProperties = ['lineWidth', 'lineColor', 'fillColor', 'fillAlpha',
-    'vectorScale', 'shape', 'shapeClosed', 'playerid', 'crystals', 'dead', 'tag', 'charge', 'trees'];
+    'vectorScale', 'shape', 'shapeClosed', 'playerid', 'crystals', 'dead', 'tag', 'charge', 'trees', 'outline', 'offset'];
 
 var Asteroid = function () {};
-Asteroid.prototype.updateProperties = ['vectorScale'];
+Asteroid.prototype.updateProperties = ['vectorScale', 'outline', 'offset'];
 
 var Crystal = function () {};
-Crystal.prototype.updateProperties = ['vectorScale'];
+Crystal.prototype.updateProperties = ['vectorScale', 'outline', 'offset'];
 
 var GenericOrb = function () {};
-GenericOrb.prototype.updateProperties = ['lineColor', 'vectorScale'];
+GenericOrb.prototype.updateProperties = ['lineColor', 'vectorScale', 'outline', 'offset'];
 
 var Planetoid = function () {};
-Planetoid.prototype.updateProperties = ['lineColor', 'fillColor', 'lineWidth', 'fillAlpha', 'vectorScale', 'owner'];
+Planetoid.prototype.updateProperties = ['lineColor', 'fillColor', 'lineWidth', 'fillAlpha', 'vectorScale', 'owner', 'outline', 'offset'];
 
 var Tree = function () {};
-Tree.prototype.updateProperties = ['vectorScale', 'lineColor', 'graph', 'step', 'depth'];
+Tree.prototype.updateProperties = ['vectorScale', 'lineColor', 'graph', 'step', 'depth', 'outline', 'offset'];
 
 var Bullet = function () {};
-Bullet.prototype.updateProperties = ['lineColor'];
+Bullet.prototype.updateProperties = ['lineColor', 'outline', 'offset'];
 
 var TractorBeam = function () {};
-TractorBeam.prototype.updateProperties = [];
+TractorBeam.prototype.updateProperties = ['offset'];
 
 var StarTarget = function () {};
-StarTarget.prototype.updateProperties = ['stars', 'lineColor', 'vectorScale'];
+StarTarget.prototype.updateProperties = ['stars', 'lineColor', 'vectorScale', 'outline', 'offset'];
 
 
 exports.Ship = Ship;

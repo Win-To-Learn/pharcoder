@@ -18,7 +18,8 @@ var bodyTypes = {
     Hydra: require('./Hydra.js'),
     Planetoid: require('./Planetoid.js'),
     Tree: require('./Tree.js'),
-    StarTarget: require('./StarTarget')
+    StarTarget: require('./StarTarget.js'),
+    StationBlock: require('./StationBlock.js')
 };
 
 /**

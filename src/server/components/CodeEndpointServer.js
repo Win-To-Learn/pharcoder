@@ -82,6 +82,7 @@ module.exports = {
         try {
             var running = player.interpreter.step();
         } catch (error) {
+            console.log(error);
             this.sendCodeMessage(player, 'runtime error', error);
             running = false;
         }

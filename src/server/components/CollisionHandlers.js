@@ -34,6 +34,10 @@ module.exports = {
                 } else if (A.serverType === 'Ship' && B.serverType === 'Tree') {
                     ShipTree.call(this, A, B);
                 }
+                //} else if (A.serverType === 'StationBlock' && B.serverType === 'StationBlock' &&
+                //    equations.shapeA && equations.shapeA.special && equations.shapeB && equations.shapeB.special) {
+                //    console.log('corner touch');
+                //}
                 // Swap A and B if we haven't already
                 if (t) {
                     break;

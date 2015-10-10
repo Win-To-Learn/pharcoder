@@ -5,6 +5,19 @@
  */
 'use strict';
 
+var bodyTypes = {
+    Ship: require('../bodies/Ship.js'),
+    Asteroid: require('../bodies/Asteroid.js'),
+    Crystal: require('../bodies/Crystal.js'),
+    Bullet: require('../bodies/Bullet.js'),
+    GenericOrb: require('../bodies/GenericOrb.js'),
+    Planetoid: require('../bodies/Planetoid.js'),
+    Tree: require('../bodies/Tree.js'),
+    TractorBeam: require('../bodies/TractorBeam.js'),
+    StarTarget: require('../bodies/StarTarget.js'),
+    StationBlock: require('../bodies/StationBlock.js')
+};
+
 module.exports = {
     /**
      * Add body to world on client side
@@ -53,16 +66,3 @@ module.exports = {
         //this.game.physics.p2.removeBody(sprite.body);
     }
 };
-
-var bodyTypes = {
-    Ship: require('../bodies/Ship.js'),
-    Asteroid: require('../bodies/Asteroid.js'),
-    Crystal: require('../bodies/Crystal.js'),
-    Bullet: require('../bodies/Bullet.js'),
-    GenericOrb: require('../bodies/GenericOrb.js'),
-    Planetoid: require('../bodies/Planetoid.js'),
-    Tree: require('../bodies/Tree.js'),
-    TractorBeam: require('../bodies/TractorBeam.js'),
-    StarTarget: require('../bodies/StarTarget.js')
-};
-

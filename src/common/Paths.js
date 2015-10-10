@@ -59,6 +59,13 @@ exports.square1 = [
     [-2,-1]
 ];
 
+exports.square2 = [
+    [1, 1],
+    [1, -1],
+    [-1, -1],
+    [-1, 1]
+];
+
 exports.star = [
     [sin(0), cos(0)],
     [sin(2*TAU/5), cos(2*TAU/5)],
