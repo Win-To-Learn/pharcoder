@@ -118,7 +118,7 @@ VectorSprite.prototype.getMapPool = function (key) {
         mapTexturePool[key] = this.game.add.renderTexture();
     }
     return mapTexturePool[key];
-}
+};
 
 VectorSprite.prototype.setShape = function (shape) {
     this.shape = shape;
@@ -199,7 +199,6 @@ VectorSprite.prototype.updateBody = function () {
             }
             this.body.setCircle(radius);
             break;
-        // TODO: More shapes
     }
 };
 
@@ -216,7 +215,6 @@ VectorSprite.prototype.draw = function (renderScale) {
             var g = this.geometry[i];
             switch (g.type) {
                 case "poly":
-                    // FIXME: defaults and stuff
                     var lineWidth = g.lineWidth || this.lineWidth;
                     if (g.lineColor) {
                         var lineColor = Phaser.Color.hexToRGB(g.lineColor);

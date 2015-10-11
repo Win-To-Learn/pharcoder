@@ -6,6 +6,8 @@
 'use strict';
 
 var p2 = require('p2');
+var vec2 = p2.vec2;
+var earcut = require('earcut');
 
 var Starcoder = require('../../common/Starcoder.js');
 
@@ -31,17 +33,18 @@ StationBlock.prototype.defaults = {
 
 StationBlock.prototype.adjustShape = function () {
     SyncBodyBase.prototype.adjustShape.call(this);
+    if (!this.shape) {
+        return;
+    }
     this.triangles = [];
-    var vertMemo = {};
-    for (var i = 0; i < this.shapes.length; i++) {
-        var shape = this.shapes[i];
-        if (shape instanceof p2.Convex) {
-            var verts = shape.vertices;
-            // Add triangles
-            for (var j = 0, l = shape.triangles.length; j < l; j++) {
-                var tri = shape.triangles[j];
-                this.triangles.push([verts[tri[0]], verts[tri[1]], verts[tri[2]]]);
-            }
+    var flat = [];
+    for (var i = 0, l = this.shape.length; i < l; i++) {
+        flat.push(this.shape[i][0], this.shape[i][1]);
+    }
+    flat = earcut(flat);
+    for (i = 0, l = flat.length; i < l; i += 3) {
+        this.triangles.push([this.shape[flat[i]], this.shape[flat[i + 1]], this.shape[flat[i + 2]]]);
+    }
             //// Add sensors at each vertex once and only once
             //for (j = 0, l = verts.length; j < l; j++) {
             //    var v = verts[j];
@@ -56,8 +59,8 @@ StationBlock.prototype.adjustShape = function () {
             //        vertMemo[vs] = true;
             //    }
             //}
-        }
-    }
+        //}
+    //}
 };
 
 module.exports = StationBlock;

@@ -8,6 +8,8 @@
 var decomp = require('poly-decomp');
 var SCError = require('./SCError.js');
 
+var StationBlock = require('../bodies/StationBlock.js');
+
 var API = {};
 
 var max = Math.max;
@@ -366,6 +368,14 @@ API.musicOff = function (player) {
  */
 API.alert = function (player, text) {
     player.socket.emit('alert', text);
+};
+
+API.createStationBlock = function (player, shape) {
+    var ship = player.getShip();
+    var station = ship.world.addSyncableBody(StationBlock, {shape: shape, vectorScale: 1, mass: 1});
+    // FIXME: positioning and error check
+    station.position[0] = ship.position[0] + 8;
+    station.position[1] = ship.position[1] + 8;
 };
 
 module.exports = API;

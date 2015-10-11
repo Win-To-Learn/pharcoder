@@ -89,7 +89,7 @@ World.prototype.setCollisionMask = function (body, include, exclude) {
         mask = 0xffff;
     }
     if (exclude && exclude.length >= 1) {
-        for (var i = 0, l = exclude.length; i < l; i++) {
+        for (i = 0, l = exclude.length; i < l; i++) {
             gid = this._cGroups[exclude[i]];
             if (!gid) {
                 gid = this._createCollisionGroup(exclude[i]);
@@ -98,7 +98,7 @@ World.prototype.setCollisionMask = function (body, include, exclude) {
         }
     }
     body.coreCollisionMask = mask;
-    for (var i = 0, l = body.shapes.length; i < l; i++) {
+    for (i = 0, l = body.shapes.length; i < l; i++) {
         var shape = body.shapes[i];
         if (!shape.special) {
             shape.collisionMask = mask;

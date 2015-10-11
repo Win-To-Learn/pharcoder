@@ -28,7 +28,8 @@
     "replace": "~0.3.0",
     "gulp-replace": "~0.5.4",
     "gulp-bump": "~1.0.0",
-    "gulp-rename": "~1.2.2"
+    "gulp-rename": "~1.2.2",
+    "earcut": "~2.0.4"
   },
   "dependencies": {
     "acorn": "~2.0.4",

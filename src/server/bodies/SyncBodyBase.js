@@ -116,7 +116,7 @@ SyncBodyBase.prototype.adjustShape = function () {
     var pos = vec2.create();
     var aabb = new p2.AABB();
     aabb.setFromPoints(outline);
-    var centroid = vec2.fromValues((aabb.lowerBound[0] + aabb.upperBound[0])/2,
+    this.centroid = vec2.fromValues((aabb.lowerBound[0] + aabb.upperBound[0])/2,
         (aabb.lowerBound[1] + aabb.upperBound[1])/2);
     for (i = 0, l = convexes.length; i< l;  i++) {
         var c = new p2.Convex({ vertices: convexes[i].vertices });
@@ -127,7 +127,7 @@ SyncBodyBase.prototype.adjustShape = function () {
         //vec2.scale(t, c.centerOfMass, c.area);
         //vec2.add(sum, sum, t);
         //area += c.area;
-        vec2.sub(pos, c.centerOfMass, centroid);
+        vec2.sub(pos, c.centerOfMass, this.centroid);
         c.updateTriangles();
         c.updateCenterOfMass();
         c.updateBoundingRadius();
