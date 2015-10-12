@@ -75,7 +75,7 @@ Blockly.Blocks['sc_change_shape'] = {
 };
 
 /**
- * Generate code for ordered pair blocks
+ * Generate code for change shape block
  */
 Blockly.JavaScript['sc_change_shape'] = function (block) {
     var pairs = Blockly.JavaScript.valueToCode(block, 'PAIRS', Blockly.JavaScript.ORDER_NONE) || '[]';
@@ -593,6 +593,30 @@ Blockly.Blocks['sc_alert'] = {
 Blockly.JavaScript['sc_alert'] = function (block) {
     var arg = Blockly.JavaScript.valueToCode(block, 'VALUE', Blockly.JavaScript.ORDER_NONE) || '1';
     return 'alert(' + arg + ');\n';
+};
+
+
+/**
+ * Block to create station block body
+ */
+Blockly.Blocks['sc_create_station_block'] = {
+    init: function () {
+        this.jsonInit({
+            message0: 'create station block with shape %1',
+            args0: [{type: 'input_value', name: 'PAIRS', check: 'Array'}],
+            previousStatement: null,
+            nextStatement: null,
+            colour: 300
+        });
+    }
+};
+
+/**
+ * Generate code for change shape block
+ */
+Blockly.JavaScript['sc_create_station_block'] = function (block) {
+    var pairs = Blockly.JavaScript.valueToCode(block, 'PAIRS', Blockly.JavaScript.ORDER_NONE) || '';
+    return 'createStationBlock(' + pairs + ');\n';
 };
 
 var BlocklyAPI = {

@@ -222,7 +222,7 @@ VectorSprite.prototype.draw = function (renderScale) {
                         lineColor = Phaser.Color.hexToRGB(this.lineColor);
                     }
                     this.graphics.lineStyle(lineWidth, lineColor, 1);
-                    this._drawPolygon(g.points, g.closed, renderScale);
+                    this._drawPolygon(this.graphics, g.points, g.closed, renderScale);
                     break;
             }
         }
@@ -242,7 +242,7 @@ VectorSprite.prototype.draw = function (renderScale) {
             this.graphics.beginFill(fillColor, fillAlpha);
         }
         this.graphics.lineStyle(lineWidth, lineColor, 1);
-        this._drawPolygon(this.shape, this.shapeClosed, renderScale);
+        this._drawPolygon(this.graphics, this.shape, this.shapeClosed, renderScale);
         //this._drawPolygon(this.outline, this.shapeClosed, renderScale);
         if ((renderScale === 1) && this.fillColor) {
             this.graphics.endFill();
@@ -256,21 +256,22 @@ VectorSprite.prototype.draw = function (renderScale) {
 /**
  * Draw open or closed polygon as sequence of lineTo calls
  *
+ * @param graphics {Phaser.Graphics} - graphics object to draw on
  * @param points {Array} - points as array of [x,y] pairs
  * @param closed {boolean} - is polygon closed?
  * @param renderScale {number} - scale factor for render
  * @private
  */
-VectorSprite.prototype._drawPolygon = function (points, closed, renderScale) {
+VectorSprite.prototype._drawPolygon = function (graphics, points, closed, renderScale) {
     var sc = this.game.physics.p2.mpxi(this.vectorScale)*renderScale;
     //var sc = this.game.physics.p2.mpxi(renderScale);
     points = points.slice();
     if (closed) {
         points.push(points[0]);
     }
-    this.graphics.moveTo(points[0][0] * sc, points[0][1] * sc);
+    graphics.moveTo(points[0][0] * sc, points[0][1] * sc);
     for (var i = 1, l = points.length; i < l; i++) {
-        this.graphics.lineTo(points[i][0] * sc, points[i][1] * sc);
+        graphics.lineTo(points[i][0] * sc, points[i][1] * sc);
     }
 };
 

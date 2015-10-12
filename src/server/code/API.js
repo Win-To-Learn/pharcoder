@@ -56,19 +56,20 @@ API.changeShipColor = function (player, color) {
  * @param shape {Array<Array>}
  */
 API.changeShipShape = function (player, shape) {
-    if (shape.length < 3) {
-        throw new SCError('Path must contain at least three points');
-    }
-    // Reversing x's due to coordinate system weirdness. Should probably be fixed elsewhere but this'll do for now
-    for (var i = 0, l = shape.length; i < l; i++) {
-        shape[i][0] = -shape[i][0];
-    }
-    // Check to make sure poly isn't self intersecting
-    var p = new decomp.Polygon();
-    p.vertices = shape;
-    if (!p.isSimple()) {
-        throw new SCError('Path cannot cross itself');
-    }
+    //if (shape.length < 3) {
+    //    throw new SCError('Path must contain at least three points');
+    //}
+    //// Reversing x's due to coordinate system weirdness. Should probably be fixed elsewhere but this'll do for now
+    //for (var i = 0, l = shape.length; i < l; i++) {
+    //    shape[i][0] = -shape[i][0];
+    //}
+    //// Check to make sure poly isn't self intersecting
+    //var p = new decomp.Polygon();
+    //p.vertices = shape;
+    //if (!p.isSimple()) {
+    //    throw new SCError('Path cannot cross itself');
+    //}
+    _normalizeShape(shape);
     player.getShip().shape = shape;
 };
 
@@ -371,11 +372,42 @@ API.alert = function (player, text) {
 };
 
 API.createStationBlock = function (player, shape) {
+    //if (shape.length < 3) {
+    //    throw new SCError('Path must contain at least three points');
+    //}
+    //// Reversing x's due to coordinate system weirdness. Should probably be fixed elsewhere but this'll do for now
+    //for (var i = 0, l = shape.length; i < l; i++) {
+    //    shape[i][0] = -shape[i][0];
+    //}
+    //// Check to make sure poly isn't self intersecting
+    //var p = new decomp.Polygon();
+    //p.vertices = shape;
+    //if (!p.isSimple()) {
+    //    throw new SCError('Path cannot cross itself');
+    //}
+    _normalizeShape(shape);
     var ship = player.getShip();
     var station = ship.world.addSyncableBody(StationBlock, {shape: shape, vectorScale: 1, mass: 1});
     // FIXME: positioning and error check
-    station.position[0] = ship.position[0] + 8;
-    station.position[1] = ship.position[1] + 8;
+    var r = ship.boundingRadius + station.boundingRadius + 1;
+    station.position[0] = ship.position[0] + sin(ship.angle) * r;
+    station.position[1] = ship.position[1] + -cos(ship.angle) * r;
 };
+
+function _normalizeShape (shape) {
+    if (shape.length < 3) {
+        throw new SCError('Path must contain at least three points');
+    }
+    // Reversing x's due to coordinate system weirdness. Should probably be fixed elsewhere but this'll do for now
+    for (var i = 0, l = shape.length; i < l; i++) {
+        shape[i][0] = -shape[i][0];
+    }
+    // Check to make sure poly isn't self intersecting
+    var p = new decomp.Polygon();
+    p.vertices = shape;
+    if (!p.isSimple()) {
+        throw new SCError('Path cannot cross itself');
+    }
+}
 
 module.exports = API;
