@@ -32,12 +32,10 @@ module.exports = {
                 } else if (A.serverType === 'Asteroid' && B.serverType === 'Tree') {
                     AsteroidTree.call(self, A, B);
                 } else if (A.serverType === 'Ship' && B.serverType === 'Tree') {
-                    ShipTree.call(this, A, B);
+                    ShipTree.call(self, A, B);
+                } else if (A.serverType === 'StationBlock' && B.serverType === 'StationBlock') {
+                    StationBlockStationBlock.call(self, A, B, equations);
                 }
-                //} else if (A.serverType === 'StationBlock' && B.serverType === 'StationBlock' &&
-                //    equations.shapeA && equations.shapeA.special && equations.shapeB && equations.shapeB.special) {
-                //    console.log('corner touch');
-                //}
                 // Swap A and B if we haven't already
                 if (t) {
                     break;
@@ -146,4 +144,8 @@ function ShipTree (ship, tree) {
         tree.owner = ship.player;
         tree.lineColor = ship.lineColor;
     }
+}
+
+function StationBlockStationBlock (sb1, sb2, equations) {
+    sb1.attach(sb2, sb1.position[0] + equations[0].contactPointA[0], sb1.position[1] + equations[0].contactPointA[1]);
 }

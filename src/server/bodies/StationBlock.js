@@ -17,6 +17,7 @@ var Paths = require('../../common/Paths.js');
 
 var StationBlock = function (config) {
     SyncBodyBase.call(this, config);
+    this.attachments = {};
 };
 
 StationBlock.prototype = Object.create(SyncBodyBase.prototype);
@@ -45,22 +46,16 @@ StationBlock.prototype.adjustShape = function () {
     for (i = 0, l = flat.length; i < l; i += 3) {
         this.triangles.push([this.shape[flat[i]], this.shape[flat[i + 1]], this.shape[flat[i + 2]]]);
     }
-            //// Add sensors at each vertex once and only once
-            //for (j = 0, l = verts.length; j < l; j++) {
-            //    var v = verts[j];
-            //    var vs = String(v);
-            //    if (!vertMemo[vs]) {
-            //        var s = new p2.Circle({radius: 0.5});
-            //        s.sensor = true;
-            //        s.special = true;
-            //        s.position[0] = v[0];
-            //        s.position[1] = v[1];
-            //        this.addShape(s);
-            //        vertMemo[vs] = true;
-            //    }
-            //}
-        //}
-    //}
+};
+
+StationBlock.prototype.attach = function (other, x, y) {
+    if (this.attachments[other.id]) {
+        return;
+    }
+    var constraint = new p2.RevoluteConstraint(this, other, {worldPivot: [x, y]});
+    this.attachments[other.id] = constraint;
+    other.attachments[this.id] = constraint;
+    this.world.addConstraint(constraint);
 };
 
 module.exports = StationBlock;
