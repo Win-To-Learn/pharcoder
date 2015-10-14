@@ -32,6 +32,8 @@ StationBlock.prototype.defaults = {
     shape: Paths.square2
 };
 
+StationBlock.prototype.tractorable = true;
+
 StationBlock.prototype.adjustShape = function () {
     SyncBodyBase.prototype.adjustShape.call(this);
     if (!this.shape) {
