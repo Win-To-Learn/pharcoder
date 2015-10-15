@@ -11,7 +11,7 @@ module.exports = {
         this.codeWindowMode = 'blockly';
         this.codeLabelCache = {};
         var xml = document.getElementById('toolbox');
-        BlocklyAPI.addAllBlocks(xml);
+        BlocklyAPI.addStarcoderBlocks(xml);
         this.blocklyWorkspace = Blockly.inject('blockly', {toolbox: xml});
         Blockly.svgResize(self.blocklyWorkspace);
         //var button = $('#send-code');

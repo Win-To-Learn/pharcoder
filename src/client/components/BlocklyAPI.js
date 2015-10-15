@@ -18,6 +18,11 @@ Blockly.Blocks['sc_set_scale'] = {
             nextStatement: null,
             colour: 160
         });
+    },
+    starcoder: {
+        defaults: [
+            {type: 'block', name: 'VALUE', subtype: 'math_number', value: 1.5}
+        ]
     }
 };
 
@@ -47,6 +52,12 @@ Blockly.Blocks['sc_pair'] = {
             colour: 160,
             inputsInline: true
         });
+    },
+    starcoder: {
+        defaults: [
+            {type: 'block', name: 'X', subtype: 'math_number', value: 0},
+            {type: 'block', name: 'Y', subtype: 'math_number', value: 0}
+        ]
     }
 };
 
@@ -71,7 +82,8 @@ Blockly.Blocks['sc_change_shape'] = {
             nextStatement: null,
             colour: 300
         });
-    }
+    },
+    starcoder: {}
 };
 
 /**
@@ -100,6 +112,11 @@ Blockly.Blocks['sc_turtle_command'] = {
             inputsLine: true,
             colour: 160
         });
+    },
+    starcoder: {
+        defaults: [
+            {type: 'block', name: 'VAL', subtype: 'math_number', value: 1}
+        ]
     }
 };
 
@@ -113,7 +130,7 @@ Blockly.JavaScript['sc_turtle_command'] = function (block) {
 };
 
 /**
- * Block representing a set of turtle like instructions for changing shape
+ * Block representing a filter turning turtle directions to points
  */
 Blockly.Blocks['sc_directions_to_points'] = {
     init: function () {
@@ -123,7 +140,8 @@ Blockly.Blocks['sc_directions_to_points'] = {
             output: 'Array',
             colour: 300
         });
-    }
+    },
+    starcoder: {}
 };
 
 /**
@@ -147,6 +165,11 @@ Blockly.Blocks['sc_set_thrust_power'] = {
             nextStatement: null,
             colour: 160
         });
+    },
+    starcoder: {
+        defaults: [
+            {type: 'block', name: 'VALUE', subtype: 'math_number', value: 1000}
+        ]
     }
 };
 
@@ -175,6 +198,11 @@ Blockly.Blocks['sc_set_turning_power'] = {
             nextStatement: null,
             colour: 160
         });
+    },
+    starcoder: {
+        defaults: [
+            {type: 'block', name: 'VALUE', subtype: 'math_number', value: 100}
+        ]
     }
 };
 
@@ -232,7 +260,8 @@ Blockly.Blocks['sc_set_color'] = {
             nextStatement: null,
             colour: 30
         });
-    }
+    },
+    starcoder: {}
 };
 
 /**
@@ -259,6 +288,12 @@ Blockly.Blocks['sc_translate'] = {
             colour: 240,
             inputsInline: true
         });
+    },
+    starcoder: {
+        defaults: [
+            {type: 'block', name: 'X', subtype: 'math_number', value: 0},
+            {type: 'block', name: 'Y', subtype: 'math_number', value: 0}
+        ]
     }
 };
 
@@ -282,7 +317,8 @@ Blockly.Blocks['sc_shoot'] = {
             nextStatement: null,
             colour: 180
         });
-    }
+    },
+    starcoder: {}
 };
 
 /**
@@ -311,7 +347,8 @@ Blockly.Blocks['sc_set_seeder_props'] = {
             previousStatement: true,
             nextStatement: true
         });
-    }
+    },
+    starcoder: {}
 };
 
 /**
@@ -346,7 +383,8 @@ Blockly.Blocks['sc_scan'] = {
             output: 'Array',
             colour: 270
         });
-    }
+    },
+    starcoder: {}
 };
 
 /**
@@ -383,7 +421,8 @@ Blockly.Blocks['sc_console_log'] = {
             nextStatement: null,
             colour: 30
         })
-    }
+    },
+    starcoder: {}
 };
 
 Blockly.JavaScript['sc_console_log'] = function (block) {
@@ -405,6 +444,11 @@ Blockly.Blocks['sc_set_timer'] = {
             nextStatement: null,
             colour: 180
         });
+    },
+    starcoder: {
+        defaults: [
+            {type: 'block', name: 'TIMEOUT', subtype: 'math_number', value: 1}
+        ]
     }
 };
 
@@ -440,7 +484,8 @@ Blockly.Blocks['sc_get_body_property'] = {
             output: null,
             colour: 120
         })
-    }
+    },
+    starcoder: {}
 };
 
 /**
@@ -474,7 +519,8 @@ Blockly.Blocks['sc_sort_by_distance'] = {
             output: 'Array',
             colour: 240
         })
-    }
+    },
+    starcoder: {}
 };
 
 /**
@@ -498,7 +544,8 @@ Blockly.Blocks['sc_point_to_body'] = {
             nextStatement: null,
             colour: 180
         })
-    }
+    },
+    starcoder: {}
 };
 
 Blockly.JavaScript['sc_point_to_body'] = function (block) {
@@ -519,7 +566,8 @@ Blockly.Blocks['sc_cancel_event_loop'] = {
             nextStatement: null,
             colour: 150
         });
-    }
+    },
+    starcoder: {}
 };
 
 Blockly.JavaScript['sc_cancel_event_loop'] = function (block) {
@@ -539,7 +587,8 @@ Blockly.Blocks['sc_music_on'] = {
             nextStatement: null,
             colour: 300
         });
-    }
+    },
+    starcoder: {}
 };
 
 Blockly.JavaScript['sc_music_on'] = function (block) {
@@ -560,7 +609,8 @@ Blockly.Blocks['sc_music_off'] = {
             nextStatement: null,
             colour: 300
         });
-    }
+    },
+    starcoder: {}
 };
 
 Blockly.JavaScript['sc_music_off'] = function (block) {
@@ -581,11 +631,16 @@ Blockly.Blocks['sc_alert'] = {
             nextStatement: null,
             colour: 160
         });
+    },
+    starcoder: {
+        defaults: [
+            {type: 'block', name: 'VALUE', subtype: 'text', value: 'Hello universe!'}
+        ]
     }
 };
 
 /**
- * Code generation for set_scale
+ * Code generation for alert
  *
  * @param block
  * @returns {string}
@@ -608,11 +663,12 @@ Blockly.Blocks['sc_create_station_block'] = {
             nextStatement: null,
             colour: 300
         });
-    }
+    },
+    starcoder: {}
 };
 
 /**
- * Generate code for change shape block
+ * Generate code for create station
  */
 Blockly.JavaScript['sc_create_station_block'] = function (block) {
     var pairs = Blockly.JavaScript.valueToCode(block, 'PAIRS', Blockly.JavaScript.ORDER_NONE) || '';
@@ -626,18 +682,52 @@ var BlocklyAPI = {
      *
      * @param xml
      */
-    addAllBlocks: function (xml) {
+    addStarcoderBlocks: function (xml) {
         var maincat = document.createElement('category');
         maincat.setAttribute('name', 'Starcoder');
         for (var k in Blockly.Blocks) {
-            if (k.slice(0, 3) === 'sc_') {
-                var block = document.createElement('block');
-                block.setAttribute('type', k);
-                maincat.appendChild(block);
+            var proto = Blockly.Blocks[k];
+            var sc = proto.starcoder;
+            if (sc) {
+                var el = document.createElement('block');
+                el.setAttribute('type', k);
+                var defaults = sc.defaults || [];
+                for (var i = 0, l = defaults.length; i < l; i++) {
+                    addChildValue(el, defaults[i]);
+                }
+                maincat.appendChild(el);
             }
         }
         xml.insertBefore(maincat, xml.firstChild);
     }
 };
+
+var blockToField = {
+    'math_number': 'NUM',
+    'text': 'TEXT'
+};
+function addChildValue (el, desc) {
+    var val, block, field, text, fieldname;
+    switch (desc.type) {
+        case 'block':
+        case 'shadow':
+            val = document.createElement('value');
+            val.setAttribute('name', desc.name);
+            block = document.createElement(desc.type);
+            block.setAttribute('type', desc.subtype);
+            fieldname = desc.fieldname || blockToField[desc.subtype];
+            field = document.createElement('field');
+            field.setAttribute('name', fieldname);
+            text = document.createTextNode(desc.value);
+            field.appendChild(text);
+            block.appendChild(field);
+            val.appendChild(block);
+            el.appendChild(val);
+            break;
+        case 'field':
+            // TODO
+            break;
+    }
+}
 
 module.exports = BlocklyAPI;
