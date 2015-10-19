@@ -11,6 +11,7 @@ var MiniMap = require('../ui/MiniMap.js');
 var LeaderBoard = require('../ui/LeaderBoard.js');
 var Toast = require('../ui/Toast.js');
 var HUD = require('../ui/HUD.js');
+var TutorMessage = require('../ui/TutorMessage.js');
 
 var Controls = require('../plugins/Controls.js');
 var SyncClient = require('../plugins/SyncClient.js');

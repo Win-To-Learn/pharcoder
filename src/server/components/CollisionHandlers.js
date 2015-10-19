@@ -16,19 +16,21 @@ module.exports = {
             // Run tests twice - once each way
             while (true) {
                 if (A.serverType === 'Bullet' && B.serverType === 'Asteroid') {
-                    BulletAsteroid.bind(self)(A, B);
+                    BulletAsteroid.call(self, A, B);
+                } else if (A.serverType === 'Bullet' && B.blocker) {
+                    BulletBlocker.call(self, A, B);
                 } else if (A.serverType === 'Bullet' && B.serverType === 'Ship') {
-                    BulletShip.bind(self)(A, B);
+                    BulletShip.call(self, A, B);
                 //} else if (A.serverType === 'Bullet' && B.serverType === 'Tree') {
                 //    BulletTree.bind(self)(A, B);
                 } else if (A.serverType === 'Ship' && B.serverType === 'Crystal') {
-                    ShipCrystal.bind(self)(A, B);
+                    ShipCrystal.call(self, A, B);
                 } else if (A.serverType === 'Ship' && B.serverType === 'Planetoid') {
-                    ShipPlanetoid.bind(self)(A, B, equations);
+                    ShipPlanetoid.call(self, A, B, equations);
                 } else if (A.serverType === 'Ship' && B.deadly) {
-                    ShipDeadly.bind(self)(A, B);
+                    ShipDeadly.call(self, A, B);
                 } else if (A.serverType === 'TractorBeam' && B.tractorable) {
-                    TractorBeamTractorable.bind(self)(A, B);
+                    TractorBeamTractorable.call(self, A, B);
                 } else if (A.serverType === 'Asteroid' && B.serverType === 'Tree') {
                     AsteroidTree.call(self, A, B);
                 } else if (A.serverType === 'Ship' && B.serverType === 'Tree') {
@@ -50,6 +52,10 @@ module.exports = {
 };
 
 // Handlers
+function BulletBlocker (bullet, blocker) {
+    this.world.removeSyncableBody(bullet);
+}
+
 function BulletAsteroid (bullet, asteroid) {
     this.send(bullet.firer.player, 'asteroid pop', asteroid.vectorScale);
     asteroid.explode(true);

@@ -14,7 +14,7 @@ var Starfield = require('./components/Starfield.js');
 var LeaderBoardClient = require('./components/LeaderBoardClient.js');
 var FlexTextWrapper = require('./components/FlexTextWrapper.js');
 var CodeUI = require('./components/CodeUI.js');
-
+var BlocklyAPI = require('./components/BlocklyAPI.js');
 
 var states = {
     boot: require('./states/Boot.js'),
@@ -44,6 +44,7 @@ Starcoder.prototype.init = function () {
     this.implementFeature(Starfield);
     this.implementFeature(LeaderBoardClient);
     //this.implementFeature(DOMInterface);
+    this.implementFeature(BlocklyAPI);
     this.implementFeature(CodeUI);
     this.implementFeature(FlexTextWrapper);
 };

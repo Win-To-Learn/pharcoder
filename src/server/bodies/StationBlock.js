@@ -33,6 +33,7 @@ StationBlock.prototype.defaults = {
 };
 
 StationBlock.prototype.tractorable = true;
+StationBlock.prototype.blocker = true;
 
 StationBlock.prototype.adjustShape = function () {
     SyncBodyBase.prototype.adjustShape.call(this);
