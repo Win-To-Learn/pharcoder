@@ -22,7 +22,7 @@ FSM.prototype.constructor = FSM;
 
 FSM.prototype.transition = function (path) {
     var oldstate = this.state;
-    var newstate = this.machine[oldstate][path];
+    var newstate = this.machine[oldstate] && this.machine[oldstate][path];
     if (newstate) {
         this.goto(oldstate, newstate);
     }
