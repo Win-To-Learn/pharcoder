@@ -37,20 +37,22 @@ FSM.prototype.goto = function (oldstate, newstate) {
         clearInterval(this.immediate);
         this.immediate = null;
     }
-    var self = this;
-    var auto = this.machine[newstate].auto;
-    var timeout = this.machine[newstate].timeout
     this.emit(newstate, oldstate, newstate);
     this.state = newstate;
-    if (auto) {
-        if (timeout) {
-            this.timeout = setTimeout(function () {
-                self.goto(newstate, auto);
-            });
-        } else {
-            this.immediate = setImmediate(function () {
-                self.goto(newstate, auto);
-            });
+    if (this.machine[newstate]) {
+        var self = this;
+        var auto = this.machine[newstate].auto;
+        var timeout = this.machine[newstate].timeout;
+        if (auto) {
+            if (timeout) {
+                this.timeout = setTimeout(function () {
+                    self.goto(newstate, auto);
+                }, timeout);
+            } else {
+                this.immediate = setImmediate(function () {
+                    self.goto(newstate, auto);
+                });
+            }
         }
     }
 };

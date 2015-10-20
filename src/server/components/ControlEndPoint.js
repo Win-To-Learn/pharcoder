@@ -22,6 +22,7 @@ module.exports = {
                 break;
             case 'right_released':
                 ship.state.turn = 0;
+                ship.player.tutorial.transition('stopturning');
                 break;
             case 'left_pressed':
                 ship.state.turn = -1;
@@ -29,6 +30,7 @@ module.exports = {
                 break;
             case 'left_released':
                 ship.state.turn = 0;
+                ship.player.tutorial.transition('stopturning');
                 break;
             case 'up_pressed':
                 ship.state.thrust = 1;
@@ -36,12 +38,15 @@ module.exports = {
                 break;
             case 'up_released':
                 ship.state.thrust = 0;
+                ship.player.tutorial.transition('stopthrust');
                 break;
             case 'down_pressed':
                 ship.state.thrust = -1;
+                ship.player.tutorial.transition('retrothrust');
                 break;
             case 'down_released':
                 ship.state.thrust = 0;
+                ship.player.tutorial.transition('stopthrust');
                 break;
             case 'fire_pressed':
                 ship.state.firing = true;

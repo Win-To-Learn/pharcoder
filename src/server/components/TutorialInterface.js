@@ -14,6 +14,7 @@ module.exports = {
         });
         player.tutorial.once('achievedTurnRight', function () {
             player.getShip().crystals += 50;
+            self.send(player, 'tutorial', 'Well done!');
             self.send(player, 'crystal pickup', 50);
         });
         player.tutorial.once('goalTurnLeft', function () {
@@ -21,6 +22,15 @@ module.exports = {
         });
         player.tutorial.once('achievedTurnLeft', function () {
             player.getShip().crystals += 50;
+            self.send(player, 'tutorial', 'Nice job!');
+            self.send(player, 'crystal pickup', 50);
+        });
+        player.tutorial.once('goalThrust', function () {
+            self.send(player, 'tutorial', 'Use the joystick or arrow keys to move your ship forward.');
+        });
+        player.tutorial.once('achievedThrust', function () {
+            player.getShip().crystals += 50;
+            self.send(player, 'tutorial', 'Great!');
             self.send(player, 'crystal pickup', 50);
         });
     },
@@ -36,12 +46,22 @@ module.exports = {
 
 var standardTutorial = {
     init: {start: 'goalTurnRight'},
-    goalTurnRight: {turnright: 'achievedTurnRight'},
-    achievedTurnRight: {auto: 'goalTurnLeft'},
-    goalTurnLeft: {turnleft: 'achievedTurnLeft'},
-    achievedTurnLeft: {auto: 'goalThrust'},
-    goalThrust: {thrust: 'achievedThrust'},
-    achievedThrust: {auto: 'goalPlantTree'},
-    goalPlantTree: {planttree: 'achievedPlantTree'},
-    achievedPlantTree: {auto: 'placeholder'}
+    goalTurnRight: {turnright: 'pendingTurnRight'},
+    pendingTurnRight: {
+        turnleft: 'goalTurnRight', stopturning: 'goalTurnRight',
+        auto: 'achievedTurnRight', timeout: 500
+    },
+    achievedTurnRight: {auto: 'goalTurnLeft', timeout: 1500},
+    goalTurnLeft: {turnleft: 'pendingTurnLeft'},
+    pendingTurnLeft: {
+        turnright: 'goalTurnLeft', stopturning: 'goalTurnLeft',
+        auto: 'achievedTurnLeft', timeout: 500
+    },
+    achievedTurnLeft: {auto: 'goalThrust', timeout: 1500},
+    goalThrust: {thrust: 'pendingThrust'},
+    pendingThrust: {
+        retrothrust: 'goalThrust', stopthrust: 'goalThrust',
+        auto: 'achievedThrust', timeout: 500
+    },
+    achievedThrust: {auto: 'placeholder', timeout: 1500},
 };
