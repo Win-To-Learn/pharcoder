@@ -90,6 +90,7 @@ function ShipPlanetoid (ship, planetoid, equations) {
             point = equations.contactPointB;
         }
         this.send(ship.player, 'plant tree');
+        ship.player.tutorial.transition('planttree');
         planetoid.plantTree(point[0], point[1], ship);
         ship.player.stats.treesPlanted++;
         this.updatePlayerScore('Trees Planted', ship.player.id, ship.player.stats.treesPlanted);

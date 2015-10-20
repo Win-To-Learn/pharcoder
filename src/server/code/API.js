@@ -349,7 +349,7 @@ API.log = function (player, msg) {
  */
 API.musicOn = function (player) {
     player.socket.emit('music', 'on');
-    //starcoder.send('music', 'on');
+    //starcoder.send(player, 'music', 'on');
 };
 
 /**
@@ -359,7 +359,7 @@ API.musicOn = function (player) {
  */
 API.musicOff = function (player) {
     player.socket.emit('music', 'off');
-    //starcoder.send('music', 'off');
+    //starcoder.send(player, 'music', 'off');
 };
 
 

@@ -33,6 +33,12 @@ module.exports = {
             self.send(player, 'tutorial', 'Great!');
             self.send(player, 'crystal pickup', 50);
         });
+        player.tutorial.once('goalPlantTree', function () {
+            self.send(player, 'tutorial', 'Now fly to a planet and touch it to plant a tree.');
+        });
+        player.tutorial.once('achievedPlantTree', function () {
+            self.send(player, 'tutorial', 'Fantastic!');
+        });
     },
 
     onLoginCB: function (socket, player) {
@@ -63,5 +69,7 @@ var standardTutorial = {
         retrothrust: 'goalThrust', stopthrust: 'goalThrust',
         auto: 'achievedThrust', timeout: 500
     },
-    achievedThrust: {auto: 'placeholder', timeout: 1500},
+    achievedThrust: {auto: 'goalPlantTree', timeout: 1500},
+    goalPlantTree: {planttree: 'achievedPlantTree'},
+    achievedPlantTree: {}
 };
