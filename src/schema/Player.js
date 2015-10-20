@@ -29,7 +29,7 @@ Player.prototype.role = 'player';
 
 Player.prototype.init = function (username) {
     this.username = username;
-}
+};
 
 Player.prototype.addShip = function (ship) {
     this.ships.push(ship);

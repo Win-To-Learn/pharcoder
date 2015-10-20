@@ -46,8 +46,8 @@ Loader.prototype.init = function () {
 Loader.prototype.preload = function () {
     // TODO: HD and SD versions
     // Fonts
-    this.game.load.bitmapFont('title-font',
-        'assets/bitmapfonts/karnivore128.png', 'assets/bitmapfonts/karnivore128.xml');
+    //this.game.load.bitmapFont('title-font',
+    //    'assets/bitmapfonts/karnivore128.png', 'assets/bitmapfonts/karnivore128.xml');
     this.game.load.bitmapFont('readout-yellow',
         'assets/bitmapfonts/heavy-yellow24.png', 'assets/bitmapfonts/heavy-yellow24.xml');
     this.game.load.audio('playerthrust', 'assets/sounds/thrustLoop.ogg');

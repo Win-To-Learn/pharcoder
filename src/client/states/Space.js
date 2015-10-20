@@ -89,8 +89,8 @@ Space.prototype.create = function () {
 
     this.starcoder.syncclient.start();
     //this.starcoder.socket.emit('client ready');
-    this.starcoder.socket.emit('ready');
     this._setupMessageHandlers(this.starcoder.socket);
+    this.starcoder.socket.emit('ready');
 
     // Groups for particle effects
     this.game.thrustgenerator = new ThrustGenerator(this.game);
@@ -105,6 +105,12 @@ Space.prototype.create = function () {
     this.game.hud = new HUD(this.game, (this.game.width - 180)/ 2, 2, 180, 120);
     this.game.ui.add(this.game.hud);
     //this.game.hud.anchor.setTo(0.5, 0);
+
+    this.game.tutormessage = new TutorMessage(this.game);
+    this.game.ui.add(this.game.tutormessage);
+    //this.game.tutormessage.setMessage('');
+    this.game.tutormessage.x = this.game.width / 2;
+    this.game.tutormessage.y = 150;
 
     // MiniMap
     this.game.minimap = new MiniMap(this.game, 300, 300);
@@ -181,6 +187,10 @@ Space.prototype._setupMessageHandlers = function (socket) {
         } else {
             self.game.sounds.music.pause();
         }
+    });
+    socket.on('msg tutorial', function (msg) {
+        console.log('tut msg', msg);
+        self.game.tutormessage.setMessage(msg);
     });
     socket.on('alert', function (text) {
         self.game.sounds.alert.play();

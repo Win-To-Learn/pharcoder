@@ -18,18 +18,21 @@ module.exports = {
         switch (action.type) {
             case 'right_pressed':
                 ship.state.turn = 1;
+                ship.player.tutorial.transition('turnright');
                 break;
             case 'right_released':
                 ship.state.turn = 0;
                 break;
             case 'left_pressed':
                 ship.state.turn = -1;
+                ship.player.tutorial.transition('turnleft');
                 break;
             case 'left_released':
                 ship.state.turn = 0;
                 break;
             case 'up_pressed':
                 ship.state.thrust = 1;
+                ship.player.tutorial.transition('thrust');
                 break;
             case 'up_released':
                 ship.state.thrust = 0;

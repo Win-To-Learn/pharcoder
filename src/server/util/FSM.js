@@ -8,12 +8,13 @@
 
 var EventEmitter = require('events').EventEmitter;
 
-var FSM = function (initial, machine) {
+var FSM = function (machine, initial) {
     EventEmitter.call(this);
     this.initial = initial;
     this.state = initial;
     this.machine = machine;
-    this.interval = null;
+    this.timeout = null;
+    this.immediate = null
 };
 
 FSM.prototype = Object.create(EventEmitter.prototype);
@@ -23,16 +24,34 @@ FSM.prototype.transition = function (path) {
     var oldstate = this.state;
     var newstate = this.machine[oldstate][path];
     if (newstate) {
-        var next = this.machine[newstate].next;
-        this.emit(newstate, path, oldstate, newstate);
-        this.state = newstate;
-        while (next) {
-            this.emit(next, 'next', this.state, next);
-            this.state = next;
-            next = this.machine[next].next;
+        this.goto(oldstate, newstate);
+    }
+};
+
+FSM.prototype.goto = function (oldstate, newstate) {
+    if (this.timeout) {
+        clearTimeout(this.timeout);
+        this.timeout = null;
+    }
+    if (this.immediate) {
+        clearInterval(this.immediate);
+        this.immediate = null;
+    }
+    var self = this;
+    var auto = this.machine[newstate].auto;
+    var timeout = this.machine[newstate].timeout
+    this.emit(newstate, oldstate, newstate);
+    this.state = newstate;
+    if (auto) {
+        if (timeout) {
+            this.timeout = setTimeout(function () {
+                self.goto(newstate, auto);
+            });
+        } else {
+            this.immediate = setImmediate(function () {
+                self.goto(newstate, auto);
+            });
         }
-    } else {
-        emit('badPath', path, oldstate, newstate);
     }
 };
 

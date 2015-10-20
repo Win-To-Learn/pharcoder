@@ -16,6 +16,7 @@ var LeaderBoardEndpoint = require('./components/LeaderBoardEndpoint.js');
 var StaticServer = require('./components/StaticServer.js');
 var MongoInterface = require('./components/MongoInterface.js');
 var SessionHandler = require('./components/SessionHandler.js');
+var TutorialInterface = require('./components/TutorialInterface.js');
 
 var API = require('./code/API.js');
 
@@ -48,6 +49,7 @@ Starcoder.prototype.init = function (app, io) {
     this.implementFeature(MsgServer);
     this.implementFeature(CodeEndpointServer);
     this.implementFeature(MongoInterface);
+    this.implementFeature(TutorialInterface);
     this.newLeaderBoardCategory('Ships Tagged');
     this.newLeaderBoardCategory('Tag Streak');
     this.newLeaderBoardCategory('Trees Planted');
