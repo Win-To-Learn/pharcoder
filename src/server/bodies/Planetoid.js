@@ -38,6 +38,12 @@ Planetoid.prototype._lineWidth = 1;
 Planetoid.prototype._fillAlpha = 0.15;
 Planetoid.prototype._shape = Paths.octagon;
 
+Planetoid.prototype.adjustShape = function () {
+    SyncBodyBase.prototype.adjustShape.call(this);
+    this.centerSensor = new p2.Circle(
+        {radius: 0.1, sensor: true, collisionGroup: this.coreCollisionGroup, collisionMask: this.coreCollisionMask});
+    this.addShape(this.centerSensor);
+};
 
 Planetoid.prototype.plantTree = function (x, y, ship) {
     var tree = this.world.addSyncableBody(Tree, {

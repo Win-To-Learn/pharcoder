@@ -21,8 +21,8 @@ module.exports = {
                     BulletBlocker.call(self, A, B);
                 } else if (A.serverType === 'Bullet' && B.serverType === 'Ship') {
                     BulletShip.call(self, A, B);
-                //} else if (A.serverType === 'Bullet' && B.serverType === 'Tree') {
-                //    BulletTree.bind(self)(A, B);
+                    //} else if (A.serverType === 'Bullet' && B.serverType === 'Tree') {
+                    //    BulletTree.bind(self)(A, B);
                 } else if (A.serverType === 'Ship' && B.serverType === 'Crystal') {
                     ShipCrystal.call(self, A, B);
                 } else if (A.serverType === 'Ship' && B.serverType === 'Planetoid') {
@@ -37,6 +37,9 @@ module.exports = {
                     ShipTree.call(self, A, B);
                 } else if (A.serverType === 'StationBlock' && B.serverType === 'StationBlock') {
                     StationBlockStationBlock.call(self, A, B, equations);
+                } else if (A.serverType === 'StationBlock' && e.shapeA.sensor &&
+                    B.serverType === 'Planetoid' && e.shapeB.sensor) {
+                    StationBlockPlanetoidSensor.call(self, A, B);
                 }
                 // Swap A and B if we haven't already
                 if (t) {
@@ -155,4 +158,10 @@ function ShipTree (ship, tree) {
 
 function StationBlockStationBlock (sb1, sb2, equations) {
     sb1.attach(sb2, sb1.position[0] + equations[0].contactPointA[0], sb1.position[1] + equations[0].contactPointA[1]);
+}
+
+var CENTER_EPISON_SQ = (1e-1)*(1e-1);           // Square of min distance for bodies to be considered at the same  place
+
+function StationBlockPlanetoidSensor (A, B) {
+    console.log('Boop in da middle');
 }
