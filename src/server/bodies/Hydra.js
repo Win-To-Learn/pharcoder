@@ -9,6 +9,7 @@ var p2 = require('p2');
 var Starcoder = require('../../common/Starcoder.js');
 
 var SyncBodyBase = require('./SyncBodyBase');
+var Crystal = require('./Crystal.js');
 var UpdateProperties = require('../../common/UpdateProperties.js').GenericOrb;
 var Paths = require('../../common/Paths.js');
 
@@ -35,6 +36,7 @@ HydraHead.prototype._shape = Paths.octagon;
 
 HydraHead.prototype.onWorldAdd = function () {
     this.constraints = [];
+    this.arms = [];
     for (var i = 0; i < this.numArms; i++) {
         var angle = 2 * i * Math.PI / this.numArms;
         var scale = this.vectorScale;
@@ -58,6 +60,7 @@ HydraHead.prototype.onWorldAdd = function () {
             lastarm = arm;
             this.world.addConstraint(constraint);
             this.constraints.push(constraint);
+            this.arms.push(arm);
         }
     }
 };
@@ -66,6 +69,22 @@ HydraHead.prototype.update = function () {
     if (this.angularVelocity < this.spinSpeed) {
         this.angularForce = this.spinForce;
     }
+};
+
+HydraHead.prototype.kill = function () {
+    for (var i = 0, l = this.arms.length; i < l; i++) {
+        this.world.removeSyncableBody(this.arms[i]);
+    }
+    for (i = 0, l = this.constraints.length; i < l; i++) {
+        this.world.removeConstraint(this.constraints[i]);
+    }
+    this.world.removeSyncableBody(this);
+    this.world.addSyncableBody(Crystal, {
+        x: this.position[0],
+        y: this.position[1],
+        mass: 10
+    });
+
 };
 
 var HydraArm = function (config) {
@@ -89,5 +108,6 @@ HydraArm.prototype.defaults = {mass: 50, lineColor: '#00ff00'};
 HydraArm.prototype._shape = Paths.octagon;
 
 HydraArm.prototype.deadly = true;
+HydraArm.prototype.blocker = true;
 
 module.exports = HydraHead;

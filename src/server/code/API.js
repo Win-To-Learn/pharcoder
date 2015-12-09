@@ -376,7 +376,7 @@ API.alert = function (player, text) {
 API.createStationBlock = function (player, shape) {
     _normalizeShape(shape);
     var ship = player.getShip();
-    var station = ship.world.addSyncableBody(StationBlock, {shape: shape, vectorScale: 1, mass: 5});
+    var station = ship.world.addSyncableBody(StationBlock, {shape: shape, vectorScale: 1, mass: 5, owner: player});
     // FIXME: positioning and error check
     var r = ship.boundingRadius + station.boundingRadius + 1;
     station.position[0] = ship.position[0] + sin(ship.angle) * r;

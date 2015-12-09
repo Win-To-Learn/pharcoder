@@ -40,6 +40,8 @@ module.exports = {
                 } else if (A.serverType === 'StationBlock' && e.shapeA.sensor &&
                     B.serverType === 'Planetoid' && e.shapeB.sensor) {
                     StationBlockPlanetoidSensor.call(self, A, B);
+                } else if (A.serverType === 'Bullet' && B.serverType === 'HydraHead') {
+                    BulletHydraHead.call(self, A, B);
                 }
                 // Swap A and B if we haven't already
                 if (t) {
@@ -162,6 +164,13 @@ function StationBlockStationBlock (sb1, sb2, equations) {
 
 var CENTER_EPISON_SQ = (1e-1)*(1e-1);           // Square of min distance for bodies to be considered at the same  place
 
-function StationBlockPlanetoidSensor (A, B) {
-    console.log('Boop in da middle');
+function StationBlockPlanetoidSensor (station, planet) {
+    if (station.owner) {
+        station.owner.tutorial.transition('planetoiddock');
+    }
+}
+
+function BulletHydraHead (bullet, head) {
+    head.kill();
+    this.world.removeSyncableBody(bullet);
 }

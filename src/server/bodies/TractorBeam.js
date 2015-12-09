@@ -83,6 +83,7 @@ TractorBeam.prototype.retract = function (instant) {
     //    delete this.tractorConstraint;
     //}
     delete this.beamParent.beamChild;
+    //console.log('Tract', this);
     this.world.removeSyncableBody(this);
     if (this.beamParent instanceof TractorBeam) {
         if (instant) {
