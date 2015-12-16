@@ -71,8 +71,8 @@ function ShipCrystal (ship, crystal) {
     // TODO: Variable crystal values?
     if (!crystal.pickedup) {
         crystal.pickedup = true;        // Flag to avoid double pickups
-        ship.crystals += 50;
-        this.send(ship.player, 'crystal pickup', 50);
+        ship.crystals += crystal.value;
+        this.send(ship.player, 'crystal pickup', crystal.value);
         this.world.removeSyncableBody(crystal);
     }
 }
@@ -162,7 +162,7 @@ function StationBlockStationBlock (sb1, sb2, equations) {
     sb1.attach(sb2, sb1.position[0] + equations[0].contactPointA[0], sb1.position[1] + equations[0].contactPointA[1]);
 }
 
-var CENTER_EPISON_SQ = (1e-1)*(1e-1);           // Square of min distance for bodies to be considered at the same  place
+//var CENTER_EPISON_SQ = (1e-1)*(1e-1);           // Square of min distance for bodies to be considered at the same  place
 
 function StationBlockPlanetoidSensor (station, planet) {
     if (station.owner) {
@@ -173,4 +173,6 @@ function StationBlockPlanetoidSensor (station, planet) {
 function BulletHydraHead (bullet, head) {
     head.kill();
     this.world.removeSyncableBody(bullet);
+    //head.setTimer(head.respawnTime, {fun: head.respawn});
+    setTimeout(head.respawn, head.respawnTime*1000, this.world);
 }

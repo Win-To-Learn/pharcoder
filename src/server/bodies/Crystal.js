@@ -35,6 +35,8 @@ Crystal.prototype._shape = Paths.octagon;
 
 Crystal.prototype.updateProperties = ['vectorScale'];
 
+Crystal.prototype.value = 50;
+
 //Crystal.prototype.getPropertyUpdate = function (propname, properties) {
 //    switch (propname) {
 //        default:

@@ -34,6 +34,8 @@ HydraHead.prototype.defaults = {mass: 100, vectorScale: 1.5, numArms: 5, numSegm
 
 HydraHead.prototype._shape = Paths.octagon;
 
+HydraHead.prototype.respawnTime = 5;
+
 HydraHead.prototype.onWorldAdd = function () {
     this.constraints = [];
     this.arms = [];
@@ -82,9 +84,14 @@ HydraHead.prototype.kill = function () {
     this.world.addSyncableBody(Crystal, {
         x: this.position[0],
         y: this.position[1],
-        mass: 10
+        mass: 10,
+        value: 500
     });
 
+};
+
+HydraHead.prototype.respawn = function (world) {
+    world.addSyncableBody(HydraHead, {position: {random: 'world', pad: 50}});
 };
 
 var HydraArm = function (config) {

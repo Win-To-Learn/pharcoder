@@ -29,7 +29,7 @@ var SyncBodyBase = function (config) {
                 this.velocity[1] = config[k];
                 break;
             default:
-                if (!this[k]) {
+                if (!this.hasOwnProperty(k)) {
                     this[k] = config[k];
                 }
                 break;
