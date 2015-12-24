@@ -95,7 +95,8 @@ function ShipPlanetoid (ship, planetoid, equations) {
             point = equations.contactPointB;
         }
         this.send(ship.player, 'plant tree');
-        ship.player.tutorial.transition('planttree');
+        //ship.player.tutorial.transition('planttree');
+        ship.player.achieve('planttree');
         planetoid.plantTree(point[0], point[1], ship);
         ship.player.stats.treesPlanted++;
         this.updatePlayerScore('Trees Planted', ship.player.id, ship.player.stats.treesPlanted);
@@ -166,7 +167,8 @@ function StationBlockStationBlock (sb1, sb2, equations) {
 
 function StationBlockPlanetoidSensor (station, planet) {
     if (station.owner) {
-        station.owner.tutorial.transition('planetoiddock');
+        station.owner.achieve('planetoiddock')
+        //station.owner.tutorial.transition('planetoiddock');
     }
 }
 

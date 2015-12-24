@@ -31,6 +31,18 @@ Player.prototype.init = function (username) {
     this.username = username;
 };
 
+/**
+ * Note player action for tutorial and/or achievement system
+ *
+ * @param {string} achievement - key for achievement/tutorial step
+ */
+Player.prototype.achieve = function (achievement) {
+    if (this.tutorial) {
+        this.tutorial.transition(achievement);
+    }
+    // TODO: Achievements
+};
+
 Player.prototype.addShip = function (ship) {
     this.ships.push(ship);
     ship.player = this;
@@ -40,10 +52,6 @@ Player.prototype.getShip = function (which) {
     which = which || 0;
     return this.ships[which];
 };
-
-//Player.prototype.fromDB = function (rec) {
-//
-//};
 
 Player.prototype.msgNew = function () {
     // TODO: More info
