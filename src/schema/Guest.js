@@ -19,6 +19,7 @@ Guest.prototype.constructor = Guest;
 Player.playerTypes['Guest'] = Guest;
 
 Guest.prototype.role = 'guest';
+Guest.prototype.cType = 'Guest';
 
 Guest.fromDB = function (record) {
     var player = new Guest();

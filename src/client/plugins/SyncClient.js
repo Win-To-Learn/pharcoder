@@ -41,7 +41,7 @@ SyncClient.prototype.start = function () {
         self.game.paused = true;
     });
     this.socket.on('reconnect', function () {
-        this.game.paused = false;
+        self.game.paused = false;
     });
     // Measure client-server time delta
     this.socket.on('timesync', function (data) {

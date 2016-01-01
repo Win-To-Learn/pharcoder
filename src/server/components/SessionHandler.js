@@ -58,19 +58,18 @@ module.exports = {
 
     loginPOST: function (req, res) {
         var self = this;
+        // TODO: Handle cases: known player, login code, guest
         if (req.body.user) {
-            this.getPlayerByUsername(req.body.user, function (player) {
+            this.getPlayerLoginInfo(req.body.user, function (player) {
                 if (player) {
                     bcrypt.compare(req.body.pass, player.password, function (err, match) {
                         if (err || !match) {
                             res.status(401).end();
                         } else {
                             // TODO: Could send to different locations based on role
-                            //var player = Player.create(record);
                             delete player.password;
                             req.session.player = player;
                             req.session.player.role = 'player';
-                            //self.pending[player._id] = player;
                             res.status(200).send({goto: 'play.html'}).end();
                         }
                     })

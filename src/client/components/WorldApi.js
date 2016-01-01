@@ -30,8 +30,8 @@ module.exports = {
         var ctor = bodyTypes[type];
         var playerShip = false;
         if (!ctor) {
-            this.log('Unknown body type:', type);
-            this.log(config);
+            console.log('Unknown body type:', type);
+            console.log(config);
             return;
         }
         if (type === 'Ship' && config.properties.playerid === this.player.id) {
