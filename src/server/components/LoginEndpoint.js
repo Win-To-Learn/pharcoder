@@ -39,6 +39,10 @@ module.exports = {
                         self.loginFailure(socket, 'Login failure');
                     }
                 });
+            } else if (type === 'guest') {
+                var g = new Guest(identity);
+                g.id = token;
+                self.loginSuccess(socket, g);
             }
         });
         //if (token.guest) {

@@ -86,10 +86,11 @@ module.exports = {
             });
         } else if (req.body.tag) {
             console.log('Guest');
-            // Random guest
-            req.session.guest = req.body.tag;
-            req.session.server = req.body.server;
-            res.status(200).send({goto: 'play.html'}).end();
+            this.addTicket('FIXME', 'guest', req.body.tag, function (ticketid) {
+                req.session.player = {id: ticketid};
+                req.session.ticketid = ticketid;
+                res.status(200).send({goto: 'play.html'}).end();
+            });
         } else if (req.body.code) {
             // Subscribe code
         }

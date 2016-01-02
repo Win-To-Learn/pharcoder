@@ -78,6 +78,12 @@ Player.prototype.init = function () {
     };
 
     /**
+     * Saved code
+     * @type {object}
+     */
+    this.codeSnippets = {};
+
+    /**
      * Code to be executed by interpreter
      * @type {Array}
      */
