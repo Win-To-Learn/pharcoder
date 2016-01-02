@@ -143,6 +143,7 @@ module.exports = {
             self.mongoDB = db;
             self.mongoPeople = db.collection('people');
             self.mongoGuests = db.collection('guests');
+            self.events.emit('dbConnected');
             cb();
         })
     },
@@ -157,7 +158,6 @@ module.exports = {
      * @param {boolean} raw - return POJO instead of mapped object
      */
     mongoFind: function (col, query, cb, limit, projection, raw) {
-        var self = this;
         var cur = col.find(query, projection);
         if (limit) {
             cur = cur.limit(limit);
@@ -178,7 +178,24 @@ module.exports = {
                 }
                 cb(res);
             }
-        }, self.handleDBError.bind(self));
+        }, this.handleDBError.bind(this));
+    },
+
+    /**
+     * Insert a single document into a mongo collection
+     * @param {Collection} col - Collection to receive document
+     * @param {object} doc - Document to insert
+     * @param {function} cb - Callback to receive result
+     */
+    mongoInsertOne: function (col, doc, cb) {
+        var self = this;
+        col.insertOne(doc, null).then(function (res) {
+            if (res.insertedCount === 1) {
+                cb(res.insertedId.str, res.ops[0]);
+            } else {
+                self.handleDBError.call(self);
+            }
+        }, this.handleDBError.bind(this));
     },
 
     /**

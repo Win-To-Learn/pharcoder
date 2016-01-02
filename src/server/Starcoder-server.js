@@ -5,6 +5,8 @@
  */
 'use strict';
 
+var EventEmitter = require('events').EventEmitter;
+
 var Starcoder = require('../common/Starcoder.js');
 var SyncServer = require('./components/SyncServer.js');
 var MsgServer = require('./components/MsgServer.js');
@@ -17,6 +19,7 @@ var StaticServer = require('./components/StaticServer.js');
 var MongoInterface = require('./components/MongoInterface.js');
 var SessionHandler = require('./components/SessionHandler.js');
 var TutorialInterface = require('./components/TutorialInterface.js');
+var TicketHandler = require('./components/TicketHandler.js');
 
 var API = require('./code/API.js');
 
@@ -31,6 +34,7 @@ var World = require('./bodies/World.js');
 Starcoder.prototype.init = function (app, io) {
     this.app = app;
     this.io = io;
+    this.events = new EventEmitter();
     this.players = {};          // Logged in schema
     this.onConnectCB = [];
     this.onLoginCB = [];
@@ -50,6 +54,7 @@ Starcoder.prototype.init = function (app, io) {
     this.implementFeature(CodeEndpointServer);
     this.implementFeature(MongoInterface);
     this.implementFeature(TutorialInterface);
+    this.implementFeature(TicketHandler);
     this.newLeaderBoardCategory('Ships Tagged');
     this.newLeaderBoardCategory('Tag Streak');
     this.newLeaderBoardCategory('Trees Planted');
