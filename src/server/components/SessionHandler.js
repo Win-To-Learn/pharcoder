@@ -68,10 +68,16 @@ module.exports = {
                             res.status(401).end();
                         } else {
                             // TODO: Could send to different locations based on role
-                            delete player.password;
-                            req.session.player = player.getPOJO();
-                            //req.session.player.role = 'player';
-                            res.status(200).send({goto: 'play.html'}).end();
+                            //delete player.password;
+                            //req.session.player = player.getPOJO();
+                            ////req.session.player.role = 'player';
+                            //res.status(200).send({goto: 'play.html'}).end();
+                            self.addTicket('FIXME', 'player', player.id, function (ticketid) {
+                                console.log('ticket id', ticketid);
+                                req.session.player = {id: player.id};
+                                req.session.ticketid = ticketid;
+                                res.status(200).send({goto: 'play.html'}).end();
+                            });
                         }
                     })
                 } else {
@@ -90,13 +96,19 @@ module.exports = {
     },
 
     identityGET: function (req, res) {
-        if (req.session.player) {
-            res.status(200).send({player: req.session.player, serverUri: this.getServerUri(req.player, req)}).end();
-        } else if (req.session.guest) {
-            res.status(200).send({guest: req.session.guest, serverUri: req.server}).end();
+        console.log('Identity Get');
+        if (req.session.ticketid) {
+            res.status(200).send({player: req.session.player, ticketid: req.session.ticketid, serverUri: req.server});
         } else {
             res.status(401).end();
         }
+        //if (req.session.player) {
+        //    res.status(200).send({player: req.session.player, serverUri: this.getServerUri(req.player, req)}).end();
+        //} else if (req.session.guest) {
+        //    res.status(200).send({guest: req.session.guest, serverUri: req.server}).end();
+        //} else {
+        //    res.status(401).end();
+        //}
     }
 };
 

@@ -25,20 +25,33 @@ module.exports = {
     //    }
     //},
 
+    // FIXME: More cases to handle
     checkLogin: function (socket, token) {
         //var player = this.pending[id];
         var self = this;
-        if (token.guest) {
-            this.loginSuccess(socket, new Guest(token.guest));
-        } else {
-            this.getPlayerById(token.id, function (player) {
-                if (player) {
-                    self.loginSuccess(socket, player);
-                } else {
-                    self.loginFailure(socket, 'Login failure');
-                }
-            });
-        }
+        console.log('Check login', token);
+        this.checkTicket(token, 'FIXME', function (type, identity) {
+            if (type === 'player') {
+                self.getPlayerById(identity, function (player) {
+                    if (player) {
+                        self.loginSuccess(socket, player);
+                    } else {
+                        self.loginFailure(socket, 'Login failure');
+                    }
+                });
+            }
+        });
+        //if (token.guest) {
+        //    this.loginSuccess(socket, new Guest(token.guest));
+        //} else {
+        //    this.getPlayerById(token.id, function (player) {
+        //        if (player) {
+        //            self.loginSuccess(socket, player);
+        //        } else {
+        //            self.loginFailure(socket, 'Login failure');
+        //        }
+        //    });
+        //}
     },
 
     loginSuccess: function (socket, player) {

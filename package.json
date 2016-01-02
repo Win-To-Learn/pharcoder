@@ -37,7 +37,7 @@
     "express-session": "~1.11.3",
     "minimist": "~1.1.2",
     "connect-mongo": "~0.8.2",
-    "mongodb": "~2.0.42",
+    "mongodb": "~2.1.2",
     "bcryptjs": "~2.2.1",
     "nexe": "^0.4.1",
     "p2": "~0.7.0",

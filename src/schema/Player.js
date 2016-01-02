@@ -118,7 +118,7 @@ Player.prototype.init = function () {
  */
 Player.prototype.restore = function (record) {
     //console.log('P restore', record);
-    this.id = record._id;
+    this.id = record._id.toHexString();
     this.gamertag = record.gamertag || record.username; // backwards compatibility
     this.password = record.password;
     this.codeSnippets = record.codeSnippets;

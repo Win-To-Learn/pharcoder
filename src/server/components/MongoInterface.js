@@ -165,7 +165,7 @@ module.exports = {
                 var prom = cur.next();
             }
         } else {
-            prom = c.toArray();
+            prom = cur.toArray();
         }
         prom.then(function (res) {
             if (raw) {
@@ -191,7 +191,7 @@ module.exports = {
         var self = this;
         col.insertOne(doc, null).then(function (res) {
             if (res.insertedCount === 1) {
-                cb(res.insertedId.str, res.ops[0]);
+                cb(res.insertedId.toHexString(), res.ops[0]);
             } else {
                 self.handleDBError.call(self);
             }
