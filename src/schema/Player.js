@@ -100,6 +100,12 @@ Player.prototype.init = function () {
      * @type {FSM}
      */
     this.tutorial = null;
+
+    /**
+     * Defined as property to make non-enumerable
+     * @type {number}
+     */
+    Object.defineProperty(this, 'cacheTimeout', {writable: true});
 };
 
 /**
@@ -111,6 +117,7 @@ Player.prototype.init = function () {
  * @param {string} record.role - Role determining level of access to game
  */
 Player.prototype.restore = function (record) {
+    //console.log('P restore', record);
     this.id = record._id;
     this.gamertag = record.gamertag || record.username; // backwards compatibility
     this.password = record.password;

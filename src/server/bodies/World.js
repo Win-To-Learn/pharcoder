@@ -149,7 +149,7 @@ World.prototype.addPlayerShip = function (player) {
     var ship = this.addSyncableBody(bodyTypes.Ship,
         {position: {random: 'world', pad: 25}, lineColor: {random: 'color'}}, player);
     ship.player = player;
-    ship.tag = player.username;
+    ship.tag = player.gamertag;
     player.addShip(ship);
     this._ships.push(ship);
     return ship;

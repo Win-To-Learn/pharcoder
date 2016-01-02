@@ -28,13 +28,17 @@ module.exports = {
     checkLogin: function (socket, token) {
         //var player = this.pending[id];
         var self = this;
-        this.getPlayerOrGuest(token, function (player) {
-            if (player) {
-                self.loginSuccess(socket, player);
-            } else {
-                self.loginFailure(socket, 'Login failure');
-            }
-        });
+        if (token.guest) {
+            this.loginSuccess(socket, new Guest(token.guest));
+        } else {
+            this.getPlayerById(token.id, function (player) {
+                if (player) {
+                    self.loginSuccess(socket, player);
+                } else {
+                    self.loginFailure(socket, 'Login failure');
+                }
+            });
+        }
     },
 
     loginSuccess: function (socket, player) {

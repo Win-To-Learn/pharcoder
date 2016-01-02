@@ -63,7 +63,7 @@ Starcoder.prototype.serverConnect = function () {
             //console.log('data', data);
             var serverUri = data.serverUri;
             self.player = data.player;
-            self.player.id = self.player._id;
+            self.player.id = self.player.id;
             self.socket = self.io(serverUri, self.config.ioClientOptions);
             self.socket.on('connect', function () {
                 self.connected = true;

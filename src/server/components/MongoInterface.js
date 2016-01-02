@@ -84,6 +84,51 @@ var save = function (o) {
 
 module.exports = {
     /**
+     * Set up cache
+     */
+    init: function () {
+        this.mongoCache = {};
+    },
+
+    /**
+     * Add object to cache
+     * @param {string} cat - Category (basic namespacing)
+     * @param {string} id
+     * @param {object} o - Object to be cached
+     * @param {number} timeout - Cache lifetime of object (ms)
+     */
+    cacheObject: function (cat, id, o, timeout) {
+        var cache = this.mongoCache[cat];
+        if (!cache) {
+            cache = {};
+            this.mongoCache[cat] = cache;
+        }
+        if (!timeout) {
+            timeout = 1e12;     // i.e. a long time
+        }
+        o.cacheTimeout = Date.now() + timeout;
+        cache[id] = o;
+    },
+
+    /**
+     * Retrieve cached object or null if unavailable or expired
+     * @param cat
+     * @param id
+     * @return {object}
+     */
+    getCachedObject: function (cat, id) {
+        var cache = this.mongoCache[cat];
+        if (!cache) {
+            return undefined;
+        }
+        var o = cache[id]
+        if (o && o.cacheTimeout < Date.now()) {
+            return o;
+        }
+        return null;
+    },
+
+    /**
      * Make initial connection to MongoDB
      * @param {function} cb - Callback on successful connect
      */
@@ -101,18 +146,6 @@ module.exports = {
             cb();
         })
     },
-
-    //getPlayerByUsername: function (username, cb) {
-    //    this.mongoPeople.findOne({username: username}).then(cb, this.handleDBError.bind(this));
-    //},
-
-    //checkPlayerLogin: function (gamertag, password, cb) {
-    //    this.mongoPeople.findOne({username: gamertag}).then(function (playerRec) {
-    //        bcrypt.compare(password, playerRec.password, function (err, match) {
-    //
-    //        })
-    //    }, this.handleDBError.bind(this));
-    //},
 
     /**
      * Interface for querying mongo collection and (usually) returning Starcoder objects
@@ -149,12 +182,43 @@ module.exports = {
     },
 
     /**
-     * Get subset of player info sufficient to check login
+     * Get player by gamertag
      * @param {string} gamertag - Identifier for player
      * @param {function} cb - Callback to receive results
      */
-    getPlayerLoginInfo: function (gamertag, cb) {
-        this.mongoFind(this.mongoPeople, {username: gamertag}, cb, 1, {username: 1, password: 1, _id: 1});
+    getPlayerByGamertag: function (gamertag, cb) {
+        var self = this;
+        this.mongoFind(this.mongoPeople, {username: gamertag}, function (player) {
+            if (player) {
+                self.cacheObject('player', player.id, player, 10000);
+                cb(player);
+            } else {
+                cb(null);
+            }
+        }, 1);
+    },
+
+    /**
+     * Get player object by _id key
+     * @param {string} id
+     * @param {function} cb - Callback to receive result
+     * @param {boolean} skipcache - Ignore cache and force DB access
+     */
+    getPlayerById: function (id, cb, skipcache) {
+        var self = this;
+        if (!skipcache) {
+            var p = this.getCachedObject('player', id);
+        }
+        if (!p) {
+            p = this.mongoFind(this.mongoPeople, {_id: new ObjectId(id)}, function (player) {
+                if (player) {
+                    self.cacheObject('player', id, player, 10000);
+                    cb(player);
+                } else {
+                    cb(null);
+                }
+            }, 1);
+        }
     },
 
     /**
@@ -166,39 +230,9 @@ module.exports = {
 
     },
 
-    getPlayerByGamertag: function (gamertag, projection, cb) {
-        if (typeof projection === 'function') {
-            cb = projection;
-            projection = null;
-        }
-        this.mongoPeople.findOne({username: gamertag}, projection).then(function (record) {
-            if (projection) {
-                cb(record);
-            } else {
-                cb(restore(record));
-            }
-        }, this.handleDBError.bind(this));
-    },
-
     getNewGuest: function (tagname, server, cb) {
         this.mongoGuests.insertOne({username: tagname}).then(function (result) {
             cb(result.ops[0]);
-        }, this.handleDBError.bind(this));
-    },
-
-    getPlayerOrGuest: function (spec, cb) {
-        if (spec.role === 'player') {
-            var col = this.mongoPeople;
-        } else {
-            col = this.mongoGuests;
-        }
-        col.findOne({_id: ObjectId.createFromHexString(spec._id)}).then(function (record) {
-            //if (spec.role === 'player') {
-            //    cb(Player.fromDB(record));
-            //} else {
-            //    cb(Guest.fromDB(record));
-            //}
-            cb(restore(record));
         }, this.handleDBError.bind(this));
     },
 

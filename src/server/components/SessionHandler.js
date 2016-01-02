@@ -60,7 +60,8 @@ module.exports = {
         var self = this;
         // TODO: Handle cases: known player, login code, guest
         if (req.body.user) {
-            this.getPlayerLoginInfo(req.body.user, function (player) {
+            // Known user with password
+            this.getPlayerByGamertag(req.body.user, function (player) {
                 if (player) {
                     bcrypt.compare(req.body.pass, player.password, function (err, match) {
                         if (err || !match) {
@@ -68,8 +69,8 @@ module.exports = {
                         } else {
                             // TODO: Could send to different locations based on role
                             delete player.password;
-                            req.session.player = player;
-                            req.session.player.role = 'player';
+                            req.session.player = player.getPOJO();
+                            //req.session.player.role = 'player';
                             res.status(200).send({goto: 'play.html'}).end();
                         }
                     })
@@ -77,19 +78,22 @@ module.exports = {
                     res.status(401).end();
                 }
             });
-        } else {
-            this.getNewGuest(req.body.tag, req.body.server, function (guest) {
-                req.session.player = guest;
-                req.session.player.role = 'guest';
-                res.status(200).send({goto: 'play.html'}).end();
-            });
+        } else if (req.body.tag) {
+            console.log('Guest');
+            // Random guest
+            req.session.guest = req.body.tag;
+            req.session.server = req.body.server;
+            res.status(200).send({goto: 'play.html'}).end();
+        } else if (req.body.code) {
+            // Subscribe code
         }
     },
 
     identityGET: function (req, res) {
-        var player = req.session.player;
-        if (player) {
-            res.status(200).send({player: player, serverUri: this.getServerUri(player, req)}).end();
+        if (req.session.player) {
+            res.status(200).send({player: req.session.player, serverUri: this.getServerUri(req.player, req)}).end();
+        } else if (req.session.guest) {
+            res.status(200).send({guest: req.session.guest, serverUri: req.server}).end();
         } else {
             res.status(401).end();
         }

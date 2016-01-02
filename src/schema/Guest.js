@@ -8,24 +8,40 @@
 
 var Player = require('./Player.js');
 
-var Guest = function () {
-    Player.call(this);
-    //this.username = gamertag || ('Guest' + this.id);
+var Guest = function (tag) {
+    Player.prototype.init.call(this);
+    this.gamertag = tag;
 };
 
 Guest.prototype = Object.create(Player.prototype);
 Guest.prototype.constructor = Guest;
+
+/**
+ * Append a number to the gamertag to make it distinct from all other logged in players
+ * @param {Player[]} players
+ */
+Guest.prototype.disambiguate = function (players) {
+    var n = 1;
+    var base = this.gamertag + ' ';
+    outer:
+    while (true) {
+        for (var i = 0, l = players.length; i < l; i++) {
+            if (this.gamertag === players[i].gamertag) {
+                this.gamertag = base + n++;
+                continue outer;
+            }
+        }
+        break;
+    }
+};
 
 Player.playerTypes['Guest'] = Guest;
 
 Guest.prototype.role = 'guest';
 Guest.prototype.cType = 'Guest';
 
-Guest.fromDB = function (record) {
-    var player = new Guest();
-    player.id = record._id;
-    player.username = record.username;
-    return player;
-};
+// Guests don't get stored in the DB
+Guest.prototype.restore = undefined;
+Guest.prototype.save = undefined;
 
 module.exports = Guest;
