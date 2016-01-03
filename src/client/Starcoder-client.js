@@ -62,15 +62,19 @@ Starcoder.prototype.serverConnect = function () {
         success: function (data, status) {
             //console.log('data', data);
             var serverUri = data.serverUri;
-            self.player = data.player;
+            //self.player = data.player;
             self.socket = self.io(serverUri, self.config.ioClientOptions);
             self.socket.on('connect', function () {
-                self.connected = true;
-                self.lastNetError = null;
+                //self.connected = true;
+                //self.lastNetError = null;
                 for (var i = 0, l = self.onConnectCB.length; i < l; i++) {
                     self.onConnectCB[i].call(self, self.socket);
                 }
                 self.socket.emit('login', data.ticketid);
+                self.socket.on('loginSuccess', function (player) {
+                    self.player = player;
+                    self.connected = true;
+                });
             })
         }
     })

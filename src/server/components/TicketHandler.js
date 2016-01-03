@@ -23,7 +23,6 @@ module.exports = {
      * @param {function} cb - Callback to receive result
      */
     addTicket: function (server, type, identity, cb) {
-        console.log('Add ticket', server, type, identity);
         var self = this;
         var doc = {server: server, type: type, identity: identity, createdAt: new Date()};
         this.mongoInsertOne(this.mongoTickets, doc, function (id) {
@@ -39,7 +38,6 @@ module.exports = {
      * @param {function} cb - Callback to receive result
      */
     checkTicket: function (id, server, cb) {
-        console.log('check ticket', id, server);
         this.mongoFind(this.mongoTickets, {_id: new ObjectId(id)}, function (doc) {
             // TODO: Check server validity
             if (doc) {

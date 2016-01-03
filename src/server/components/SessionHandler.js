@@ -74,8 +74,9 @@ module.exports = {
                             //res.status(200).send({goto: 'play.html'}).end();
                             self.addTicket('FIXME', 'player', player.id, function (ticketid) {
                                 console.log('ticket id', ticketid);
-                                req.session.player = {id: player.id};
+                                //req.session.player = {id: player.id};
                                 req.session.ticketid = ticketid;
+                                req.session.server = 'FIXME';
                                 res.status(200).send({goto: 'play.html'}).end();
                             });
                         }
@@ -85,10 +86,11 @@ module.exports = {
                 }
             });
         } else if (req.body.tag) {
-            console.log('Guest');
             this.addTicket('FIXME', 'guest', req.body.tag, function (ticketid) {
-                req.session.player = {id: ticketid};
+                console.log('Tick',ticketid);
+                //req.session.player = {id: ticketid};
                 req.session.ticketid = ticketid;
+                req.session.server = 'FIXME';
                 res.status(200).send({goto: 'play.html'}).end();
             });
         } else if (req.body.code) {
@@ -97,45 +99,11 @@ module.exports = {
     },
 
     identityGET: function (req, res) {
-        console.log('Identity Get');
+        console.log('id get');
         if (req.session.ticketid) {
-            res.status(200).send({player: req.session.player, ticketid: req.session.ticketid, serverUri: req.server});
+            res.status(200).send({ticketid: req.session.ticketid, serverUri: req.server});
         } else {
             res.status(401).end();
         }
-        //if (req.session.player) {
-        //    res.status(200).send({player: req.session.player, serverUri: this.getServerUri(req.player, req)}).end();
-        //} else if (req.session.guest) {
-        //    res.status(200).send({guest: req.session.guest, serverUri: req.server}).end();
-        //} else {
-        //    res.status(401).end();
-        //}
     }
 };
-
-//function _unserialize (obj) {
-//    var session = {};
-//    for (var prop in obj) {
-//        if (prop === 'player') {
-//            session.player = Player.fromDB(obj.player);
-//        } else {
-//            session[prop] = obj[prop];
-//        }
-//    }
-//}
-//
-//function _serialize (session) {
-//    // Copy each property of the session to a new object
-//    var obj = {};
-//    for (var prop in session) {
-//        if (prop === 'cookie') {
-//            // Convert the cookie instance to an object, if possible
-//            // This gets rid of the duplicate object under session.cookie.data property
-//                obj.cookie = session.cookie.toJSON ? session.cookie.toJSON() : session.cookie;
-//        } else {
-//                obj[prop] = session[prop];
-//        }
-//    }
-//
-//    return obj;
-//}

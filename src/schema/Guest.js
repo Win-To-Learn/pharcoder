@@ -8,9 +8,12 @@
 
 var Player = require('./Player.js');
 
+var idCounter = 1;
+
 var Guest = function (tag) {
     Player.prototype.init.call(this);
     this.gamertag = tag;
+    this.id = 'G' + idCounter++;
 };
 
 Guest.prototype = Object.create(Player.prototype);

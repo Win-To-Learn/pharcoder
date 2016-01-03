@@ -36,6 +36,7 @@ Starcoder.prototype.init = function (app, io) {
     this.io = io;
     this.events = new EventEmitter();
     this.players = {};          // Logged in schema
+    this.playerList = [];
     this.onConnectCB = [];
     this.onLoginCB = [];
     this.onReadyCB = [];
@@ -81,6 +82,8 @@ Starcoder.prototype.onDisconnect = function (socket) {
         this.onDisconnectCB[i].call(this, socket, player);
     }
     if (player) {
+        var i = this.playerList.indexOf(player);
+        this.playerList.splice(i, 1);
         delete this.players[socket.id];
         this.world.removeSyncableBody(player.getShip());
     }
@@ -128,6 +131,10 @@ Starcoder.prototype.getServerUri = function (player, req) {
 
 Starcoder.prototype.addPlayer = function (player) {
     this.players[player.socket.id] = player;
+    if (player.disambiguate) {
+        player.disambiguate(this.playerList);
+    }
+    this.playerList.push(player);
 };
 
 Starcoder.prototype.banner = function () {

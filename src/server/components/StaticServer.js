@@ -12,7 +12,7 @@ var path = require('path');
 module.exports = {
     init: function () {
         this.app.get('/', function (req, res) {
-            if (!req.session || !req.session.player) {
+            if (!req.session || !req.session.ticketid) {
                 res.redirect('/login.html');
             } else {
                 res.redirect('/play.html');
@@ -92,7 +92,7 @@ module.exports = {
             return sendFile(path.join(__dirname, '../../../html/'), 'login.html', res);
         });
         this.app.get('/play.html', function (req, res) {
-            if (!req.session || !req.session.player) {
+            if (!req.session || !req.session.ticketid) {
                 res.redirect('/login.html');
                 return res;
             }

@@ -9,8 +9,8 @@ var Guest = require('../../schema/Guest.js');
 module.exports = {
     onConnectCB: function (socket) {
         var self = this;
-        socket.on('login', function (token) {
-            self.checkLogin(socket, token);
+        socket.on('login', function (ticketid) {
+            self.checkLogin(socket, ticketid);
         });
     },
 
@@ -26,11 +26,9 @@ module.exports = {
     //},
 
     // FIXME: More cases to handle
-    checkLogin: function (socket, token) {
-        //var player = this.pending[id];
+    checkLogin: function (socket, ticketid) {
         var self = this;
-        console.log('Check login', token);
-        this.checkTicket(token, 'FIXME', function (type, identity) {
+        this.checkTicket(ticketid, 'FIXME', function (type, identity) {
             if (type === 'player') {
                 self.getPlayerById(identity, function (player) {
                     if (player) {
@@ -40,9 +38,9 @@ module.exports = {
                     }
                 });
             } else if (type === 'guest') {
-                var g = new Guest(identity);
-                g.id = token;
-                self.loginSuccess(socket, g);
+                //var g = new Guest(identity);
+                //g.disambiguate(self.playerList);
+                self.loginSuccess(socket, new Guest(identity));
             }
         });
         //if (token.guest) {
@@ -67,6 +65,7 @@ module.exports = {
         //socket.on('disconnect', this.disconnect.bind(this, socket, player));
         socket.removeAllListeners('login');
         //socket.emit('logged in', player.msgNew());
+        socket.emit('loginSuccess', {id: player.id});
     },
 
     loginFailure: function (socket, msg) {
