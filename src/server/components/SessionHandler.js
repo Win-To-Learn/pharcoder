@@ -73,7 +73,6 @@ module.exports = {
                             ////req.session.player.role = 'player';
                             //res.status(200).send({goto: 'play.html'}).end();
                             self.addTicket('FIXME', 'player', player.id, function (ticketid) {
-                                console.log('ticket id', ticketid);
                                 //req.session.player = {id: player.id};
                                 req.session.ticketid = ticketid;
                                 req.session.server = 'FIXME';
@@ -87,7 +86,6 @@ module.exports = {
             });
         } else if (req.body.tag) {
             this.addTicket('FIXME', 'guest', req.body.tag, function (ticketid) {
-                console.log('Tick',ticketid);
                 //req.session.player = {id: ticketid};
                 req.session.ticketid = ticketid;
                 req.session.server = 'FIXME';
@@ -99,7 +97,6 @@ module.exports = {
     },
 
     identityGET: function (req, res) {
-        console.log('id get');
         if (req.session.ticketid) {
             res.status(200).send({ticketid: req.session.ticketid, serverUri: req.server});
         } else {

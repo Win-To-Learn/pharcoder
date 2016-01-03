@@ -23,7 +23,7 @@ module.exports = {
         }, 1000);
     },
 
-    onLoginCB: function (socket, player) {
+    onReadyCB: function (player) {
         for (var cat in this.leaderBoardCategories) {
             var rec = this.leaderBoardCategories[cat];
             if (rec.asc) {
