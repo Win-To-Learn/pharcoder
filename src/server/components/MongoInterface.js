@@ -1,5 +1,5 @@
 /**
- * Created by jay on 9/6/15.
+ * MongoInterface.js
  */
 'use strict';
 
@@ -9,10 +9,14 @@ var ObjectId = require('mongodb').ObjectID;
 
 var Player = require('../../schema/Player.js');
 var Guest = require('../../schema/Guest.js');
+var TrialPlayer = require('../../schema/TrialPlayer.js');
+var Regime = require('../../schema/Regime.js');
 
 var constructorMap = {
     'Player': Player,
-    'Guest': Guest
+    'Guest': Guest,
+    'TrialPlayer': TrialPlayer,
+    'Regime': Regime
 };
 
 /**

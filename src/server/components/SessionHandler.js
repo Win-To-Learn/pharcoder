@@ -59,7 +59,7 @@ module.exports = {
     loginPOST: function (req, res) {
         var self = this;
         // TODO: Handle cases: known player, login code, guest
-        if (req.body.user) {
+        if (req.body.login) {
             // Known user with password
             this.getPlayerByGamertag(req.body.user, function (player) {
                 if (player) {
@@ -92,7 +92,8 @@ module.exports = {
                 res.status(200).send({goto: 'play.html'}).end();
             });
         } else if (req.body.code) {
-            // Subscribe code
+            console.log('Code:', req.body.code);
+            res.status(200).end();
         }
     },
 

@@ -27,8 +27,16 @@ var LoginPage = function (config) {
     });
     $('#userlogin').click(function () {
         self.doLogin({
+            login: true,
             user: $('#username').val(),
             pass: $('#password').val()
+        });
+    });
+    $('#userreg').click(function () {
+        self.doLogin({
+            code: $('#regcode').val(),
+            user: $('#username-reg').val(),
+            pass: $('#password-reg').val()
         });
     });
 };
