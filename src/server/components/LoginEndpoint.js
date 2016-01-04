@@ -28,19 +28,19 @@ module.exports = {
     // FIXME: More cases to handle
     checkLogin: function (socket, ticketid) {
         var self = this;
-        this.checkTicket(ticketid, 'FIXME', function (type, identity) {
-            if (type === 'player') {
-                self.getPlayerById(identity, function (player) {
+        this.checkTicket(ticketid, 'FIXME').then(function (ticket) {
+            if (ticket.type === 'player') {
+                self.getPlayerById(ticket.identity).then(function (player) {
                     if (player) {
                         self.loginSuccess(socket, player);
                     } else {
                         self.loginFailure(socket, 'Login failure');
                     }
                 });
-            } else if (type === 'guest') {
+            } else if (ticket.type === 'guest') {
                 //var g = new Guest(identity);
                 //g.disambiguate(self.playerList);
-                self.loginSuccess(socket, new Guest(identity));
+                self.loginSuccess(socket, new Guest(ticket.identity));
             }
         });
         //if (token.guest) {

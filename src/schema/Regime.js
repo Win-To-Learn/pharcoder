@@ -39,6 +39,10 @@ Regime.prototype.init = function () {
     this.regCodeProps = {};
 };
 
+Regime.prototype.restore = function (record) {
+    this.fixMe = 'Restored with love';
+};
+
 /**
  * Add new registration code with props (doesn't check for uniqueness)
  * @param {string} code

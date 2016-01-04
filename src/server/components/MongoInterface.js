@@ -125,7 +125,7 @@ module.exports = {
         if (!cache) {
             return undefined;
         }
-        var o = cache[id]
+        var o = cache[id];
         if (o && o.cacheTimeout < Date.now()) {
             return o;
         }
@@ -147,6 +147,7 @@ module.exports = {
             self.mongoDB = db;
             self.mongoPeople = db.collection('people');
             self.mongoGuests = db.collection('guests');
+            self.mongoRegimes = db.collection('regimes');
             self.events.emit('dbConnected');
             cb();
         })
@@ -156,12 +157,12 @@ module.exports = {
      * Interface for querying mongo collection and (usually) returning Starcoder objects
      * @param {Collection} col - Collection to query
      * @param {object} query - Query object
-     * @param {function} cb - Callback to receive results
      * @param {number} limit - Limit on number of results (0 => no limit)
      * @param {object} projection - Fields to include or exclude from result
      * @param {boolean} raw - return POJO instead of mapped object
+     * @return {Promise}
      */
-    mongoFind: function (col, query, cb, limit, projection, raw) {
+    mongoFind: function (col, query, limit, projection, raw) {
         var cur = col.find(query, projection);
         if (limit) {
             cur = cur.limit(limit);
@@ -171,16 +172,16 @@ module.exports = {
         } else {
             prom = cur.toArray();
         }
-        prom.then(function (res) {
+        return prom.then(function (res) {
             if (raw) {
-                cb(res);
+                return res;
             } else if (limit && limit === 1) {
-                cb(restore(res));
+                return restore(res);
             } else {
                 for (var i = 0, l = res.length; i < l; i++) {
                     res[i] = restore(res[i]);
                 }
-                cb(res);
+                return res;
             }
         }, this.handleDBError.bind(this));
     },
@@ -189,15 +190,15 @@ module.exports = {
      * Insert a single document into a mongo collection
      * @param {Collection} col - Collection to receive document
      * @param {object} doc - Document to insert
-     * @param {function} cb - Callback to receive result
+     * @return {Promise}
      */
-    mongoInsertOne: function (col, doc, cb) {
-        var self = this;
-        col.insertOne(doc, null).then(function (res) {
+    mongoInsertOne: function (col, doc) {
+        doc = save(doc);
+        return col.insertOne(doc, null).then(function (res) {
             if (res.insertedCount === 1) {
-                cb(res.insertedId.toHexString(), res.ops[0]);
+                return res.ops[0];
             } else {
-                self.handleDBError.call(self);
+                return null
             }
         }, this.handleDBError.bind(this));
     },
@@ -205,40 +206,50 @@ module.exports = {
     /**
      * Get player by gamertag
      * @param {string} gamertag - Identifier for player
-     * @param {function} cb - Callback to receive results
+     * @return {Promise}
      */
-    getPlayerByGamertag: function (gamertag, cb) {
+    getPlayerByGamertag: function (gamertag) {
         var self = this;
-        this.mongoFind(this.mongoPeople, {username: gamertag}, function (player) {
+        //this.mongoFind(this.mongoPeople, {username: gamertag}, function (player) {
+        //    if (player) {
+        //        self.cacheObject('player', player.id, player, 10000);
+        //        cb(player);
+        //    } else {
+        //        cb(null);
+        //    }
+        //}, 1);
+        return this.mongoFind(this.mongoPeople, {username: gamertag}, 1).then(function (player) {
             if (player) {
                 self.cacheObject('player', player.id, player, 10000);
-                cb(player);
+                return player;
             } else {
-                cb(null);
+                return null;
             }
-        }, 1);
+        })
     },
 
     /**
      * Get player object by _id key
      * @param {string} id
-     * @param {function} cb - Callback to receive result
      * @param {boolean} skipcache - Ignore cache and force DB access
+     * @return {Promise}
      */
-    getPlayerById: function (id, cb, skipcache) {
+    getPlayerById: function (id, skipcache) {
         var self = this;
         if (!skipcache) {
             var p = this.getCachedObject('player', id);
         }
         if (!p) {
-            p = this.mongoFind(this.mongoPeople, {_id: new ObjectId(id)}, function (player) {
+            return this.mongoFind(this.mongoPeople, {_id: new ObjectId(id)}, 1).then(function (player) {
                 if (player) {
                     self.cacheObject('player', id, player, 10000);
-                    cb(player);
+                    return player;
                 } else {
-                    cb(null);
+                    return null;
                 }
-            }, 1);
+            });
+        } else {
+            return Promise.resolve(p);
         }
     },
 
@@ -249,6 +260,18 @@ module.exports = {
      */
     getRegimeLoginInfo: function (regimeId, cb) {
 
+    },
+
+    /**
+     * Register new player under regime with given code, if possible
+     * @param {string} code
+     * @param {string} gamertag
+     * @param {string} password
+     */
+    registerPlayerWithCode: function (code, gamertag, password) {
+        //this.mongoFind(this.mongoRegimes, {regCodes: code}, function (regime) {
+        //    console.log('Regime', regime);
+        //});
     },
 
     getNewGuest: function (tagname, server, cb) {

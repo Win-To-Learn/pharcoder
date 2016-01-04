@@ -20,31 +20,31 @@ module.exports = {
      * @param {string} server - server
      * @param {string} type - type of login (guest, trial, etc.)
      * @param {string|object} identity - minimal info to pass identity
-     * @param {function} cb - Callback to receive result
+     * @return {Promise}
      */
-    addTicket: function (server, type, identity, cb) {
+    addTicket: function (server, type, identity) {
         var self = this;
         var doc = {server: server, type: type, identity: identity, createdAt: new Date()};
-        this.mongoInsertOne(this.mongoTickets, doc, function (id) {
-            self.cacheObject('tickets', id, doc, 60000);
-            cb(id);
-        })
+        return this.mongoInsertOne(this.mongoTickets, doc).then(function (ticket) {
+            self.cacheObject('tickets', ticket._id.toHexString(), doc, 60000);
+            return ticket._id.toHexString();
+        });
     },
 
     /**
      * Get identity associated with ticket on this server, if valid
      * @param {string} id - Id of ticket
      * @param {string} server - Server where access is sought
-     * @param {function} cb - Callback to receive result
+     * @return {Promise}
      */
-    checkTicket: function (id, server, cb) {
-        this.mongoFind(this.mongoTickets, {_id: new ObjectId(id)}, function (doc) {
+    checkTicket: function (id, server) {
+        return this.mongoFind(this.mongoTickets, {_id: new ObjectId(id)}, 1).then(function (doc) {
             // TODO: Check server validity
             if (doc) {
-                cb(doc.type, doc.identity);
+                return {type: doc.type, identity: doc.identity};
             } else {
                 cb(null);
             }
-        }, 1);
+        });
     }
 };

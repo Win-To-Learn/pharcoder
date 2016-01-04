@@ -3,6 +3,8 @@
  */
 'use strict';
 
+require('es6-promise').polyfill();
+
 var commonConfig = require('./common/config.js');
 var serverConfig = require('./server/config.js');
 var buildConfig = buildConfig || {};

@@ -61,8 +61,9 @@ module.exports = {
         // TODO: Handle cases: known player, login code, guest
         if (req.body.login) {
             // Known user with password
-            this.getPlayerByGamertag(req.body.user, function (player) {
+            this.getPlayerByGamertag(req.body.user).then(function (player) {
                 if (player) {
+                    console.log('player', player);
                     bcrypt.compare(req.body.pass, player.password, function (err, match) {
                         if (err || !match) {
                             res.status(401).end();
@@ -72,28 +73,28 @@ module.exports = {
                             //req.session.player = player.getPOJO();
                             ////req.session.player.role = 'player';
                             //res.status(200).send({goto: 'play.html'}).end();
-                            self.addTicket('FIXME', 'player', player.id, function (ticketid) {
+                            self.addTicket('FIXME', 'player', player.id).then(function (ticketid) {
                                 //req.session.player = {id: player.id};
                                 req.session.ticketid = ticketid;
                                 req.session.server = 'FIXME';
                                 res.status(200).send({goto: 'play.html'}).end();
                             });
                         }
-                    })
+                    });
                 } else {
                     res.status(401).end();
                 }
             });
         } else if (req.body.tag) {
-            this.addTicket('FIXME', 'guest', req.body.tag, function (ticketid) {
+            this.addTicket('FIXME', 'guest', req.body.tag).then(function (ticketid) {
                 //req.session.player = {id: ticketid};
                 req.session.ticketid = ticketid;
                 req.session.server = 'FIXME';
                 res.status(200).send({goto: 'play.html'}).end();
             });
         } else if (req.body.code) {
-            console.log('Code:', req.body.code);
-            res.status(200).end();
+            this.registerPlayerWithCode(req.body.code, req.body.user, req.body.pass);
+            res.status(200).send({goto: 'login.html'}).end();       // NOOP for testing
         }
     },
 
