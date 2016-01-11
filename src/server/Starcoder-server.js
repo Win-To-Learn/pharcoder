@@ -69,7 +69,6 @@ Starcoder.prototype.init = function (app, io) {
         socket.on('disconnect', self.onDisconnect.bind(self, socket));
     });
     //this.world.start(1/60);
-    var self = this;
     this.mongoConnect(function () {
         self.world.start(1/60);
     });

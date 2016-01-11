@@ -39,8 +39,18 @@ Regime.prototype.init = function () {
     this.regCodeProps = {};
 };
 
+/**
+ * Restore from database
+ * @param {object} record
+ */
 Regime.prototype.restore = function (record) {
-    this.fixMe = 'Restored with love';
+    this.id = record._id.toHexString();
+    this.name = record.name;
+    this.description = record.description;
+    this.owner = record.owner;
+    this.ownerId = record.ownerId;
+    this.regCodes = record.regCodes;
+    this.regCodeProps = record.regCodeProps;
 };
 
 /**

@@ -63,7 +63,6 @@ module.exports = {
             // Known user with password
             this.getPlayerByGamertag(req.body.user).then(function (player) {
                 if (player) {
-                    console.log('player', player);
                     bcrypt.compare(req.body.pass, player.password, function (err, match) {
                         if (err || !match) {
                             res.status(401).end();
@@ -93,8 +92,21 @@ module.exports = {
                 res.status(200).send({goto: 'play.html'}).end();
             });
         } else if (req.body.code) {
-            this.registerPlayerWithCode(req.body.code, req.body.user, req.body.pass);
-            res.status(200).send({goto: 'login.html'}).end();       // NOOP for testing
+            bcrypt.hash(req.body.pass, 8, function (err, hash) {
+                if (err || !hash) {
+                    res.status(401).end();
+                } else {
+                    self.registerPlayerWithCode(req.body.code, req.body.user, hash).then(function (ticketid) {
+                        //console.log('ok', ticketid);
+                        req.session.ticketid = ticketid;
+                        req.session.server = 'FIXME';
+                        res.status(200).send({goto: 'play.html'}).end();
+                    }, function (reason) {
+                        //console.log('uhoh', reason, reason.stack);
+                        res.status(200).send({goto: 'login.html'}).end();
+                    });
+                }
+            });
         }
     },
 

@@ -10,17 +10,19 @@
  *
  * @param {string} gamertag - In game handle
  * @param {string} password - Cleartext password
- * @param {Regime} regime - Regime to which player belongs
+ * @param {Regime} regimeId - Regime to which player belongs
  * @param {string} role - Role for player
  * @param {object} demographics - Extended identity info
  * @constructor
  */
-var Player = function (gamertag, password, regime, role, demographics) {
+var Player = function (gamertag, password, regimeId, role, demographics) {
     this.init();
+    this.id = null;
     this.gamertag = gamertag;
     this.password = password;
     this.passwordClear = true;
     this.role = role;
+    this.regimeId = regimeId;
     if (demographics) {
         this.demographics = demographics;       // FIXME: Probably want to destructure
     }
@@ -36,7 +38,7 @@ Player.prototype.cType = 'Player';
  * Set up internal data for new player
  */
 Player.prototype.init = function () {
-
+    this.instancetype = 'player';       // Debugging
     /**
      * Flag for just added players so they get full updates
      * @type {boolean}
@@ -136,7 +138,15 @@ Player.prototype.restore = function (record) {
  * @returns {object}
  */
 Player.prototype.save = function () {
-    var o = {};
+    var o = {
+        username: this.gamertag,
+        password: this.password,
+        codeSnippets: this.codeSnippets,
+        regimeId: this.regimeId
+    };
+    if (this.id) {
+        o._id = this.id;
+    }
     return o;
 };
 

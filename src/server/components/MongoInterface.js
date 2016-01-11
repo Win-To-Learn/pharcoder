@@ -63,6 +63,7 @@ function restore (o) {
 }
 
 var save = function (o) {
+    var ctype = o.cType;
     if (Array.isArray(o)) {
         // Array - save each element
         for (var i = 0, l = o.length; i < l; i++) {
@@ -78,10 +79,13 @@ var save = function (o) {
         }
         // Loop through properties and save recursively
         for (var k in o) {
-            if (o.hasOwnProperty(k) && typeof o[k] === 'object') {
-                o[k] = restore(o[k]);
+            if (o.hasOwnProperty(k) && o[k] && typeof o[k] === 'object') {
+                o[k] = save(o[k]);
             }
         }
+    }
+    if (ctype) {
+        o.cType = ctype;
     }
     return o;
 };
@@ -189,16 +193,22 @@ module.exports = {
     /**
      * Insert a single document into a mongo collection
      * @param {Collection} col - Collection to receive document
-     * @param {object} doc - Document to insert
+     * @param {object} o - Document to insert
      * @return {Promise}
      */
-    mongoInsertOne: function (col, doc) {
-        doc = save(doc);
+    mongoInsertOne: function (col, o) {
+        var doc = save(o);
+        if (doc._id && typeof doc._id === 'string') {
+            doc._id = new ObjectId(doc._id);
+        }
         return col.insertOne(doc, null).then(function (res) {
             if (res.insertedCount === 1) {
+                if (typeof o.id !== 'undefined') {
+                    o.id = res.insertedId.toHexString();
+                }
                 return res.ops[0];
             } else {
-                return null
+                return Promise.reason('Problem inserting record into database');
             }
         }, this.handleDBError.bind(this));
     },
@@ -267,11 +277,32 @@ module.exports = {
      * @param {string} code
      * @param {string} gamertag
      * @param {string} password
+     * @return {Promise}
      */
     registerPlayerWithCode: function (code, gamertag, password) {
-        //this.mongoFind(this.mongoRegimes, {regCodes: code}, function (regime) {
-        //    console.log('Regime', regime);
-        //});
+        //console.log('Register code', code, gamertag, password);
+        var self = this;
+        return this.mongoFind(this.mongoRegimes, {regCodes: code}, 1).then(function (regime) {
+            if (regime) {
+                //console.log('Found regime', regime);
+                // Found regime
+                var props = regime.regCodeProps[code];
+                if (props.trial) {
+                    var player = new TrialPlayer(gamertag, password, regime.id);
+                } else {
+                    player = new Player(gamertag, password, regime.id);
+                }
+                return self.mongoInsertOne(self.mongoPeople, player).then(function (res) {
+                    //console.log('Inserted', res, '<>', player);
+                    if (!props.reusable) {
+                        console.log('Not reusable - should be deleting code');
+                    }
+                    return self.addTicket('FIXME', props.trial ? 'trial' : 'player', player.id);
+                });
+            } else {
+                return Promise.reason('Invalid code');
+            }
+        });
     },
 
     getNewGuest: function (tagname, server, cb) {
@@ -294,5 +325,6 @@ module.exports = {
     handleDBError: function (err) {
         // FIXME: be smarter
         console.log('DB Error', err);
+        console.log(err.stack);
     }
 };
