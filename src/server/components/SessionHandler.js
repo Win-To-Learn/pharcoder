@@ -59,9 +59,7 @@ module.exports = {
     loginPOST: function (req, res) {
         var self = this;
         // TODO: Handle cases: known player, login code, guest
-        console.log('lp', req.body);
         if (req.body.login) {
-            console.log('login');
             // Known user with password
             this.getPlayerByGamertag(req.body.user).then(function (player) {
                 if (player) {
@@ -78,13 +76,11 @@ module.exports = {
                                 //req.session.player = {id: player.id};
                                 req.session.ticketid = ticketid;
                                 req.session.server = 'FIXME';
-                                console.log('good');
                                 res.status(200).send({goto: 'play.html'}).end();
                             });
                         }
                     });
                 } else {
-                    console.log('bad');
                     res.status(401).end();
                 }
             });

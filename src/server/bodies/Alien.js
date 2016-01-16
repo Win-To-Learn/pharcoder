@@ -9,8 +9,9 @@ var Starcoder = require('../../common/Starcoder.js');
 
 var SyncBodyBase = require('./SyncBodyBase.js');
 
-var Paths = require('../../common/Paths.js');
-var UpdateProperties = require('../../common/UpdateProperties.js').Alien;
+//var Paths = require('../../common/Paths.js');
+//var UpdateProperties = require('../../common/UpdateProperties.js').Alien;
+var Common = require('../../common/bodies/Alien.js');
 
 //var Starcoder = require('../../Starcoder-server.js');
 
@@ -25,27 +26,9 @@ var Alien = function (config) {
 Alien.prototype = Object.create(SyncBodyBase.prototype);
 Alien.prototype.constructor = Alien;
 
-Starcoder.mixinPrototype(Alien.prototype, UpdateProperties.prototype);
+Starcoder.mixinPrototype(Alien.prototype, Common);
 
 Alien.prototype.clientType = 'Alien';
 Alien.prototype.serverType = 'Alien';
-
-//Alien.prototype.lineColor = '#ff00ff';
-//Alien.prototype.fillColor = '#00ff00';
-//Alien.prototype.shapeClosed = true;
-//Alien.prototype.lineWidth = 1;
-//Alien.prototype.fillAlpha = 0.25;
-Alien.prototype._shape = Paths.octagon;
-
-Alien.prototype.deadly = true;
-
-//Alien.prototype.updateProperties = ['vectorScale', 'state'];
-
-//Alien.prototype.getPropertyUpdate = function (propname, properties) {
-//    switch (propname) {
-//        default:
-//            SyncBodyBase.prototype.getPropertyUpdate.call(this, propname, properties);
-//    }
-//};
 
 module.exports = Alien;

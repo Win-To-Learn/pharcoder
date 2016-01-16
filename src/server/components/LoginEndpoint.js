@@ -9,7 +9,6 @@ var Guest = require('../../schema/Guest.js');
 module.exports = {
     onConnectCB: function (socket) {
         var self = this;
-        console.log('socket connect');
         socket.on('login', function (ticketid) {
             self.checkLogin(socket, ticketid);
         });
@@ -28,7 +27,6 @@ module.exports = {
 
     // FIXME: More cases to handle
     checkLogin: function (socket, ticketid) {
-        console.log('check login');
         var self = this;
         this.checkTicket(ticketid, 'FIXME').then(function (ticket) {
             if (ticket.type === 'player') {
