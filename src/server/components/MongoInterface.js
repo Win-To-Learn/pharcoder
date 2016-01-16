@@ -280,11 +280,9 @@ module.exports = {
      * @return {Promise}
      */
     registerPlayerWithCode: function (code, gamertag, password) {
-        //console.log('Register code', code, gamertag, password);
         var self = this;
         return this.mongoFind(this.mongoRegimes, {regCodes: code}, 1).then(function (regime) {
-            if (regime) {
-                //console.log('Found regime', regime);
+            if (regime && !regime.regCodeProps[code].expired) {
                 // Found regime
                 var props = regime.regCodeProps[code];
                 if (props.trial) {
@@ -293,15 +291,30 @@ module.exports = {
                     player = new Player(gamertag, password, regime.id);
                 }
                 return self.mongoInsertOne(self.mongoPeople, player).then(function (res) {
-                    //console.log('Inserted', res, '<>', player);
                     if (!props.reusable) {
-                        console.log('Not reusable - should be deleting code');
+                        return self.expireCode(regime, code).then(function () {
+                            return self.addTicket('FIXME', props.trial ? 'trial' : 'player', player.id);
+                        });
+                    } else {
+                        return self.addTicket('FIXME', props.trial ? 'trial' : 'player', player.id);
                     }
-                    return self.addTicket('FIXME', props.trial ? 'trial' : 'player', player.id);
                 });
             } else {
                 return Promise.reason('Invalid code');
             }
+        });
+    },
+
+    /**
+     * Expire regime code to make unusable
+     * @param {Regime} regime
+     * @param {string} code
+     */
+    expireCode: function (regime, code) {
+        var fieldSpec = {};
+        fieldSpec['regCodeProps.' + code + '.expired'] = true;
+        return this.mongoRegimes.updateOne({_id: new ObjectId(regime.id)}, {$set: fieldSpec}).then(function () {
+            regime.regCodeProps[code].expired = true;
         });
     },
 
