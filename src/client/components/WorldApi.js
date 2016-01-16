@@ -15,7 +15,8 @@ var bodyTypes = {
     Tree: require('../bodies/Tree.js'),
     TractorBeam: require('../bodies/TractorBeam.js'),
     StarTarget: require('../bodies/StarTarget.js'),
-    StationBlock: require('../bodies/StationBlock.js')
+    StationBlock: require('../bodies/StationBlock.js'),
+    Alien: require('../bodies/Alien.js')
 };
 
 module.exports = {

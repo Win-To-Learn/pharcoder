@@ -19,7 +19,8 @@ var bodyTypes = {
     Planetoid: require('./Planetoid.js'),
     Tree: require('./Tree.js'),
     StarTarget: require('./StarTarget.js'),
-    StationBlock: require('./StationBlock.js')
+    StationBlock: require('./StationBlock.js'),
+    Alien: require('./Alien.js')
 };
 
 /**

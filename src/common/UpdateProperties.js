@@ -12,6 +12,9 @@ Ship.prototype.updateProperties = ['lineWidth', 'lineColor', 'fillColor', 'fillA
 var Asteroid = function () {};
 Asteroid.prototype.updateProperties = ['vectorScale'];
 
+var Alien = function () {};
+Alien.prototype.updateProperties = ['vectorScale'];
+
 var Crystal = function () {};
 Crystal.prototype.updateProperties = ['vectorScale'];
 
@@ -43,3 +46,4 @@ exports.Planetoid = Planetoid;
 exports.Tree = Tree;
 exports.TractorBeam = TractorBeam;
 exports.StarTarget = StarTarget;
+exports.Alien = Alien;

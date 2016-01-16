@@ -41,11 +41,11 @@ module.exports = {
         //    vectorScale: 0.5,
         //    stars: [[0, 0], [1,1], [-1,1], [1,-1]]
         //}}
-        // FIXME: StationBlocks just for testing
-        //{type: 'StationBlock', number: 20, config: {
-        //    position: {random: 'world', pad: 30},
-        //    vectorScale: 1,
-        //    mass: 5
-        //}}
+        // FIXME: Alien just for testing
+        {type: 'Alien', number: 20, config: {
+            position: {random: 'world', pad: 30},
+            vectorScale: 1,
+            mass: 5
+        }}
     ]
 };
