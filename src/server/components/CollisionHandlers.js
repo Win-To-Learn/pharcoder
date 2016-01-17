@@ -10,7 +10,23 @@ module.exports = {
         var self = this;
         this.world.on('beginContact', function (e) {
             var A = e.bodyA;
+            var senseA = e.shapeA.sensor;
             var B = e.bodyB;
+            var senseB = e.shapeB.sensor;
+            // Alt collision system
+            if (A.beginContact && !senseA) {
+                A.beginContact(B, e);
+            }
+            if (B.beginContact && !senseB) {
+                B.beginContact(A, e);
+            }
+            if (A.beginSense && senseA) {
+                A.beginSense(B, e);
+            }
+            if (B.beginSense && senseB) {
+                B.beginSense(A, e);
+            }
+            // end alt system
             var equations = e.contactEquations;
             var t = null;
             // Run tests twice - once each way
@@ -51,6 +67,25 @@ module.exports = {
                     A = B;
                     B = t;
                 }
+            }
+        });
+        this.world.on('endContact', function (e) {
+            var A = e.bodyA;
+            var senseA = e.shapeA.sensor;
+            var B = e.bodyB;
+            var senseB = e.shapeB.sensor;
+            // Alt collision system
+            if (A.endContact && !senseA) {
+                A.endContact(B, e);
+            }
+            if (B.endContact && !senseB) {
+                B.endContact(A, e);
+            }
+            if (A.endSense && senseA) {
+                A.endSense(B, e);
+            }
+            if (B.endSense && senseB) {
+                B.endSense(A, e);
             }
         });
     }
@@ -162,8 +197,6 @@ function ShipTree (ship, tree) {
 function StationBlockStationBlock (sb1, sb2, equations) {
     sb1.attach(sb2, sb1.position[0] + equations[0].contactPointA[0], sb1.position[1] + equations[0].contactPointA[1]);
 }
-
-//var CENTER_EPISON_SQ = (1e-1)*(1e-1);           // Square of min distance for bodies to be considered at the same  place
 
 function StationBlockPlanetoidSensor (station, planet) {
     if (station.owner) {

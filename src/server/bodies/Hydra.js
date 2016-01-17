@@ -67,7 +67,7 @@ HydraHead.prototype.onWorldAdd = function () {
     }
 };
 
-HydraHead.prototype.update = function () {
+HydraHead.prototype.control = function () {
     if (this.angularVelocity < this.spinSpeed) {
         this.angularForce = this.spinForce;
     }

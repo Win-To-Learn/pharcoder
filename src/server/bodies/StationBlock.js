@@ -49,9 +49,7 @@ StationBlock.prototype.adjustShape = function () {
     for (i = 0, l = flat.length; i < l; i += 3) {
         this.triangles.push([this.shape[flat[i]], this.shape[flat[i + 1]], this.shape[flat[i + 2]]]);
     }
-    //this.centerSensor = new p2.Particle({sensor: true, collisionGroup: this.coreCollisionGroup, collisionMask: this.coreCollisionMask});
     this.centerSensor = new p2.Circle({radius: 0.1, sensor: true, collisionGroup: this.coreCollisionGroup, collisionMask: this.coreCollisionMask});
-    //this.centerSensor.label = 'CSensor';
     this.addShape(this.centerSensor);
 };
 

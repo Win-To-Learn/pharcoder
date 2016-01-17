@@ -15,7 +15,7 @@ var UpdateProperties = require('../../common/UpdateProperties.js').Ship;
 var Bullet = require('./Bullet.js');
 var TractorBeam = require('./TractorBeam.js');
 
-var LOG5 = Math.log(0.9);                           // LOG of charge rate decay factor for faster exponentiation
+var LOG5 = Math.log(0.6);                           // LOG of charge rate decay factor for faster exponentiation
 
 var Ship = function (config) {
     SyncBodyBase.call(this, config);
@@ -106,7 +106,7 @@ Ship.prototype.onWorldRemove = function () {
     }
 };
 
-Ship.prototype.update = function () {
+Ship.prototype.control = function () {
     this.angularForce = this.turningForce*this.state.turn;
     this.setPolarForce(this.thrustForce*this.state.thrust);
     if (this.state.firing && ((this.world.time - this._lastShot) > 0.25) && (this.charge > 0)) {

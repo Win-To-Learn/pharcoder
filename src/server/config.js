@@ -41,8 +41,7 @@ module.exports = {
         //    vectorScale: 0.5,
         //    stars: [[0, 0], [1,1], [-1,1], [1,-1]]
         //}}
-        // FIXME: Alien just for testing
-        {type: 'Alien', number: 20, config: {
+        {type: 'Alien', number: 5, config: {
             position: {random: 'world', pad: 30},
             vectorScale: 1,
             mass: 5

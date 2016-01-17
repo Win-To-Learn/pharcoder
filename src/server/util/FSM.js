@@ -13,6 +13,7 @@ var FSM = function (machine, initial) {
     this.initial = initial;
     this.state = initial;
     this.machine = machine;
+    this.stack = [];
     this.timeout = null;
     this.immediate = null
 };
@@ -20,11 +21,21 @@ var FSM = function (machine, initial) {
 FSM.prototype = Object.create(EventEmitter.prototype);
 FSM.prototype.constructor = FSM;
 
-FSM.prototype.transition = function (path) {
+FSM.prototype.transition = function (path, save) {
     var oldstate = this.state;
     var newstate = this.machine[oldstate] && this.machine[oldstate][path];
     if (newstate) {
+        if (save) {
+            this.stack.push(oldstate);
+        }
         this.goto(oldstate, newstate);
+    }
+};
+
+FSM.prototype.restore = function () {
+    if (this.stack.length) {
+        var state = this.stack.pop();
+        this.goto(this.state, state);
     }
 };
 
@@ -60,6 +71,7 @@ FSM.prototype.goto = function (oldstate, newstate) {
 FSM.prototype.reset = function () {
     this.emit('reset');
     this.state = this.initial;
+    this.stack.length = 0;
 };
 
 FSM.prototype.marshal = function () {

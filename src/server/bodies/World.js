@@ -173,6 +173,8 @@ World.prototype.addSyncableBody = function (ctor, config) {
         }
     }
     var body = new ctor(c);
+    body.parentWorld = this;
+    body.starcoder = this.starcoder;
     this._syncableBodiesNew.push(body);
     this.setCollisionGroup(body, body.collisionGroup || body.serverType || 'general');
     this.setCollisionMask(body, body.collisionInclude, body.collisionExclude);
@@ -252,8 +254,8 @@ World.prototype.start = function (rate, substeps) {
 World.prototype.preStep = function () {
     for (var i = this._syncableBodies.length - 1; i >= 0; i--) {
         var body = this._syncableBodies[i];
-        if (body.update) {
-            body.update();
+        if (body.control) {
+            body.control();
         }
         if (body.timers.length) {
             for (var j = body.timers.length - 1; j >= 0; j--) {
@@ -271,8 +273,8 @@ World.prototype.preStep = function () {
     }
     for (i = this._syncableBodiesNew.length - 1; i >= 0; i--) {
         body = this._syncableBodiesNew[i];
-        if (body.update) {
-            body.update();
+        if (body.control) {
+            body.control();
         }
         if (body.timers.length) {
             for (j = body.timers.length - 1; j >= 0; j--) {
