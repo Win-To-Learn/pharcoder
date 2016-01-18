@@ -388,8 +388,14 @@ Object.defineProperty(VectorSprite.prototype, 'dead', {
         this._dead = val;
         if (val) {
             this.kill();
+            if (this.minisprite) {
+                this.minisprite.kill();
+            }
         } else {
             this.revive();
+            if (this.minisprite) {
+                this.minisprite.revive();
+            }
         }
     }
 });

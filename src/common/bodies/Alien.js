@@ -41,5 +41,5 @@ module.exports = {
         [1.5,-1],
         [1,-0.5]
     ],
-    updateProperties: ['vectorScale']
+    updateProperties: ['vectorScale', 'dead']
 };

@@ -69,11 +69,19 @@ Alien.prototype.setGoal = function () {
 
 Alien.prototype.beginContact = function (body) {
     if (this.targetShip === body) {
-        //console.log('Ship caught');
         this.targetShip = null;
     }
-    if (body.serverType === 'Ship' && !body.dead) {
-        body.knockOut();
+    switch (body.serverType) {
+        case 'Ship':
+            if (!body.dead) {
+                body.knockOut();
+            }
+            break;
+        case 'Bullet':
+            this.dead = true;
+            this.world.removeSyncableBody(body);
+            this.setTimer(5, {fun: this.world.respawn.bind(this.world, this, {position: {random: 'world'}})});
+            break;
     }
 };
 

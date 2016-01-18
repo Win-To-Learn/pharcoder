@@ -100,6 +100,7 @@ SyncBodyBase.prototype.setCollisionGroup = function (shapes, groupname) {
     } else {
         shapes.collisionGroup = gid;
     }
+    //console.log('Group', this.serverType, this.id, '>', gid);
 };
 
 /**
@@ -147,6 +148,7 @@ SyncBodyBase.prototype.setCollisionMask = function (shapes, include, exclude) {
     } else {
         shapes.collisionMask = mask;
     }
+    //console.log('Mask', this.serverType, this.id, '>', mask);
 };
 
 SyncBodyBase.prototype.setTimer = function (time, spec, repeat) {

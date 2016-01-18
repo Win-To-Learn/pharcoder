@@ -30,7 +30,7 @@ HydraHead.prototype.collisionExclude = ['Hydra'];
 
 //HydraHead.prototype.updateProperties = ['lineColor', 'vectorScale'];
 HydraHead.prototype.defaults = {mass: 100, vectorScale: 1.5, numArms: 5, numSegments: 4,
-    spinForce: 50000, spinSpeed: 5, lineColor: '#ff00ff', angularDamping: 0};
+    spinForce: 100000, spinSpeed: 10, lineColor: '#ff00ff', angularDamping: 0};
 
 HydraHead.prototype._shape = Paths.octagon;
 

@@ -30,6 +30,8 @@ Bullet.prototype.adjustShape = function () {
     var particle = new p2.Particle();
     particle.sensor = true;
     this.addShape(particle);
+    this.setCollisionGroup();
+    this.setCollisionMask();
 };
 
 Bullet.prototype.update = function () {

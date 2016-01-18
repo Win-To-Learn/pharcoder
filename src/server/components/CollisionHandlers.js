@@ -10,8 +10,11 @@ module.exports = {
         var self = this;
         this.world.on('beginContact', function (e) {
             var A = e.bodyA;
-            var senseA = e.shapeA.sensor;
             var B = e.bodyB;
+            if (A.dead || B.dead) {
+                return;
+            }
+            var senseA = e.shapeA.sensor;
             var senseB = e.shapeB.sensor;
             // Alt collision system
             if (A.beginContact && !senseA) {
