@@ -13,7 +13,7 @@ var Crystal = require('./Crystal.js');
 var UpdateProperties = require('../../common/UpdateProperties.js').GenericOrb;
 var Paths = require('../../common/Paths.js');
 
-var HydraHead = function (config, world) {
+var HydraHead = function (config) {
    SyncBodyBase.call(this, config);
 };
 

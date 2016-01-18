@@ -10,8 +10,8 @@ var SyncBodyBase = require('./SyncBodyBase.js');
 
 var Paths = require('../../common/Paths.js');
 
-var Crystal = function (options) {
-    SyncBodyBase.call(this, options);
+var Crystal = function (config) {
+    SyncBodyBase.call(this, config);
     this.damping = 0;
     this.angularDamping = 0;
 };

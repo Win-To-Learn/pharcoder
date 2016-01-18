@@ -58,6 +58,97 @@ SyncBodyBase.prototype.setDefaults = function (config) {
     }
 };
 
+var _cGroups = {};
+var _cGroupIdx = 1;
+
+/**
+ * Create new collision group, with error check
+ *
+ * @param groupname
+ * @returns {number}
+ * @private
+ */
+SyncBodyBase.prototype._createCollisionGroup = function (groupname) {
+    if (_cGroupIdx >= 32) {
+        console.log('Cannot create new collision group');
+    } else {
+        return _cGroups[groupname] = Math.pow(2, _cGroupIdx++);
+    }
+};
+
+/**
+ * Set named collision group on body
+ *
+ * @param shapes {Shape|Shape[]} - Shape or array of shapes to set group for
+ * @param groupname {string} - Name of group
+ */
+SyncBodyBase.prototype.setCollisionGroup = function (shapes, groupname) {
+    if (!shapes) {
+        shapes = this.shapes;
+    }
+    if (!groupname) {
+        groupname = this.collisionGroup || this.serverType || 'general';
+    }
+    var gid = _cGroups[groupname];
+    if (!gid) {
+        gid = this._createCollisionGroup(groupname);
+    }
+    if (Array.isArray(shapes)) {
+        for (var i = 0, l = shapes.length; i < l; i++) {
+            shapes[i].collisionGroup = gid;
+        }
+    } else {
+        shapes.collisionGroup = gid;
+    }
+};
+
+/**
+ * Use named flags to set collision mask on body
+ *
+ * @param shapes {Shape|Shape[]} - Shape or shapes to set mask for
+ * @param include {Array} - List of groups to enable collisions for
+ * @param exclude {Array} - List of groups to disable collisions for
+ */
+SyncBodyBase.prototype.setCollisionMask = function (shapes, include, exclude) {
+    if (!shapes) {
+        shapes = this.shapes;
+    }
+    if (!include) {
+        include = this.collisionInclude;
+    }
+    if (!exclude) {
+        exclude = this.collisionExclude;
+    }
+    if (include && include.length >= 1) {
+        var mask = 0x0001;                          // For wall collisions
+        for (var i = 0, l = include.length; i < l; i++) {
+            var gid = _cGroups[include[i]];
+            if (!gid) {
+                gid = this._createCollisionGroup(include[i]);
+            }
+            mask |= gid;
+        }
+    } else {
+        mask = 0xffff;
+    }
+    if (exclude && exclude.length >= 1) {
+        for (i = 0, l = exclude.length; i < l; i++) {
+            gid = _cGroups[exclude[i]];
+            if (!gid) {
+                gid = this._createCollisionGroup(exclude[i]);
+            }
+            mask &= ~gid;
+        }
+    }
+    if (Array.isArray(shapes)) {
+        for (i = 0, l = shapes.length; i < l; i++) {
+            shapes[i].collisionMask = mask;
+        }
+    } else {
+        shapes.collisionMask = mask;
+    }
+};
+
 SyncBodyBase.prototype.setTimer = function (time, spec, repeat) {
     spec.time = this.world.time + time;
     if (repeat) {
@@ -141,12 +232,14 @@ SyncBodyBase.prototype.adjustShape = function () {
     //this.outline = outline;
 
     // Set collision properties on new shapes
-    if (this.coreCollisionGroup || this.coreCollisionMask) {
-        for (i = 0, l = this.shapes.length; i < l; i++) {
-            this.shapes[i].collisionGroup = this.coreCollisionGroup;
-            this.shapes[i].collisionMask = this.coreCollisionMask;
-        }
-    }
+    this.setCollisionGroup();
+    this.setCollisionMask();
+    //if (this.coreCollisionGroup || this.coreCollisionMask) {
+    //    for (i = 0, l = this.shapes.length; i < l; i++) {
+    //        this.shapes[i].collisionGroup = this.coreCollisionGroup;
+    //        this.shapes[i].collisionMask = this.coreCollisionMask;
+    //    }
+    //}
 
 };
 

@@ -13,7 +13,7 @@ var Common = require('../../common/bodies/Alien.js');
 
 var ALIEN_THRUST_FORCE = 200;
 var ALIEN_ROTATION_FORCE = 50;
-var ALIEN_SCAN_RADIUS = 30;
+var ALIEN_SCAN_RADIUS = 50;
 
 var Alien = function (config) {
     SyncBodyBase.call(this, config);
@@ -21,8 +21,9 @@ var Alien = function (config) {
     this.angularDamping = .25;
     this.targetShip = null;
     this.setGoal();
-    this.proximitySensor = new p2.Circle({radius: ALIEN_SCAN_RADIUS, sensor: true,
-        collisionGroup: this.coreCollisionGroup, collisionMask: this.coreCollisionMask});
+    this.proximitySensor = new p2.Circle({radius: ALIEN_SCAN_RADIUS, sensor: true});
+    this.setCollisionGroup(this.proximitySensor);
+    this.setCollisionMask(this.proximitySensor, ['Ship']);
     this.addShape(this.proximitySensor);
 };
 

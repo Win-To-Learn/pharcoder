@@ -52,75 +52,90 @@ World.prototype.constructor = World;
 /**
  * Set named collision group on body
  *
- * @param body {object} - Body to set group for
+ * @param shapes {Shape|Shape[]} - Shape or array of shapes to set group for
  * @param groupname {string} - Name of group
  */
-World.prototype.setCollisionGroup = function (body, groupname) {
-    var gid = this._cGroups[groupname];
-    if (!gid) {
-        gid = this._createCollisionGroup(groupname);
-    }
-    body.coreCollisionGroup = gid;
-    for (var i = 0, l = body.shapes.length; i < l; i++) {
-        var shape = body.shapes[i];
-        if (!shape.special) {
-            shape.collisionGroup = gid;
-        }
-    }
-};
+//World.prototype.setCollisionGroup = function (shapes, groupname) {
+//    var gid = this._cGroups[groupname];
+//    if (!gid) {
+//        gid = this._createCollisionGroup(groupname);
+//    }
+//    //body.coreCollisionGroup = gid;
+//    if (Array.isArray(shapes)) {
+//        for (var i = 0, l = shapes.length; i < l; i++) {
+//            shapes[i].collisionGroup = gid;
+//        }
+//    } else {
+//        shapes.collisionGroup = gid;
+//    }
+//
+//    //for (var i = 0, l = body.shapes.length; i < l; i++) {
+//    //    var shape = body.shapes[i];
+//    //    if (!shape.special) {
+//    //        shape.collisionGroup = gid;
+//    //    }
+//    //}
+//};
 
-/**
- * Use named flags to set collision mask on body
- *
- * @param body {object} - Body to set mask for
- * @param include {Array} - List of groups to enable collisions for
- * @param exclude {Array} - List of groups to disable collisions for
- */
-World.prototype.setCollisionMask = function (body, include, exclude) {
-    if (include && include.length >= 1) {
-        var mask = 0x0001;                          // For wall collisions
-        for (var i = 0, l = include.length; i < l; i++) {
-            var gid = this._cGroups[include[i]];
-            if (!gid) {
-                gid = this._createCollisionGroup(include[i]);
-            }
-            mask |= gid;
-        }
-    } else {
-        mask = 0xffff;
-    }
-    if (exclude && exclude.length >= 1) {
-        for (i = 0, l = exclude.length; i < l; i++) {
-            gid = this._cGroups[exclude[i]];
-            if (!gid) {
-                gid = this._createCollisionGroup(exclude[i]);
-            }
-            mask &= ~gid;
-        }
-    }
-    body.coreCollisionMask = mask;
-    for (i = 0, l = body.shapes.length; i < l; i++) {
-        var shape = body.shapes[i];
-        if (!shape.special) {
-            shape.collisionMask = mask;
-        }
-    }
-};
+///**
+// * Use named flags to set collision mask on body
+// *
+// * @param shapes {Shape|Shape[]} - Shape or shapes to set mask for
+// * @param include {Array} - List of groups to enable collisions for
+// * @param exclude {Array} - List of groups to disable collisions for
+// */
+//World.prototype.setCollisionMask = function (shapes, include, exclude) {
+//    if (include && include.length >= 1) {
+//        var mask = 0x0001;                          // For wall collisions
+//        for (var i = 0, l = include.length; i < l; i++) {
+//            var gid = this._cGroups[include[i]];
+//            if (!gid) {
+//                gid = this._createCollisionGroup(include[i]);
+//            }
+//            mask |= gid;
+//        }
+//    } else {
+//        mask = 0xffff;
+//    }
+//    if (exclude && exclude.length >= 1) {
+//        for (i = 0, l = exclude.length; i < l; i++) {
+//            gid = this._cGroups[exclude[i]];
+//            if (!gid) {
+//                gid = this._createCollisionGroup(exclude[i]);
+//            }
+//            mask &= ~gid;
+//        }
+//    }
+//    if (Array.isArray(shapes)) {
+//        for (i = 0, l = shapes.length; i < l; i++) {
+//            shapes[i].collisionMask = mask;
+//        }
+//    } else {
+//        shapes.collisionMask = mask;
+//    }
+//    //body.coreCollisionMask = mask;
+//    //for (i = 0, l = body.shapes.length; i < l; i++) {
+//    //    var shape = body.shapes[i];
+//    //    if (!shape.special) {
+//    //        shape.collisionMask = mask;
+//    //    }
+//    //}
+//};
 
-/**
- * Create new collision group, with error check
- *
- * @param groupname
- * @returns {number}
- * @private
- */
-World.prototype._createCollisionGroup = function (groupname) {
-    if (this._cGroupIdx >= 32) {
-        console.log('Cannot create new collision group');
-    } else {
-        return this._cGroups[groupname] = Math.pow(2, this._cGroupIdx++);
-    }
-};
+///**
+// * Create new collision group, with error check
+// *
+// * @param groupname
+// * @returns {number}
+// * @private
+// */
+//World.prototype._createCollisionGroup = function (groupname) {
+//    if (this._cGroupIdx >= 32) {
+//        console.log('Cannot create new collision group');
+//    } else {
+//        return this._cGroups[groupname] = Math.pow(2, this._cGroupIdx++);
+//    }
+//};
 
 /**
  * Need to override so we easily trigger a callback on body being added
@@ -173,11 +188,11 @@ World.prototype.addSyncableBody = function (ctor, config) {
         }
     }
     var body = new ctor(c);
-    body.parentWorld = this;
+    //body.parentWorld = this;
     body.starcoder = this.starcoder;
     this._syncableBodiesNew.push(body);
-    this.setCollisionGroup(body, body.collisionGroup || body.serverType || 'general');
-    this.setCollisionMask(body, body.collisionInclude, body.collisionExclude);
+    //this.setCollisionGroup(body, body.collisionGroup || body.serverType || 'general');
+    //this.setCollisionMask(body, body.collisionInclude, body.collisionExclude);
     this.addBody(body);
     //console.log('Added', body.serverType, body.clientType, body.id);
     return body;

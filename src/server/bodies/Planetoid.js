@@ -40,8 +40,9 @@ Planetoid.prototype._shape = Paths.octagon;
 
 Planetoid.prototype.adjustShape = function () {
     SyncBodyBase.prototype.adjustShape.call(this);
-    this.centerSensor = new p2.Circle(
-        {radius: 0.1, sensor: true, collisionGroup: this.coreCollisionGroup, collisionMask: this.coreCollisionMask});
+    this.centerSensor = new p2.Circle({radius: 0.1, sensor: true});
+    this.setCollisionGroup(this.centerSensor);
+    this.setCollisionMask(this.centerSensor, ['StationBlock']);
     this.addShape(this.centerSensor);
 };
 
