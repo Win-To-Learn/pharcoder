@@ -74,4 +74,28 @@ exports.star = [
     [sin(3*TAU/5), cos(3*TAU/5)]
 ];
 
+exports.hexagon = [
+    [2*cos(0*TAU/6), 2*sin(0*TAU/6)],
+    [2*cos(1*TAU/6), 2*sin(1*TAU/6)],
+    [2*cos(2*TAU/6), 2*sin(2*TAU/6)],
+    [2*cos(3*TAU/6), 2*sin(3*TAU/6)],
+    [2*cos(4*TAU/6), 2*sin(4*TAU/6)],
+    [2*cos(5*TAU/6), 2*sin(5*TAU/6)]
+];
+
+exports.k6 = [
+    [2*cos(0*TAU/6), 2*sin(0*TAU/6)],
+    [2*cos(2*TAU/6), 2*sin(2*TAU/6)],
+    [2*cos(4*TAU/6), 2*sin(4*TAU/6)],
+    [2*cos(0*TAU/6), 2*sin(0*TAU/6)],
+    [2*cos(3*TAU/6), 2*sin(3*TAU/6)],
+    [2*cos(5*TAU/6), 2*sin(5*TAU/6)],
+    [2*cos(1*TAU/6), 2*sin(1*TAU/6)],
+    [2*cos(3*TAU/6), 2*sin(3*TAU/6)],
+    [2*cos(4*TAU/6), 2*sin(4*TAU/6)],
+    [2*cos(1*TAU/6), 2*sin(1*TAU/6)],
+    [2*cos(2*TAU/6), 2*sin(2*TAU/6)],
+    [2*cos(5*TAU/6), 2*sin(5*TAU/6)]
+];
+
 exports.OCTRADIUS = Math.sqrt(5);
