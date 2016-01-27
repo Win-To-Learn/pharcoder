@@ -46,6 +46,7 @@ module.exports = {
         });
 
         $('#send-code').on('click', function () {
+			self.game.sounds.chime.play();
             //self.toggleCodeWindow(false);
             if (self.codeWindowMode === 'blockly') {
                 self.sendCodeMessage('exec', Blockly.JavaScript.workspaceToCode(self.blocklyWorkspace));
