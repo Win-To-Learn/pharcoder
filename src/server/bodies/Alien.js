@@ -10,6 +10,7 @@ var Starcoder = require('../../common/Starcoder.js');
 var p2 = require('p2');
 var SyncBodyBase = require('./SyncBodyBase.js');
 var Common = require('../../common/bodies/Alien.js');
+var FSM = require('../util/FSM.js');
 
 var ALIEN_THRUST_FORCE = 200;
 var ALIEN_ROTATION_FORCE = 50;
@@ -20,11 +21,15 @@ var Alien = function (config) {
     this.damping = 0.75;
     this.angularDamping = .25;
     this.targetShip = null;
-    this.setGoal();
+    //this.setGoal();
     this.proximitySensor = new p2.Circle({radius: ALIEN_SCAN_RADIUS, sensor: true});
     this.setCollisionGroup(this.proximitySensor);
     this.setCollisionMask(this.proximitySensor, ['Ship']);
     this.addShape(this.proximitySensor);
+    this.brain = new AlienBrain();
+    //this.brain.on('plotting', function () {console.log('plot state')});
+    this.brain.on('plotting', this.setGoal.bind(this));
+    this.brain.transition('start');
 };
 
 Alien.prototype = Object.create(SyncBodyBase.prototype);
@@ -39,7 +44,7 @@ Alien.prototype.serverType = 'Alien';
 
 Alien.prototype.control = function () {
     this.angularForce = ALIEN_ROTATION_FORCE;
-    // Set force using normalize vector towards goal
+    // Set force using normalized vector towards goal
 
     if (this.targetShip) {
         var dx = this.targetShip.position[0] - this.position[0];
@@ -48,7 +53,8 @@ Alien.prototype.control = function () {
         dx = this.goal.x - this.position[0];
         dy = this.goal.y - this.position[1];
         if ((dx*dx + dy*dy) <= 4) {
-            this.setGoal();
+            //this.setGoal();
+            this.brain.transition('reached goal');
         }
     }
     var n = ALIEN_THRUST_FORCE / Math.sqrt(dx * dx + dy * dy);
@@ -59,6 +65,7 @@ Alien.prototype.control = function () {
  * Randomly select one of nine regions of the world as a goal
  */
 Alien.prototype.setGoal = function () {
+    console.log('setting goal');
     var rx = (Math.floor(Math.random()*3) + 1) * 0.25;
     var ry = (Math.floor(Math.random()*3) + 1) * 0.25;
     //this.goal = {x: Math.floor(starcoder.worldLeft + rx*starcoder.worldWidth),
@@ -89,6 +96,7 @@ Alien.prototype.beginSense = function (body) {
     if (body.serverType === 'Ship') {
         if (!this.targetShip) {
             this.targetShip = body;
+            this.brain.transition('ship in range');
             //console.log('Pursuing ship');
         }
     }
@@ -97,8 +105,25 @@ Alien.prototype.beginSense = function (body) {
 Alien.prototype.endSense = function (body) {
     if (this.targetShip === body) {
         this.targetShip = null;
+        this.brain.transition('ship escaped');
         //console.log('Ship escaped');
     }
 };
+
+
+var AlienBrain = function () {
+    FSM.call(this, {
+        initial: {start: 'plotting'},
+        plotting: {auto: 'roaming'},
+        roaming: {'ship in range': 'chasing', 'reached goal': 'plotting', auto: 'plotting', timeout: 5000},
+        chasing: {'ship escaped': 'plotting'}
+    }, 'initial');
+    //this.alien = alien;
+    //this.on('plotting', this.alien.setGoal.bind(this.alien));
+};
+
+AlienBrain.prototype = Object.create(FSM.prototype);
+AlienBrain.prototype.constructor = AlienBrain;
+
 
 module.exports = Alien;
