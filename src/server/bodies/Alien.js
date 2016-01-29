@@ -65,7 +65,6 @@ Alien.prototype.control = function () {
  * Randomly select one of nine regions of the world as a goal
  */
 Alien.prototype.setGoal = function () {
-    console.log('setting goal');
     var rx = (Math.floor(Math.random()*3) + 1) * 0.25;
     var ry = (Math.floor(Math.random()*3) + 1) * 0.25;
     //this.goal = {x: Math.floor(starcoder.worldLeft + rx*starcoder.worldWidth),

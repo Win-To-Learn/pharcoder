@@ -40,6 +40,8 @@ TractorBeam.prototype.adjustShape = function () {
     var circle = new p2.Circle({radius: RADIUS});
     circle.sensor = true;
     this.addShape(circle);
+    this.setCollisionGroup();
+    this.setCollisionMask();
 };
 
 TractorBeam.prototype.onWorldAddFirstGen = function () {
@@ -84,7 +86,9 @@ TractorBeam.prototype.retract = function (instant) {
     //}
     delete this.beamParent.beamChild;
     //console.log('Tract', this);
-    this.world.removeSyncableBody(this);
+    if (this.world) {           // FIXME - not sure why this is necessary
+        this.world.removeSyncableBody(this);
+    }
     if (this.beamParent instanceof TractorBeam) {
         if (instant) {
             this.beamParent.retract(true);

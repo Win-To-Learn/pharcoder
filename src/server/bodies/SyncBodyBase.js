@@ -100,7 +100,6 @@ SyncBodyBase.prototype.setCollisionGroup = function (shapes, groupname) {
     } else {
         shapes.collisionGroup = gid;
     }
-    //console.log('Group', this.serverType, this.id, '>', gid);
 };
 
 /**
