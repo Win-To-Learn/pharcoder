@@ -34,11 +34,14 @@ module.exports = {
             self.send(player, 'crystal pickup', 50);
         });
         player.tutorial.once('goalPlantTree', function () {
-            self.send(player, 'tutorial', 'Now fly to a planet and touch it to plant a tree.');
+            self.send(player, 'tutorial', 'Now fly to a green planet and touch it to plant a tree.');
         });
         player.tutorial.once('achievedPlantTree', function () {
-            self.send(player, 'tutorial', 'Fantastic!');
+            self.send(player, 'tutorial', 'Fantastic! Now use the b key to shoot lasers at the red asteroids. Collect the blue crystals.');
         });
+		player.tutorial.once('endTutorial', function () {
+			self.send(player, 'tutorial', '');
+		});
     },
 
     onLoginCB: function (socket, player) {
@@ -71,5 +74,5 @@ var standardTutorial = {
     },
     achievedThrust: {auto: 'goalPlantTree', timeout: 1500},
     goalPlantTree: {planttree: 'achievedPlantTree'},
-    achievedPlantTree: {}
+    achievedPlantTree: {auto: 'endTutorial',timeout:4500}
 };

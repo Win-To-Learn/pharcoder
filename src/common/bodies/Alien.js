@@ -13,6 +13,7 @@ module.exports = {
     _lineWidth: 2,
     _shapeClosed: true,
     _fillAlpha: 0.25,
+
     //_shape: [
     //    [1,0.5],
     //    [1.5,1],
@@ -45,4 +46,5 @@ module.exports = {
     //],
     _shape: Paths.hexagon,
     updateProperties: ['vectorScale', 'dead']
+
 };

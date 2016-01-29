@@ -41,7 +41,7 @@ module.exports = {
         //    vectorScale: 0.5,
         //    stars: [[0, 0], [1,1], [-1,1], [1,-1]]
         //}}
-        {type: 'Alien', number: 5, config: {
+        {type: 'Alien', number: 2, config: {
             position: {random: 'world', pad: 30},
             vectorScale: 1,
             mass: 5

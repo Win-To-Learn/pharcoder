@@ -19,7 +19,7 @@ var MiniMap = function (game, width, height) {
     }
 
     this.graphics = game.make.graphics(0, 0);
-    this.graphics.beginFill(0xffff00, 0.2);
+    this.graphics.beginFill(0xf2f2f2, 0.15);
     this.graphics.drawRect(0, 0, width, height);
     this.graphics.endFill();
     this.graphics.cacheAsBitmap = true;

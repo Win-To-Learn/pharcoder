@@ -12,7 +12,7 @@ var SyncBodyBase = require('./SyncBodyBase.js');
 var Common = require('../../common/bodies/Alien.js');
 var FSM = require('../util/FSM.js');
 
-var ALIEN_THRUST_FORCE = 200;
+var ALIEN_THRUST_FORCE = 150;
 var ALIEN_ROTATION_FORCE = 50;
 var ALIEN_SCAN_RADIUS = 50;
 

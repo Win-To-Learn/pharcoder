@@ -50,17 +50,21 @@ Loader.prototype.preload = function () {
     //    'assets/bitmapfonts/karnivore128.png', 'assets/bitmapfonts/karnivore128.xml');
     this.game.load.bitmapFont('readout-yellow',
         'assets/bitmapfonts/heavy-yellow24.png', 'assets/bitmapfonts/heavy-yellow24.xml');
-    this.game.load.audio('playerthrust', 'assets/sounds/thrustLoop.ogg');
+    this.game.load.audio('playerthrust', 'assets/sounds/thrustLoop.mp3');
     // Sounds
-    this.game.load.audio('chime', 'assets/sounds/chime.ogg');
-    this.game.load.audio('levelup', 'assets/sounds/levelup.ogg');
-    this.game.load.audio('planttree', 'assets/sounds/planttree.ogg');
-    this.game.load.audio('bigpop', 'assets/sounds/bigpop.ogg');
-    this.game.load.audio('littlepop', 'assets/sounds/littlepop.ogg');
-    this.game.load.audio('tagged', 'assets/sounds/tagged.ogg');
-    this.game.load.audio('laser', 'assets/sounds/laser.ogg');
-    this.game.load.audio('music', 'assets/sounds/ignore.ogg');
-    this.game.load.audio('alert', 'assets/sounds/zapTwoTone2.ogg');
+    //this.game.load.audio('chime', 'assets/sounds/chime.ogg');
+	this.game.load.audio('chime', 'assets/sounds/pickup1.mp3');
+
+
+    this.game.load.audio('levelup', 'assets/sounds/levelup.mp3');
+    this.game.load.audio('planttree', 'assets/sounds/planttree.mp3');
+    this.game.load.audio('bigpop', 'assets/sounds/bigpop.mp3');
+    this.game.load.audio('littlepop', 'assets/sounds/littlepop.mp3');
+    this.game.load.audio('tagged', 'assets/sounds/tagged.mp3');
+    this.game.load.audio('laser', 'assets/sounds/laser.mp3');
+    //this.game.load.audio('music', 'assets/sounds/ignore.ogg');
+	this.game.load.audio('music', 'assets/sounds/lumpyspacejam.mp3');
+    this.game.load.audio('alert', 'assets/sounds/zapTwoTone2.mp3');
     // Spritesheets
     this.game.load.atlas('joystick', 'assets/joystick/generic-joystick.png', 'assets/joystick/generic-joystick.json');
     // Images
