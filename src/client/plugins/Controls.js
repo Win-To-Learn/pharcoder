@@ -17,7 +17,7 @@ Controls.prototype.constructor = Controls;
 Controls.prototype.init = function (queue) {
     this.queue = queue;
     this.controls = this.game.input.keyboard.createCursorKeys();
-    this.controls.fire = this.game.input.keyboard.addKey(Phaser.Keyboard.B);
+    this.controls.fire = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
     this.controls.tractor = this.game.input.keyboard.addKey(Phaser.Keyboard.T);
     this.joystickState = {
         up: false,
