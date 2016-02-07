@@ -19,6 +19,7 @@ Controls.prototype.init = function (queue) {
     this.controls = this.game.input.keyboard.createCursorKeys();
     this.controls.fire = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
     this.controls.tractor = this.game.input.keyboard.addKey(Phaser.Keyboard.T);
+    this.controls.grid = this.game.input.keyboard.addKey(Phaser.Keyboard.G);
     this.joystickState = {
         up: false,
         down: false,
@@ -35,6 +36,7 @@ Controls.prototype.init = function (queue) {
 
 var seq = 0;
 var up = false, down = false, left = false, right = false, fire = false, tractor = false;
+var grid = false;
 
 Controls.prototype.addVirtualControls = function (texture) {
     texture = texture || 'joystick';
@@ -164,6 +166,14 @@ Controls.prototype.preUpdate = function () {
     if ((!state.tractor && !controls.tractor.isDown) && tractor) {
         tractor = false;//
         this.queue.push({type: 'tractor_released', executed: false, seq: seq++});
+    }
+    // Local Only - Grid toggle
+    if (controls.grid.isDown && !grid) {
+        grid = true;
+    }
+    if (!controls.grid.isDown && grid) {
+        grid = false;
+        this.game.starcoder.toggleGrid();
     }
 };
 

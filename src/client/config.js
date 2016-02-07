@@ -15,7 +15,7 @@ module.exports = {
         leaderBoardTitle: {font: 'bold 20px Arial', align: 'center', fill: '#ff0000'}
     },
     gridSpacing: 10,
-    gridColor: '#00ff00',
+    gridColor: '#fff380',
     gamerTags: {
         1: [
             'super',

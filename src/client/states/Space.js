@@ -191,6 +191,14 @@ Space.prototype._setupMessageHandlers = function (socket) {
             self.game.sounds.music.pause();
         }
     });
+    socket.on('grid', function (state) {
+        console.log('grid state', state);
+        if (state === 'on') {
+            self.game.starcoder.showGrid();
+        } else {
+            self.game.starcoder.hideGrid();
+        }
+    });
     socket.on('msg tutorial', function (msg) {
         console.log('tut msg', msg);
         self.game.tutormessage.setMessage(msg);

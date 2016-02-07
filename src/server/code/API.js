@@ -362,6 +362,23 @@ API.musicOff = function (player) {
     //starcoder.send(player, 'music', 'off');
 };
 
+/**
+ * Show grid
+ *
+ * @param player
+ */
+API.showGrid = function (player) {
+    player.socket.emit('grid', 'on');
+};
+
+/**
+ * Hide grid
+ *
+ * @param player
+ */
+API.hideGrid = function (player) {
+    player.socket.emit('grid', 'off');
+};
 
 /**
  * Show a short text string on the screen

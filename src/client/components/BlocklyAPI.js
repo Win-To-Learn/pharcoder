@@ -606,7 +606,7 @@ module.exports = {
 
 
         /**
-         * Turn music on
+         * Turn music off
          *
          * @type {{init: Function}}
          */
@@ -624,6 +624,49 @@ module.exports = {
 
         Blockly.JavaScript['sc_music_off'] = function (block) {
             return 'musicOff();\n';
+        };
+
+        /**
+         * Show grid
+         *
+         * @type {{init: Function}}
+         */
+        Blockly.Blocks['sc_show_grid'] = {
+            init: function () {
+                this.jsonInit({
+                    message0: 'show grid',
+                    previousStatement: null,
+                    nextStatement: null,
+                    colour: 300
+                });
+            },
+            starcoder: {}
+        };
+
+        Blockly.JavaScript['sc_show_grid'] = function (block) {
+            return 'showGrid();\n';
+        };
+
+
+        /**
+         * Hide grid
+         *
+         * @type {{init: Function}}
+         */
+        Blockly.Blocks['sc_hide_grid'] = {
+            init: function () {
+                this.jsonInit({
+                    message0: 'hide grid',
+                    previousStatement: null,
+                    nextStatement: null,
+                    colour: 300
+                });
+            },
+            starcoder: {}
+        };
+
+        Blockly.JavaScript['sc_hide_grid'] = function (block) {
+            return 'hideGrid();\n';
         };
 
         /**
