@@ -94,6 +94,15 @@ HydraHead.prototype.respawn = function (world) {
     world.addSyncableBody(HydraHead, {position: {random: 'world', pad: 50}});
 };
 
+HydraHead.prototype.beginContact = function (other) {
+    switch (other.serverType) {
+        case 'Bullet':
+            this.kill();
+            setTimeout(head.respawn, head.respawnTime * 1000, this.world);
+            break;
+    }
+};
+
 var HydraArm = function (config) {
     SyncBodyBase.call(this, config);
 };

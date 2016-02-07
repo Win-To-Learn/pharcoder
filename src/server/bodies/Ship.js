@@ -188,6 +188,33 @@ Ship.prototype.rechargeLasers = function () {
     this.setTimer(this.chargeRate, {fun: this.rechargeLasers.bind(this)});
 };
 
+Ship.prototype.beginContact = function (other) {
+    switch (other.serverType) {
+        case 'Bullet':
+            if (other.firer !== this) {
+                this.player.sendMessage('tagged');
+                this.setTimer(2, {props: {lineColor: this.lineColor}});
+                this.lineColor = other.firer.lineColor;
+                other.firer.player.stats.tags++;
+                this.starcoder.updatePlayerScore('Ships Tagged',
+                    other.firer.player.id, other.firer.player.stats.tags);
+                other.firer.player.stats.currentTagStreak++;
+                if (other.firer.player.stats.currentTagStreak > other.firer.player.stats.bestTagStreak) {
+                    other.firer.player.stats.bestTagStreak = other.firer.player.stats.currentTagStreak;
+                    this.starcoder.updatePlayerScore('Tag Streak',
+                        other.firer.player.id, other.firer.player.stats.bestTagStreak);
+                }
+                this.player.stats.currentTagStreak = 0;
+            }
+            break;
+        case 'Asteroid':
+            if (!this.dead) {
+                this.knockOut();
+            }
+            break;
+    }
+};
+
 Object.defineProperty(Ship.prototype, 'crystals', {
     get: function () {
         return this._crystals;

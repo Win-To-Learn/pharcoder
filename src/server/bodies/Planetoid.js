@@ -64,4 +64,33 @@ Planetoid.prototype.plantTree = function (x, y, ship) {
     this.world.addConstraint(tree.attachmentConstraint);
 };
 
+Planetoid.prototype.beginContact = function (other, equations) {
+    switch (other.serverType) {
+        case 'Ship':
+            // First make sure this is first impact
+            for (var i = 0, l = equations.length; i < l; i++) {
+                if (!equations[i].firstImpact) {
+                    return;
+                }
+            }
+            // Then make sure we have enough crystals
+            if (other.crystals >= 150) {
+                other.crystals -= 150;
+                // Assume common case of single point contact
+                equations = equations[0];
+                if (equations.bodyA === this) {
+                    var point = equations.contactPointA;
+                } else {
+                    point = equations.contactPointB;
+                }
+                other.player.sendMessage('plant tree');
+                other.player.achieve('planttree');
+                this.plantTree(point[0], point[1], other);
+                other.player.stats.treesPlanted++;
+                this.starcoder.updatePlayerScore('Trees Planted', other.player.id, other.player.stats.treesPlanted);
+            }
+            break;
+    }
+};
+
 module.exports = Planetoid;

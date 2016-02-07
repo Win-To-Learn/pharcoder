@@ -30,12 +30,13 @@ var bodyTypes = {
  * @param initialBodies {Array} - descriptor of initial bodies to add to world
  * @constructor
  */
-var World = function (bounds, initialBodies) {
+var World = function (starcoder, bounds, initialBodies) {
     p2.World.call(this, {
         broadphase: new p2.SAPBroadphase(),
         islandSplit: true,
         gravity: [0, 0]
     });
+    this.starcoder = starcoder;
     this._syncableBodies = [];
     this._syncableBodiesNew = [];
     this._syncableBodiesRemoved = [];

@@ -158,6 +158,10 @@ Player.prototype.getPOJO = function () {
     return {id: this.id, username: this.gamertag};
 };
 
+Player.prototype.sendMessage = function (type, detail) {
+    this.socket.emit('msg ' + type, detail);
+};
+
 /* *Ship methods temp until can fix implementation elsewhere */
 
 Player.prototype.addShip = function (ship) {

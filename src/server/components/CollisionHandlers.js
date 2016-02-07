@@ -16,60 +16,19 @@ module.exports = {
             }
             var senseA = e.shapeA.sensor;
             var senseB = e.shapeB.sensor;
+            var equations = e.contactEquations;
             // Alt collision system
             if (A.beginContact && !senseA) {
-                A.beginContact(B, e);
+                A.beginContact(B, equations, e.shapeA, e.shapeB);
             }
             if (B.beginContact && !senseB) {
-                B.beginContact(A, e);
+                B.beginContact(A, equations, e.shapeA, e.shapeB);
             }
             if (A.beginSense && senseA) {
-                A.beginSense(B, e);
+                A.beginSense(B, equations, e.shapeA, e.shapeB);
             }
             if (B.beginSense && senseB) {
-                B.beginSense(A, e);
-            }
-            // end alt system
-            var equations = e.contactEquations;
-            var t = null;
-            // Run tests twice - once each way
-            while (true) {
-                if (A.serverType === 'Bullet' && B.serverType === 'Asteroid') {
-                    BulletAsteroid.call(self, A, B);
-                } else if (A.serverType === 'Bullet' && B.blocker) {
-                    BulletBlocker.call(self, A, B);
-                } else if (A.serverType === 'Bullet' && B.serverType === 'Ship') {
-                    BulletShip.call(self, A, B);
-                    //} else if (A.serverType === 'Bullet' && B.serverType === 'Tree') {
-                    //    BulletTree.bind(self)(A, B);
-                } else if (A.serverType === 'Ship' && B.serverType === 'Crystal') {
-                    ShipCrystal.call(self, A, B);
-                } else if (A.serverType === 'Ship' && B.serverType === 'Planetoid') {
-                    ShipPlanetoid.call(self, A, B, equations);
-                } else if (A.serverType === 'Ship' && B.deadly) {
-                    ShipDeadly.call(self, A, B);
-                } else if (A.serverType === 'TractorBeam' && B.tractorable) {
-                    TractorBeamTractorable.call(self, A, B);
-                } else if (A.serverType === 'Asteroid' && B.serverType === 'Tree') {
-                    AsteroidTree.call(self, A, B);
-                } else if (A.serverType === 'Ship' && B.serverType === 'Tree') {
-                    ShipTree.call(self, A, B);
-                } else if (A.serverType === 'StationBlock' && B.serverType === 'StationBlock') {
-                    StationBlockStationBlock.call(self, A, B, equations);
-                } else if (A.serverType === 'StationBlock' && e.shapeA.sensor &&
-                    B.serverType === 'Planetoid' && e.shapeB.sensor) {
-                    StationBlockPlanetoidSensor.call(self, A, B);
-                } else if (A.serverType === 'Bullet' && B.serverType === 'HydraHead') {
-                    BulletHydraHead.call(self, A, B);
-                }
-                // Swap A and B if we haven't already
-                if (t) {
-                    break;
-                } else {
-                    t = A;
-                    A = B;
-                    B = t;
-                }
+                B.beginSense(A, equations, e.shapeA, e.shapeB);
             }
         });
         this.world.on('endContact', function (e) {
@@ -93,124 +52,3 @@ module.exports = {
         });
     }
 };
-
-// Handlers
-function BulletBlocker (bullet, blocker) {
-    this.world.removeSyncableBody(bullet);
-}
-
-function BulletAsteroid (bullet, asteroid) {
-    this.send(bullet.firer.player, 'asteroid pop', asteroid.vectorScale);
-    asteroid.explode(true);
-    this.world.removeSyncableBody(bullet);
-}
-
-function ShipCrystal (ship, crystal) {
-    // TODO: Variable crystal values?
-    if (!crystal.pickedup) {
-        crystal.pickedup = true;        // Flag to avoid double pickups
-        ship.crystals += crystal.value;
-        this.send(ship.player, 'crystal pickup', crystal.value);
-        this.world.removeSyncableBody(crystal);
-    }
-}
-
-function ShipPlanetoid (ship, planetoid, equations) {
-    // First make sure this is first impact
-    for (var i = 0, l = equations.length; i < l; i++) {
-        if (!equations[i].firstImpact) {
-            return;
-        }
-    }
-    // Then make sure we have enough crystals
-    if (ship.crystals >= 150) {
-        ship.crystals -= 150;
-        // Assume common case of single point contact
-        equations = equations[0];
-        if (equations.bodyA === planetoid) {
-            var point = equations.contactPointA;
-        }  else {
-            point = equations.contactPointB;
-        }
-        this.send(ship.player, 'plant tree');
-        //ship.player.tutorial.transition('planttree');
-        ship.player.achieve('planttree');
-        planetoid.plantTree(point[0], point[1], ship);
-        ship.player.stats.treesPlanted++;
-        this.updatePlayerScore('Trees Planted', ship.player.id, ship.player.stats.treesPlanted);
-    }
-}
-
-function ShipDeadly (ship, obstacle) {
-    if (!ship.dead) {
-        ship.knockOut();
-    }
-}
-
-function BulletShip (bullet, ship) {
-    if (bullet.firer !== ship) {
-        this.send(ship.player, 'tagged');
-        ship.setTimer(2, {props: {lineColor: ship.lineColor}});
-        ship.lineColor = bullet.firer.lineColor;
-        bullet.firer.player.stats.tags++;
-        this.updatePlayerScore('Ships Tagged', bullet.firer.player.id, bullet.firer.player.stats.tags);
-        bullet.firer.player.stats.currentTagStreak++;
-        if (bullet.firer.player.stats.currentTagStreak > bullet.firer.player.stats.bestTagStreak) {
-            bullet.firer.player.stats.bestTagStreak = bullet.firer.player.stats.currentTagStreak;
-            this.updatePlayerScore('Tag Streak', bullet.firer.player.id, bullet.firer.player.stats.bestTagStreak);
-        }
-        ship.player.stats.currentTagStreak = 0;
-        this.world.removeSyncableBody(bullet);
-    }
-}
-
-//function BulletTree (bullet, tree) {
-//    tree.lineColor = bullet.firer.lineColor;
-//    this.world.removeSyncableBody(bullet);
-//}
-
-function TractorBeamTractorable (beam, target) {
-    if (beam.canAttach(target)) {
-        beam.attachTarget(target);
-        //beam.velocity[0] = 0;
-        //beam.velocity[1] = 1;
-        //beam.mode = 'tractoring';
-        //beam.beamConstraint = new p2.DistanceConstraint(beam.beamParent, beam);
-        //beam.world.addConstraint(beam.beamConstraint);
-        //beam.tractorConstraint = new p2.DistanceConstraint(beam, planet);
-        //beam.world.addConstraint(beam.tractorConstraint);
-        //planet.mass = 10;
-        //planet.damping = 0.99;
-        //planet.updateMassProperties();
-    }
-}
-
-function AsteroidTree (asteroid, tree) {
-    this.world.removeConstraint(tree.attachmentConstraint);
-    this.world.removeSyncableBody(tree);
-}
-
-function ShipTree (ship, tree) {
-    if (ship.owner !== ship.player) {
-        tree.owner = ship.player;
-        tree.lineColor = ship.lineColor;
-    }
-}
-
-function StationBlockStationBlock (sb1, sb2, equations) {
-    sb1.attach(sb2, sb1.position[0] + equations[0].contactPointA[0], sb1.position[1] + equations[0].contactPointA[1]);
-}
-
-function StationBlockPlanetoidSensor (station, planet) {
-    if (station.owner) {
-        station.owner.achieve('planetoiddock')
-        //station.owner.tutorial.transition('planetoiddock');
-    }
-}
-
-function BulletHydraHead (bullet, head) {
-    head.kill();
-    this.world.removeSyncableBody(bullet);
-    //head.setTimer(head.respawnTime, {fun: head.respawn});
-    setTimeout(head.respawn, head.respawnTime*1000, this.world);
-}

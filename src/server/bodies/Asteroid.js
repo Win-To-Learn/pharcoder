@@ -69,4 +69,19 @@ Asteroid.prototype.explode = function (respawn) {
     }
 };
 
+Asteroid.prototype.beginContact = function (other) {
+    switch (other.serverType) {
+        case 'Bullet':
+            other.firer.player.sendMessage('asteroid pop', this.vectorScale);
+            this.explode(true);
+            if (this.world) {}
+            other.removeSelfFromWorld();
+            break;
+        case 'Tree':
+            this.world.removeConstraint(other.attachmentConstraint);
+            other.removeSelfFromWorld();
+            break;
+    }
+};
+
 module.exports = Asteroid;

@@ -50,5 +50,17 @@ Crystal.prototype.value = 50;
 //    }
 //};
 
+Crystal.prototype.beginContact = function (other) {
+    switch (other.serverType) {
+        case 'Ship':
+            if (!this.pickedup) {
+                this.pickedup = true;
+                other.crystals += this.value;
+                other.player.sendMessage('crystal pickup', this.value);
+                this.removeSelfFromWorld();
+            }
+            break;
+    }
+};
 
 module.exports = Crystal;

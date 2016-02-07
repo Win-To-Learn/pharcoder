@@ -58,6 +58,15 @@ SyncBodyBase.prototype.setDefaults = function (config) {
     }
 };
 
+/**
+ * Remove object from world safely
+ */
+SyncBodyBase.prototype.removeSelfFromWorld = function () {
+    if (this.world) {
+        this.world.removeSyncableBody(this);
+    }
+};
+
 var _cGroups = {};
 var _cGroupIdx = 1;
 

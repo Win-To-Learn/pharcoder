@@ -152,4 +152,12 @@ TractorBeam.prototype.cancel = function (instant) {
     }
 };
 
+TractorBeam.prototype.beginSense = function (other) {
+    if (other.tractorable) {
+        if (this.canAttach(other)) {
+            this.attachTarget(other);
+        }
+    }
+};
+
 module.exports = TractorBeam;

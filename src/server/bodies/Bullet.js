@@ -40,4 +40,8 @@ Bullet.prototype.update = function () {
     }
 };
 
+Bullet.prototype.beginContact = function () {
+    this.removeSelfFromWorld();
+};
+
 module.exports = Bullet;

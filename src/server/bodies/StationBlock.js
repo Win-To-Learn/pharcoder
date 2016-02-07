@@ -65,4 +65,27 @@ StationBlock.prototype.attach = function (other, x, y) {
     this.world.addConstraint(constraint);
 };
 
+StationBlock.prototype.beginContact = function (other, equations) {
+    switch (other.serverType) {
+        case 'StationBlock':
+            equations = equations[0];
+            if (equations.bodyA === this) {
+                var point = equations.contactPointA;
+            } else {
+                point = equations.contactPointB;
+            }
+            this.attach(other, this.position[0] + point[0], this.position[1] + point[1]);
+            break;
+    }
+};
+
+StationBlock.prototype.beginSense = function (other, equations, shape, othershape) {
+    switch (other.serverType) {
+        case 'Planetoid':
+            if (othershape.sensor && this.owner) {
+                this.owner.accomplish('planetoiddock');
+            }
+    }
+};
+
 module.exports = StationBlock;

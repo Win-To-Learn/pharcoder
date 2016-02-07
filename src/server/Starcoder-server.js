@@ -41,8 +41,7 @@ Starcoder.prototype.init = function (app, io) {
     this.onLoginCB = [];
     this.onReadyCB = [];
     this.onDisconnectCB = [];
-    this.world = new World(this.config.worldBounds, this.config.initialBodies);
-    this.world.starcoder = this;
+    this.world = new World(this, this.config.worldBounds, this.config.initialBodies);
     this.world.log = this.log;
     this.implementFeature(SessionHandler);
     this.implementFeature(StaticServer);

@@ -196,6 +196,17 @@ Tree.prototype.adjustShape = function () {
     }
 };
 
+Tree.prototype.beginContact = function (other) {
+    switch (other.serverType) {
+        case 'Ship':
+            if (this.owner != other.player) {
+                this.owner = other.player;
+                this.lineColor = other.lineColor;
+            }
+            break;
+    }
+};
+
 Object.defineProperty(Tree.prototype, 'step', {
     get: function () {
         return this._step;
