@@ -98,6 +98,9 @@ Space.prototype.create = function () {
     // Group for game objects
     this.game.playfield = this.game.add.group();
 
+    // Group for grid
+    this.game.gridOverlay = this.starcoder.createGrid();
+
     // UI
     this.game.ui = this.game.add.group();
     this.game.ui.fixedToCamera = true;

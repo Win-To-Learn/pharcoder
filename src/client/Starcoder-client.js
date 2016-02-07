@@ -15,6 +15,7 @@ var LeaderBoardClient = require('./components/LeaderBoardClient.js');
 var FlexTextWrapper = require('./components/FlexTextWrapper.js');
 var CodeUI = require('./components/CodeUI.js');
 var BlocklyAPI = require('./components/BlocklyAPI.js');
+var GridOverlay = require('./components/GridOverlay.js');
 
 var states = {
     boot: require('./states/Boot.js'),
@@ -47,6 +48,7 @@ Starcoder.prototype.init = function () {
     this.implementFeature(BlocklyAPI);
     this.implementFeature(CodeUI);
     this.implementFeature(FlexTextWrapper);
+    this.implementFeature(GridOverlay);
 };
 
 Starcoder.prototype.serverConnect = function () {
