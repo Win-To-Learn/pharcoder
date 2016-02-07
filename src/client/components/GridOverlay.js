@@ -8,7 +8,6 @@ var floor = Math.floor;
 var gridGroup = null;
 var tween = null;
 
-// Test
 module.exports = {
     createGrid: function () {
         gridGroup = this.game.add.group();
@@ -35,6 +34,7 @@ module.exports = {
         // Numbers?
         // Tween
         tween = this.game.add.tween(gridGroup).to({alpha: 0.1}, 3000, 'Linear', true, 0, true, true);
+        graphics.updateCache();
         return gridGroup;
     }
 };
