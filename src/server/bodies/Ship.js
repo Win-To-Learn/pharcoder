@@ -208,6 +208,7 @@ Ship.prototype.beginContact = function (other) {
             }
             break;
         case 'Asteroid':
+        case 'HydraArm':
             if (!this.dead) {
                 this.knockOut();
             }
