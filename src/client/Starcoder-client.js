@@ -20,7 +20,7 @@ var GridOverlay = require('./components/GridOverlay.js');
 var states = {
     boot: require('./states/Boot.js'),
     space: require('./states/Space.js'),
-    login: require('./states/Login.js'),
+    //login: require('./states/Login.js'),
     loader: require('./states/Loader.js')
 };
 
