@@ -44,11 +44,13 @@ Space.prototype.create = function () {
     window.scrollTo(0, 1);
     //console.log('create');
     //var rng = this.game.rnd;
-    var wb = this.starcoder.config.worldBounds;
-    var ps = this.starcoder.config.physicsScale;
-    this.game.physics.startSystem(Phaser.Physics.P2JS);
-    this.world.setBounds.call(this.world, wb[0]*ps, wb[1]*ps, (wb[2]-wb[0])*ps, (wb[3]-wb[1])*ps);
-    this.game.physics.p2.setBoundsToWorld(true, true, true, true, false);
+    //var wb = this.starcoder.config.worldBounds;
+    //var ps = this.starcoder.config.physicsScale;
+    var sc = this.starcoder;
+    //this.game.physics.startSystem(Phaser.Physics.P2JS);
+    //this.world.setBounds.call(this.world, wb[0]*ps, wb[1]*ps, (wb[2]-wb[0])*ps, (wb[3]-wb[1])*ps);
+    this.world.setBounds(sc.phaserLeft, sc.phaserTop, sc.phaserWidth, sc.phaserHeight);
+    //this.game.physics.p2.setBoundsToWorld(true, true, true, true, false);
 
     // Debugging
     //this.game.time.advancedTiming = true;
@@ -85,7 +87,8 @@ Space.prototype.create = function () {
     // Background
     this.starcoder.starfield = this.game.make.bitmapData(600, 600, 'starfield', true);
     this.starcoder.drawStarField(this.starcoder.starfield.ctx, 600, 16);
-    this.game.add.tileSprite(wb[0]*ps, wb[1]*ps, (wb[2]-wb[0])*ps, (wb[3]-wb[1])*ps, this.starcoder.starfield);
+    //this.game.add.tileSprite(wb[0]*ps, wb[1]*ps, (wb[2]-wb[0])*ps, (wb[3]-wb[1])*ps, this.starcoder.starfield);
+    this.game.add.tileSprite(sc.phaserLeft, sc.phaserTop, sc.phaserWidth, sc.phaserHeight);
 
     this.starcoder.syncclient.start();
     //this.starcoder.socket.emit('client ready');

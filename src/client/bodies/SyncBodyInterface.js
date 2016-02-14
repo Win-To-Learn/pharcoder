@@ -14,9 +14,12 @@ var SyncBodyInterface = function () {};
  * @param a {number}
  */
 SyncBodyInterface.prototype.setPosAngle = function (x, y, a) {
-    this.body.data.position[0] = -(x || 0);
-    this.body.data.position[1] = -(y || 0);
-    this.body.data.angle = a || 0;
+    //this.body.data.position[0] = -(x || 0);
+    //this.body.data.position[1] = -(y || 0);
+    //this.body.data.angle = a || 0;
+    this.x = x * this.game.starcoder.config.physicsScale;
+    this.y = y * this.game.starcoder.config.physicsScale;
+    this.rotation = a;
 };
 
 SyncBodyInterface.prototype.config = function (properties) {

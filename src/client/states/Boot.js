@@ -25,7 +25,7 @@ Boot.prototype.init = function () {
     //this.game.stage.disableVisibilityChange = true;
     this.game.scale.scaleMode = Phaser.ScaleManager.RESIZE;
     this.game.scale.onSizeChange.add(function () {
-        console.log('master resize CB');
+        //console.log('master resize CB');
     });
     this.game.renderer.renderSession.roundPixels = true;
     this.game.sharedGraphics = this.game.make.graphics();

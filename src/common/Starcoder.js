@@ -171,13 +171,13 @@ Object.defineProperty(Starcoder.prototype, 'phaserWidth', {
 
 Object.defineProperty(Starcoder.prototype, 'worldHeight', {
     get: function () {
-        return this.config.worldBounds[3] - this.config.worldBounds[1];
+        return this.config.worldBounds[1] - this.config.worldBounds[3];
     }
 });
 
 Object.defineProperty(Starcoder.prototype, 'phaserHeight', {
     get: function () {
-        return this.config.physicsScale * (this.config.worldBounds[3] - this.config.worldBounds[1]);
+        return this.config.physicsScale * (this.config.worldBounds[1] - this.config.worldBounds[3]);
     }
 });
 
@@ -201,7 +201,7 @@ Object.defineProperty(Starcoder.prototype, 'worldTop', {
 
 Object.defineProperty(Starcoder.prototype, 'phaserTop', {
     get: function () {
-        return this.config.physicsScale * this.config.worldBounds[1];
+        return -this.config.physicsScale * this.config.worldBounds[1];
     }
 });
 
@@ -225,7 +225,7 @@ Object.defineProperty(Starcoder.prototype, 'worldBottom', {
 
 Object.defineProperty(Starcoder.prototype, 'phaserBottom', {
     get: function () {
-        return this.config.physicsScale * this.config.worldBounds[3];
+        return -this.config.physicsScale * this.config.worldBounds[3];
     }
 });
 

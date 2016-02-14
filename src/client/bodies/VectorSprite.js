@@ -22,13 +22,14 @@ var VectorSprite = function (game, config) {
     //this.texture = this.game.add.renderTexture();
     //this.minitexture = this.game.add.renderTexture();
 
-    if (!config.nophysics) {
-        game.physics.p2.enable(this, false, false);
-        this.setPosAngle(config.x, config.y, config.a);
-        this.updateBody();
-        this.body.mass = 0;
-    }
+    //if (!config.nophysics) {
+    //    game.physics.p2.enable(this, false, false);
+    //    this.setPosAngle(config.x, config.y, config.a);
+    //    this.updateBody();
+    //    this.body.mass = 0;
+    //}
     this.config(config.properties);
+    this.anchor.setTo(0.5, 0.5);
 
     if (this.visibleOnMap) {
         this.minisprite = this.game.minimap.create();
@@ -263,15 +264,16 @@ VectorSprite.prototype.draw = function (renderScale) {
  * @private
  */
 VectorSprite.prototype._drawPolygon = function (graphics, points, closed, renderScale) {
-    var sc = this.game.physics.p2.mpxi(this.vectorScale)*renderScale;
+    //var sc = this.game.physics.p2.mpxi(this.vectorScale)*renderScale;
     //var sc = this.game.physics.p2.mpxi(renderScale);
+    var scale = this.game.starcoder.config.physicsScale * this.vectorScale * renderScale;
     points = points.slice();
     if (closed) {
         points.push(points[0]);
     }
-    graphics.moveTo(points[0][0] * sc, points[0][1] * sc);
+    graphics.moveTo(points[0][0] * scale, points[0][1] * scale);
     for (var i = 1, l = points.length; i < l; i++) {
-        graphics.lineTo(points[i][0] * sc, points[i][1] * sc);
+        graphics.lineTo(points[i][0] * scale, points[i][1] * scale);
     }
 };
 

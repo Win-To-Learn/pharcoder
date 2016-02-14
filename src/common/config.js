@@ -10,7 +10,8 @@ module.exports = {
     //serverUri: 'http://localhost:8081',
     //serverAddress: '1.2.3.4',
     //worldBounds: [-400, -400, 400, 400],
-    worldBounds: [-300, -300, 300, 300],
+    //worldBounds: [-300, -300, 300, 300],
+    worldBounds: [-300, 300, 300, -300],                // left top right bottom
     physicsScale: 20,
     renderLatency: 100,
     frameRate: (1 / 60),

@@ -39,7 +39,7 @@ module.exports = {
             //config.tag = this.player.username;
             //if (config.properties.playerid === this.player.id) {
             // Only the player's own ship is treated as dynamic in the local physics sim
-            config.mass = this.config.shipMass;
+            //config.mass = this.config.shipMass;
             playerShip = true;
             //}
         }

@@ -10,10 +10,10 @@
 var SimpleParticle = function (game, key) {
     var texture = SimpleParticle._textureCache[key];
     Phaser.Sprite.call(this, game, 0, 0, texture);
-    game.physics.p2.enable(this, false, false);
-    this.body.clearShapes();
-    var shape = this.body.addParticle();
-    shape.sensor = true;
+    //game.physics.p2.enable(this, false, false);
+    //this.body.clearShapes();
+    //var shape = this.body.addParticle();
+    //shape.sensor = true;
     //this.kill();
 };
 

@@ -27,7 +27,7 @@ Bullet.prototype.visibleOnMap = false;
 Bullet.prototype.sharedTextureKey = 'laser';
 
 Bullet.prototype.drawProcedure = function (renderScale, frame) {
-    var scale = this.game.physics.p2.mpxi(this.vectorScale) * renderScale;
+    var scale = this.game.starcoder.config.physicsScale * this.vectorScale * renderScale;
     this.graphics.lineStyle(4, Phaser.Color.hexToRGB(this.lineColor), 1);
     this.graphics.moveTo(0, 0);
     this.graphics.lineTo(0, 1 * scale);

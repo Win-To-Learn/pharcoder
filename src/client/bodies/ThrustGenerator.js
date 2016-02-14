@@ -66,8 +66,8 @@ ThrustGenerator.prototype.update = function () {
             var y = ship.y + d*sin - _engineOffset*cos;
             particle.lifespan = _particleTTL;
             particle.reset(x, y);
-            particle.body.velocity.x = _particleBaseSpeed*(_coneLength*sin - d*cos);
-            particle.body.velocity.y = _particleBaseSpeed*(-_coneLength*cos - d*sin);
+            //particle.body.velocity.x = _particleBaseSpeed*(_coneLength*sin - d*cos);
+            //particle.body.velocity.y = _particleBaseSpeed*(-_coneLength*cos - d*sin);
         }
     }
 };

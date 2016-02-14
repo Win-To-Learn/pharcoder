@@ -15,9 +15,9 @@ module.exports = {
         var gs = this.config.gridSpacing;
         var ps = this.config.physicsScale;
         var left = floor(this.worldLeft / gs) * gs;
-        var top = floor(this.worldTop / gs) * gs;
+        var top = -floor(this.worldTop / gs) * gs;
         var right = floor(this.worldRight / gs) * gs;
-        var bottom = floor(this.worldBottom / gs) * gs;
+        var bottom = -floor(this.worldBottom / gs) * gs;
         var graphics = this.game.add.graphics(0, 0, gridGroup);
         var color = Phaser.Color.hexToRGB(this.config.gridColor);
         graphics.lineStyle(3, color, 1);

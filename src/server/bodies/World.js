@@ -326,7 +326,7 @@ World.prototype._setBounds = function (l, t, r, b) {
         bottom: new p2.Body({
             mass: 0,
             position: [0, b],
-            angle: Math.PI
+            angle: 0 //Math.PI
         }),
         left: new p2.Body({
             mass: 0,
@@ -336,7 +336,7 @@ World.prototype._setBounds = function (l, t, r, b) {
         top: new p2.Body({
             mass: 0,
             position: [0, t],
-            angle: 0
+            angle: Math.PI //0
         }),
         right: new p2.Body({
             mass: 0,
