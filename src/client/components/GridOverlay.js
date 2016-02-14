@@ -34,7 +34,7 @@ module.exports = {
         // Numbers?
         for (i = left; i <= right; i += gs) {
             for (var j = top; j <= bottom; j += gs) {
-                var text = this.addFlexText(i * ps + 6, j * ps + 6, '(' + i + ', ' + j + ')',
+                var text = this.addFlexText(i * ps + 6, -j * ps + 6, '(' + i + ', ' + j + ')',
                     {font: '12px Arial', align: 'center', fill: this.config.gridColor}, gridGroup);
                 text.anchor.setTo(0, 1);
             }

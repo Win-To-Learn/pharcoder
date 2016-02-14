@@ -201,7 +201,7 @@ API.setTurningForce = function (player, force) {
 API.translate = function (player, x, y) {
     var ship = player.getShip();
     ship.position[0] = x;
-    ship.position[1] = y;
+    ship.position[1] = -y;
 };
 
 /**

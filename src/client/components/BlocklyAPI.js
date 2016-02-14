@@ -7,7 +7,6 @@
 
 module.exports = {
     init: function () {
-        var self = this;
         /**
          * Set scale of player ship
          * @type {{init: Function}}
@@ -304,8 +303,8 @@ module.exports = {
          * code generation for ship translation
          */
         Blockly.JavaScript['sc_translate'] = function (block) {
-            var x = block.getFieldValue('X');
-            var y = block.getFieldValue('Y');
+            var x = Blockly.JavaScript.valueToCode(block, 'X', Blockly.JavaScript.ORDER_COMMA) || '0';
+            var y = Blockly.JavaScript.valueToCode(block, 'Y', Blockly.JavaScript.ORDER_COMMA) || '0';
             return 'translate(' + x + ',' + y + ');\n';
         };
 
@@ -381,7 +380,9 @@ module.exports = {
                             ['other ships', 'Ship'],
                             ['asteroids', 'Asteroid'],
                             ['planetoids', 'Planetoid'],
-                            ['trees', 'Trees']
+                            ['trees', 'Tree'],
+                            ['aliens', 'Alien'],
+                            ['hydra', 'HydraHead']
                         ]
                         }
                     ],
