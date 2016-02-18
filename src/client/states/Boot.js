@@ -46,7 +46,7 @@ Boot.prototype.init = function () {
     //    mpxi: function (a) {
     //        return floor(-pScale*a);
     //    }
-    };
+    //};
     this.starcoder.serverConnect();
     //this.starcoder.controls = this.game.plugins.add(Controls,
     //    this.starcoder.cmdQueue);
