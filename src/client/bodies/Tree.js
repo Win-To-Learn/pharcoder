@@ -35,7 +35,7 @@ Starcoder.mixinPrototype(Tree.prototype, UpdateProperties.prototype);
 Tree.prototype.drawProcedure = function (renderScale) {
     var lineColor = Phaser.Color.hexToRGB(this.lineColor);
     this.graphics.lineStyle(1, lineColor, 1);
-    this._drawBranch(this.graph, this.game.physics.p2.mpxi(this.vectorScale)*renderScale, this.depth);
+    this._drawBranch(this.graph, this.game.starcoder.physicsScale*this.vectorScale*renderScale, this.depth);
 };
 
 Tree.prototype._drawBranch = function (graph, sc, depth) {

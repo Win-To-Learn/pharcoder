@@ -33,19 +33,19 @@ Boot.prototype.init = function () {
     var pScale = this.starcoder.config.physicsScale;
     var ipScale = 1/pScale;
     var floor = Math.floor;
-    this.game.physics.config = {
-        pxm: function (a) {
-            return ipScale*a;
-        },
-        mpx: function (a) {
-            return floor(pScale*a);
-        },
-        pxmi: function (a) {
-            return -ipScale*a;
-        },
-        mpxi: function (a) {
-            return floor(-pScale*a);
-        }
+    //this.game.physics.config = {
+    //    pxm: function (a) {
+    //        return ipScale*a;
+    //    },
+    //    mpx: function (a) {
+    //        return floor(pScale*a);
+    //    },
+    //    pxmi: function (a) {
+    //        return -ipScale*a;
+    //    },
+    //    mpxi: function (a) {
+    //        return floor(-pScale*a);
+    //    }
     };
     this.starcoder.serverConnect();
     //this.starcoder.controls = this.game.plugins.add(Controls,

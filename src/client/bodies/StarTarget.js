@@ -24,7 +24,7 @@ Starcoder.mixinPrototype(StarTarget.prototype, SyncBodyInterface.prototype);
 Starcoder.mixinPrototype(StarTarget.prototype, UpdateProperties.prototype);
 
 StarTarget.prototype.drawProcedure = function (renderScale) {
-    var psc = this.game.physics.p2.mpxi(renderScale);
+    var psc = this.game.starcoder.config.physicsScale * renderScale;
     var gsc = psc*this.vectorScale;
     var lineColor = Phaser.Color.hexToRGB(this.lineColor);
     this.graphics.lineStyle(1, lineColor, 1);
