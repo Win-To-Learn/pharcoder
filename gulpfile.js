@@ -72,6 +72,7 @@ make_browserify_task('watchify-frontend', {watchify: true}, ['src/frontend/Front
 make_browserify_task('browserify', {}, ['src/client.js'], 'client.js');
 make_browserify_task('browserify-ugly', {uglify: true}, ['src/client.js'], 'client.js');
 make_browserify_task('browserify-frontend-ugly', {uglify: true}, ['src/frontend/Frontend.js'], 'frontend.js');
+make_browserify_task('browserify-frontend', {}, ['src/frontend/Frontend.js'], 'frontend.js');
 
 gulp.task('bump-patch', function () {
     gulp.src('./package.json')
