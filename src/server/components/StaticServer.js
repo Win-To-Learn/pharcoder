@@ -45,11 +45,11 @@ module.exports = {
         //});
         //
         this.app.use('/css', express.static(path.join(__dirname, '../../../css/'), {maxAge: week}));
-        //this.app.get('/js/:name', function (req, res) {
-        //    return sendFile(path.join(__dirname, '../../../js/'), req.params.name, res);
-        //});
-        //
-        this.app.use('/js', express.static(path.join(__dirname, '../../../js/'), {maxAge: week}));
+        this.app.get('/js/:name', function (req, res) {
+            return sendFile(path.join(__dirname, '../../../js/'), req.params.name, res);
+        });
+
+        //this.app.use('/js', express.static(path.join(__dirname, '../../../js/'), {maxAge: 1}));
         //this.app.get('/lib/msg/json/:name', function (req, res) {
         //    return sendFile(path.join(__dirname, '../../../lib/msg/json/'), req.params.name, res);
         //});
