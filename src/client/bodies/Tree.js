@@ -31,6 +31,7 @@ Starcoder.mixinPrototype(Tree.prototype, UpdateProperties.prototype);
  * Draw tree, overriding standard shape and geometry method to use graph
  *
  * @param renderScale
+ * blah blah
  */
 Tree.prototype.drawProcedure = function (renderScale) {
     var lineColor = Phaser.Color.hexToRGB(this.lineColor);
