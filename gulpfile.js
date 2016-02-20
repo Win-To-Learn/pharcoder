@@ -98,7 +98,7 @@ gulp.task('forceExit', function(cb) {
   process.exit(0);
 });
 
-gulp.task('zip-eb', ['browserify-ugly', 'browserify-frontend-ugly'], function () {
+gulp.task('zip-eb', ['browserify', 'browserify-frontend'], function () {
     return gulp.src(['src/server.js', 'src/server/**', 'src/common/**', 'src/schema/**', 'package.json', 'assets/**',
         'lib/**', 'css/**', 'js/**', '.ebextensions/**', 'html/**'], {base: '.'})
         //.pipe(rename(function (path) {
