@@ -78,7 +78,7 @@ Tree.prototype._makeBranch = function (graph, length, angle, initial, inc, depth
    if (!graph.c) {
         graph.c = [];
     }
-    var child = {x: graph.x + length * Math.sin(angle), y: graph.y + length * Math.cos(angle)};
+    var child = {x: graph.x + length * Math.sin(angle), y: graph.y - length * Math.cos(angle)};
     if (depth < this.depth) {
         this.hulls[depth].push([child.x, -child.y]);
     }
@@ -138,7 +138,7 @@ Tree.prototype._sortHull = function (depth, cx, cy) {
 
 Tree.prototype._cullHull = function (depth) {
     var hull = this.hulls[depth];
-    var len = hull.length
+    var len = hull.length;
     if (len <= 8) {
         return hull;
     }
