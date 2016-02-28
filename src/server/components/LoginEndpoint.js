@@ -14,17 +14,6 @@ module.exports = {
         });
     },
 
-    //checkLogin: function (socket, credentials) {
-    //    // FIXME: Interface with backend DB
-    //    if (credentials.gamertag) {
-    //        this.loginSuccess(socket, new Guest(credentials.gamertag));
-    //    } else if (credentials.username && credentials.password === 'star') {
-    //        this.loginSuccess(socket, new Player(credentials.username));
-    //    } else {
-    //        this.loginFailure(socket, 'Unknown username or password. Try again.');
-    //    }
-    //},
-
     // FIXME: More cases to handle
     checkLogin: function (socket, ticketid) {
         var self = this;

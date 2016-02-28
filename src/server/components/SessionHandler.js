@@ -113,6 +113,7 @@ module.exports = {
     identityGET: function (req, res) {
         if (req.session.ticketid) {
             res.status(200).send({ticketid: req.session.ticketid, serverUri: req.server});
+            delete req.session.ticketid;           // One time use - not sure if this is the best way to do this
         } else {
             res.status(401).end();
         }
