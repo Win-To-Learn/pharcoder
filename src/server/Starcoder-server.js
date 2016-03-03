@@ -76,10 +76,10 @@ Starcoder.prototype.init = function (app, io) {
 
 Starcoder.prototype.onDisconnect = function (socket) {
     var player = this.players[socket.id];
-    for (var i = 0, l = this.onDisconnectCB.length; i < l; i++) {
-        this.onDisconnectCB[i].call(this, socket, player);
-    }
     if (player) {
+        for (var i = 0, l = this.onDisconnectCB.length; i < l; i++) {
+            this.onDisconnectCB[i].call(this, socket, player);
+        }
         i = this.playerList.indexOf(player);
         this.playerList.splice(i, 1);
         delete this.players[socket.id];
