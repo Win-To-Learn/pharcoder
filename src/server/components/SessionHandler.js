@@ -42,15 +42,12 @@ module.exports = {
             if (err || !hash) {
                 res.status(401).end();
             } else {
-                self.registerUser(req.body.user, hash, function (player) {
-                    if (player) {
-                        delete player.password;
-                        req.session.player = player;
-                        req.session.player.role = 'player';
-                        res.status(200).send({goto: 'play.html'}).end();
-                    } else {
-                        res.status(401).end();
-                    }
+                self.registerPlayerWithRegimeName('Legacy Regime', req.body.user, hash).then(function (ticketid) {
+                    req.session.ticketid = ticketid;
+                    req.session.server = 'FIXME';
+                    res.status(200).send({goto: 'play.html'}).end();
+                }, function (reason) {
+                    res.status(200).send({goto: 'register.html'}).end();
                 });
             }
         });
@@ -97,7 +94,6 @@ module.exports = {
                     res.status(401).end();
                 } else {
                     self.registerPlayerWithCode(req.body.code, req.body.user, hash).then(function (ticketid) {
-                        //console.log('ok', ticketid);
                         req.session.ticketid = ticketid;
                         req.session.server = 'FIXME';
                         res.status(200).send({goto: 'play.html'}).end();

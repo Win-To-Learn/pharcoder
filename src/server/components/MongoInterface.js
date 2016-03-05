@@ -306,6 +306,27 @@ module.exports = {
     },
 
     /**
+     * Register new player under regime with name, if possible
+     * @param {string} name
+     * @param {string} gamertag
+     * @param {string} password
+     * @return {Promise}
+     */
+    registerPlayerWithRegimeName: function (name, gamertag, password) {
+        var self = this;
+        return this.mongoFind(this.mongoRegimes, {name: name}, 1).then(function (regime) {
+            if (regime) {
+                var player = new Player(gamertag, password, regime.id);
+                return self.mongoInsertOne(self.mongoPeople, player).then(function (res) {
+                    return self.addTicket('FIXME', 'player', player.id);
+                });
+            } else {
+                return Promise.reason('Invalid regime name');
+            }
+        });
+    },
+
+    /**
      * Expire regime code to make unusable
      * @param {Regime} regime
      * @param {string} code
