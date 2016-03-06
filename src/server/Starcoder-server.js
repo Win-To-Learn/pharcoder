@@ -5,7 +5,7 @@
  */
 'use strict';
 
-var EventEmitter = require('events').EventEmitter;
+//var EventEmitter = require('events').EventEmitter;
 
 var Starcoder = require('../common/Starcoder.js');
 var SyncServer = require('./components/SyncServer.js');
@@ -34,7 +34,7 @@ var World = require('./bodies/World.js');
 Starcoder.prototype.init = function (app, io) {
     this.app = app;
     this.io = io;
-    this.events = new EventEmitter();
+    //this.events = new EventEmitter();
     this.players = {};          // Logged in schema
     this.playerList = [];
     this.onConnectCB = [];
