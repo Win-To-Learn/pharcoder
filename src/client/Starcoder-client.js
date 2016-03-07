@@ -69,9 +69,10 @@ Starcoder.prototype.serverConnect = function () {
             self.socket.on('connect', function () {
                 //self.connected = true;
                 //self.lastNetError = null;
-                for (var i = 0, l = self.onConnectCB.length; i < l; i++) {
-                    self.onConnectCB[i].call(self, self.socket);
-                }
+                //for (var i = 0, l = self.onConnectCB.length; i < l; i++) {
+                //    self.onConnectCB[i].call(self, self.socket);
+                //}
+                self.events.emit('connect', self.socket);
                 self.socket.emit('login', data.ticketid);
                 self.socket.on('loginSuccess', function (player) {
                     self.player = player;

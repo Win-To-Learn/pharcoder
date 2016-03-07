@@ -47,9 +47,10 @@ module.exports = {
 
     loginSuccess: function (socket, player) {
         player.socket = socket;
-        for (var i = 0, l = this.onLoginCB.length; i < l; i++) {
-            this.onLoginCB[i].call(this, socket, player);
-        }
+        //for (var i = 0, l = this.onLoginCB.length; i < l; i++) {
+        //    this.onLoginCB[i].call(this, socket, player);
+        //}
+        this.events.emit('login', socket, player);
         socket.on('ready', this.onReady.bind(this, player));
         //socket.on('disconnect', this.disconnect.bind(this, socket, player));
         socket.removeAllListeners('login');

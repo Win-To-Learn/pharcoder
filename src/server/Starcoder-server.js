@@ -62,9 +62,10 @@ Starcoder.prototype.init = function (app, io) {
     this.io.set('origins', '*:*'); // no domain when coming from native mobile
     this.io.on('connect', function (socket) {
         //self.pending[socket.id] = socket;
-        for (var i = 0, l = self.onConnectCB.length; i < l; i++) {
-            self.onConnectCB[i].bind(self, socket)();
-        }
+        //for (var i = 0, l = self.onConnectCB.length; i < l; i++) {
+        //    self.onConnectCB[i].bind(self, socket)();
+        //}
+        self.events.emit('connect', socket);
         socket.on('disconnect', self.onDisconnect.bind(self, socket));
     });
     //this.world.start(1/60);
@@ -77,9 +78,10 @@ Starcoder.prototype.init = function (app, io) {
 Starcoder.prototype.onDisconnect = function (socket) {
     var player = this.players[socket.id];
     if (player) {
-        for (var i = 0, l = this.onDisconnectCB.length; i < l; i++) {
-            this.onDisconnectCB[i].call(this, socket, player);
-        }
+        //for (var i = 0, l = this.onDisconnectCB.length; i < l; i++) {
+        //    this.onDisconnectCB[i].call(this, socket, player);
+        //}
+        this.events.emit('disconnect', socket, player);
         i = this.playerList.indexOf(player);
         this.playerList.splice(i, 1);
         delete this.players[socket.id];
@@ -98,9 +100,10 @@ Starcoder.prototype.onReady = function (player) {
         player.socket.emit('timesync', self.hrtime());
     }, self.config.timeSyncFreq*1000);
     // Call ready CBs for attached interfaces
-    for (var i = 0, l = self.onReadyCB.length; i < l; i++) {
-        this.onReadyCB[i].bind(this, player)();
-    }
+    //for (var i = 0, l = self.onReadyCB.length; i < l; i++) {
+    //    this.onReadyCB[i].bind(this, player)();
+    //}
+    this.events.emit('ready', player);
 };
 
 //Starcoder.prototype.newPlayer = function (socket, type, descriptor) {

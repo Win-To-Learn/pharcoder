@@ -134,10 +134,16 @@ Starcoder.prototype.implementFeature = function (mixin) {
     for (var prop in mixin) {
         switch (prop) {
             case 'onConnectCB':
+                this.events.on('connect', mixin[prop].bind(this));
+                break;
             case 'onReadyCB':
+                this.events.on('ready', mixin[prop].bind(this));
+                break;
             case 'onLoginCB':
+                this.events.on('login', mixin[prop].bind(this));
+                break;
             case 'onDisconnectCB':
-                this[prop].push(mixin[prop]);
+                this.events.on('disconnect', mixin[prop].bind(this));
                 break;
             case 'init':
                 break;      // NoOp
@@ -149,6 +155,25 @@ Starcoder.prototype.implementFeature = function (mixin) {
         mixin.init.call(this);
     }
 };
+//Starcoder.prototype.implementFeature = function (mixin) {
+//    for (var prop in mixin) {
+//        switch (prop) {
+//            case 'onConnectCB':
+//            case 'onReadyCB':
+//            case 'onLoginCB':
+//            case 'onDisconnectCB':
+//                this[prop].push(mixin[prop]);
+//                break;
+//            case 'init':
+//                break;      // NoOp
+//            default:
+//                Starcoder.prototype[prop] = mixin[prop];
+//        }
+//    }
+//    if (mixin.init) {
+//        mixin.init.call(this);
+//    }
+//};
 
 /**
  * Custom logging function to be featurefied as necessary
