@@ -82,7 +82,7 @@ Starcoder.prototype.onDisconnect = function (socket) {
         //    this.onDisconnectCB[i].call(this, socket, player);
         //}
         this.events.emit('disconnect', socket, player);
-        i = this.playerList.indexOf(player);
+        var i = this.playerList.indexOf(player);
         this.playerList.splice(i, 1);
         delete this.players[socket.id];
         this.world.removeSyncableBody(player.getShip());
