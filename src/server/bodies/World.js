@@ -20,7 +20,8 @@ var bodyTypes = {
     Tree: require('./Tree.js'),
     StarTarget: require('./StarTarget.js'),
     StationBlock: require('./StationBlock.js'),
-    Alien: require('./Alien.js')
+    Alien: require('./Alien.js'),
+    CodeCapsule: require('./CodeCapsule.js')
 };
 
 /**

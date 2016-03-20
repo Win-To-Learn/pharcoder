@@ -44,8 +44,8 @@ Space.prototype.create = function () {
     window.scrollTo(0, 1);
     //console.log('create');
     //var rng = this.game.rnd;
-    var wb = this.starcoder.config.worldBounds;
-    var ps = this.starcoder.config.physicsScale;
+    //var wb = this.starcoder.config.worldBounds;
+    //var ps = this.starcoder.config.physicsScale;
     var sc = this.starcoder;
     //this.game.physics.startSystem(Phaser.Physics.P2JS);
     //this.world.setBounds.call(this.world, wb[0]*ps, wb[1]*ps, (wb[2]-wb[0])*ps, (wb[3]-wb[1])*ps);
@@ -170,6 +170,11 @@ Space.prototype._setupMessageHandlers = function (socket) {
     socket.on('msg crystal pickup', function (val) {
         self.game.sounds.chime.play();
         Toast.spinUp(self.game, self.game.playerShip.x, self.game.playerShip.y, '+' + val + ' crystals!');
+    });
+    socket.on('msg code pickup', function (val) {
+        self.game.sounds.chime.play();
+        Toast.spinUp(self.game, self.game.playerShip.x, self.game.playerShip.y, 'New Code!');
+        self.starcoder.setCodeForUI(val);
     });
     socket.on('msg plant tree', function (val) {
         self.game.sounds.planttree.play();

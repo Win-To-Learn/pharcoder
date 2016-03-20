@@ -68,6 +68,9 @@ module.exports = {
                 }
             }
         });
+        player.socket.on('code deploy', function (code) {
+            player.getShip().deployCodeCapsule(code);
+        });
         // Send code labels
         this.sendCodeMessage(player, 'labels', Object.keys(player.codeSnippets));
     },

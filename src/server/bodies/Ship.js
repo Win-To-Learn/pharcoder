@@ -14,8 +14,11 @@ var UpdateProperties = require('../../common/UpdateProperties.js').Ship;
 
 var Bullet = require('./Bullet.js');
 var TractorBeam = require('./TractorBeam.js');
+var CodeCapsule = require('./CodeCapsule.js');
 
 var LOG5 = Math.log(0.6);                           // LOG of charge rate decay factor for faster exponentiation
+var sin = Math.sin;
+var cos = Math.cos;
 
 var Ship = function (config) {
     SyncBodyBase.call(this, config);
@@ -186,6 +189,19 @@ Ship.prototype.rechargeLasers = function () {
         this.charge += 1;
     }
     this.setTimer(this.chargeRate, {fun: this.rechargeLasers.bind(this)});
+};
+
+/**
+ * Add CodeCapsule to world behind ship
+ * @param {object} code
+ */
+Ship.prototype.deployCodeCapsule = function (code) {
+    var cc = this.world.addSyncableBody(CodeCapsule, {vectorScale: 0.5, owner: this.player, payload: code});
+    // FIXME: positioning and error check
+    var r = this.boundingRadius + cc.boundingRadius + 1;
+    cc.position[0] = this.position[0] - sin(this.angle) * r;
+    cc.position[1] = this.position[1] + cos(this.angle) * r;
+    cc.angle = this.angle;
 };
 
 Ship.prototype.beginContact = function (other) {

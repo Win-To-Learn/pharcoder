@@ -21,12 +21,6 @@ module.exports = {
             vectorScale: {random: 'float', lo: 0.6, hi: 1.4},
             mass: 10
         }},
-        //{type: 'Crystal', number: 10, config: {
-        //    position: {random: 'world'},
-        //    velocity: {random: 'vector', lo: -4, hi: 4, normal: true},
-        //    vectorScale: {random: 'float', lo: 0.4, hi: 0.8},
-        //    mass: 5
-        //}}
         {type: 'Hydra', number: 1, config: {
             position: {random: 'world', pad: 50}
         }},
@@ -36,15 +30,15 @@ module.exports = {
             vectorScale: 2.5,
             mass: 100
         }},
-        //{type: 'StarTarget', number: 10, config: {
-        //    position: {random: 'world', pad: 30},
-        //    vectorScale: 0.5,
-        //    stars: [[0, 0], [1,1], [-1,1], [1,-1]]
-        //}}
         {type: 'Alien', number: 2, config: {
             position: {random: 'world', pad: 30},
             vectorScale: 1,
             mass: 5
-        }}
+        }},
+        // vvvvv Testing vvvvv
+        //{type: 'CodeCapsule', number: 10, config: {
+        //    position: {random: 'world', pad: 30},
+        //    vectorScale: 0.5
+        //}}
     ]
 };

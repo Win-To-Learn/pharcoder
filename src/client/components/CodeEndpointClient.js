@@ -32,7 +32,7 @@ module.exports = {
     },
 
     sendCodeMessage: function (kind, data) {
-        console.log('sending', kind, data);
+        //console.log('sending', kind, data);
         this.socket.emit('code ' + kind, data);
     }
 };

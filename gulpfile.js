@@ -115,6 +115,7 @@ gulp.task('updateServerUri', function(cb) {
 
 //gulp.task('build-bump', ['bump-patch', 'updateServerUri', 'zip-eb']);
 gulp.task('build', ['bump-patch', 'updateServerUri', 'zip-eb']);
+gulp.task('build-test', ['updateServerUri', 'zip-eb']);
 
 // run in series
 gulp.task('android:build', ['android:clean', 'android:assemble', 'android:package']);

@@ -74,6 +74,16 @@ module.exports = {
                 self.sendCodeMessage('load', op.text());
             }
         });
+        $('#deploy-code').on('click', function () {
+            if (self.codeWindowMode === 'blockly') {
+                // Blockly mode - send XML rep of blocks
+                var xml = Blockly.Xml.workspaceToDom(self.blocklyWorkspace);
+                var xml_text = Blockly.Xml.domToText(xml);
+                self.sendCodeMessage('deploy', {blockly: xml_text});
+            } else {
+                self.sendCodeMessage('deploy', {js: self.aceEditor.getValue()});
+            }
+        });
         this.toggleCodeWindow(false)
     },
 
