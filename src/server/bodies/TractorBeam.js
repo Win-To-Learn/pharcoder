@@ -14,7 +14,7 @@ var Starcoder = require('../../common/Starcoder.js');
 var SyncBodyBase = require('./SyncBodyBase.js');
 var UpdateProperties = require('../../common/UpdateProperties.js').TractorBeam;
 
-var TractorBeam = function (config) {
+var TractorBeam = function (starcoder, config) {
     SyncBodyBase.call(this, config);
     if (!(this.beamParent instanceof TractorBeam)) {
         this.onWorldAdd = this.onWorldAddFirstGen;

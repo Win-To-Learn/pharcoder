@@ -12,7 +12,7 @@ var Starcoder = require('../../common/Starcoder.js');
 var SyncBodyBase = require('./SyncBodyBase.js');
 var UpdateProperties = require('../../common/UpdateProperties.js').Bullet;
 
-var Bullet = function (config) {
+var Bullet = function (starcoder, config) {
     config.mass = 1;
     SyncBodyBase.call(this, config);
 };

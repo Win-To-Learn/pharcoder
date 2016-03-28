@@ -15,8 +15,8 @@ var SyncBodyBase = require('./SyncBodyBase.js');
 var Common = require('../../common/bodies/StationBlock.js');
 var Paths = require('../../common/Paths.js');
 
-var StationBlock = function (config) {
-    SyncBodyBase.call(this, config);
+var StationBlock = function (starcoder, config) {
+    SyncBodyBase.call(this, starcoder, config);
     this.attachments = {};
 };
 

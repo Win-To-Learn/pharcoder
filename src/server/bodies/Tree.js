@@ -14,7 +14,7 @@ var SyncBodyBase = require('./SyncBodyBase.js');
 var Paths = require('../../common/Paths.js');
 var UpdateProperties = require('../../common/UpdateProperties.js').Tree;
 
-var Tree = function (config) {
+var Tree = function (starcoder, config) {
     //SyncBodyBase.call(this, config);
     this.trunkLength = config.trunkLength || 2;
     this.branchFactor = Math.max(config.branchFactor || 5, 2);

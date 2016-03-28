@@ -20,8 +20,8 @@ var LOG5 = Math.log(0.6);                           // LOG of charge rate decay 
 var sin = Math.sin;
 var cos = Math.cos;
 
-var Ship = function (config) {
-    SyncBodyBase.call(this, config);
+var Ship = function (starcoder, config) {
+    SyncBodyBase.call(this, starcoder, config);
     this.damping = 0.85;
     this.angularDamping = 0.85;
     this.state = {

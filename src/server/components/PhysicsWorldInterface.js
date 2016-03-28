@@ -69,7 +69,7 @@ module.exports = {
                     c[k] = config[k];
                 }
             }
-            var body = new constructor(starcoder, config);
+            var body = new constructor(starcoder, c);
             starcoder.worldapi.syncableBodies.push(body);
             world.addBody(body);
             return body;

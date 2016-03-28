@@ -16,8 +16,8 @@ var ALIEN_THRUST_FORCE = 150;
 var ALIEN_ROTATION_FORCE = 50;
 var ALIEN_SCAN_RADIUS = 50;
 
-var Alien = function (config) {
-    SyncBodyBase.call(this, config);
+var Alien = function (starcoder, config) {
+    SyncBodyBase.call(this, starcoder, config);
     this.damping = 0.75;
     this.angularDamping = .25;
     this.targetShip = null;

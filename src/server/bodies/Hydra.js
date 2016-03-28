@@ -13,8 +13,8 @@ var Crystal = require('./Crystal.js');
 var UpdateProperties = require('../../common/UpdateProperties.js').GenericOrb;
 var Paths = require('../../common/Paths.js');
 
-var HydraHead = function (config) {
-   SyncBodyBase.call(this, config);
+var HydraHead = function (starcoder, config) {
+   SyncBodyBase.call(this, starcoder, config);
 };
 
 HydraHead.prototype = Object.create(SyncBodyBase.prototype);
@@ -48,7 +48,7 @@ HydraHead.prototype.onWorldAdd = function () {
             scale *= 0.8;
             radius += 5*scale;
             angle -= Math.PI / 36;
-            var arm = this.world.addSyncableBody(HydraArm, {vectorScale: scale});
+            var arm = this.starcoder.worldapi.addSyncableBody(HydraArm, {vectorScale: scale});
             arm.position[0] = this.position[0] + radius * Math.cos(angle);
             arm.position[1] = this.position[1] + radius * Math.sin(angle);
             if (j === 0) {
@@ -103,8 +103,8 @@ HydraHead.prototype.beginContact = function (other) {
     }
 };
 
-var HydraArm = function (config) {
-    SyncBodyBase.call(this, config);
+var HydraArm = function (starcoder, config) {
+    SyncBodyBase.call(this, starcoder, config);
 };
 
 HydraArm.prototype = Object.create(SyncBodyBase.prototype);

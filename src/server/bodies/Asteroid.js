@@ -18,8 +18,8 @@ var Crystal = require('./Crystal.js');
 
 //var shared = require('../shared/Asteroid.js');
 
-var Asteroid = function (config) {
-    SyncBodyBase.call(this, config);
+var Asteroid = function (starcoder, config) {
+    SyncBodyBase.call(this, starcoder, config);
     this.damping = 0;
     this.angularDamping = 0;
 };

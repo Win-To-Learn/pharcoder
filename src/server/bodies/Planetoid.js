@@ -15,8 +15,8 @@ var UpdateProperties = require('../../common/UpdateProperties.js').Planetoid;
 
 var Tree = require('./Tree.js');
 
-var Planetoid = function (config) {
-    SyncBodyBase.call(this, config);
+var Planetoid = function (starcoder, config) {
+    SyncBodyBase.call(this, starcoder, config);
     //this.damping = 0;
     //this.angularDamping = 0;
     this.trees = [];
