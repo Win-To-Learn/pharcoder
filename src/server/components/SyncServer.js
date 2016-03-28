@@ -18,15 +18,15 @@ module.exports = {
             var updateCache = {};
             var fullUpdateCache = {};
             var cachePointer;
-            var i, j, l;
-            for (i = 0, l = self.playerList.length; i < l; i++) {
+            var i, j, l1, l2;
+            for (i = 0, l1 = self.playerList.length; i < l1; i++) {
                 var player = self.playerList[i];
                 //var update = {w: wtime, r: rtime, b: [], rm: world.removedBodies};
                 player.worldUpdate.w = wtime;
                 player.worldUpdate.r = rtime;
                 player.worldUpdate.b.length = 0;
                 player.worldUpdate.rm = removed;
-                for (j = 0, l = worldapi.syncableBodies.length; j < l; j++) {
+                for (j = 0, l2 = worldapi.syncableBodies.length; j < l2; j++) {
                     var body = worldapi.syncableBodies[j];
                     var full = player.newborn || body.newborn;
                     if (full) {
@@ -42,7 +42,7 @@ module.exports = {
                 }
                 player.newborn = false;
             }
-            for (j = 0, l = worldapi.syncableBodies.length; j < l; j++) {
+            for (j = 0, l1 = worldapi.syncableBodies.length; j < l2; j++) {
                 worldapi.syncableBodies.newborn = false;
             }
         });
