@@ -9,7 +9,8 @@ var p2 = require('p2');
 var vec2 = p2.vec2;
 var decomp = require('poly-decomp');
 
-var SyncBodyBase = function (config) {
+var SyncBodyBase = function (starcoder, config) {
+    this.starcoder = starcoder;
     this._dirtyProperties = {};
     config = config || {};
     this.setDefaults(config);

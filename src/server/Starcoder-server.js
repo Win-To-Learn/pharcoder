@@ -20,10 +20,11 @@ var MongoInterface = require('./components/MongoInterface.js');
 var SessionHandler = require('./components/SessionHandler.js');
 var TutorialInterface = require('./components/TutorialInterface.js');
 var TicketHandler = require('./components/TicketHandler.js');
+var PhysicsWorldInterface = require('./components/PhysicsWorldInterface.js');
 
 var API = require('./code/API.js');
 
-var World = require('./bodies/World.js');
+//var World = require('./bodies/World.js');
 
 /**
  * Initialize Starcoder server
@@ -37,12 +38,13 @@ Starcoder.prototype.init = function (app, io) {
     //this.events = new EventEmitter();
     this.players = {};          // Logged in schema
     this.playerList = [];
-    this.onConnectCB = [];
-    this.onLoginCB = [];
-    this.onReadyCB = [];
-    this.onDisconnectCB = [];
-    this.world = new World(this, this.config.worldBounds, this.config.initialBodies);
-    this.world.log = this.log;
+    //this.onConnectCB = [];
+    //this.onLoginCB = [];
+    //this.onReadyCB = [];
+    //this.onDisconnectCB = [];
+    //this.world = new World(this, this.config.worldBounds, this.config.initialBodies);
+    //this.world.log = this.log;
+    this.implementFeature(PhysicsWorldInterface);
     this.implementFeature(SessionHandler);
     this.implementFeature(StaticServer);
     this.implementFeature(LoginEndpoint);
