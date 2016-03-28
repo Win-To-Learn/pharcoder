@@ -125,7 +125,7 @@ Ship.prototype.toggleTractorBeam = function () {
     // FIXME: magic numbers
     if (!this.beamChild) {
         var dir = this.angle + Math.PI;
-        this.beamChild = this.world.addSyncableBody(TractorBeam, {
+        this.beamChild = this.worldapi.addSyncableBody(TractorBeam, {
             x: this.position[0],
             y: this.position[1],
             vx: 25 * Math.sin(dir),
@@ -159,7 +159,7 @@ Ship.prototype.shoot = function () {
         aStart = this.angle - 0.5 * this.bulletSpread * Math.PI / 180;
     }
     for (var i = 0, a = aStart; i < n; i++, a += aDel) {
-        var bullet = this.world.addSyncableBody(Bullet, {lineColor: this.lineColor});
+        var bullet = this.worldapi.addSyncableBody(Bullet, {lineColor: this.lineColor});
         bullet.firer = this;
         bullet.position[0] = this.position[0];
         bullet.position[1] = this.position[1];
@@ -169,7 +169,7 @@ Ship.prototype.shoot = function () {
         bullet.tod = tod;
     }
     this._lastShot = this.world.time;
-    this.world.starcoder.send(this.player, 'laser');
+    this.starcoder.send(this.player, 'laser');
 };
 
 Ship.prototype.knockOut = function () {
@@ -196,7 +196,7 @@ Ship.prototype.rechargeLasers = function () {
  * @param {object} code
  */
 Ship.prototype.deployCodeCapsule = function (code) {
-    var cc = this.world.addSyncableBody(CodeCapsule, {vectorScale: 0.5, owner: this.player, payload: code});
+    var cc = this.worldapi.addSyncableBody(CodeCapsule, {vectorScale: 0.5, owner: this.player, payload: code});
     // FIXME: positioning and error check
     var r = this.boundingRadius + cc.boundingRadius + 1;
     cc.position[0] = this.position[0] - sin(this.angle) * r;

@@ -42,24 +42,15 @@ Asteroid.prototype._shape = Paths.octagon;
 Asteroid.prototype.deadly = true;
 Asteroid.prototype.tractorable = true;
 
-//Asteroid.prototype.updateProperties = ['vectorScale', 'state'];
-
-//Asteroid.prototype.getPropertyUpdate = function (propname, properties) {
-//    switch (propname) {
-//        default:
-//            SyncBodyBase.prototype.getPropertyUpdate.call(this, propname, properties);
-//    }
-//};
-
 Asteroid.prototype.explode = function (respawn) {
-    this.world.addSyncableBody(Crystal, {
+    this.worldapi.addSyncableBody(Crystal, {
         x: this.position[0],
         y: this.position[1],
         mass: 10
     });
-    this.world.removeSyncableBody(this);
+    this.worldapi.removeSyncableBody(this);
     if (respawn) {
-        this.world.addSyncableBody(Asteroid, {
+        this.worldapi.addSyncableBody(Asteroid, {
             position: {random: 'world'},
             velocity: {random: 'vector', lo: -15, hi: 15},
             angularVelocity: {random: 'float', lo: -5, hi: 5},
@@ -74,7 +65,6 @@ Asteroid.prototype.beginContact = function (other) {
         case 'Bullet':
             other.firer.player.sendMessage('asteroid pop', this.vectorScale);
             this.explode(true);
-            if (this.world) {}
             other.removeSelfFromWorld();
             break;
         case 'Tree':

@@ -14,7 +14,7 @@ var UpdateProperties = require('../../common/UpdateProperties.js').Bullet;
 
 var Bullet = function (starcoder, config) {
     config.mass = 1;
-    SyncBodyBase.call(this, config);
+    SyncBodyBase.call(this, starcoder, config);
 };
 
 Bullet.prototype = Object.create(SyncBodyBase.prototype);

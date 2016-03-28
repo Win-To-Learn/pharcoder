@@ -11,6 +11,7 @@ var decomp = require('poly-decomp');
 
 var SyncBodyBase = function (starcoder, config) {
     this.starcoder = starcoder;
+    this.worldapi = starcoder.worldapi;
     this._dirtyProperties = {};
     config = config || {};
     this.setDefaults(config);
@@ -64,7 +65,7 @@ SyncBodyBase.prototype.setDefaults = function (config) {
  */
 SyncBodyBase.prototype.removeSelfFromWorld = function () {
     if (this.world) {
-        this.world.removeSyncableBody(this);
+        this.worldapi.removeSyncableBody(this);
     }
 };
 

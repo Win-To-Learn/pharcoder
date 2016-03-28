@@ -33,11 +33,11 @@ module.exports = {
             vectorScale: 2.5,
             mass: 100
         }},
-        {type: 'Alien', number: 2, config: {
-            position: {random: 'world', pad: 30},
-            vectorScale: 1,
-            mass: 5
-        }},
+        //{type: 'Alien', number: 2, config: {
+        //    position: {random: 'world', pad: 30},
+        //    vectorScale: 1,
+        //    mass: 5
+        //}},
         // vvvvv Testing vvvvv
         //{type: 'CodeCapsule', number: 10, config: {
         //    position: {random: 'world', pad: 30},

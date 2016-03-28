@@ -48,7 +48,7 @@ HydraHead.prototype.onWorldAdd = function () {
             scale *= 0.8;
             radius += 5*scale;
             angle -= Math.PI / 36;
-            var arm = this.starcoder.worldapi.addSyncableBody(HydraArm, {vectorScale: scale});
+            var arm = this.worldapi.addSyncableBody(HydraArm, {vectorScale: scale});
             arm.position[0] = this.position[0] + radius * Math.cos(angle);
             arm.position[1] = this.position[1] + radius * Math.sin(angle);
             if (j === 0) {
@@ -75,13 +75,13 @@ HydraHead.prototype.control = function () {
 
 HydraHead.prototype.kill = function () {
     for (var i = 0, l = this.arms.length; i < l; i++) {
-        this.world.removeSyncableBody(this.arms[i]);
+        this.worldapi.removeSyncableBody(this.arms[i]);
     }
     for (i = 0, l = this.constraints.length; i < l; i++) {
-        this.world.removeConstraint(this.constraints[i]);
+        this.worldapi.removeConstraint(this.constraints[i]);
     }
-    this.world.removeSyncableBody(this);
-    this.world.addSyncableBody(Crystal, {
+    this.worldapi.removeSyncableBody(this);
+    this.worldapi.addSyncableBody(Crystal, {
         x: this.position[0],
         y: this.position[1],
         mass: 10,
@@ -91,7 +91,7 @@ HydraHead.prototype.kill = function () {
 };
 
 HydraHead.prototype.respawn = function (world) {
-    world.addSyncableBody(HydraHead, {position: {random: 'world', pad: 50}});
+    this.worldapi.addSyncableBody(HydraHead, {position: {random: 'world', pad: 50}});
 };
 
 HydraHead.prototype.beginContact = function (other) {

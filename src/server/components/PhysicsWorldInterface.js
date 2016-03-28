@@ -76,7 +76,7 @@ module.exports = {
         },
 
         removeSyncableBody: function (body) {
-            for (var i = syncableBodies.length - 1; i >= 0; i--) {
+            for (var i = starcoder.worldapi.syncableBodies.length - 1; i >= 0; i--) {
                 if (starcoder.worldapi.syncableBodies[i] === body) {
                     starcoder.worldapi.syncableBodies.splice(i, 1);
                     starcoder.worldapi.removedBodies.push(body.id);

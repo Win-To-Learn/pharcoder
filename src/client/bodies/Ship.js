@@ -49,24 +49,6 @@ Starcoder.mixinPrototype(Ship.prototype, UpdateProperties.prototype);
 
 Ship.prototype.mapFactor = 3;
 
-//Ship.prototype.setLineStyle = function (color, lineWidth) {
-//    Starcoder.VectorSprite.prototype.setLineStyle.call(this, color, lineWidth);
-//    this.tagText.setStyle({fill: color});
-//};
-
-//Ship.prototype.shape = [
-//    [-1,-1],
-//    [-0.5,0],
-//    [-1,1],
-//    [0,0.5],
-//    [1,1],
-//    [0.5,0],
-//    [1,-1],
-//    [0,-0.5],
-//    [-1,-1]
-//];
-//Ship.prototype._lineWidth = 6;
-
 Ship.prototype.updateTextures = function () {
     // FIXME: Probably need to refactor constructor a bit to make this cleaner
     VectorSprite.prototype.updateTextures.call(this);
