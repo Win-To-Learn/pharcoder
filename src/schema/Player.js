@@ -109,6 +109,10 @@ Player.prototype.init = function () {
      */
     this.tutorial = null;
 
+    this.msgQueue = [];
+
+    this.worldUpdate = {w: 0, r: 0, b: [], rm: []};
+
     /**
      * Defined as property to make non-enumerable
      * @type {number}

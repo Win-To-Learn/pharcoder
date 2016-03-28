@@ -33,12 +33,6 @@ var starcoder;
  */
 var world;
 
-/**
- * Array of bodies that need to be synced to client
- * @type {Array}
- */
-var syncableBodies = [];
-
 module.exports = {
     init: function () {
         starcoder = this;
@@ -61,22 +55,23 @@ module.exports = {
         setBounds.apply(this, starcoder.config.worldBounds);
         populate(starcoder.config.initialBodies);
         var lastHRTime = process.hrtime();
-        this.events.on('worldTick', function () {
+        this.events.on('physicsTick', function () {
             var diff = process.hrtime(lastHRTime);
             // Run per-object control functions
-            for (var i = syncableBodies.length - 1; i >=0; i --) {
-                if (syncableBodies[i].control) {
-                    syncableBodies[i].control();
+            for (var i = starcoder.worldapi.syncableBodies.length - 1; i >=0; i --) {
+                if (starcoder.worldapi.syncableBodies[i].control) {
+                    starcoder.worldapi.syncableBodies[i].control();
                 }
             }
             // Run timers - FIXME
             // Run physics step
-            world.step(1 / 60, diff[0] + diff[1]*1e-9, 10);     // Make constants configurable
+            world.step(starcoder.config.physicsInterval / 1000, diff[0] + diff[1]*1e-9,
+                starcoder.config.physicsSubsteps);
             lastHRTime = process.hrtime();
         });
     },
 
-    world: {
+    worldapi: {
         addSyncableBody: function (constructor, config) {
             var c = {};
             for (var k in config) {
@@ -87,15 +82,15 @@ module.exports = {
                 }
             }
             var body = new constructor(starcoder, config);
-            syncableBodies.push(body);
+            starcoder.worldapi.syncableBodies.push(body);
             world.addBody(body);
         },
 
         removeSyncableBody: function (body) {
             for (var i = syncableBodies.length - 1; i >= 0; i--) {
-                if (syncableBodies[i] === body) {
-                    syncableBodies.splice(i, 1);
-                    this.world.removedBodies.push(body.id);
+                if (world.syncableBodies[i] === body) {
+                    starcoder.worldapi.syncableBodies.splice(i, 1);
+                    starcoder.worldapi.removedBodies.push(body.id);
                     world.removeBody(body);
                     break;
                 }
@@ -105,7 +100,15 @@ module.exports = {
         setContactHandlers: function (begin, end) {
             world.on('beginContact', begin);
             world.on('endContact', end);
-        }
+        },
+
+        getWorldTime: function () {
+            return world.time;
+        },
+
+        syncableBodies: [],
+
+        removedBodies: []
     }
 };
 
@@ -187,7 +190,7 @@ var populate = function (desc) {
         var ctor = bodyTypes[desc[i].type];
         var config = desc[i].config;
         for (var j = 0; j < desc[i].number; j++) {
-            starcoder.world.addSyncableBody(ctor, config);
+            starcoder.worldapi.addSyncableBody(ctor, config);
         }
     }
 };

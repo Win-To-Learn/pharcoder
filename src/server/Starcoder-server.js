@@ -21,6 +21,7 @@ var SessionHandler = require('./components/SessionHandler.js');
 var TutorialInterface = require('./components/TutorialInterface.js');
 var TicketHandler = require('./components/TicketHandler.js');
 var PhysicsWorldInterface = require('./components/PhysicsWorldInterface.js');
+var NetworkInterface = require('./components/NetworkInterface.js');
 
 var API = require('./code/API.js');
 
@@ -45,6 +46,7 @@ Starcoder.prototype.init = function (app, io) {
     //this.world = new World(this, this.config.worldBounds, this.config.initialBodies);
     //this.world.log = this.log;
     this.implementFeature(PhysicsWorldInterface);
+    this.implementFeature(NetworkInterface);
     this.implementFeature(SessionHandler);
     this.implementFeature(StaticServer);
     this.implementFeature(LoginEndpoint);
@@ -71,8 +73,17 @@ Starcoder.prototype.init = function (app, io) {
         socket.on('disconnect', self.onDisconnect.bind(self, socket));
     });
     //this.world.start(1/60);
-    this.mongoConnect(function () {
-        self.world.start(1/60);
+    this.mongoConnect();
+    this.events.on('dbConnected', function () {
+        setInterval(function () {
+            self.events.emit('syncTick');
+        }, self.config.syncInterval);
+        setInterval(function () {
+            self.events.emit('netTick');
+        }, self.config.netInterval);
+        setInterval(function () {
+            self.events.emit('physicsTick');
+        }, self.config.physicsInterval);
     });
     API.init(this);
 };
