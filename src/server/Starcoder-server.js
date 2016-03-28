@@ -98,7 +98,7 @@ Starcoder.prototype.onDisconnect = function (socket) {
         var i = this.playerList.indexOf(player);
         this.playerList.splice(i, 1);
         delete this.players[socket.id];
-        this.world.removeSyncableBody(player.getShip());
+        this.worldapi.removeSyncableBody(player.getShip());
     }
     // TODO: Confirm no other socket.io methods need to be called
 };
@@ -106,7 +106,7 @@ Starcoder.prototype.onDisconnect = function (socket) {
 Starcoder.prototype.onReady = function (player) {
     var self = this;
     this.addPlayer(player);
-    this.world.addPlayerShip(player);
+    this.worldapi.addPlayerShip(player);
     // Set up heartbeat / latency measure
     player.socket.emit('timesync', self.hrtime());
     setInterval(function () {

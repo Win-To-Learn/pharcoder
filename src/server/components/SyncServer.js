@@ -9,7 +9,8 @@ module.exports = {
     init: function () {
         var self = this;
         var worldapi = this.worldapi;
-        this.events.on('netTick', function () {
+        this.events.on('sync', function () {
+            //console.log('syncTick');
             var wtime = worldapi.getWorldTime();
             var rtime = self.hrtime();
             var removed = worldapi.removedBodies.slice();

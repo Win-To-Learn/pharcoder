@@ -48,6 +48,7 @@ SyncClient.prototype.start = function () {
         self._latency = data - self.game.time.now;
     });
     this.socket.on('update', function (data) {
+        data = data.wu;     // FIXME: temp for test
         var realTime = data.r;
         for (var i = 0, l = data.b.length; i < l; i++) {
             var update = data.b[i];

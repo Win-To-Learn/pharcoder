@@ -8,19 +8,6 @@ var fs = require('fs');
 var p2 = require('p2');
 var randomColor = require('randomcolor');
 
-//var bodyTypes = {
-//    Ship: require('./Ship.js'),
-//    Asteroid: require('./Asteroid.js'),
-//    Crystal: require('./Crystal.js'),
-//    Hydra: require('./Hydra.js'),
-//    Planetoid: require('./Planetoid.js'),
-//    Tree: require('./Tree.js'),
-//    StarTarget: require('./StarTarget.js'),
-//    StationBlock: require('./StationBlock.js'),
-//    Alien: require('./Alien.js'),
-//    CodeCapsule: require('./CodeCapsule.js')
-//};
-
 /**
  * Reference to main starcoder object
  * @private
@@ -36,7 +23,7 @@ var world;
 module.exports = {
     init: function () {
         starcoder = this;
-        this._world = world = new p2.World({
+        world = new p2.World({
             broadphase: new p2.SAPBroadphase(),
             islandSplit: true,
             gravity: [0, 0]
@@ -56,6 +43,7 @@ module.exports = {
         populate(starcoder.config.initialBodies);
         var lastHRTime = process.hrtime();
         this.events.on('physicsTick', function () {
+            //console.log('physTick');
             var diff = process.hrtime(lastHRTime);
             // Run per-object control functions
             for (var i = starcoder.worldapi.syncableBodies.length - 1; i >=0; i --) {
@@ -84,6 +72,7 @@ module.exports = {
             var body = new constructor(starcoder, config);
             starcoder.worldapi.syncableBodies.push(body);
             world.addBody(body);
+            return body;
         },
 
         removeSyncableBody: function (body) {
@@ -95,6 +84,16 @@ module.exports = {
                     break;
                 }
             }
+        },
+
+        addPlayerShip: function (player) {
+            var ship = starcoder.worldapi.addSyncableBody(bodyTypes.Ship,
+                {position: {random: 'world', pad: 25}, lineColor: {random: 'color'}});
+            ship.player = player;
+            ship.tag = player.gamertag;
+            player.addShip(ship);
+            //starcoder._ships.push(ship);
+            return ship;
         },
 
         setContactHandlers: function (begin, end) {
