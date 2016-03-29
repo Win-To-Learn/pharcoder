@@ -28,14 +28,14 @@ module.exports = {
             islandSplit: true,
             gravity: [0, 0]
         });
-        world.on('addBody', function (body) {
-            if (body.onWorldAdd) {
-                body.onWorldAdd();
+        world.on('addBody', function (event) {
+            if (event.body.onWorldAdd) {
+                event.body.onWorldAdd();
             }
         });
-        world.on('removeBody', function (body) {
-            if (body.onWorldRemove) {
-                body.onWorldRemove();
+        world.on('removeBody', function (event) {
+            if (event.body.onWorldRemove) {
+                event.body.onWorldRemove();
             }
         });
         initBodyTypes();
@@ -45,13 +45,28 @@ module.exports = {
         this.events.on('physicsTick', function () {
             //console.log('physTick');
             var diff = process.hrtime(lastHRTime);
-            // Run per-object control functions
+            // Per-object control functions
             for (var i = starcoder.worldapi.syncableBodies.length - 1; i >=0; i --) {
-                if (starcoder.worldapi.syncableBodies[i].control) {
-                    starcoder.worldapi.syncableBodies[i].control();
+                var body = starcoder.worldapi.syncableBodies[i];
+                // Control functions
+                if (body.control) {
+                    body.control();
+                }
+                // Timers
+                if (body.timers.length) {
+                    for (var j = body.timers.length - 1; j >= 0; j--) {
+                        var timer = body.timers[j];
+                        if (world.time >= timer.time) {
+                            body.runTimer(body.timers[j]);
+                            if (timer.repeat) {
+                                timer.time = world.time + timer.repeat;
+                            } else {
+                                body.timers.splice(j, 1);
+                            }
+                        }
+                    }
                 }
             }
-            // Run timers - FIXME
             // Run physics step
             world.step(starcoder.config.physicsInterval / 1000, diff[0] + diff[1]*1e-9,
                 starcoder.config.physicsSubsteps);
@@ -82,6 +97,17 @@ module.exports = {
                     starcoder.worldapi.removedBodies.push(body.id);
                     world.removeBody(body);
                     break;
+                }
+            }
+        },
+
+        respawn: function (body, config) {
+            body.dead = false;
+            for (var k in config) {
+                if (typeof config[k] === 'object' && config[k].random) {
+                    body[k] = flexRand(config[k]);
+                } else {
+                    body[k] = config[k];
                 }
             }
         },

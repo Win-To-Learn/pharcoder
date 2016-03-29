@@ -150,21 +150,6 @@ Space.prototype.update = function () {
     });
 };
 
-//Space.prototype.render = function () {
-    //console.log('+render+');
-    //if (this.starcoder.tempsprite) {
-    //    var d = this.starcoder.tempsprite.position.x - this.starcoder.tempsprite.previousPosition.x;
-    //    console.log('Delta', d, this.game.time.elapsed, d / this.game.time.elapsed);
-    //}
-    //console.log('--------------------------------');
-    //this.game.debug.text('Fps: ' + this.game.time.fps, 5, 20);
-    //this.game.vcontrols.stick.debug(true, true);
-    //this.game.debug.cameraInfo(this.game.camera, 100, 20);
-    //if (this.ship) {
-    //    this.game.debug.spriteInfo(this.ship, 420, 20);
-    //}
-//};
-
 Space.prototype._setupMessageHandlers = function (socket) {
     var self = this;
     socket.on('msg crystal pickup', function (val) {

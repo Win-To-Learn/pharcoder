@@ -42,8 +42,8 @@ module.exports = {
                 }
                 player.newborn = false;
             }
-            for (j = 0, l1 = worldapi.syncableBodies.length; j < l2; j++) {
-                worldapi.syncableBodies.newborn = false;
+            for (j = 0, l2 = worldapi.syncableBodies.length; j < l2; j++) {
+                worldapi.syncableBodies[j].newborn = false;
             }
         });
     },

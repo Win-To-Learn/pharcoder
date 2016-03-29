@@ -181,7 +181,7 @@ Ship.prototype.knockOut = function () {
     //setTimeout(function () {
     //    self.world.respawn(self, {position: {random: 'world'}});
     //}, 1000);
-    this.setTimer(1, {fun: this.world.respawn.bind(this.world, this, {position: {random: 'world'}})});
+    this.setTimer(1, {respawn: {position: {random: 'world'}}});
 };
 
 Ship.prototype.rechargeLasers = function () {

@@ -2,7 +2,7 @@
  * NetworkInterface.js
  */
 'use strict';
-
+var flag = true;
 module.exports = {
     init: function () {
         var self = this;

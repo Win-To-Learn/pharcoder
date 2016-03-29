@@ -24,20 +24,20 @@ module.exports = {
             vectorScale: {random: 'float', lo: 0.6, hi: 1.4},
             mass: 10
         }},
-        //{type: 'Hydra', number: 1, config: {
-        //    position: {random: 'world', pad: 50}
-        //}},
+        {type: 'Hydra', number: 1, config: {
+            position: {random: 'world', pad: 50}
+        }},
         {type: 'Planetoid', number: 6, config: {
             position: {random: 'world', pad: 30},
             angularVelocity: {random: 'float', lo: -2, hi: 2},
             vectorScale: 2.5,
             mass: 100
         }},
-        //{type: 'Alien', number: 2, config: {
-        //    position: {random: 'world', pad: 30},
-        //    vectorScale: 1,
-        //    mass: 5
-        //}},
+        {type: 'Alien', number: 2, config: {
+            position: {random: 'world', pad: 30},
+            vectorScale: 1,
+            mass: 5
+        }},
         // vvvvv Testing vvvvv
         //{type: 'CodeCapsule', number: 10, config: {
         //    position: {random: 'world', pad: 30},
