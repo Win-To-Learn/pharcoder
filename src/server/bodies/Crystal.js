@@ -56,7 +56,8 @@ Crystal.prototype.beginContact = function (other) {
             if (!this.pickedup) {
                 this.pickedup = true;
                 other.crystals += this.value;
-                other.player.sendMessage('crystal pickup', this.value);
+                this.starcoder.sendMessage(other.player, 'crystal', this.value);
+                //other.player.sendMessage('crystal pickup', this.value);
                 this.removeSelfFromWorld();
             }
             break;

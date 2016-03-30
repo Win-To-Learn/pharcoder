@@ -47,7 +47,7 @@ Planetoid.prototype.adjustShape = function () {
 };
 
 Planetoid.prototype.plantTree = function (x, y, ship) {
-    var tree = this.world.addSyncableBody(Tree, {
+    var tree = this.worldapi.addSyncableBody(Tree, {
         mass: 0.1,
         position: [this.position[0] + x, this.position[1] + y],
         angle: Math.atan2(x, -y),
@@ -83,7 +83,7 @@ Planetoid.prototype.beginContact = function (other, equations) {
                 } else {
                     point = equations.contactPointB;
                 }
-                other.player.sendMessage('plant tree');
+                this.starcoder.sendMessage(other.player, 'planttree');
                 other.player.achieve('planttree');
                 this.plantTree(point[0], point[1], other);
                 other.player.stats.treesPlanted++;

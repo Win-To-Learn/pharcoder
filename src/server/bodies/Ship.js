@@ -169,7 +169,7 @@ Ship.prototype.shoot = function () {
         bullet.tod = tod;
     }
     this._lastShot = this.world.time;
-    this.starcoder.send(this.player, 'laser');
+    this.starcoder.sendMessage(this.player, 'laser');
 };
 
 Ship.prototype.knockOut = function () {
@@ -208,7 +208,7 @@ Ship.prototype.beginContact = function (other) {
     switch (other.serverType) {
         case 'Bullet':
             if (other.firer !== this) {
-                this.player.sendMessage('tagged');
+                this.starcoder.sendMessage(this.player, 'tagged');
                 this.setTimer(2, {props: {lineColor: this.lineColor}});
                 this.lineColor = other.firer.lineColor;
                 other.firer.player.stats.tags++;

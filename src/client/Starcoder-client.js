@@ -49,11 +49,13 @@ Starcoder.prototype.init = function () {
     this.implementFeature(require('./components/LeaderBoardClient.js'));
     //this.implementFeature(DOMInterface);
     this.implementFeature(require('./components/NetworkInterface.js'));
-    //this.implementFeature(require('./components/SyncInterface.js'));
+    this.implementFeature(require('./components/MessageInterface.js'));
+    this.implementFeature(require('./components/SyncInterface.js'));
     this.implementFeature(require('./components/BlocklyAPI.js'));
     this.implementFeature(require('./components/CodeUI.js'));
+    this.implementFeature(require('./components/FlexTextWrapper.js'));
     this.implementFeature(require('./components/GridOverlay.js'));
-    this.implementFeature(require('./components/GridOverlay.js'));
+    this.implementFeature(require('./components/GameEvents.js'));
 };
 
 //Starcoder.prototype.serverConnect = function () {

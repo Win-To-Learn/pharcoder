@@ -6,11 +6,10 @@
 
 var UPDATE_QUEUE_LIMIT = 8;
 
-var extant = {};
-
 module.exports = {
     init: function () {
         var self = this;
+        self.extant = {};
         this.events.on('sync', function (data) {
             //console.log('sync', data);
             var realTime = data.r;
@@ -19,7 +18,7 @@ module.exports = {
                 var id = update.id;
                 var sprite;
                 update.timestamp = realTime;
-                if (sprite = extant[id]) {
+                if (sprite = self.extant[id]) {
                     // Existing sprite - process update
                     sprite.updateQueue.push(update);
                     if (update.properties) {
@@ -34,16 +33,16 @@ module.exports = {
                     if (sprite) {
                         //console.log('New sprite**', id, update.t);
                         sprite.serverId = id;
-                        extant[id] = sprite;
+                        self.extant[id] = sprite;
                         sprite.updateQueue = [update];
                     }
                 }
             }
             for (i = 0, l = data.rm.length; i < l; i++) {
                 id = data.rm[i];
-                if (extant[id]) {
+                if (self.extant[id]) {
                     self.removeBody(self.extant[id]);
-                    delete extant[id];
+                    delete self.extant[id];
                 }
             }
         });

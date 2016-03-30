@@ -38,42 +38,42 @@ SyncClient.prototype.start = function () {
     this._updateComplete = false;
     // FIXME: Need more robust handling of DC/RC
     // Measure client-server time delta
-    this.game.starcoder.events.on('sync', function (data) {
-        //console.log('sync', data);
-        var realTime = data.r;
-        for (var i = 0, l = data.b.length; i < l; i++) {
-            var update = data.b[i];
-            var id = update.id;
-            var sprite;
-            update.timestamp = realTime;
-            if (sprite = self.extant[id]) {
-                // Existing sprite - process update
-                sprite.updateQueue.push(update);
-                if (update.properties) {
-                    sprite.config(update.properties);
-                }
-                if (sprite.updateQueue.length > UPDATE_QUEUE_LIMIT) {
-                    sprite.updateQueue.shift();
-                }
-            } else {
-                // New sprite - create and configure
-                sprite = starcoder.addBody(update.t, update);
-                if (sprite) {
-                    //console.log('New sprite**', id, update.t);
-                    sprite.serverId = id;
-                    self.extant[id] = sprite;
-                    sprite.updateQueue = [update];
-                }
-            }
-        }
-        for (i = 0, l = data.rm.length; i < l; i++) {
-            id = data.rm[i];
-            if (self.extant[id]) {
-                starcoder.removeBody(self.extant[id]);
-                delete self.extant[id];
-            }
-        }
-    });
+    //this.game.starcoder.events.on('sync', function (data) {
+    //    //console.log('sync', data);
+    //    var realTime = data.r;
+    //    for (var i = 0, l = data.b.length; i < l; i++) {
+    //        var update = data.b[i];
+    //        var id = update.id;
+    //        var sprite;
+    //        update.timestamp = realTime;
+    //        if (sprite = self.extant[id]) {
+    //            // Existing sprite - process update
+    //            sprite.updateQueue.push(update);
+    //            if (update.properties) {
+    //                sprite.config(update.properties);
+    //            }
+    //            if (sprite.updateQueue.length > UPDATE_QUEUE_LIMIT) {
+    //                sprite.updateQueue.shift();
+    //            }
+    //        } else {
+    //            // New sprite - create and configure
+    //            sprite = starcoder.addBody(update.t, update);
+    //            if (sprite) {
+    //                //console.log('New sprite**', id, update.t);
+    //                sprite.serverId = id;
+    //                self.extant[id] = sprite;
+    //                sprite.updateQueue = [update];
+    //            }
+    //        }
+    //    }
+    //    for (i = 0, l = data.rm.length; i < l; i++) {
+    //        id = data.rm[i];
+    //        if (self.extant[id]) {
+    //            starcoder.removeBody(self.extant[id]);
+    //            delete self.extant[id];
+    //        }
+    //    }
+    //});
 };
 
 /**
@@ -122,9 +122,9 @@ SyncClient.prototype._sendCommands = function () {
 SyncClient.prototype._processPhysicsUpdates = function () {
     //var interpTime = this.game.time.now + this._latency - this.game.starcoder.config.renderLatency;
     var interpTime = this.game.time.now + this.starcoder._latency - this.game.starcoder.config.renderLatency;
-    var oids = Object.keys(this.extant);
+    var oids = Object.keys(this.starcoder.extant);
     for (var i = oids.length - 1; i >= 0; i--) {
-        var sprite = this.extant[oids[i]];
+        var sprite = this.starcoder.extant[oids[i]];
         var queue = sprite.updateQueue;
         var before = null, after = null;
 

@@ -63,7 +63,7 @@ Asteroid.prototype.explode = function (respawn) {
 Asteroid.prototype.beginContact = function (other) {
     switch (other.serverType) {
         case 'Bullet':
-            other.firer.player.sendMessage('asteroid pop', this.vectorScale);
+            this.starcoder.sendMessage(other.firer.player, 'asteroid', this.vectorScale);
             this.explode(true);
             other.removeSelfFromWorld();
             break;

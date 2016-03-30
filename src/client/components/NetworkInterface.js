@@ -31,7 +31,7 @@ module.exports = {
             //this.latestUpdate = data.wu;
             //console.log('update--');
             self.events.emit('sync', data.wu);
-            this.msgQueue = data.msg;
+            self.events.emit('msg', data.msg);
         });
     },
 

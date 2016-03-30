@@ -151,10 +151,6 @@ Space.prototype.update = function () {
 
 Space.prototype._setupMessageHandlers = function (socket) {
     var self = this;
-    socket.on('msg crystal pickup', function (val) {
-        self.game.sounds.chime.play();
-        Toast.spinUp(self.game, self.game.playerShip.x, self.game.playerShip.y, '+' + val + ' crystals!');
-    });
     socket.on('msg code pickup', function (val) {
         self.game.sounds.chime.play();
         Toast.spinUp(self.game, self.game.playerShip.x, self.game.playerShip.y, 'New Code!');
