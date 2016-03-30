@@ -9,6 +9,7 @@ var EventEmitter = require('events').EventEmitter;
 
 var Starcoder = function () {
     this.events = new EventEmitter();
+    this.semReady = 0;        // not really a semaphore but close enough
     // Initializers virtualized according to role
     var configs = arguments[0];
     var args = Array.prototype.slice.call(arguments, 1);
@@ -16,11 +17,8 @@ var Starcoder = function () {
     for (var i = 0, l = configs.length; i < l; i++) {
         this.extendConfig(configs[i]);
     }
-    // HACK
-    //this.extendConfig(config);
     this.banner();
     this.init.apply(this, args);
-    //this.initNet.call(this);
 };
 
 Starcoder.prototype.extendConfig = function (config) {
@@ -28,6 +26,31 @@ Starcoder.prototype.extendConfig = function (config) {
         if (config.hasOwnProperty(k)) {
             this.config[k] = config[k];
         }
+    }
+};
+
+// Semaphore-(ish) operations
+Starcoder.prototype.semInc = function () {
+    this.semReady++;
+};
+
+Starcoder.prototype.semDec = function () {
+    this.semReady--;
+    if (!this.semReady) {
+        this.events.emit('unblock');
+    }
+};
+
+Starcoder.prototype.go = function (callback) {
+    var self = this;
+    if (!this.semReady) {
+        this.events.emit('finalize');
+        callback();
+    } else {
+        this.events.once('unblock', function () {
+            self.events.emit('finalize');
+            callback();
+        });
     }
 };
 
@@ -133,17 +156,20 @@ Starcoder.mixinPrototype = function (target, mixin) {
 Starcoder.prototype.implementFeature = function (mixin) {
     for (var prop in mixin) {
         switch (prop) {
-            case 'onConnectCB':
+            case 'connect':
                 this.events.on('connect', mixin[prop].bind(this));
                 break;
-            case 'onReadyCB':
+            case 'ready':
                 this.events.on('ready', mixin[prop].bind(this));
                 break;
-            case 'onLoginCB':
+            case 'login':
                 this.events.on('login', mixin[prop].bind(this));
                 break;
-            case 'onDisconnectCB':
+            case 'disconnect':
                 this.events.on('disconnect', mixin[prop].bind(this));
+                break;
+            case 'finalize':
+                this.events.on('finalize', mixin[prop].bind(this));
                 break;
             case 'init':
                 break;      // NoOp

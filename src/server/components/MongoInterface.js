@@ -95,6 +95,7 @@ module.exports = {
      * Set up cache
      */
     init: function () {
+        this.semInc();
         this.mongoCache = {};
     },
 
@@ -152,6 +153,7 @@ module.exports = {
             self.mongoGuests = db.collection('guests');
             self.mongoRegimes = db.collection('regimes');
             self.events.emit('dbConnected');
+            self.semDec();
         })
     },
 

@@ -40,7 +40,6 @@ Space.prototype.preload = function () {
 };
 
 Space.prototype.create = function () {
-    console.log('Space size', this.game.width, this.game.height, window.innerWidth, window.innerHeight);
     window.scrollTo(0, 1);
     //console.log('create');
     //var rng = this.game.rnd;

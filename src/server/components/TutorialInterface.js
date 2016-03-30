@@ -51,11 +51,11 @@ module.exports = {
 
     },
 
-    onLoginCB: function (socket, player) {
+    login: function (socket, player) {
         this.setTutorial(player);
     },
 
-    onReadyCB: function (player) {
+    ready: function (player) {
         player.tutorial.transition('start');
     }
 };

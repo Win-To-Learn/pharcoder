@@ -1,11 +1,13 @@
 /**
  * NetworkInterface.js
+ * Server side
  */
 'use strict';
-var flag = true;
+
 module.exports = {
     init: function () {
         var self = this;
+        this.netBuffer = new Buffer(this.config.netBufferSize);
         this.events.on('netTick', function () {
             self.events.emit('sync');
             //console.log('netTick');

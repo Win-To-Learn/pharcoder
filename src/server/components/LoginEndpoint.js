@@ -7,7 +7,7 @@ var Player = require('../../schema/Player.js');
 var Guest = require('../../schema/Guest.js');
 
 module.exports = {
-    onConnectCB: function (socket) {
+    connect: function (socket) {
         var self = this;
         socket.on('login', function (ticketid) {
             self.checkLogin(socket, ticketid);
@@ -47,8 +47,8 @@ module.exports = {
 
     loginSuccess: function (socket, player) {
         player.socket = socket;
-        //for (var i = 0, l = this.onLoginCB.length; i < l; i++) {
-        //    this.onLoginCB[i].call(this, socket, player);
+        //for (var i = 0, l = this.login.length; i < l; i++) {
+        //    this.login[i].call(this, socket, player);
         //}
         this.events.emit('login', socket, player);
         socket.on('ready', this.onReady.bind(this, player));

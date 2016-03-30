@@ -22,14 +22,9 @@ var Starcoder = require('./client/Starcoder-client.js');
 
 //localStorage.debug = '';                        // used to toggle socket.io debugging output
 
-//document.addEventListener('DOMContentLoaded', function () {
-//    var starcoder = new Starcoder();
-//    starcoder.start();
-//});
-
-// test
-
 $(function () {
     var starcoder = new Starcoder([commonConfig, clientConfig, buildConfig]);
-    starcoder.start();
+    starcoder.go(function () {
+        starcoder.game.state.start('boot');
+    });
 });

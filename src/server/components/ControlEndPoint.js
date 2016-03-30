@@ -4,7 +4,7 @@
 'use strict';
 
 module.exports = {
-    onReadyCB: function (player) {
+    ready: function (player) {
         var self = this;
         player.socket.on('do', function (actions) {
             for (var i = 0, l = actions.length; i < l; i++) {

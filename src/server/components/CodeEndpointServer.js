@@ -18,7 +18,7 @@ module.exports = {
      *
      * @param player {Player}
      */
-    onReadyCB: function (player) {
+    ready: function (player) {
         var self = this;
         player.socket.on('code exec', function (code) {
             try {

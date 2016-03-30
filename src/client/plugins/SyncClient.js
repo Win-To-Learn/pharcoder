@@ -37,18 +37,9 @@ SyncClient.prototype.start = function () {
     var starcoder = this.game.starcoder;
     this._updateComplete = false;
     // FIXME: Need more robust handling of DC/RC
-    this.socket.on('disconnect', function () {
-        self.game.paused = true;
-    });
-    this.socket.on('reconnect', function () {
-        self.game.paused = false;
-    });
     // Measure client-server time delta
-    this.socket.on('timesync', function (data) {
-        self._latency = data - self.game.time.now;
-    });
-    this.socket.on('update', function (data) {
-        data = data.wu;     // FIXME: temp for test
+    this.game.starcoder.events.on('sync', function (data) {
+        //console.log('sync', data);
         var realTime = data.r;
         for (var i = 0, l = data.b.length; i < l; i++) {
             var update = data.b[i];
@@ -66,9 +57,9 @@ SyncClient.prototype.start = function () {
                 }
             } else {
                 // New sprite - create and configure
-                //console.log('New', id, update.t);
                 sprite = starcoder.addBody(update.t, update);
                 if (sprite) {
+                    //console.log('New sprite**', id, update.t);
                     sprite.serverId = id;
                     self.extant[id] = sprite;
                     sprite.updateQueue = [update];
@@ -129,7 +120,8 @@ SyncClient.prototype._sendCommands = function () {
  * @private
  */
 SyncClient.prototype._processPhysicsUpdates = function () {
-    var interpTime = this.game.time.now + this._latency - this.game.starcoder.config.renderLatency;
+    //var interpTime = this.game.time.now + this._latency - this.game.starcoder.config.renderLatency;
+    var interpTime = this.game.time.now + this.starcoder._latency - this.game.starcoder.config.renderLatency;
     var oids = Object.keys(this.extant);
     for (var i = oids.length - 1; i >= 0; i--) {
         var sprite = this.extant[oids[i]];

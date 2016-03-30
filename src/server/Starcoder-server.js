@@ -36,15 +36,8 @@ var API = require('./code/API.js');
 Starcoder.prototype.init = function (app, io) {
     this.app = app;
     this.io = io;
-    //this.events = new EventEmitter();
     this.players = {};          // Logged in schema
     this.playerList = [];
-    //this.onConnectCB = [];
-    //this.onLoginCB = [];
-    //this.onReadyCB = [];
-    //this.onDisconnectCB = [];
-    //this.world = new World(this, this.config.worldBounds, this.config.initialBodies);
-    //this.world.log = this.log;
     this.implementFeature(PhysicsWorldInterface);
     this.implementFeature(NetworkInterface);
     this.implementFeature(SessionHandler);
@@ -74,7 +67,19 @@ Starcoder.prototype.init = function (app, io) {
     });
     //this.world.start(1/60);
     this.mongoConnect();
-    this.events.on('dbConnected', function () {
+    //this.events.on('dbConnected', function () {
+    //    setInterval(function () {
+    //        self.events.emit('syncTick');
+    //    }, self.config.syncInterval);
+    //    setInterval(function () {
+    //        self.events.emit('netTick');
+    //    }, self.config.netInterval);
+    //    setInterval(function () {
+    //        self.events.emit('physicsTick');
+    //    }, self.config.physicsInterval);
+    //});
+    this.go(function () {
+        console.log('Simulation started');
         setInterval(function () {
             self.events.emit('syncTick');
         }, self.config.syncInterval);
