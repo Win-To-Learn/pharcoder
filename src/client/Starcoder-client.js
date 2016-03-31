@@ -43,6 +43,7 @@ Starcoder.prototype.init = function () {
     this.lastNetError = null;
     this.latestUpdate = null;
     this.msgQueue = null;
+    this.implementFeature(require('./../common/components/MsgBufferInterface.js'));
     this.implementFeature(require('./components/WorldApi.js'));
     this.implementFeature(require('./components/CodeEndpointClient.js'));
     this.implementFeature(require('./components/Starfield.js'));

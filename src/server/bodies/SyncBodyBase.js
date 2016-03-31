@@ -252,6 +252,11 @@ SyncBodyBase.prototype.adjustShape = function () {
 
 };
 
+SyncBodyBase.prototype.clean = function () {
+    this._dirtyProperties = {};
+    this.newborn = false;
+};
+
 /**
  * Generate plain object representation of object state for client
  *
@@ -289,6 +294,20 @@ SyncBodyBase.prototype.getUpdatePacket = function (full) {
     return update;
 };
 
+SyncBodyBase.prototype.getUpdateProperties = function (full) {
+    if (full || this.newborn) {
+        var update = {type: this.clientType};
+    } else {
+        update = {};
+    }
+    for (var i = 0; i < this.updateProperties.length; i++) {
+        var propname = this.updateProperties[i];
+        if (full || this._dirtyProperties[propname]) {
+            update[propname] = this.propname;
+        }
+    }
+    return update;
+};
 
 SyncBodyBase.prototype.writeUpdatePacket = function (msgbuf) {
     msgbuf.addUInt16(this.id);

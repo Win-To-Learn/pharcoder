@@ -8,20 +8,20 @@
 //var EventEmitter = require('events').EventEmitter;
 
 var Starcoder = require('../common/Starcoder.js');
-var SyncServer = require('./components/SyncServer.js');
-var MsgServer = require('./components/MsgServer.js');
-var ControlEndPoint = require('./components/ControlEndPoint.js');
-var CollisionHandlers = require('./components/CollisionHandlers.js');
-var CodeEndpointServer = require('./components/CodeEndpointServer.js');
-var LoginEndpoint = require('./components/LoginEndpoint.js');
-var LeaderBoardEndpoint = require('./components/LeaderBoardEndpoint.js');
-var StaticServer = require('./components/StaticServer.js');
-var MongoInterface = require('./components/MongoInterface.js');
-var SessionHandler = require('./components/SessionHandler.js');
-var TutorialInterface = require('./components/TutorialInterface.js');
-var TicketHandler = require('./components/TicketHandler.js');
-var PhysicsWorldInterface = require('./components/PhysicsWorldInterface.js');
-var NetworkInterface = require('./components/NetworkInterface.js');
+//var SyncServer = require('./components/SyncServer.js');//
+//var MsgServer = require('./components/MsgServer.js');//
+//var ControlEndPoint = require('./components/ControlEndPoint.js');//
+//var CollisionHandlers = require('./components/CollisionHandlers.js');//
+//var CodeEndpointServer = require('./components/CodeEndpointServer.js');//
+//var LoginEndpoint = require('./components/LoginEndpoint.js');//
+//var LeaderBoardEndpoint = require('./components/LeaderBoardEndpoint.js');//
+//var StaticServer = require('./components/StaticServer.js');//
+//var MongoInterface = require('./components/MongoInterface.js');//
+//var SessionHandler = require('./components/SessionHandler.js');//
+//var TutorialInterface = require('./components/TutorialInterface.js');//
+//var TicketHandler = require('./components/TicketHandler.js');//
+//var PhysicsWorldInterface = require('./components/PhysicsWorldInterface.js');//
+//var NetworkInterface = require('./components/NetworkInterface.js');//
 
 var API = require('./code/API.js');
 
@@ -38,20 +38,21 @@ Starcoder.prototype.init = function (app, io) {
     this.io = io;
     this.players = {};          // Logged in schema
     this.playerList = [];
-    this.implementFeature(PhysicsWorldInterface);
-    this.implementFeature(NetworkInterface);
-    this.implementFeature(SessionHandler);
-    this.implementFeature(StaticServer);
-    this.implementFeature(LoginEndpoint);
-    this.implementFeature(LeaderBoardEndpoint);
-    this.implementFeature(ControlEndPoint);
-    this.implementFeature(CollisionHandlers);
-    this.implementFeature(SyncServer);
-    this.implementFeature(MsgServer);
-    this.implementFeature(CodeEndpointServer);
-    this.implementFeature(MongoInterface);
-    this.implementFeature(TutorialInterface);
-    this.implementFeature(TicketHandler);
+    this.implementFeature(require('./../common/components/MsgBufferInterface.js'));
+    this.implementFeature(require('./components/PhysicsWorldInterface.js'));
+    this.implementFeature(require('./components/NetworkInterface.js'));
+    this.implementFeature(require('./components/SessionHandler.js'));
+    this.implementFeature(require('./components/StaticServer.js'));
+    this.implementFeature(require('./components/LoginEndpoint.js'));
+    this.implementFeature(require('./components/LeaderBoardEndpoint.js'));
+    this.implementFeature(require('./components/ControlEndPoint.js'));
+    this.implementFeature(require('./components/CollisionHandlers.js'));
+    this.implementFeature(require('./components/SyncServer.js'));
+    this.implementFeature(require('./components/MsgServer.js'));
+    this.implementFeature(require('./components/CodeEndpointServer.js'));
+    this.implementFeature(require('./components/MongoInterface.js'));
+    this.implementFeature(require('./components/TutorialInterface.js'));
+    this.implementFeature(require('./components/TicketHandler.js'));
     this.implementFeature(require('./components/MessageInterface.js'));
     this.newLeaderBoardCategory('Ships Tagged');
     this.newLeaderBoardCategory('Tag Streak');

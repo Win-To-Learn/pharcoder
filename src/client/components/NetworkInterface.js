@@ -5,9 +5,11 @@
 'use strict';
 
 module.exports = {
-    //init: function () {
-    //
-    //},
+    finalize: function () {
+        // FIXME: Use config
+        this.msgBufOut = this.newMsgBuffer(4 * 1024);
+        this.msgBufIn = this.newMsgBuffer(16 * 1024);
+    },
 
     connect: function (socket) {
         var self = this;

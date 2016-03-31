@@ -4,12 +4,9 @@
  */
 'use strict';
 
-var MsgBuffer = require('../util/MsgBuffer.js');
-
 module.exports = {
-    init: function () {
-        var self = this;
-        this.msgBuf = new MsgBuffer(this.config.netBufferSize);
+    finalize: function () {
+        this.msgBufOut = this.newMsgBuffer(this.config.netBufferSize);
         //this.events.on('netTick', function () {
         //    self.events.emit('sync');
         //    //console.log('netTick');
