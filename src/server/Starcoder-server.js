@@ -84,9 +84,9 @@ Starcoder.prototype.init = function (app, io) {
         setInterval(function () {
             self.events.emit('syncTick');
         }, self.config.syncInterval);
-        setInterval(function () {
-            self.events.emit('netTick');
-        }, self.config.netInterval);
+        //setInterval(function () {
+        //    self.events.emit('netTick');
+        //}, self.config.netInterval);
         setInterval(function () {
             self.events.emit('physicsTick');
         }, self.config.physicsInterval);

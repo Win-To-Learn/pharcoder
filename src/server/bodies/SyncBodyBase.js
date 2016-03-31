@@ -289,6 +289,18 @@ SyncBodyBase.prototype.getUpdatePacket = function (full) {
     return update;
 };
 
+
+SyncBodyBase.prototype.writeUpdatePacket = function (msgbuf) {
+    msgbuf.addUInt16(this.id);
+    msgbuf.addInt32(Math.floor(this.interpolatedPosition[0] * 1000));
+    msgbuf.addInt32(Math.floor(this.interpolatedPosition[1] * 1000));
+    msgbuf.addInt32(Math.floor(this.velocity[0] * 1000));
+    msgbuf.addInt32(Math.floor(this.velocity[1] * 1000));
+    msgbuf.addInt16(Math.floor(this.interpolatedAngle * 1000));
+    msgbuf.addInt16(Math.floor(this.angularVelocity * 1000));
+    // do properties
+};
+
 /**
  * Copy object property to properties object. Subclasses can offer more complex behavior for specific properties
  *
