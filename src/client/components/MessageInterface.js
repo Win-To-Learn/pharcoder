@@ -4,8 +4,13 @@
  */
 'use strict';
 
+var Messages = require('../../common/Messages.js');
+
 module.exports = {
     init: function () {
+        for (var m in Messages) {
+            this.registerField(m, Messages[m]);
+        }
         // General purpose messages short messages for game functions
         this.events.on('msg', handleMessages.bind(this));
         // Infrequent, potentially lengthy messages for things like code exchange and maybe chat

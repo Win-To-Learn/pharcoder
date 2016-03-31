@@ -34,6 +34,7 @@ var altsync = function () {
     this.worldapi.removedBodies.length = 0;
     var worldUpdate = {w: wtime, r: rtime, b: [], rm: removed};
     this.msgBufOut.reset();
+    this.msgBufOut.mark('start');
     this.msgBufOut.skip(4);         // Total length of update goes in position 1
     writeUpdateHeader(this.msgBufOut, wtime, rtime, removed);
     this.msgBufOut.mark('bodystart');
@@ -53,9 +54,10 @@ var altsync = function () {
             }
             bufReady = true;
         }
+        this.msgBufOut.writeUInt32AtMark(this.len, 'start');
         this.sendPlayerUpdate(player, worldUpdate);
-        console.log('Len>', this.msgBufOut.len);
-        console.log('Buf>', this.msgBufOut.buffer);
+        //console.log('Short Len>', this.msgBufOut.len);
+        //console.log('Buf>', this.msgBufOut.buffer);
     }
     // Then send full updates to new players
     bufReady = false;
@@ -71,12 +73,14 @@ var altsync = function () {
             }
             bufReady = true;
         }
+        this.msgBufOut.writeUInt32AtMark(this.len, 'start');
         this.sendPlayerUpdate(player, worldUpdate);
+        //console.log('Long Len>', this.msgBufOut.len);
         player.newborn = false;
     }
     // Clear dirty properties on all objects
-    for (var j = 0; j < this.worldapi.syncableBodies.length; j++) {
-        this.worldapi.syncableBodies[i].clean();
+    for (j = 0; j < this.worldapi.syncableBodies.length; j++) {
+        this.worldapi.syncableBodies[j].clean();
     }
 };
 
