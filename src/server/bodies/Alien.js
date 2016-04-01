@@ -5,11 +5,8 @@
  */
 'use strict';
 
-var Starcoder = require('../../common/Starcoder.js');
-
 var p2 = require('p2');
 var SyncBodyBase = require('./SyncBodyBase.js');
-var Common = require('../../common/bodies/Alien.js');
 var FSM = require('../util/FSM.js');
 
 var ALIEN_THRUST_FORCE = 150;
@@ -34,8 +31,6 @@ var Alien = function (starcoder, config) {
 
 Alien.prototype = Object.create(SyncBodyBase.prototype);
 Alien.prototype.constructor = Alien;
-
-Starcoder.mixinPrototype(Alien.prototype, Common);
 
 Alien.prototype.clientType = 'Alien';
 Alien.prototype.serverType = 'Alien';

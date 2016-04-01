@@ -5,8 +5,6 @@
  */
 'use strict';
 
-//var EventEmitter = require('events').EventEmitter;
-
 var Starcoder = require('../common/Starcoder.js');
 //var SyncServer = require('./components/SyncServer.js');//
 //var MsgServer = require('./components/MsgServer.js');//

@@ -303,21 +303,10 @@ SyncBodyBase.prototype.getUpdateProperties = function (full) {
     for (var i = 0; i < this.updateProperties.length; i++) {
         var propname = this.updateProperties[i];
         if (full || this._dirtyProperties[propname]) {
-            update[propname] = this.propname;
+            update[propname] = this[propname];
         }
     }
     return update;
-};
-
-SyncBodyBase.prototype.writeUpdatePacket = function (msgbuf) {
-    msgbuf.addUInt16(this.id);
-    msgbuf.addInt32(Math.floor(this.interpolatedPosition[0] * 1000));
-    msgbuf.addInt32(Math.floor(this.interpolatedPosition[1] * 1000));
-    msgbuf.addInt32(Math.floor(this.velocity[0] * 1000));
-    msgbuf.addInt32(Math.floor(this.velocity[1] * 1000));
-    msgbuf.addInt16(Math.floor(this.interpolatedAngle * 1000));
-    msgbuf.addInt16(Math.floor(this.angularVelocity * 1000));
-    // do properties
 };
 
 /**
@@ -350,12 +339,7 @@ SyncBodyBase.prototype.setPolarForce = function (mag) {
     this.force[1] = -Math.cos(this.angle)*mag;
 };
 
-/**
- * Clear dirty flag for all properties
- */
-SyncBodyBase.prototype.clean = function () {
-    this._dirtyProperties = {};
-};
+SyncBodyBase.prototype.updateProperties = [];
 
 // Common vector properties
 

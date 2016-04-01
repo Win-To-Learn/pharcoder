@@ -13,6 +13,6 @@ module.exports = {
     },
 
     sendMessage: function (player, type, content) {
-        player.msgQueue.push({t: type, c: content});
+        player.msgQueue.push({msg: type, data: content});
     }
 };

@@ -5,18 +5,9 @@
  */
 'use strict';
 
-var Starcoder = require('../../common/Starcoder.js');
-
 var SyncBodyBase = require('./SyncBodyBase.js');
 
-var Paths = require('../../common/Paths.js');
-var UpdateProperties = require('../../common/UpdateProperties.js').Asteroid;
-
 var Crystal = require('./Crystal.js');
-
-//var Starcoder = require('../../Starcoder-server.js');
-
-//var shared = require('../shared/Asteroid.js');
 
 var Asteroid = function (starcoder, config) {
     SyncBodyBase.call(this, starcoder, config);
@@ -27,17 +18,9 @@ var Asteroid = function (starcoder, config) {
 Asteroid.prototype = Object.create(SyncBodyBase.prototype);
 Asteroid.prototype.constructor = Asteroid;
 
-Starcoder.mixinPrototype(Asteroid.prototype, UpdateProperties.prototype);
-
 Asteroid.prototype.clientType = 'Asteroid';
 Asteroid.prototype.serverType = 'Asteroid';
 
-//Asteroid.prototype.lineColor = '#ff00ff';
-//Asteroid.prototype.fillColor = '#00ff00';
-//Asteroid.prototype.shapeClosed = true;
-//Asteroid.prototype.lineWidth = 1;
-//Asteroid.prototype.fillAlpha = 0.25;
-Asteroid.prototype._shape = Paths.octagon;
 
 Asteroid.prototype.deadly = true;
 Asteroid.prototype.tractorable = true;

@@ -67,6 +67,12 @@ MsgBuffer.prototype.rewindToMark = function (mark) {
     this.len = this.marks[mark] || 0;
 };
 
+// Trim for sending
+
+MsgBuffer.prototype.export = function () {
+    return this.buffer.slice(0, this.len);
+};
+
 // Write methods
 
 MsgBuffer.prototype.addUInt8 = function (v) {
@@ -303,7 +309,9 @@ MsgBuffer.prototype.addFieldValue = function (field, v) {
             v = JSON.stringify(v);
             // Fall through intended here
         case 'string':
-            v = v || '';        // Probably something better to do here
+            if (typeof v !== 'string') {
+                v = String(v);
+            }
             pos = this.len;
             this.len += 2;                              // Leave space to record length
             n = this.buffer.write(v, this.len);         // UTF-8

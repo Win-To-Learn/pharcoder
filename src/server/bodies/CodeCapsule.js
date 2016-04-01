@@ -5,11 +5,8 @@
  */
 'use strict';
 
-var Starcoder = require('../../common/Starcoder.js');
-
 var p2 = require('p2');
 var SyncBodyBase = require('./SyncBodyBase.js');
-var Common = require('../../common/bodies/CodeCapsule.js');
 
 var CodeCapsule = function (starcoder, config) {
     SyncBodyBase.call(this, config);
@@ -19,8 +16,6 @@ var CodeCapsule = function (starcoder, config) {
 
 CodeCapsule.prototype = Object.create(SyncBodyBase.prototype);
 CodeCapsule.prototype.constructor = CodeCapsule;
-
-Starcoder.mixinPrototype(CodeCapsule.prototype, Common);
 
 CodeCapsule.prototype.clientType = 'CodeCapsule';
 CodeCapsule.prototype.serverType = 'CodeCapsule';

@@ -21,5 +21,17 @@ module.exports = {
     sendPlayerUpdate: function (player, worldUpdate) {
         player.socket.emit('update', {wu: worldUpdate, msg: player.msgQueue.slice()});
         player.msgQueue.length = 0;
+    },
+
+    doPlayerUpdate: function (player) {
+        serializeMessages(player.msgQueue, this.msgBufOut);
+        player.msgQueue.length = 0;
+        player.socket.emit('message', this.msgBufOut.export());
+    }
+};
+
+var serializeMessages = function (messages, msgbuf) {
+    for (var i = 0; i < messages.length; i++) {
+        msgbuf.addFieldValue(messages[i].msg, messages[i].data);
     }
 };

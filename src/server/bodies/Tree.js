@@ -7,12 +7,9 @@
 
 var p2 = require('p2');
 
-var Starcoder = require('../../common/Starcoder.js');
-
 var SyncBodyBase = require('./SyncBodyBase.js');
 
 var Paths = require('../../common/Paths.js');
-var UpdateProperties = require('../../common/UpdateProperties.js').Tree;
 
 var Tree = function (starcoder, config) {
     //SyncBodyBase.call(this, config);
@@ -41,8 +38,6 @@ var Tree = function (starcoder, config) {
 
 Tree.prototype = Object.create(SyncBodyBase.prototype);
 Tree.prototype.constructor = Tree;
-
-Starcoder.mixinPrototype(Tree.prototype, UpdateProperties.prototype);
 
 Tree.prototype.clientType = 'Tree';
 Tree.prototype.serverType = 'Tree';

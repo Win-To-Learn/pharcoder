@@ -32,12 +32,6 @@ Planetoid.prototype.serverType = 'Planetoid';
 
 Planetoid.prototype.tractorable = true;
 
-Planetoid.prototype._lineColor = '#00ff99';
-Planetoid.prototype._fillColor = '#33cc33';
-Planetoid.prototype._lineWidth = 1;
-Planetoid.prototype._fillAlpha = 0.25;
-Planetoid.prototype._shape = Paths.octagon;
-
 Planetoid.prototype.adjustShape = function () {
     SyncBodyBase.prototype.adjustShape.call(this);
     this.centerSensor = new p2.Circle({radius: 0.1, sensor: true});

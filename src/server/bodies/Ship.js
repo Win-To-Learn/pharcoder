@@ -7,10 +7,7 @@
 
 var p2 = require('p2');
 
-var Starcoder = require('../../common/Starcoder.js');
-
 var SyncBodyBase = require('./SyncBodyBase.js');
-var UpdateProperties = require('../../common/UpdateProperties.js').Ship;
 
 var Bullet = require('./Bullet.js');
 var TractorBeam = require('./TractorBeam.js');
@@ -51,21 +48,19 @@ var Ship = function (starcoder, config) {
     // Inventory
     this._crystals = 0;
     this._trees = 0;
+    this._fillColor = '#000000';
+    this._fillAlpha = 0;
     //this._crystals = 150;
 };
 
 Ship.prototype = Object.create(SyncBodyBase.prototype);
 Ship.prototype.constructor = Ship;
 
-Starcoder.mixinPrototype(Ship.prototype, UpdateProperties.prototype);
-
 Ship.prototype.clientType = 'Ship';
 Ship.prototype.serverType = 'Ship';
 
 // Default properties
 
-//Ship.prototype.updateProperties = ['fillColor', 'lineColor', 'fillAlpha', 'shapeClosed', 'shape', 'lineWidth',
-//    'vectorScale', 'playerid'];
 Ship.prototype.defaults = {mass: 10, vectorScale: 1, lineWidth: 6};
 
 Ship.prototype._shape = [
@@ -271,6 +266,12 @@ Object.defineProperty(Ship.prototype, 'tag', {
     set: function (val) {
         this._tag = val;
         this._dirtyProperties.tag = true;
+    }
+});
+
+Object.defineProperty(Ship.prototype, 'playerid', {
+    get: function () {
+        return this.player.id;
     }
 });
 

@@ -9,10 +9,7 @@ var p2 = require('p2');
 
 var RADIUS = 0.5;
 
-var Starcoder = require('../../common/Starcoder.js');
-
 var SyncBodyBase = require('./SyncBodyBase.js');
-var UpdateProperties = require('../../common/UpdateProperties.js').TractorBeam;
 
 var TractorBeam = function (starcoder, config) {
     SyncBodyBase.call(this, config);
@@ -23,8 +20,6 @@ var TractorBeam = function (starcoder, config) {
 
 TractorBeam.prototype = Object.create(SyncBodyBase.prototype);
 TractorBeam.prototype.constructor = TractorBeam;
-
-Starcoder.mixinPrototype(TractorBeam.prototype, UpdateProperties.prototype);
 
 TractorBeam.prototype.clientType = 'TractorBeam';
 TractorBeam.prototype.serverType = 'TractorBeam';

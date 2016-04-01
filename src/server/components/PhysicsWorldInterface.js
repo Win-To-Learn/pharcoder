@@ -8,6 +8,24 @@ var fs = require('fs');
 var p2 = require('p2');
 var randomColor = require('randomcolor');
 
+var bodyDefs = {
+    Ship: [require('../bodies/Ship.js'), require('../../common/bodies/Ship.js')],
+    Asteroid: [require('../bodies/Asteroid.js'), require('../../common/bodies/Asteroid.js')],
+    Crystal: [require('../bodies/Crystal.js'), require('../../common/bodies/Crystal.js')],
+    Bullet: [require('../bodies/Bullet.js'), require('../../common/bodies/Bullet.js')],
+    Hydra: [require('../bodies/Hydra.js'), require('../../common/bodies/GenericOrb.js')],
+    Planetoid: [require('../bodies/Planetoid.js'), require('../../common/bodies/Planetoid.js')],
+    Tree: [require('../bodies/Tree.js'), require('../../common/bodies/Tree.js')],
+    TractorBeam: [require('../bodies/TractorBeam.js'), require('../../common/bodies/TractorBeam.js')],
+    StarTarget: [require('../bodies/StarTarget.js'), require('../../common/bodies/StarTarget.js')],
+    StationBlock: [require('../bodies/StationBlock.js'), require('../../common/bodies/StationBlock.js')],
+    Alien: [require('../bodies/Alien.js'), require('../../common/bodies/Alien.js')],
+    CodeCapsule: [require('../bodies/CodeCapsule.js'), require('../../common/bodies/CodeCapsule.js')]
+};
+
+var bodyTypes = {};
+
+
 /**
  * Reference to main starcoder object
  * @private
@@ -38,7 +56,7 @@ module.exports = {
                 event.body.onWorldRemove();
             }
         });
-        initBodyTypes();
+        this.initBodies(bodyDefs, bodyTypes);
         setBounds.apply(this, starcoder.config.worldBounds);
         populate(starcoder.config.initialBodies);
         var lastHRTime = process.hrtime();

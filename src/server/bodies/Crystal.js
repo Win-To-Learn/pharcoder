@@ -22,33 +22,7 @@ Crystal.prototype.constructor = p2;
 Crystal.prototype.clientType = 'Crystal';
 Crystal.prototype.serverType = 'Crystal';
 
-//Crystal.prototype.lineColor = '#00ffff';
-//Crystal.prototype.fillColor = '#000000';
-//Crystal.prototype.shapeClosed = true;
-//Crystal.prototype.lineWidth = 1;
-//Crystal.prototype.fillAlpha = 0.0;
-Crystal.prototype._shape = Paths.octagon;
-//
-//Crystal.prototype.geometry = [
-//    {type: 'poly', closed: true, points: Paths.d2cross}
-//];
-
-Crystal.prototype.updateProperties = ['vectorScale'];
-
 Crystal.prototype.value = 50;
-
-//Crystal.prototype.getPropertyUpdate = function (propname, properties) {
-//    switch (propname) {
-//        default:
-//            SyncBodyBase.prototype.getPropertyUpdate.call(this, propname, properties);
-//    }
-//};
-
-//Crystal.prototype.update = function () {
-//    if (this.state === 'picked up') {
-//        this.world.removeSyncableBody(this);
-//    }
-//};
 
 Crystal.prototype.beginContact = function (other) {
     switch (other.serverType) {

@@ -55,9 +55,8 @@ var altsync = function () {
             bufReady = true;
         }
         this.msgBufOut.writeUInt32AtMark(this.len, 'start');
+        this.doPlayerUpdate(player);
         this.sendPlayerUpdate(player, worldUpdate);
-        //console.log('Short Len>', this.msgBufOut.len);
-        //console.log('Buf>', this.msgBufOut.buffer);
     }
     // Then send full updates to new players
     bufReady = false;
@@ -74,8 +73,8 @@ var altsync = function () {
             bufReady = true;
         }
         this.msgBufOut.writeUInt32AtMark(this.len, 'start');
+        this.doPlayerUpdate(player);
         this.sendPlayerUpdate(player, worldUpdate);
-        //console.log('Long Len>', this.msgBufOut.len);
         player.newborn = false;
     }
     // Clear dirty properties on all objects

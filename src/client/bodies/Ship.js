@@ -9,7 +9,6 @@ var Starcoder = require('../../common/Starcoder.js');
 
 var VectorSprite = require('./VectorSprite.js');
 var SyncBodyInterface = require('./SyncBodyInterface.js');
-var UpdateProperties = require('../../common/UpdateProperties.js').Ship;
 //var Engine = require('./Engine.js');
 //var Weapons = require('./Weapons.js');
 
@@ -45,7 +44,6 @@ Ship.prototype = Object.create(VectorSprite.prototype);
 Ship.prototype.constructor = Ship;
 
 Starcoder.mixinPrototype(Ship.prototype, SyncBodyInterface.prototype);
-Starcoder.mixinPrototype(Ship.prototype, UpdateProperties.prototype);
 
 Ship.prototype.mapFactor = 3;
 

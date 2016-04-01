@@ -9,31 +9,31 @@ var Ship = function () {};
 Ship.prototype.updateProperties = ['lineWidth', 'lineColor', 'fillColor', 'fillAlpha',
     'vectorScale', 'shape', 'shapeClosed', 'playerid', 'crystals', 'dead', 'tag', 'charge', 'trees'];
 
-var Asteroid = function () {};
+var Asteroid = function () {};//
 Asteroid.prototype.updateProperties = ['vectorScale'];
 
-var Alien = function () {};
+var Alien = function () {};//
 Alien.prototype.updateProperties = ['vectorScale'];
 
-var Crystal = function () {};
+var Crystal = function () {};//
 Crystal.prototype.updateProperties = ['vectorScale'];
 
 var GenericOrb = function () {};
 GenericOrb.prototype.updateProperties = ['lineColor', 'vectorScale'];
 
-var Planetoid = function () {};
+var Planetoid = function () {};//
 Planetoid.prototype.updateProperties = ['lineColor', 'fillColor', 'lineWidth', 'fillAlpha', 'vectorScale', 'owner'];
 
-var Tree = function () {};
+var Tree = function () {};//
 Tree.prototype.updateProperties = ['vectorScale', 'lineColor', 'graph', 'step', 'depth'];
 
-var Bullet = function () {};
+var Bullet = function () {};//
 Bullet.prototype.updateProperties = ['lineColor'];
 
-var TractorBeam = function () {};
+var TractorBeam = function () {};//
 TractorBeam.prototype.updateProperties = [];
 
-var StarTarget = function () {};
+var StarTarget = function () {};//
 StarTarget.prototype.updateProperties = ['stars', 'lineColor', 'vectorScale'];
 
 
