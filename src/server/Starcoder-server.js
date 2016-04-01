@@ -6,20 +6,6 @@
 'use strict';
 
 var Starcoder = require('../common/Starcoder.js');
-//var SyncServer = require('./components/SyncServer.js');//
-//var MsgServer = require('./components/MsgServer.js');//
-//var ControlEndPoint = require('./components/ControlEndPoint.js');//
-//var CollisionHandlers = require('./components/CollisionHandlers.js');//
-//var CodeEndpointServer = require('./components/CodeEndpointServer.js');//
-//var LoginEndpoint = require('./components/LoginEndpoint.js');//
-//var LeaderBoardEndpoint = require('./components/LeaderBoardEndpoint.js');//
-//var StaticServer = require('./components/StaticServer.js');//
-//var MongoInterface = require('./components/MongoInterface.js');//
-//var SessionHandler = require('./components/SessionHandler.js');//
-//var TutorialInterface = require('./components/TutorialInterface.js');//
-//var TicketHandler = require('./components/TicketHandler.js');//
-//var PhysicsWorldInterface = require('./components/PhysicsWorldInterface.js');//
-//var NetworkInterface = require('./components/NetworkInterface.js');//
 
 var API = require('./code/API.js');
 

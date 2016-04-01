@@ -56,7 +56,7 @@ var altsync = function () {
         }
         this.msgBufOut.writeUInt32AtMark(this.len, 'start');
         this.doPlayerUpdate(player);
-        this.sendPlayerUpdate(player, worldUpdate);
+        //this.sendPlayerUpdate(player, worldUpdate);
     }
     // Then send full updates to new players
     bufReady = false;
@@ -74,7 +74,7 @@ var altsync = function () {
         }
         this.msgBufOut.writeUInt32AtMark(this.len, 'start');
         this.doPlayerUpdate(player);
-        this.sendPlayerUpdate(player, worldUpdate);
+        //this.sendPlayerUpdate(player, worldUpdate);
         player.newborn = false;
     }
     // Clear dirty properties on all objects
@@ -116,7 +116,6 @@ var sync = function () {
             worldUpdate.b.push(b);
             //body.writeUpdatePacket(this.msgBuf);
         }
-        console.log('Len', this.msgBuf.len);
         this.sendPlayerUpdate(player, worldUpdate);
         player.newborn = false;
     }

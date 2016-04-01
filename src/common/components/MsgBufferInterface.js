@@ -40,7 +40,11 @@ module.exports = {
 };
 
 var MsgBuffer = function (size) {
-    this.buffer = new Buffer(size);
+    if (size) {
+        this.buffer = new Buffer(size);
+    } else {
+        this.buffer = null;
+    }
     this.len = 0;
     this.marks = {};
 };
@@ -51,7 +55,10 @@ MsgBuffer.prototype.skip = function (n) {
     this.len += n;
 };
 
-MsgBuffer.prototype.reset = function () {
+MsgBuffer.prototype.reset = function (buffer) {
+    if (buffer) {
+        this.buffer = buffer;
+    }
     this.len = 0;
     this.marks = {};
 };
@@ -70,7 +77,9 @@ MsgBuffer.prototype.rewindToMark = function (mark) {
 // Trim for sending
 
 MsgBuffer.prototype.export = function () {
-    return this.buffer.slice(0, this.len);
+    // Not sure why this is necessary
+    return (new Uint8Array(this.buffer.slice(0, this.len))).buffer;
+
 };
 
 // Write methods

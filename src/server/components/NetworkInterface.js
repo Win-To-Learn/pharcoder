@@ -7,6 +7,7 @@
 module.exports = {
     finalize: function () {
         this.msgBufOut = this.newMsgBuffer(this.config.netBufferSize);
+        this.msgBufOut = this.newMsgBuffer(12345);
         //this.events.on('netTick', function () {
         //    self.events.emit('sync');
         //    //console.log('netTick');

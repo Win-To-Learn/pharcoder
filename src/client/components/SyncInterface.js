@@ -10,6 +10,7 @@ module.exports = {
     init: function () {
         var self = this;
         self.extant = {};
+        this.events.on('syncB', parseAndSync.bind(this));
         this.events.on('sync', function (data) {
             //console.log('sync', data);
             var realTime = data.r;
@@ -48,4 +49,9 @@ module.exports = {
         });
 
     }
+};
+
+var parseAndSync = function () {
+    var ul = this.msgBufIn.readUInt16();
+    //console.log('L', ul, this.msgBufIn.buffer.length);
 };

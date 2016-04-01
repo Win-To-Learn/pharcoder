@@ -8,7 +8,7 @@ module.exports = {
     finalize: function () {
         // FIXME: Use config
         this.msgBufOut = this.newMsgBuffer(4 * 1024);
-        this.msgBufIn = this.newMsgBuffer(16 * 1024);
+        this.msgBufIn = this.newMsgBuffer();
     },
 
     connect: function (socket) {
@@ -29,11 +29,20 @@ module.exports = {
             });
         });
         // Stopgap implementation
-        self.socket.on('update', function (data) {
-            //this.latestUpdate = data.wu;
-            //console.log('update--');
-            self.events.emit('sync', data.wu);
-            self.events.emit('msg', data.msg);
+        //self.socket.on('update', function (data) {
+        //    //this.latestUpdate = data.wu;
+        //    //console.log('update--');
+        //    self.events.emit('sync', data.wu);
+        //    self.events.emit('msg', data.msg);
+        //});
+        self.socket.on('message', function (data) {
+            //console.log(new Uint8Array(data).length);
+            //console.log('BL', data.byteLength, typeof data, (data instanceof ArrayBuffer));
+            console.dir(new Buffer(data));
+            self.msgBufIn.reset(new Buffer(data));
+            //console.log('mess', typeof data, '{}', self.msgBufIn.buffer.length);
+            self.events.emit('syncB');
+            self.events.emit('msgB');
         });
     },
 
