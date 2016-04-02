@@ -26,7 +26,6 @@ SyncClient.prototype.init = function (socket, queue) {
     // TODO: Copy some config options
     this.socket = socket;
     this.cmdQueue = queue;
-    this.extant = {};
 };
 
 /**
@@ -122,9 +121,9 @@ SyncClient.prototype._sendCommands = function () {
 SyncClient.prototype._processPhysicsUpdates = function () {
     //var interpTime = this.game.time.now + this._latency - this.game.starcoder.config.renderLatency;
     var interpTime = this.game.time.now + this.starcoder._latency - this.game.starcoder.config.renderLatency;
-    var oids = Object.keys(this.starcoder.extant);
+    var oids = Object.keys(this.starcoder.knownBodies);
     for (var i = oids.length - 1; i >= 0; i--) {
-        var sprite = this.starcoder.extant[oids[i]];
+        var sprite = this.starcoder.knownBodies[oids[i]];
         var queue = sprite.updateQueue;
         var before = null, after = null;
 

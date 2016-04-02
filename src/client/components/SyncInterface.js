@@ -9,49 +9,76 @@ var UPDATE_QUEUE_LIMIT = 8;
 module.exports = {
     init: function () {
         var self = this;
-        self.extant = {};
+        this.registerField('type', 'string');
+        this.knownBodies = {};
         this.events.on('syncB', parseAndSync.bind(this));
-        this.events.on('sync', function (data) {
-            //console.log('sync', data);
-            var realTime = data.r;
-            for (var i = 0, l = data.b.length; i < l; i++) {
-                var update = data.b[i];
-                var id = update.id;
-                var sprite;
-                update.timestamp = realTime;
-                if (sprite = self.extant[id]) {
-                    // Existing sprite - process update
-                    sprite.updateQueue.push(update);
-                    if (update.properties) {
-                        sprite.config(update.properties);
-                    }
-                    if (sprite.updateQueue.length > UPDATE_QUEUE_LIMIT) {
-                        sprite.updateQueue.shift();
-                    }
-                } else {
-                    // New sprite - create and configure
-                    sprite = self.addBody(update.t, update);
-                    if (sprite) {
-                        //console.log('New sprite**', id, update.t);
-                        sprite.serverId = id;
-                        self.extant[id] = sprite;
-                        sprite.updateQueue = [update];
-                    }
-                }
-            }
-            for (i = 0, l = data.rm.length; i < l; i++) {
-                id = data.rm[i];
-                if (self.extant[id]) {
-                    self.removeBody(self.extant[id]);
-                    delete self.extant[id];
-                }
-            }
-        });
-
     }
 };
 
 var parseAndSync = function () {
-    var ul = this.msgBufIn.readUInt16();
-    //console.log('L', ul, this.msgBufIn.buffer.length);
+    this.msgBufIn.skip(4);        // First word is length
+    var rtime = this.msgBufIn.readUInt32();
+    var nRemoved = this.msgBufIn.readUInt16();
+    var removed = [];
+    for (var i = 0; i < nRemoved; i++) {
+        removed.push(this.msgBufIn.readUInt16());
+    }
+    var nBodies = this.msgBufIn.readUInt16();
+    for (i = 0; i < nBodies; i++) {
+        var update = parseBody(this.msgBufIn);
+        //console.log('U', update);
+        // Using old sync format - probably can be improved
+        var id = update.id;
+        //update.timestamp = rtime;
+        var sprite;
+        if (sprite = this.knownBodies[id]) {
+            // Old body
+            // Add physics update to queue
+            update.physics.timestamp = rtime;
+            sprite.updateQueue.push(update.physics);
+            // Update non-physics properties if necessary
+            if (Object.keys(update.props).length) {
+                sprite.config(update.props);
+            }
+            // Age queue
+            if (sprite.updateQueue.length > UPDATE_QUEUE_LIMIT) {
+                sprite.updateQueue.shift();
+            }
+        } else {
+            // New body
+            sprite = this.addBody(update.props.type, update.props);
+            if (sprite) {
+                //console.log('Adding', update.props.type, id, 'successful');
+                sprite.serverId = id;
+                this.knownBodies[id] = sprite;
+                sprite.updateQueue = [update.physics];
+            }
+        }
+    }
+    // Removed old bodies
+    for (i = 0; i < nRemoved; i++) {
+        sprite = this.knownBodies[removed[i]];
+        if (sprite) {
+            this.removeBody(sprite);
+            delete this.knownBodies[removed[i]];
+        }
+    }
+};
+
+var parseBody = function (buf) {
+    var update = {physics: {}, props: {}};
+    update.id = buf.readUInt16();
+    update.physics.x = buf.readFixed32();
+    update.physics.y = buf.readFixed32();
+    //update.physics.vx = buf.readFixed32();
+    //update.physics.vy = buf.readFixed32();
+    update.physics.a = buf.readFixed16();
+    //update.physics.av = buf.readFixed16();
+    var nFields = buf.readUInt16();
+    if (nFields > 0) {
+        for (var i = 0; i < nFields; i++) {
+            buf.readFieldValue(update.props);
+        }
+    }
+    return update;
 };

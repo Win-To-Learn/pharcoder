@@ -20,6 +20,7 @@ module.exports = {
             // Do these go here? Hmmmm
             self.socket.on('disconnect', function () {
                 self.game.paused = true;
+                throw 'Death by debugging';
             });
             self.socket.on('reconnect', function () {
                 self.game.paused = false;
@@ -36,11 +37,7 @@ module.exports = {
         //    self.events.emit('msg', data.msg);
         //});
         self.socket.on('message', function (data) {
-            //console.log(new Uint8Array(data).length);
-            //console.log('BL', data.byteLength, typeof data, (data instanceof ArrayBuffer));
-            console.dir(new Buffer(data));
             self.msgBufIn.reset(new Buffer(data));
-            //console.log('mess', typeof data, '{}', self.msgBufIn.buffer.length);
             self.events.emit('syncB');
             self.events.emit('msgB');
         });

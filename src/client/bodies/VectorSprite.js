@@ -28,7 +28,7 @@ var VectorSprite = function (game, config) {
     //    this.updateBody();
     //    this.body.mass = 0;
     //}
-    this.config(config.properties);
+    this.config(config);
     this.anchor.setTo(0.5, 0.5);
 
     if (this.visibleOnMap) {

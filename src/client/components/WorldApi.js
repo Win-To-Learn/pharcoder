@@ -41,7 +41,7 @@ module.exports = {
             console.log(config);
             return;
         }
-        if (type === 'Ship' && config.properties.playerid === this.player.id) {
+        if (type === 'Ship' && config.playerid === this.player.id) {
             //config.tag = this.player.username;
             //if (config.properties.playerid === this.player.id) {
             // Only the player's own ship is treated as dynamic in the local physics sim
@@ -51,7 +51,7 @@ module.exports = {
         }
         var body = new ctor(this.game, config);
         if (type === 'Ship') {
-            this.playerMap[config.properties.playerid] = body;
+            this.playerMap[config.playerid] = body;
         }
         //this.game.add.existing(body);
         this.game.playfield.add(body);

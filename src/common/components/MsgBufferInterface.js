@@ -18,6 +18,7 @@ module.exports = {
         idToField.sort();
         for (var i = 0; i < idToField.length; i++) {
             fieldToId[idToField[i]] = i;
+            //console.log(idToField[i], '-', i);
         }
         finalized = true;
     },
@@ -300,8 +301,8 @@ MsgBuffer.prototype.addFieldValue = function (field, v) {
             this.buffer.writeUInt16BE(v.length, this.len, true);
             this.len += 2;
             for (i = 0; i < v.length; i++) {
-                this.buffer.writeInt16BE(Math.floor(v[i][0] * 1000), this.len + i * 2, true);
-                this.buffer.writeInt16BE(Math.floor(v[i][1] * 1000), this.len + 2 + i * 2, true);
+                this.buffer.writeInt16BE(Math.floor(v[i][0] * 1000), this.len + i * 4, true);
+                this.buffer.writeInt16BE(Math.floor(v[i][1] * 1000), this.len + i * 4 + 2, true);
             }
             this.len += v.length * 4;
             break;
@@ -309,8 +310,8 @@ MsgBuffer.prototype.addFieldValue = function (field, v) {
             this.buffer.writeUInt16BE(v.length, this.len, true);
             this.len += 2;
             for (i = 0; i < v.length; i++) {
-                this.buffer.writeInt32BE(Math.floor(v[i][0] * 1000), this.len + i * 2, true);
-                this.buffer.writeInt32BE(Math.floor(v[i][1] * 1000), this.len + 4 + i * 2, true);
+                this.buffer.writeInt32BE(Math.floor(v[i][0] * 1000), this.len + i * 8, true);
+                this.buffer.writeInt32BE(Math.floor(v[i][1] * 1000), this.len + i * 8 + 4, true);
             }
             this.len += v.length * 8;
             break;
@@ -377,19 +378,19 @@ MsgBuffer.prototype.readUFixed16 = function () {
 };
 
 MsgBuffer.prototype.readUFixed32 = function () {
-    var v = this.buffer.writeUInt32BE(this.len, true) / 1000;
+    var v = this.buffer.readUInt32BE(this.len, true) / 1000;
     this.len += 4;
     return v;
 };
 
 MsgBuffer.prototype.readFixed16 = function () {
-    var v = this.buffer.writeInt16BE(this.len, true) / 1000;
+    var v = this.buffer.readInt16BE(this.len, true) / 1000;
     this.len += 2;
     return v
 };
 
 MsgBuffer.prototype.readFixed32 = function () {
-    var v = this.buffer.writeInt32BE(this.len, true) / 1000;
+    var v = this.buffer.readInt32BE(this.len, true) / 1000;
     this.len += 4;
     return v;
 };
@@ -425,7 +426,7 @@ MsgBuffer.prototype.readInt32AtMark = function (mark) {
 };
 
 MsgBuffer.prototype.readFieldValue = function (r) {
-    var fid = this.buffer.readUInt18BE(this.len, true);
+    var fid = this.buffer.readUInt16BE(this.len, true);
     var field = idToField[fid];
     if (!field) {
         console.log('WARNING: Attempting to read unregistered field with id ' + fid);
@@ -433,7 +434,7 @@ MsgBuffer.prototype.readFieldValue = function (r) {
     }
     var type = fieldToType[field];
     this.len += 2;
-    var pos, n, i, a;
+    var n, i, a;
     switch (type) {
         case 'boolean':
             r[field] = !!this.buffer.readUInt8(this.len, true);
@@ -582,19 +583,22 @@ MsgBuffer.prototype.readFieldValue = function (r) {
         case 'pairarrayfixed16':
             n = this.buffer.readUInt16BE(this.len, true);
             this.len += 2;
+            a = [];
             for (i = 0; i < n; i++) {
-                a.push([this.buffer.readInt16BE(this.len + i * 2, true) / 1000,
-                    this.buffer.readInt16BE(this.len + 2 + i * 2, true) / 1000]);
+                a.push([this.buffer.readInt16BE(this.len + i * 4, true) / 1000,
+                    this.buffer.readInt16BE(this.len + i * 4 + 2, true) / 1000]);
             }
             r[field] = a;
+            console.log('Read array pair', n, a);
             this.len += n * 4;
             break;
         case 'pairarrayfixed32':
             n = this.buffer.readUInt16BE(this.len, true);
             this.len += 2;
+            a = [];
             for (i = 0; i < v.length; i++) {
-                a.push([this.buffer.readInt32BE(this.len + i * 4, true) / 1000,
-                    this.buffer.readInt32BE(this.len + 4 + i * 4, true) / 1000]);
+                a.push([this.buffer.readInt32BE(this.len + i * 8, true) / 1000,
+                    this.buffer.readInt32BE(this.len + i * 8 + 4, true) / 1000]);
             }
             r[field] = a;
             this.len += n * 8;
@@ -602,6 +606,7 @@ MsgBuffer.prototype.readFieldValue = function (r) {
         case 'json':
         case 'string':
             n = this.buffer.readUInt16BE(this.len, true);
+            this.len += 2;
             a = this.buffer.toString('utf8', this.len, this.len + n);
             if (type === 'json') {
                 a = JSON.parse(a);

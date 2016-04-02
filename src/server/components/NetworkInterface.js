@@ -7,7 +7,7 @@
 module.exports = {
     finalize: function () {
         this.msgBufOut = this.newMsgBuffer(this.config.netBufferSize);
-        this.msgBufOut = this.newMsgBuffer(12345);
+        this.msgBufIn = this.newMsgBuffer();
         //this.events.on('netTick', function () {
         //    self.events.emit('sync');
         //    //console.log('netTick');
@@ -32,6 +32,7 @@ module.exports = {
 };
 
 var serializeMessages = function (messages, msgbuf) {
+    msgbuf.addUInt16(messages.length);
     for (var i = 0; i < messages.length; i++) {
         msgbuf.addFieldValue(messages[i].msg, messages[i].data);
     }
