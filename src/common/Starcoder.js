@@ -228,6 +228,9 @@ Starcoder.prototype.implementFeature = function (mixin) {
             case 'finalize':
                 this.events.on('finalize', mixin[prop].bind(this));
                 break;
+            case 'boot':
+                this.events.on('boot', mixin[prop].bind(this));
+                break;
             case 'init':
                 break;      // NoOp
             default:

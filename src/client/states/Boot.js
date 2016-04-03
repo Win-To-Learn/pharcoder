@@ -23,6 +23,7 @@ Boot.prototype.init = function () {
     //console.log('Init Boot', this.game.width, this.game.height);
     //console.log('iw Boot', window.innerWidth, window.innerHeight, screen.width, screen.height, window.devicePixelRatio);
     //this.game.stage.disableVisibilityChange = true;
+    this.starcoder.boot();
     this.game.scale.scaleMode = Phaser.ScaleManager.RESIZE;
     this.game.scale.onSizeChange.add(function () {
         //console.log('master resize CB');

@@ -38,11 +38,11 @@ Starcoder.prototype.init = function () {
     }
     this.onConnectCB = [];
     this.playerMap = {};
+    this.msgQueue = [];
     this.cmdQueue = [];
     this.connected = false;
     this.lastNetError = null;
     this.latestUpdate = null;
-    this.msgQueue = null;
     this.implementFeature(require('./../common/components/MsgBufferInterface.js'));
     this.implementFeature(require('./components/WorldApi.js'));
     this.implementFeature(require('./components/CodeEndpointClient.js'));
@@ -93,6 +93,10 @@ Starcoder.prototype.init = function () {
 
 Starcoder.prototype.start = function () {
     this.game.state.start('boot');
+};
+
+Starcoder.prototype.boot = function () {
+    this.events.emit('boot');
 };
 
 Starcoder.prototype.attachPlugin = function () {

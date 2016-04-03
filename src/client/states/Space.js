@@ -133,21 +133,21 @@ Space.prototype.create = function () {
 
 };
 
-Space.prototype.update = function () {
-    // FIXME: just a mess for testing
-    var self = this;
-    this.starcoder.controls.processQueue(function (a) {
-        if (a.type === 'up_pressed') {
-            self.game.playerShip.localState.thrust = 'starting';
-            //self.game.sounds.playerthrust.play();
-            //self.game.thrustgenerator.startOn(self.game.playerShip);
-        } else if (a.type === 'up_released') {
-            self.game.playerShip.localState.thrust = 'shutdown';
-            //self.game.sounds.playerthrust.stop();
-            //self.game.thrustgenerator.stopOn(self.game.playerShip);
-        }
-    });
-};
+//Space.prototype.update = function () {
+//    // FIXME: just a mess for testing
+//    var self = this;
+//    this.starcoder.controls.processQueue(function (a) {
+//        if (a.type === 'up_pressed') {
+//            self.game.playerShip.localState.thrust = 'starting';
+//            //self.game.sounds.playerthrust.play();
+//            //self.game.thrustgenerator.startOn(self.game.playerShip);
+//        } else if (a.type === 'up_released') {
+//            self.game.playerShip.localState.thrust = 'shutdown';
+//            //self.game.sounds.playerthrust.stop();
+//            //self.game.thrustgenerator.stopOn(self.game.playerShip);
+//        }
+//    });
+//};
 
 Space.prototype._setupMessageHandlers = function (socket) {
     var self = this;

@@ -17,9 +17,25 @@ module.exports = {
         this.events.on('json', handleJsonMessage.bind(this));
     },
 
+    boot: function () {
+        this.game.plugins.add(msgPlugin, this);
+    },
+
     addMessageHandler: function (type, handler) {
         this.events.on('msg:' + type, handler.bind(this));
+    },
+
+    sendMessage: function (type, content) {
+        this.msgQueue.push({msg: type, data: content});
+    },
+
+    serializeMessages: function () {
+        this.msgBufOut.addUInt16(this.msgQueue.length);
+        for (var i = 0; i < this.msgQueue.length; i++) {
+            this.msgBufOut.addFieldValue(this.msgQueue[i].msg, this.msgQueue[i].data);
+        }
     }
+
 };
 
 var deserializeMessages = function () {
@@ -28,7 +44,6 @@ var deserializeMessages = function () {
         var msg = {};
         this.msgBufIn.readFieldValue(msg);
         var type = Object.keys(msg)[0];
-        console.log('Message', type, msg[type]);
         this.events.emit('msg:' + type, msg[type]);
     }
 };
@@ -42,4 +57,19 @@ var handleMessages = function (msgs) {
 
 var handleJsonMessage = function (json) {
 
+};
+
+var msgPlugin = {
+    init: function (starcoder) {
+        this.starcoder = starcoder;
+    },
+
+    postUpdate: function () {
+        if (this.starcoder.msgQueue.length) {
+            this.starcoder.msgBufOut.reset();
+            this.starcoder.serializeMessages();
+            this.starcoder.socket.emit('message', this.starcoder.msgBufOut.export());
+            this.starcoder.msgQueue.length = 0;
+        }
+    }
 };

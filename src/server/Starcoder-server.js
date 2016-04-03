@@ -23,13 +23,15 @@ Starcoder.prototype.init = function (app, io) {
     this.players = {};          // Logged in schema
     this.playerList = [];
     this.implementFeature(require('./../common/components/MsgBufferInterface.js'));
+    this.registerField('up', 'boolean');
     this.implementFeature(require('./components/PhysicsWorldInterface.js'));
     this.implementFeature(require('./components/NetworkInterface.js'));
     this.implementFeature(require('./components/SessionHandler.js'));
     this.implementFeature(require('./components/StaticServer.js'));
     this.implementFeature(require('./components/LoginEndpoint.js'));
     this.implementFeature(require('./components/LeaderBoardEndpoint.js'));
-    this.implementFeature(require('./components/ControlEndPoint.js'));
+    //this.implementFeature(require('./components/ControlEndPoint.js'));
+    this.implementFeature(require('./components/ControlInterface.js'));
     this.implementFeature(require('./components/CollisionHandlers.js'));
     this.implementFeature(require('./components/SyncServer.js'));
     this.implementFeature(require('./components/MsgServer.js'));

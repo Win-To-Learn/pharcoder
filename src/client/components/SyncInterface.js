@@ -16,7 +16,7 @@ module.exports = {
 };
 
 var deserializeWorld = function () {
-    this.msgBufIn.skip(4);        // First word is length
+    //this.msgBufIn.skip(4);        // First word is length
     var rtime = this.msgBufIn.readUInt32();
     var nRemoved = this.msgBufIn.readUInt16();
     var removed = [];

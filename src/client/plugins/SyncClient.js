@@ -80,7 +80,7 @@ SyncClient.prototype.start = function () {
  */
 SyncClient.prototype.update = function () {
     if (!this._updateComplete) {
-        this._sendCommands();
+        //this._sendCommands();
         this._processPhysicsUpdates();
         this._updateComplete = true;
     }

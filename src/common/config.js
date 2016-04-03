@@ -16,5 +16,6 @@ module.exports = {
     renderLatency: 100,
     frameRate: (1 / 60),
     timeSyncFreq: 10,
-    shipMass: 100           // Stopgap pending physics refactor
+    shipMass: 100,           // Stopgap pending physics refactor
+    netBufferSize: 32 * 1024
 };

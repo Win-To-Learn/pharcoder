@@ -5,9 +5,8 @@
 'use strict';
 
 module.exports = {
-    finalize: function () {
-        // FIXME: Use config
-        this.msgBufOut = this.newMsgBuffer(4 * 1024);
+    init: function () {
+        this.msgBufOut = this.newMsgBuffer(this.config.netBufferSize);
         this.msgBufIn = this.newMsgBuffer();
     },
 
@@ -20,6 +19,7 @@ module.exports = {
             // Do these go here? Hmmmm
             self.socket.on('disconnect', function () {
                 self.game.paused = true;
+                // FIXME vvvv
                 throw 'Death by debugging';
             });
             self.socket.on('reconnect', function () {

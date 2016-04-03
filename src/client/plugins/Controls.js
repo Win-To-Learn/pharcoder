@@ -121,51 +121,64 @@ Controls.prototype.preUpdate = function () {
     var state = this.joystickState;
     if ((state.up || controls.up.isDown) && !up) {
         up = true;
-        this.queue.push({type: 'up_pressed', executed: false, seq: seq++});
+        //this.queue.push({type: 'up_pressed', executed: false, seq: seq++});
+        this.starcoder.sendMessage('up', true);
     }
     if (!state.up && !controls.up.isDown && up) {
         up = false;
-        this.queue.push({type: 'up_released', executed: false, seq: seq++});
+        //this.queue.push({type: 'up_released', executed: false, seq: seq++});
+        this.starcoder.sendMessage('up', false);
     }
     if ((state.down || controls.down.isDown) && !down) {
         down = true;
-        this.queue.push({type: 'down_pressed', executed: false, seq: seq++});
+        //this.queue.push({type: 'down_pressed', executed: false, seq: seq++});
+        this.starcoder.sendMessage('down', true);
     }
     if (!state.down && !controls.down.isDown && down) {
         down = false;
-        this.queue.push({type: 'down_released', executed: false, seq: seq++});
+        //this.queue.push({type: 'down_released', executed: false, seq: seq++});
+        this.starcoder.sendMessage('down', false);
     }
     if ((state.right || controls.right.isDown) && !right) {
         right = true;
-        this.queue.push({type: 'right_pressed', executed: false, seq: seq++});
+        //this.queue.push({type: 'right_pressed', executed: false, seq: seq++});
+        this.starcoder.sendMessage('right', true);
     }
     if (!state.right && !controls.right.isDown && right) {
         right = false;
-        this.queue.push({type: 'right_released', executed: false, seq: seq++});
+        //this.queue.push({type: 'right_released', executed: false, seq: seq++});
+        this.starcoder.sendMessage('right', false);
     }
     if ((state.left || controls.left.isDown) && !left) {
         left = true;
-        this.queue.push({type: 'left_pressed', executed: false, seq: seq++});
+        //this.queue.push({type: 'left_pressed', executed: false, seq: seq++});
+        this.starcoder.sendMessage('left', true);
     }
     if (!state.left && !controls.left.isDown && left) {
         left = false;
-        this.queue.push({type: 'left_released', executed: false, seq: seq++});
+        //this.queue.push({type: 'left_released', executed: false, seq: seq++});
+        this.starcoder.sendMessage('left', false);
     }
     if ((state.fire || controls.fire.isDown) && !fire) {
         fire = true;
-        this.queue.push({type: 'fire_pressed', executed: false, seq: seq++});
+        //this.queue.push({type: 'fire_pressed', executed: false, seq: seq++});
+        this.starcoder.sendMessage('fire', true);
+
     }
     if (!state.fire && !controls.fire.isDown && fire) {
         fire = false;
-        this.queue.push({type: 'fire_released', executed: false, seq: seq++});
+        //this.queue.push({type: 'fire_released', executed: false, seq: seq++});
+        this.starcoder.sendMessage('fire', false);
     }
     if ((state.tractor || controls.tractor.isDown) && !tractor) {
         tractor = true;
-        this.queue.push({type: 'tractor_pressed', executed: false, seq: seq++});
+        //this.queue.push({type: 'tractor_pressed', executed: false, seq: seq++});
+        this.starcoder.sendMessage('tractor', true);
     }
     if ((!state.tractor && !controls.tractor.isDown) && tractor) {
         tractor = false;//
-        this.queue.push({type: 'tractor_released', executed: false, seq: seq++});
+        //this.queue.push({type: 'tractor_released', executed: false, seq: seq++});
+        this.starcoder.sendMessage('tractor', false);
     }
     // Local Only - Grid toggle
     if (controls.grid.isDown && !grid) {

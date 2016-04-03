@@ -12,8 +12,26 @@ module.exports = {
         }
     },
 
+    login: function (socket, player) {
+        var self = this;
+        socket.on('message', function (data) {
+            self.msgBufIn.reset(new Buffer (data));
+            self.deserializeMessages(player);
+        });
+    },
+
     sendMessage: function (player, type, content) {
         player.msgQueue.push({msg: type, data: content});
+    },
+
+    deserializeMessages: function (player) {
+        var n = this.msgBufIn.readUInt16();
+        for (var i = 0; i < n; i++) {
+            var msg = {};
+            this.msgBufIn.readFieldValue(msg);
+            var type = Object.keys(msg)[0];
+            this.events.emit('msg:' + type, player, msg[type]);
+        }
     },
 
     serializeMessages: function (messages) {
