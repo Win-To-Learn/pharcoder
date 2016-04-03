@@ -19,9 +19,11 @@ var defaultHandlers = {
     up: function (player, state) {
         if (state) {
             player.ship.state.thrust = 1;
+            player.ship.thrustState = 1;            // Stupidly redundant FIXME
             player.accomplish('thrust');
         } else {
             player.ship.state.thrust = 0;
+            player.ship.thrustState = 0;
             player.accomplish('stopthrust');
         }
     },

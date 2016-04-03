@@ -50,6 +50,7 @@ var Ship = function (starcoder, config) {
     this._trees = 0;
     this._fillColor = '#000000';
     this._fillAlpha = 0;
+    this._thrustState = 0;
     //this._crystals = 150;
 };
 
@@ -256,6 +257,16 @@ Object.defineProperty(Ship.prototype, 'charge', {
     set: function (val) {
         this._charge = val;
         this._dirtyProperties.charge = true;
+    }
+});
+
+Object.defineProperty(Ship.prototype, 'thrustState', {
+    get: function () {
+        return this._thrustState;
+    },
+    set: function (val) {
+        this._thrustState = val;
+        this._dirtyProperties.thrustState = true;
     }
 });
 

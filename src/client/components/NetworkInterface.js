@@ -20,7 +20,7 @@ module.exports = {
             self.socket.on('disconnect', function () {
                 self.game.paused = true;
                 // FIXME vvvv
-                throw 'Death by debugging';
+                //throw 'Death by debugging';
             });
             self.socket.on('reconnect', function () {
                 self.game.paused = false;

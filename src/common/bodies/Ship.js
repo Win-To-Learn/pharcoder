@@ -32,6 +32,7 @@ module.exports = {
         crystals: 'uint16',
         playerid: 'string',
         charge: 'uint8',
-        trees: 'uint16'
+        trees: 'uint16',
+        thrustState: 'uint8'
     }
 };
