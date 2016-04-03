@@ -9,6 +9,6 @@ module.exports = {
         lineColor: 'string',
         depth: 'uint8',
         step: 'uint8',
-        graph: 'json'
+        graph: 'tree'
     }
 };

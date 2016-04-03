@@ -29,7 +29,7 @@ var Tree = function (starcoder, config) {
     var initial = -this.spread * Math.PI / 360;
     var inc = (this.spread * Math.PI) / ((this.branchFactor - 1) * 180);
     this._makeBranch(this.graph, this.trunkLength, 0, initial, inc, this.depth);
-    SyncBodyBase.call(this, config);
+    SyncBodyBase.call(this, starcoder, config);
     //setTimeout(this._growTimeout.bind(this), this.growthRate);
     //for (i = 0; i < this.depth; i++) {
     //    this._sortHull(i, 0, this.trunkLength);

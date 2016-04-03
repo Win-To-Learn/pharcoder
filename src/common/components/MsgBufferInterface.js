@@ -315,6 +315,9 @@ MsgBuffer.prototype.addFieldValue = function (field, v) {
             }
             this.len += v.length * 8;
             break;
+        case 'tree':
+            writeTree(this, v);
+            break;
         case 'json':
             v = JSON.stringify(v);
             // Fall through intended here
@@ -330,6 +333,24 @@ MsgBuffer.prototype.addFieldValue = function (field, v) {
             break;
         case 'null':
             break;
+    }
+};
+
+var writeTree = function (buf, tree) {
+    buf.buffer.writeInt16BE(Math.floor(tree.x * 1000), buf.len, true);
+    buf.len += 2;
+    buf.buffer.writeInt16BE(Math.floor(tree.y * 1000), buf.len, true);
+    buf.len += 2;
+    if (tree.c) {
+        var n = tree.c.length;
+        buf.buffer.writeInt16BE(n, buf.len, true);
+        buf.len += 2;
+        for (var i = 0; i < n; i++) {
+            writeTree(buf, tree.c[i]);
+        }
+    } else {
+        buf.buffer.writeInt16BE(0, buf.len, true);
+        buf.len += 2;
     }
 };
 
@@ -589,7 +610,6 @@ MsgBuffer.prototype.readFieldValue = function (r) {
                     this.buffer.readInt16BE(this.len + i * 4 + 2, true) / 1000]);
             }
             r[field] = a;
-            console.log('Read array pair', n, a);
             this.len += n * 4;
             break;
         case 'pairarrayfixed32':
@@ -603,12 +623,16 @@ MsgBuffer.prototype.readFieldValue = function (r) {
             r[field] = a;
             this.len += n * 8;
             break;
+        case 'tree':
+            r[field] = readTree(this);
+            break;
         case 'json':
         case 'string':
             n = this.buffer.readUInt16BE(this.len, true);
             this.len += 2;
             a = this.buffer.toString('utf8', this.len, this.len + n);
             if (type === 'json') {
+                console.log('json', a);
                 a = JSON.parse(a);
             }
             r[field] = a;
@@ -618,4 +642,21 @@ MsgBuffer.prototype.readFieldValue = function (r) {
             r[field] = null;
             break;
     }
+};
+
+var readTree = function (buf) {
+    var tree = {};
+    tree.x = buf.buffer.readInt16BE(buf.len, true) / 1000;
+    buf.len += 2;
+    tree.y = buf.buffer.readInt16BE(buf.len, true) / 1000;
+    buf.len += 2;
+    var n = buf.buffer.readInt16BE(buf.len, true);
+    buf.len += 2;
+    if (n) {
+        tree.c = [];
+        for (var i = 0; i < n; i++) {
+            tree.c.push(readTree(buf));
+        }
+    }
+    return tree;
 };

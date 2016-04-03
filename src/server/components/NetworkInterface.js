@@ -25,15 +25,15 @@ module.exports = {
     },
 
     doPlayerUpdate: function (player) {
-        serializeMessages(player.msgQueue, this.msgBufOut);
+        this.serializeMessages(player.msgQueue);
         player.msgQueue.length = 0;
         player.socket.emit('message', this.msgBufOut.export());
     }
 };
 
-var serializeMessages = function (messages, msgbuf) {
-    msgbuf.addUInt16(messages.length);
-    for (var i = 0; i < messages.length; i++) {
-        msgbuf.addFieldValue(messages[i].msg, messages[i].data);
-    }
-};
+//var serializeMessages = function (messages, msgbuf) {
+//    msgbuf.addUInt16(messages.length);
+//    for (var i = 0; i < messages.length; i++) {
+//        msgbuf.addFieldValue(messages[i].msg, messages[i].data);
+//    }
+//};

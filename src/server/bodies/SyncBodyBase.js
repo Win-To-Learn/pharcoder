@@ -263,39 +263,9 @@ SyncBodyBase.prototype.clean = function () {
  * @param full {boolean} - Include all properties, not just those changed
  * @return {object}
  */
-SyncBodyBase.prototype.getUpdatePacket = function (full) {
-    var update = {
-        id: this.id,
-        x: this.interpolatedPosition[0],
-        y: this.interpolatedPosition[1],
-        vx: this.velocity[0],
-        vy: this.velocity[1],
-        a: this.interpolatedAngle,
-        av: this.angularVelocity
-    };
-    if (full) {
-        update.t = this.clientType;
-    }
-    //if (!this.getPropertyUpdate) {
-    //    return update;
-    //}
-    var properties = {};
-    var hasProps = false;
-    for (var i = 0, l = this.updateProperties.length; i < l; i++) {
-        var propname = this.updateProperties[i];
-        if (full || this._dirtyProperties[propname]) {
-            hasProps = true;
-            this.getPropertyUpdate(propname, properties);
-        }
-    }
-    if (hasProps) {
-        update.properties = properties;
-    }
-    return update;
-};
-
 SyncBodyBase.prototype.getUpdateProperties = function (full) {
-    if (full || this.newborn) {
+    full = full || this.newborn;
+    if (full) {
         var update = {type: this.clientType};
     } else {
         update = {};

@@ -11,11 +11,11 @@ module.exports = {
         var self = this;
         this.registerField('type', 'string');
         this.knownBodies = {};
-        this.events.on('syncB', parseAndSync.bind(this));
+        this.events.on('sync', deserializeWorld.bind(this));
     }
 };
 
-var parseAndSync = function () {
+var deserializeWorld = function () {
     this.msgBufIn.skip(4);        // First word is length
     var rtime = this.msgBufIn.readUInt32();
     var nRemoved = this.msgBufIn.readUInt16();
@@ -25,9 +25,7 @@ var parseAndSync = function () {
     }
     var nBodies = this.msgBufIn.readUInt16();
     for (i = 0; i < nBodies; i++) {
-        var update = parseBody(this.msgBufIn);
-        //console.log('U', update);
-        // Using old sync format - probably can be improved
+        var update = deserializeBody(this.msgBufIn);
         var id = update.id;
         //update.timestamp = rtime;
         var sprite;
@@ -65,7 +63,7 @@ var parseAndSync = function () {
     }
 };
 
-var parseBody = function (buf) {
+var deserializeBody = function (buf) {
     var update = {physics: {}, props: {}};
     update.id = buf.readUInt16();
     update.physics.x = buf.readFixed32();

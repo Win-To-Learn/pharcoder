@@ -38,8 +38,8 @@ module.exports = {
         //});
         self.socket.on('message', function (data) {
             self.msgBufIn.reset(new Buffer(data));
-            self.events.emit('syncB');
-            self.events.emit('msgB');
+            self.events.emit('sync');
+            self.events.emit('msg');
         });
     },
 
