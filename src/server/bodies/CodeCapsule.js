@@ -9,7 +9,7 @@ var p2 = require('p2');
 var SyncBodyBase = require('./SyncBodyBase.js');
 
 var CodeCapsule = function (starcoder, config) {
-    SyncBodyBase.call(this, config);
+    SyncBodyBase.call(this, starcoder, config);
     this.damping = 0.75;
     this.angularDamping = .25;
 };
