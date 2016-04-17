@@ -17,6 +17,7 @@ var mapTexturePool = {};
  */
 var VectorSprite = function (game, config) {
     Phaser.Sprite.call(this, game);
+    this.autoCull = true;
     //this.graphics = game.make.graphics();
     this.graphics = this.game.sharedGraphics;
     //this.texture = this.game.add.renderTexture();

@@ -192,7 +192,8 @@ Ship.prototype.rechargeLasers = function () {
  * @param {object} code
  */
 Ship.prototype.deployCodeCapsule = function (code) {
-    var cc = this.worldapi.addSyncableBody(CodeCapsule, {vectorScale: 0.5, owner: this.player, payload: code});
+    var cc = this.worldapi.addSyncableBody(CodeCapsule, {
+        vectorScale: 0.5, owner: this.player, payload: code, lineColor: this.lineColor});
     // FIXME: positioning and error check
     var r = this.boundingRadius + cc.boundingRadius + 1;
     cc.position[0] = this.position[0] - sin(this.angle) * r;
