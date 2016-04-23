@@ -5,25 +5,11 @@
  */
 'use strict';
 
-//var EventEmitter = require('events').EventEmitter;
-
 var Starcoder = require('../common/Starcoder.js');
-var SyncServer = require('./components/SyncServer.js');
-var MsgServer = require('./components/MsgServer.js');
-var ControlEndPoint = require('./components/ControlEndPoint.js');
-var CollisionHandlers = require('./components/CollisionHandlers.js');
-var CodeEndpointServer = require('./components/CodeEndpointServer.js');
-var LoginEndpoint = require('./components/LoginEndpoint.js');
-var LeaderBoardEndpoint = require('./components/LeaderBoardEndpoint.js');
-var StaticServer = require('./components/StaticServer.js');
-var MongoInterface = require('./components/MongoInterface.js');
-var SessionHandler = require('./components/SessionHandler.js');
-var TutorialInterface = require('./components/TutorialInterface.js');
-var TicketHandler = require('./components/TicketHandler.js');
 
 var API = require('./code/API.js');
 
-var World = require('./bodies/World.js');
+//var World = require('./bodies/World.js');
 
 /**
  * Initialize Starcoder server
@@ -34,27 +20,26 @@ var World = require('./bodies/World.js');
 Starcoder.prototype.init = function (app, io) {
     this.app = app;
     this.io = io;
-    //this.events = new EventEmitter();
     this.players = {};          // Logged in schema
     this.playerList = [];
-    this.onConnectCB = [];
-    this.onLoginCB = [];
-    this.onReadyCB = [];
-    this.onDisconnectCB = [];
-    this.world = new World(this, this.config.worldBounds, this.config.initialBodies);
-    this.world.log = this.log;
-    this.implementFeature(SessionHandler);
-    this.implementFeature(StaticServer);
-    this.implementFeature(LoginEndpoint);
-    this.implementFeature(LeaderBoardEndpoint);
-    this.implementFeature(ControlEndPoint);
-    this.implementFeature(CollisionHandlers);
-    this.implementFeature(SyncServer);
-    this.implementFeature(MsgServer);
-    this.implementFeature(CodeEndpointServer);
-    this.implementFeature(MongoInterface);
-    this.implementFeature(TutorialInterface);
-    this.implementFeature(TicketHandler);
+    this.implementFeature(require('./../common/components/MsgBufferInterface.js'));
+    this.registerField('up', 'boolean');
+    this.implementFeature(require('./components/PhysicsWorldInterface.js'));
+    this.implementFeature(require('./components/NetworkInterface.js'));
+    this.implementFeature(require('./components/SessionHandler.js'));
+    this.implementFeature(require('./components/StaticServer.js'));
+    this.implementFeature(require('./components/LoginEndpoint.js'));
+    this.implementFeature(require('./components/LeaderBoardEndpoint.js'));
+    //this.implementFeature(require('./components/ControlEndPoint.js'));
+    this.implementFeature(require('./components/ControlInterface.js'));
+    this.implementFeature(require('./components/CollisionHandlers.js'));
+    this.implementFeature(require('./components/SyncServer.js'));
+    this.implementFeature(require('./components/MsgServer.js'));
+    this.implementFeature(require('./components/CodeEndpointServer.js'));
+    this.implementFeature(require('./components/MongoInterface.js'));
+    this.implementFeature(require('./components/TutorialInterface.js'));
+    this.implementFeature(require('./components/TicketHandler.js'));
+    this.implementFeature(require('./components/MessageInterface.js'));
     this.newLeaderBoardCategory('Ships Tagged');
     this.newLeaderBoardCategory('Tag Streak');
     this.newLeaderBoardCategory('Trees Planted');
@@ -69,8 +54,29 @@ Starcoder.prototype.init = function (app, io) {
         socket.on('disconnect', self.onDisconnect.bind(self, socket));
     });
     //this.world.start(1/60);
-    this.mongoConnect(function () {
-        self.world.start(1/60);
+    this.mongoConnect();
+    //this.events.on('dbConnected', function () {
+    //    setInterval(function () {
+    //        self.events.emit('syncTick');
+    //    }, self.config.syncInterval);
+    //    setInterval(function () {
+    //        self.events.emit('netTick');
+    //    }, self.config.netInterval);
+    //    setInterval(function () {
+    //        self.events.emit('physicsTick');
+    //    }, self.config.physicsInterval);
+    //});
+    this.go(function () {
+        console.log('Simulation started');
+        setInterval(function () {
+            self.events.emit('syncTick');
+        }, self.config.syncInterval);
+        //setInterval(function () {
+        //    self.events.emit('netTick');
+        //}, self.config.netInterval);
+        setInterval(function () {
+            self.events.emit('physicsTick');
+        }, self.config.physicsInterval);
     });
     API.init(this);
 };
@@ -85,7 +91,7 @@ Starcoder.prototype.onDisconnect = function (socket) {
         var i = this.playerList.indexOf(player);
         this.playerList.splice(i, 1);
         delete this.players[socket.id];
-        this.world.removeSyncableBody(player.getShip());
+        this.worldapi.removeSyncableBody(player.getShip());
     }
     // TODO: Confirm no other socket.io methods need to be called
 };
@@ -93,7 +99,7 @@ Starcoder.prototype.onDisconnect = function (socket) {
 Starcoder.prototype.onReady = function (player) {
     var self = this;
     this.addPlayer(player);
-    this.world.addPlayerShip(player);
+    this.worldapi.addPlayerShip(player);
     // Set up heartbeat / latency measure
     player.socket.emit('timesync', self.hrtime());
     setInterval(function () {

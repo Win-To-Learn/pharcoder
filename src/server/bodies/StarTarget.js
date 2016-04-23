@@ -7,19 +7,14 @@
 
 var p2 = require('p2');
 
-var Starcoder = require('../../common/Starcoder.js');
-
 var SyncBodyBase = require('./SyncBodyBase.js');
-var UpdateProperties = require('../../common/UpdateProperties.js').StarTarget;
 
-var StarTarget = function (config) {
-    SyncBodyBase.call(this, config);
+var StarTarget = function (starcoder, config) {
+    SyncBodyBase.call(this, starcoder, config);
 };
 
 StarTarget.prototype = Object.create(SyncBodyBase.prototype);
 StarTarget.prototype.constructor = StarTarget;
-
-Starcoder.mixinPrototype(StarTarget.prototype, UpdateProperties.prototype);
 
 StarTarget.prototype.defaults = {mass: 1, lineColor: '#ffff00'};
 

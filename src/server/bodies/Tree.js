@@ -7,14 +7,11 @@
 
 var p2 = require('p2');
 
-var Starcoder = require('../../common/Starcoder.js');
-
 var SyncBodyBase = require('./SyncBodyBase.js');
 
 var Paths = require('../../common/Paths.js');
-var UpdateProperties = require('../../common/UpdateProperties.js').Tree;
 
-var Tree = function (config) {
+var Tree = function (starcoder, config) {
     //SyncBodyBase.call(this, config);
     this.trunkLength = config.trunkLength || 2;
     this.branchFactor = Math.max(config.branchFactor || 5, 2);
@@ -32,7 +29,7 @@ var Tree = function (config) {
     var initial = -this.spread * Math.PI / 360;
     var inc = (this.spread * Math.PI) / ((this.branchFactor - 1) * 180);
     this._makeBranch(this.graph, this.trunkLength, 0, initial, inc, this.depth);
-    SyncBodyBase.call(this, config);
+    SyncBodyBase.call(this, starcoder, config);
     //setTimeout(this._growTimeout.bind(this), this.growthRate);
     //for (i = 0; i < this.depth; i++) {
     //    this._sortHull(i, 0, this.trunkLength);
@@ -41,8 +38,6 @@ var Tree = function (config) {
 
 Tree.prototype = Object.create(SyncBodyBase.prototype);
 Tree.prototype.constructor = Tree;
-
-Starcoder.mixinPrototype(Tree.prototype, UpdateProperties.prototype);
 
 Tree.prototype.clientType = 'Tree';
 Tree.prototype.serverType = 'Tree';

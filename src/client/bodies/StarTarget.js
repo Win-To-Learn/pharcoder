@@ -9,7 +9,6 @@ var Starcoder = require('../../common/Starcoder.js');
 
 var VectorSprite = require('./VectorSprite.js');
 var SyncBodyInterface = require('./SyncBodyInterface.js');
-var UpdateProperties = require('../../common/UpdateProperties.js').StarTarget;
 
 var star = require('../../common/Paths.js').star;
 
@@ -21,7 +20,6 @@ StarTarget.prototype = Object.create(VectorSprite.prototype);
 StarTarget.prototype.constructor = StarTarget;
 
 Starcoder.mixinPrototype(StarTarget.prototype, SyncBodyInterface.prototype);
-Starcoder.mixinPrototype(StarTarget.prototype, UpdateProperties.prototype);
 
 StarTarget.prototype.drawProcedure = function (renderScale) {
     var psc = this.game.starcoder.config.physicsScale * renderScale;

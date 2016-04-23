@@ -5,22 +5,27 @@
  */
 'use strict';
 
-var bodyTypes = {
-    Ship: require('../bodies/Ship.js'),
-    Asteroid: require('../bodies/Asteroid.js'),
-    Crystal: require('../bodies/Crystal.js'),
-    Bullet: require('../bodies/Bullet.js'),
-    GenericOrb: require('../bodies/GenericOrb.js'),
-    Planetoid: require('../bodies/Planetoid.js'),
-    Tree: require('../bodies/Tree.js'),
-    TractorBeam: require('../bodies/TractorBeam.js'),
-    StarTarget: require('../bodies/StarTarget.js'),
-    StationBlock: require('../bodies/StationBlock.js'),
-    Alien: require('../bodies/Alien.js'),
-    CodeCapsule: require('../bodies/CodeCapsule.js')
+var bodyDefs = {
+    Ship: [require('../bodies/Ship.js'), require('../../common/bodies/Ship.js')],
+    Asteroid: [require('../bodies/Asteroid.js'), require('../../common/bodies/Asteroid.js')],
+    Crystal: [require('../bodies/Crystal.js'), require('../../common/bodies/Crystal.js')],
+    Bullet: [require('../bodies/Bullet.js'), require('../../common/bodies/Bullet.js')],
+    GenericOrb: [require('../bodies/GenericOrb.js'), require('../../common/bodies/GenericOrb.js')],
+    Planetoid: [require('../bodies/Planetoid.js'), require('../../common/bodies/Planetoid.js')],
+    Tree: [require('../bodies/Tree.js'), require('../../common/bodies/Tree.js')],
+    TractorBeam: [require('../bodies/TractorBeam.js'), require('../../common/bodies/TractorBeam.js')],
+    StarTarget: [require('../bodies/StarTarget.js'), require('../../common/bodies/StarTarget.js')],
+    StationBlock: [require('../bodies/StationBlock.js'), require('../../common/bodies/StationBlock.js')],
+    Alien: [require('../bodies/Alien.js'), require('../../common/bodies/Alien.js')],
+    CodeCapsule: [require('../bodies/CodeCapsule.js'), require('../../common/bodies/CodeCapsule.js')]
 };
 
+var bodyTypes = {};
+
 module.exports = {
+    init: function () {
+        this.initBodies(bodyDefs, bodyTypes);
+    },
     /**
      * Add body to world on client side
      *
@@ -36,7 +41,7 @@ module.exports = {
             console.log(config);
             return;
         }
-        if (type === 'Ship' && config.properties.playerid === this.player.id) {
+        if (type === 'Ship' && config.playerid === this.player.id) {
             //config.tag = this.player.username;
             //if (config.properties.playerid === this.player.id) {
             // Only the player's own ship is treated as dynamic in the local physics sim
@@ -46,7 +51,7 @@ module.exports = {
         }
         var body = new ctor(this.game, config);
         if (type === 'Ship') {
-            this.playerMap[config.properties.playerid] = body;
+            this.playerMap[config.playerid] = body;
         }
         //this.game.add.existing(body);
         this.game.playfield.add(body);

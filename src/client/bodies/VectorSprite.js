@@ -17,6 +17,7 @@ var mapTexturePool = {};
  */
 var VectorSprite = function (game, config) {
     Phaser.Sprite.call(this, game);
+    this.autoCull = true;
     //this.graphics = game.make.graphics();
     this.graphics = this.game.sharedGraphics;
     //this.texture = this.game.add.renderTexture();
@@ -28,7 +29,7 @@ var VectorSprite = function (game, config) {
     //    this.updateBody();
     //    this.body.mass = 0;
     //}
-    this.config(config.properties);
+    this.config(config);
     this.anchor.setTo(0.5, 0.5);
 
     if (this.visibleOnMap) {

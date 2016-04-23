@@ -7,10 +7,7 @@
 
 var p2 = require('p2');
 
-var Starcoder = require('../../common/Starcoder.js');
-
 var SyncBodyBase = require('./SyncBodyBase.js');
-var UpdateProperties = require('../../common/UpdateProperties.js').Ship;
 
 var Bullet = require('./Bullet.js');
 var TractorBeam = require('./TractorBeam.js');
@@ -20,8 +17,8 @@ var LOG5 = Math.log(0.6);                           // LOG of charge rate decay 
 var sin = Math.sin;
 var cos = Math.cos;
 
-var Ship = function (config) {
-    SyncBodyBase.call(this, config);
+var Ship = function (starcoder, config) {
+    SyncBodyBase.call(this, starcoder, config);
     this.damping = 0.85;
     this.angularDamping = 0.85;
     this.state = {
@@ -51,21 +48,20 @@ var Ship = function (config) {
     // Inventory
     this._crystals = 0;
     this._trees = 0;
+    this._fillColor = '#000000';
+    this._fillAlpha = 0;
+    this._thrustState = 0;
     //this._crystals = 150;
 };
 
 Ship.prototype = Object.create(SyncBodyBase.prototype);
 Ship.prototype.constructor = Ship;
 
-Starcoder.mixinPrototype(Ship.prototype, UpdateProperties.prototype);
-
 Ship.prototype.clientType = 'Ship';
 Ship.prototype.serverType = 'Ship';
 
 // Default properties
 
-//Ship.prototype.updateProperties = ['fillColor', 'lineColor', 'fillAlpha', 'shapeClosed', 'shape', 'lineWidth',
-//    'vectorScale', 'playerid'];
 Ship.prototype.defaults = {mass: 10, vectorScale: 1, lineWidth: 6};
 
 Ship.prototype._shape = [
@@ -125,7 +121,7 @@ Ship.prototype.toggleTractorBeam = function () {
     // FIXME: magic numbers
     if (!this.beamChild) {
         var dir = this.angle + Math.PI;
-        this.beamChild = this.world.addSyncableBody(TractorBeam, {
+        this.beamChild = this.worldapi.addSyncableBody(TractorBeam, {
             x: this.position[0],
             y: this.position[1],
             vx: 25 * Math.sin(dir),
@@ -159,7 +155,7 @@ Ship.prototype.shoot = function () {
         aStart = this.angle - 0.5 * this.bulletSpread * Math.PI / 180;
     }
     for (var i = 0, a = aStart; i < n; i++, a += aDel) {
-        var bullet = this.world.addSyncableBody(Bullet, {lineColor: this.lineColor});
+        var bullet = this.worldapi.addSyncableBody(Bullet, {lineColor: this.lineColor});
         bullet.firer = this;
         bullet.position[0] = this.position[0];
         bullet.position[1] = this.position[1];
@@ -169,7 +165,7 @@ Ship.prototype.shoot = function () {
         bullet.tod = tod;
     }
     this._lastShot = this.world.time;
-    this.world.starcoder.send(this.player, 'laser');
+    this.starcoder.sendMessage(this.player, 'laser');
 };
 
 Ship.prototype.knockOut = function () {
@@ -181,7 +177,7 @@ Ship.prototype.knockOut = function () {
     //setTimeout(function () {
     //    self.world.respawn(self, {position: {random: 'world'}});
     //}, 1000);
-    this.setTimer(1, {fun: this.world.respawn.bind(this.world, this, {position: {random: 'world'}})});
+    this.setTimer(1, {respawn: {position: {random: 'world'}}});
 };
 
 Ship.prototype.rechargeLasers = function () {
@@ -196,7 +192,8 @@ Ship.prototype.rechargeLasers = function () {
  * @param {object} code
  */
 Ship.prototype.deployCodeCapsule = function (code) {
-    var cc = this.world.addSyncableBody(CodeCapsule, {vectorScale: 0.5, owner: this.player, payload: code});
+    var cc = this.worldapi.addSyncableBody(CodeCapsule, {
+        vectorScale: 0.5, owner: this.player, payload: code, lineColor: this.lineColor});
     // FIXME: positioning and error check
     var r = this.boundingRadius + cc.boundingRadius + 1;
     cc.position[0] = this.position[0] - sin(this.angle) * r;
@@ -208,7 +205,7 @@ Ship.prototype.beginContact = function (other) {
     switch (other.serverType) {
         case 'Bullet':
             if (other.firer !== this) {
-                this.player.sendMessage('tagged');
+                this.starcoder.sendMessage(this.player, 'tagged');
                 this.setTimer(2, {props: {lineColor: this.lineColor}});
                 this.lineColor = other.firer.lineColor;
                 other.firer.player.stats.tags++;
@@ -264,6 +261,16 @@ Object.defineProperty(Ship.prototype, 'charge', {
     }
 });
 
+Object.defineProperty(Ship.prototype, 'thrustState', {
+    get: function () {
+        return this._thrustState;
+    },
+    set: function (val) {
+        this._thrustState = val;
+        this._dirtyProperties.thrustState = true;
+    }
+});
+
 Object.defineProperty(Ship.prototype, 'tag', {
     get: function () {
         return this._tag;
@@ -271,6 +278,12 @@ Object.defineProperty(Ship.prototype, 'tag', {
     set: function (val) {
         this._tag = val;
         this._dirtyProperties.tag = true;
+    }
+});
+
+Object.defineProperty(Ship.prototype, 'playerid', {
+    get: function () {
+        return this.player.id;
     }
 });
 

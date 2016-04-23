@@ -9,6 +9,7 @@ var EventEmitter = require('events').EventEmitter;
 
 var Starcoder = function () {
     this.events = new EventEmitter();
+    this.semReady = 0;        // not really a semaphore but close enough
     // Initializers virtualized according to role
     var configs = arguments[0];
     var args = Array.prototype.slice.call(arguments, 1);
@@ -16,11 +17,8 @@ var Starcoder = function () {
     for (var i = 0, l = configs.length; i < l; i++) {
         this.extendConfig(configs[i]);
     }
-    // HACK
-    //this.extendConfig(config);
     this.banner();
     this.init.apply(this, args);
-    //this.initNet.call(this);
 };
 
 Starcoder.prototype.extendConfig = function (config) {
@@ -28,6 +26,88 @@ Starcoder.prototype.extendConfig = function (config) {
         if (config.hasOwnProperty(k)) {
             this.config[k] = config[k];
         }
+    }
+};
+
+// Semaphore-(ish) operations
+Starcoder.prototype.semInc = function () {
+    this.semReady++;
+};
+
+Starcoder.prototype.semDec = function () {
+    this.semReady--;
+    if (!this.semReady) {
+        this.events.emit('unblock');
+    }
+};
+
+Starcoder.prototype.go = function (callback) {
+    var self = this;
+    if (!this.semReady) {
+        this.events.emit('finalize');
+        callback();
+    } else {
+        this.events.once('unblock', function () {
+            self.events.emit('finalize');
+            callback();
+        });
+    }
+};
+
+/**
+ * Merge common prototype properties common to client and server into local body def AND
+ * register update properties with binary message system. No real elegant place to put
+ * this, so here where it can be shared is as good as any.
+ *
+ * @param {function} local
+ * @param {object} common
+ */
+Starcoder.prototype.consolidateBody = function (local, common) {
+    if (local.children) {
+        var a = [local].concat(local.children);
+    } else {
+        a = [local];
+    }
+    // Mixin prototype stuff
+    for (var j = 0; j < a.length; j++) {
+        local = a[j];
+        if (common.proto) {
+            var keys = Object.keys(common.proto);
+            for (var i = 0; i < keys.length; i++) {
+                var key = keys[i];
+                var val = common.proto[key];
+                if (val && (typeof val.get === 'function' || typeof val.set === 'function')) {
+                    Object.defineProperty(local.prototype, key, val);
+                } else {
+                    local.prototype[key] = val;
+                }
+            }
+        }
+        // Register update properties
+        if (common.updateProperties) {
+            local.prototype.updateProperties = [];
+            for (var prop in common.updateProperties) {
+                this.registerField(prop, common.updateProperties[prop]);
+                local.prototype.updateProperties.push(prop);
+            }
+        }
+    }
+};
+
+/**
+ * Loop over a structure with body names, constructor defs, and shared prototypes and
+ * consolidate them all. Again, breaks compartmentalization to put it here, but it's
+ * convenient.
+ *
+ * @param bodydefs
+ * @param bodytypes
+ */
+Starcoder.prototype.initBodies = function (bodydefs, bodytypes) {
+    for (var k in bodydefs) {
+        var constructor = bodydefs[k][0];
+        var common = bodydefs[k][1];
+        this.consolidateBody(constructor, common);
+        bodytypes[k] = constructor;
     }
 };
 
@@ -133,17 +213,23 @@ Starcoder.mixinPrototype = function (target, mixin) {
 Starcoder.prototype.implementFeature = function (mixin) {
     for (var prop in mixin) {
         switch (prop) {
-            case 'onConnectCB':
+            case 'connect':
                 this.events.on('connect', mixin[prop].bind(this));
                 break;
-            case 'onReadyCB':
+            case 'ready':
                 this.events.on('ready', mixin[prop].bind(this));
                 break;
-            case 'onLoginCB':
+            case 'login':
                 this.events.on('login', mixin[prop].bind(this));
                 break;
-            case 'onDisconnectCB':
+            case 'disconnect':
                 this.events.on('disconnect', mixin[prop].bind(this));
+                break;
+            case 'finalize':
+                this.events.on('finalize', mixin[prop].bind(this));
+                break;
+            case 'boot':
+                this.events.on('boot', mixin[prop].bind(this));
                 break;
             case 'init':
                 break;      // NoOp

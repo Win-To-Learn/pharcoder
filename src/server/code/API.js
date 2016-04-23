@@ -348,8 +348,7 @@ API.log = function (player, msg) {
  * @param player
  */
 API.musicOn = function (player) {
-    player.socket.emit('music', 'on');
-    //starcoder.send(player, 'music', 'on');
+    starcoder.sendMessage(player, 'music', 'on');
 };
 
 /**
@@ -358,8 +357,7 @@ API.musicOn = function (player) {
  * @param player
  */
 API.musicOff = function (player) {
-    player.socket.emit('music', 'off');
-    //starcoder.send(player, 'music', 'off');
+    starcoder.sendMessage(player, 'music', 'off');
 };
 
 /**
@@ -368,7 +366,7 @@ API.musicOff = function (player) {
  * @param player
  */
 API.showGrid = function (player) {
-    player.socket.emit('grid', 'on');
+    starcoder.sendMessage(player, 'grid', 'on');
 };
 
 /**
@@ -377,7 +375,7 @@ API.showGrid = function (player) {
  * @param player
  */
 API.hideGrid = function (player) {
-    player.socket.emit('grid', 'off');
+    starcoder.sendMessage(player, 'grid', 'off');
 };
 
 /**
@@ -387,7 +385,7 @@ API.hideGrid = function (player) {
  * @param text {string}
  */
 API.alert = function (player, text) {
-    player.socket.emit('alert', text);
+    starcoder.sendMessage(player, 'alert', text);
 };
 
 API.createStationBlock = function (player, shape) {

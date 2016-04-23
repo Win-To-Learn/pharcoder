@@ -7,20 +7,15 @@
 
 var p2 = require('p2');
 
-var Starcoder = require('../../common/Starcoder.js');
-
 var SyncBodyBase = require('./SyncBodyBase.js');
-var UpdateProperties = require('../../common/UpdateProperties.js').Bullet;
 
-var Bullet = function (config) {
+var Bullet = function (starcoder, config) {
     config.mass = 1;
-    SyncBodyBase.call(this, config);
+    SyncBodyBase.call(this, starcoder, config);
 };
 
 Bullet.prototype = Object.create(SyncBodyBase.prototype);
 Bullet.prototype.constructor = Bullet;
-
-Starcoder.mixinPrototype(Bullet.prototype, UpdateProperties.prototype);
 
 Bullet.prototype.clientType = 'Bullet';
 Bullet.prototype.serverType = 'Bullet';

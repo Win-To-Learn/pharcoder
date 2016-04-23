@@ -7,77 +7,113 @@
 
 module.exports = {
     init: function () {
-        var self = this;
-        //this.clientReadyFunctions.push(clientReady.bind(this));
-        setInterval(function () {
-            self.sendUpdates();
-        }, self.config.updateInterval);
-    },
+        this.registerField('type', 'string');
+        this.events.on('syncTick', altsync.bind(this));
 
-    /**
-     * Send updates to all connected clients
-     */
-    sendUpdates: function () {
-        var world = this.world;
-        var updateCache = {};
-        var fullUpdateCache = {};
-        var cachePointer;
-        var pids = Object.keys(this.players);
-        var wtime = world.time;
-        var rtime = this.hrtime();
-        // Removed bodies - same for everyone, so just do it once
-        var removed = [];
-        for (var j = world._syncableBodiesRemoved.length - 1; j >= 0; j--) {
-            removed.push(world._syncableBodiesRemoved[j].id);
-        }
-        for (var i = pids.length - 1; i >= 0; i--) {
-            var player = this.players[pids[i]];
-            var update = {w: wtime, r: rtime, b: [], rm: removed};
-            // Old bodies - only send full updates to new schema
-            for (j = world._syncableBodies.length - 1; j >= 0; j--) {
-                var body = world._syncableBodies[j];
-                if (player.newborn) {
-                    cachePointer = fullUpdateCache;
-                } else {
-                    cachePointer = updateCache;
-                }
-                var b = cachePointer[body.id];
-                if (!b) {
-                    b = body.getUpdatePacket(player.newborn);
-                    cachePointer[body.id] = b;
-                }
-                //console.log('Old', body.id, body.clientType);
-                update.b.push(b);
-            }
-            // New bodies - send full updates to everyone
-            for (j = world._syncableBodiesNew.length - 1; j >= 0; j--) {
-                body = world._syncableBodiesNew[j];
-                b = fullUpdateCache[body.id];
-                if (!b) {
-                    b = body.getUpdatePacket(true);
-                    fullUpdateCache[body.id] = b;
-                }
-                update.b.push(b);
-                //world._syncableBodies.push(body);
-            }
-            player.socket.emit('update', update);
-            player.newborn = false;
-        }
-        // Move newly created bodies to general body list
-        for (j = world._syncableBodiesNew.length - 1; j >= 0; j--) {
-            world._syncableBodies.push(world._syncableBodiesNew[j]);
-        }
-        // Clear dirty flags
-        for (j = world._syncableBodies.length - 1; j >=0; j--) {
-            world._syncableBodies[j].clean();
-        }
-        world._syncableBodiesNew.length = 0;
-        world._syncableBodiesRemoved.length = 0;
-        //for (j = world._syncableBodies.length - 1; j >= 0; j--) {
-        //    body = world._syncableBodies[j];
-        //    if (body.newborn) {
-        //        body.newborn = false;
-        //    }
-        //}
+        // for testing
+        this.registerField('vectorScale', 'ufixed16');
+        this.registerField('lineColor', 'string');
+        this.registerField('lineWidth', 'ufixed16');
+        this.registerField('tag', 'string');
+        this.registerField('dead', 'boolean');
+        this.registerField('charge', 'string');
+
     }
+};
+
+var newplayers = [];
+
+var bufReady;
+
+var altsync = function () {
+    newplayers.length = 0;
+    bufReady = false;
+    //var wtime = this.worldapi.getWorldTime();
+    var rtime = this.hrtime();
+    var removed = this.worldapi.removedBodies.slice();
+    var nBodies = this.worldapi.syncableBodies.length;
+    this.worldapi.removedBodies.length = 0;
+    //var worldUpdate = {w: wtime, r: rtime, b: [], rm: removed};
+    this.msgBufOut.reset();
+    //this.msgBufOut.mark('start');
+    //this.msgBufOut.skip(4);         // Total length of update goes in position 1
+    writeUpdateHeader(this.msgBufOut, rtime, removed, nBodies);
+    //console.log(this.msgBufOut.len, 'H', this.msgBufOut.buffer.slice(0,14));
+    this.msgBufOut.mark('bodystart');
+    // First send minimal updates to all existing players
+    for (var i = 0; i < this.playerList.length; i++) {
+        var player = this.playerList[i];
+        if (player.newborn) {
+            newplayers.push(player);
+            continue;
+        }
+        if (!bufReady) {
+            for (var j = 0; j < nBodies; j++) {
+                var body = this.worldapi.syncableBodies[j];
+                //worldUpdate.b.push(body.getUpdatePacket(body.newborn));
+                writeBody(this.msgBufOut, body);
+                //body.newborn = false;
+            }
+            //this.msgBufOut.writeUInt32AtMark(this.msgBufOut.len, 'start');
+            bufReady = true;
+        }
+        this.doPlayerUpdate(player);
+        //this.sendPlayerUpdate(player, worldUpdate);
+    }
+    // Then send full updates to new players
+    bufReady = false;
+    //worldUpdate = {w: wtime, r: rtime, b: [], rm: removed};
+    this.msgBufOut.rewindToMark('bodystart');
+    for (i = 0; i < newplayers.length; i++) {
+        player = newplayers[i];
+        if (!bufReady) {
+            for (j = 0; j < nBodies; j++) {
+                body = this.worldapi.syncableBodies[j];
+                //worldUpdate.b.push(body.getUpdatePacket(true));
+                writeBody(this.msgBufOut, body, true);
+            }
+            //this.msgBufOut.writeUInt32AtMark(this.msgBufOut.len, 'start');
+            bufReady = true;
+        }
+        this.doPlayerUpdate(player);
+        //this.sendPlayerUpdate(player, worldUpdate);
+        player.newborn = false;
+    }
+    // Clear dirty properties on all objects
+    for (j = 0; j < nBodies; j++) {
+        this.worldapi.syncableBodies[j].clean();
+    }
+};
+
+var writeUpdateHeader = function (buf, rtime, removed, nbodies) {
+    //buf.addUInt32(Math.floor(wtime*1000));
+    buf.addUInt32(rtime);
+    buf.addUInt16(removed.length);
+    for (var i = 0; i < removed.length; i++) {
+        buf.addUInt16(removed[i]);
+    }
+    buf.addUInt16(nbodies);
+};
+
+var writeBody = function (buf, body, forcefull) {
+    //buf.mark('bid', 2);        // Mark spot for body id
+    buf.addUInt16(body.id);
+    buf.addFixed32(body.interpolatedPosition[0]);
+    buf.addFixed32(body.interpolatedPosition[1]);
+    // Not using velocities so save the bytes
+    //buf.addFixed32(body.velocity[0]);
+    //buf.addFixed32(body.velocity[1]);
+    buf.addFixed16(body.interpolatedAngle);
+    //buf.addFixed16(body.angularVelocity);
+    var update = body.getUpdateProperties(forcefull);
+    var keys = Object.keys(update);
+    buf.addUInt16(keys.length);         // Number of fields
+    for (var i = 0; i < keys.length; i++) {
+        buf.addFieldValue(keys[i], update[keys[i]]);
+    }
+    //if (forcefull || keys.length) {
+    //    buf.writeUInt16AtMark(body.id | (1 << 15), 'bid');         // Set high bit to indicate properties
+    //} else {
+    //    buf.writeUInt16AtMark(body.id, 'bid');
+    //}
 };

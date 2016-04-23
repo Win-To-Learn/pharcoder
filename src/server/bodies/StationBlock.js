@@ -9,21 +9,16 @@ var p2 = require('p2');
 var vec2 = p2.vec2;
 var earcut = require('earcut');
 
-var Starcoder = require('../../common/Starcoder.js');
-
 var SyncBodyBase = require('./SyncBodyBase.js');
-var Common = require('../../common/bodies/StationBlock.js');
 var Paths = require('../../common/Paths.js');
 
-var StationBlock = function (config) {
-    SyncBodyBase.call(this, config);
+var StationBlock = function (starcoder, config) {
+    SyncBodyBase.call(this, starcoder, config);
     this.attachments = {};
 };
 
 StationBlock.prototype = Object.create(SyncBodyBase.prototype);
 StationBlock.prototype.constructor = StationBlock;
-
-Starcoder.mixinPrototype(StationBlock.prototype, Common);
 
 StationBlock.prototype.serverType = 'StationBlock';
 StationBlock.prototype.clientType = 'StationBlock';

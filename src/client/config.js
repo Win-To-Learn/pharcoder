@@ -7,7 +7,8 @@
 module.exports = {
     ioClientOptions: {
         //forceNew: true
-        reconnection: false
+        reconnection: false,
+        transports: ['websocket']
     },
     fonts: {
         hudCode: {font: '26px Arial', fill: '#00ffff', align: 'center'},

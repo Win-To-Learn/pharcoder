@@ -8,7 +8,6 @@ var Starcoder = require('../../common/Starcoder.js');
 
 var VectorSprite = require('./VectorSprite.js');
 var SyncBodyInterface = require('./SyncBodyInterface.js');
-var UpdateProperties = require('../../common/UpdateProperties.js').Tree;
 
 var Tree = function (game, config) {
     VectorSprite.call(this, game, config);
@@ -25,7 +24,6 @@ Tree.prototype = Object.create(VectorSprite.prototype);
 Tree.prototype.constructor = Tree;
 
 Starcoder.mixinPrototype(Tree.prototype, SyncBodyInterface.prototype);
-Starcoder.mixinPrototype(Tree.prototype, UpdateProperties.prototype);
 
 /**
  * Draw tree, overriding standard shape and geometry method to use graph

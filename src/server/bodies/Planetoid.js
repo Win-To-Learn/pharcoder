@@ -15,8 +15,8 @@ var UpdateProperties = require('../../common/UpdateProperties.js').Planetoid;
 
 var Tree = require('./Tree.js');
 
-var Planetoid = function (config) {
-    SyncBodyBase.call(this, config);
+var Planetoid = function (starcoder, config) {
+    SyncBodyBase.call(this, starcoder, config);
     //this.damping = 0;
     //this.angularDamping = 0;
     this.trees = [];
@@ -32,12 +32,6 @@ Planetoid.prototype.serverType = 'Planetoid';
 
 Planetoid.prototype.tractorable = true;
 
-Planetoid.prototype._lineColor = '#00ff99';
-Planetoid.prototype._fillColor = '#33cc33';
-Planetoid.prototype._lineWidth = 1;
-Planetoid.prototype._fillAlpha = 0.25;
-Planetoid.prototype._shape = Paths.octagon;
-
 Planetoid.prototype.adjustShape = function () {
     SyncBodyBase.prototype.adjustShape.call(this);
     this.centerSensor = new p2.Circle({radius: 0.1, sensor: true});
@@ -47,7 +41,7 @@ Planetoid.prototype.adjustShape = function () {
 };
 
 Planetoid.prototype.plantTree = function (x, y, ship) {
-    var tree = this.world.addSyncableBody(Tree, {
+    var tree = this.worldapi.addSyncableBody(Tree, {
         mass: 0.1,
         position: [this.position[0] + x, this.position[1] + y],
         angle: Math.atan2(x, -y),
@@ -83,7 +77,7 @@ Planetoid.prototype.beginContact = function (other, equations) {
                 } else {
                     point = equations.contactPointB;
                 }
-                other.player.sendMessage('plant tree');
+                this.starcoder.sendMessage(other.player, 'planttree');
                 other.player.achieve('planttree');
                 this.plantTree(point[0], point[1], other);
                 other.player.stats.treesPlanted++;

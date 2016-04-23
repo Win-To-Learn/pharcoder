@@ -5,22 +5,17 @@
  */
 'use strict';
 
-var Starcoder = require('../../common/Starcoder.js');
-
 var p2 = require('p2');
 var SyncBodyBase = require('./SyncBodyBase.js');
-var Common = require('../../common/bodies/CodeCapsule.js');
 
-var CodeCapsule = function (config) {
-    SyncBodyBase.call(this, config);
+var CodeCapsule = function (starcoder, config) {
+    SyncBodyBase.call(this, starcoder, config);
     this.damping = 0.75;
     this.angularDamping = .25;
 };
 
 CodeCapsule.prototype = Object.create(SyncBodyBase.prototype);
 CodeCapsule.prototype.constructor = CodeCapsule;
-
-Starcoder.mixinPrototype(CodeCapsule.prototype, Common);
 
 CodeCapsule.prototype.clientType = 'CodeCapsule';
 CodeCapsule.prototype.serverType = 'CodeCapsule';

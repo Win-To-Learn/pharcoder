@@ -6,7 +6,7 @@
 'use strict';
 
 module.exports = {
-    onConnectCB: function (socket) {
+    connect: function (socket) {
         var self = this;
         socket.on('code status', function (status) {
             console.log('STATUS', status);

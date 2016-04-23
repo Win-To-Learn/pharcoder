@@ -10,52 +10,48 @@ module.exports = {
         var self = this;
         player.tutorial = new FSM(standardTutorial, 'init');
         player.tutorial.once('goalTurnRight', function () {
-            self.send(player, 'tutorial', 'Use the joystick or arrow keys to turn your ship to the right.');
+            self.sendMessage(player, 'tutorial', 'Use the joystick or arrow keys to turn your ship to the right.');
         });
         player.tutorial.once('achievedTurnRight', function () {
             player.getShip().crystals += 50;
-            self.send(player, 'tutorial', 'Well done!');
-            self.send(player, 'crystal pickup', 50);
+            self.sendMessage(player, 'tutorial', 'Well done!');
+            self.sendMessage(player, 'crystal', 50);
         });
         player.tutorial.once('goalTurnLeft', function () {
-            self.send(player, 'tutorial', 'Use the joystick or arrow keys to turn your ship to the left.');
+            self.sendMessage(player, 'tutorial', 'Use the joystick or arrow keys to turn your ship to the left.');
         });
         player.tutorial.once('achievedTurnLeft', function () {
             player.getShip().crystals += 50;
-            self.send(player, 'tutorial', 'Nice job!');
-            self.send(player, 'crystal pickup', 50);
+            self.sendMessage(player, 'tutorial', 'Nice job!');
+            self.sendMessage(player, 'crystal', 50);
         });
         player.tutorial.once('goalThrust', function () {
-            self.send(player, 'tutorial', 'Use the joystick or arrow keys to move your ship forward.');
+            self.sendMessage(player, 'tutorial', 'Use the joystick or arrow keys to move your ship forward.');
         });
         player.tutorial.once('achievedThrust', function () {
             player.getShip().crystals += 50;
-            self.send(player, 'tutorial', 'Great!');
-            self.send(player, 'crystal pickup', 50);
+            self.sendMessage(player, 'tutorial', 'Great!');
+            self.sendMessage(player, 'crystal', 50);
         });
         player.tutorial.once('goalPlantTree', function () {
-            self.send(player, 'tutorial', 'Now fly to a green planet and touch it to plant a tree.');
+            self.sendMessage(player, 'tutorial', 'Now fly to a green planet and touch it to plant a tree.');
         });
         player.tutorial.once('achievedPlantTree', function () {
-            self.send(player, 'tutorial', 'Fantastic! Now use the spacebar to shoot lasers at the red asteroids. Collect the blue crystals.');
-
-
+            self.sendMessage(player, 'tutorial', 'Fantastic! Now use the spacebar to shoot lasers at the red asteroids. Collect the blue crystals.');
 		});
 		player.tutorial.once('endTutorial1', function () {
-			self.send(player, 'tutorial', 'Create space station blocks and use the T key to emit your tractor beam.');
+			self.sendMessage(player, 'tutorial', 'Create space station blocks and use the T key to emit your tractor beam.');
 		});
 		player.tutorial.once('endTutorial2', function () {
-			self.send(player, 'tutorial', '');
+			self.sendMessage(player, 'tutorial', '');
 		});
-
-
     },
 
-    onLoginCB: function (socket, player) {
+    login: function (socket, player) {
         this.setTutorial(player);
     },
 
-    onReadyCB: function (player) {
+    ready: function (player) {
         player.tutorial.transition('start');
     }
 };

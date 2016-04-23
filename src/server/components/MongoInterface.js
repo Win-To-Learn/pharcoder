@@ -95,6 +95,7 @@ module.exports = {
      * Set up cache
      */
     init: function () {
+        this.semInc();
         this.mongoCache = {};
     },
 
@@ -138,9 +139,8 @@ module.exports = {
 
     /**
      * Make initial connection to MongoDB
-     * @param {function} cb - Callback on successful connect
      */
-    mongoConnect: function (cb) {
+    mongoConnect: function () {
         var self = this;
         MongoClient.connect(this.config.mongoUri, function (err, db) {
             if (err) {
@@ -153,7 +153,7 @@ module.exports = {
             self.mongoGuests = db.collection('guests');
             self.mongoRegimes = db.collection('regimes');
             self.events.emit('dbConnected');
-            cb();
+            self.semDec();
         })
     },
 

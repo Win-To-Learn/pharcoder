@@ -40,7 +40,6 @@ Space.prototype.preload = function () {
 };
 
 Space.prototype.create = function () {
-    console.log('Space size', this.game.width, this.game.height, window.innerWidth, window.innerHeight);
     window.scrollTo(0, 1);
     //console.log('create');
     //var rng = this.game.rnd;
@@ -134,43 +133,24 @@ Space.prototype.create = function () {
 
 };
 
-Space.prototype.update = function () {
-    // FIXME: just a mess for testing
-    var self = this;
-    this.starcoder.controls.processQueue(function (a) {
-        if (a.type === 'up_pressed') {
-            self.game.playerShip.localState.thrust = 'starting';
-            //self.game.sounds.playerthrust.play();
-            //self.game.thrustgenerator.startOn(self.game.playerShip);
-        } else if (a.type === 'up_released') {
-            self.game.playerShip.localState.thrust = 'shutdown';
-            //self.game.sounds.playerthrust.stop();
-            //self.game.thrustgenerator.stopOn(self.game.playerShip);
-        }
-    });
-};
-
-//Space.prototype.render = function () {
-    //console.log('+render+');
-    //if (this.starcoder.tempsprite) {
-    //    var d = this.starcoder.tempsprite.position.x - this.starcoder.tempsprite.previousPosition.x;
-    //    console.log('Delta', d, this.game.time.elapsed, d / this.game.time.elapsed);
-    //}
-    //console.log('--------------------------------');
-    //this.game.debug.text('Fps: ' + this.game.time.fps, 5, 20);
-    //this.game.vcontrols.stick.debug(true, true);
-    //this.game.debug.cameraInfo(this.game.camera, 100, 20);
-    //if (this.ship) {
-    //    this.game.debug.spriteInfo(this.ship, 420, 20);
-    //}
+//Space.prototype.update = function () {
+//    // FIXME: just a mess for testing
+//    var self = this;
+//    this.starcoder.controls.processQueue(function (a) {
+//        if (a.type === 'up_pressed') {
+//            self.game.playerShip.localState.thrust = 'starting';
+//            //self.game.sounds.playerthrust.play();
+//            //self.game.thrustgenerator.startOn(self.game.playerShip);
+//        } else if (a.type === 'up_released') {
+//            self.game.playerShip.localState.thrust = 'shutdown';
+//            //self.game.sounds.playerthrust.stop();
+//            //self.game.thrustgenerator.stopOn(self.game.playerShip);
+//        }
+//    });
 //};
 
 Space.prototype._setupMessageHandlers = function (socket) {
     var self = this;
-    socket.on('msg crystal pickup', function (val) {
-        self.game.sounds.chime.play();
-        Toast.spinUp(self.game, self.game.playerShip.x, self.game.playerShip.y, '+' + val + ' crystals!');
-    });
     socket.on('msg code pickup', function (val) {
         self.game.sounds.chime.play();
         Toast.spinUp(self.game, self.game.playerShip.x, self.game.playerShip.y, 'New Code!');

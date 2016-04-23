@@ -5,19 +5,16 @@
  */
 'use strict';
 
-var Starcoder = require('../../common/Starcoder.js');
-
 var p2 = require('p2');
 var SyncBodyBase = require('./SyncBodyBase.js');
-var Common = require('../../common/bodies/Alien.js');
 var FSM = require('../util/FSM.js');
 
 var ALIEN_THRUST_FORCE = 150;
 var ALIEN_ROTATION_FORCE = 50;
 var ALIEN_SCAN_RADIUS = 50;
 
-var Alien = function (config) {
-    SyncBodyBase.call(this, config);
+var Alien = function (starcoder, config) {
+    SyncBodyBase.call(this, starcoder, config);
     this.damping = 0.75;
     this.angularDamping = .25;
     this.targetShip = null;
@@ -34,8 +31,6 @@ var Alien = function (config) {
 
 Alien.prototype = Object.create(SyncBodyBase.prototype);
 Alien.prototype.constructor = Alien;
-
-Starcoder.mixinPrototype(Alien.prototype, Common);
 
 Alien.prototype.clientType = 'Alien';
 Alien.prototype.serverType = 'Alien';

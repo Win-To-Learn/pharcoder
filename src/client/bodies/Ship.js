@@ -9,7 +9,6 @@ var Starcoder = require('../../common/Starcoder.js');
 
 var VectorSprite = require('./VectorSprite.js');
 var SyncBodyInterface = require('./SyncBodyInterface.js');
-var UpdateProperties = require('../../common/UpdateProperties.js').Ship;
 //var Engine = require('./Engine.js');
 //var Weapons = require('./Weapons.js');
 
@@ -32,6 +31,7 @@ var Ship = function (game, config) {
     this.localState = {
         thrust: 'off'
     };
+    this._thrustState = 0;
     this.game.hud.setLaserColor(this.lineColor);
 };
 
@@ -45,27 +45,8 @@ Ship.prototype = Object.create(VectorSprite.prototype);
 Ship.prototype.constructor = Ship;
 
 Starcoder.mixinPrototype(Ship.prototype, SyncBodyInterface.prototype);
-Starcoder.mixinPrototype(Ship.prototype, UpdateProperties.prototype);
 
 Ship.prototype.mapFactor = 3;
-
-//Ship.prototype.setLineStyle = function (color, lineWidth) {
-//    Starcoder.VectorSprite.prototype.setLineStyle.call(this, color, lineWidth);
-//    this.tagText.setStyle({fill: color});
-//};
-
-//Ship.prototype.shape = [
-//    [-1,-1],
-//    [-0.5,0],
-//    [-1,1],
-//    [0,0.5],
-//    [1,1],
-//    [0.5,0],
-//    [1,-1],
-//    [0,-0.5],
-//    [-1,-1]
-//];
-//Ship.prototype._lineWidth = 6;
 
 Ship.prototype.updateTextures = function () {
     // FIXME: Probably need to refactor constructor a bit to make this cleaner
@@ -80,17 +61,17 @@ Ship.prototype.updateTextures = function () {
 Ship.prototype.update = function () {
     VectorSprite.prototype.update.call(this);
     // FIXME: Need to deal with player versus foreign ships
-    switch (this.localState.thrust) {
-        case 'starting':
-            this.game.sounds.playerthrust.play();
-            this.game.thrustgenerator.startOn(this);
-            this.localState.thrust = 'on';
-            break;
-        case 'shutdown':
-            this.game.sounds.playerthrust.stop();
-            this.game.thrustgenerator.stopOn(this);
-            this.localState.thrust = 'off';
-    }
+    //switch (this.localState.thrust) {
+    //    case 'starting':
+    //        this.game.sounds.playerthrust.play();
+    //        this.game.thrustgenerator.startOn(this);
+    //        this.localState.thrust = 'on';
+    //        break;
+    //    case 'shutdown':
+    //        this.game.sounds.playerthrust.stop();
+    //        this.game.thrustgenerator.stopOn(this);
+    //        this.localState.thrust = 'off';
+    //}
     // Player ship only
     if (this.game.playerShip === this) {
         //this.game.inventorytext.setText(this.crystals.toString());
@@ -100,13 +81,37 @@ Ship.prototype.update = function () {
     }
 };
 
-Object.defineProperty(VectorSprite.prototype, 'tag', {
+Object.defineProperty(Ship.prototype, 'tag', {
     get: function () {
         return this._tag;
     },
     set: function (val) {
         this._tag = val;
         this._dirty = true;
+    }
+});
+
+Object.defineProperty(Ship.prototype, 'thrustState', {
+    get: function () {
+        return this._thrustState;
+    },
+    set: function (val) {
+        if (val !== this._thrustState) {
+            this._thrustState = val;
+            // Maybe eventually do something fancier with directions, but for now it's just binary
+            if (val === 0) {
+                this.game.thrustgenerator.stopOn(this);
+                if (this.game.playerShip === this) {
+                    this.game.sounds.playerthrust.stop();
+                }
+            } else if (val === 1) {
+                this.game.thrustgenerator.startOn(this);
+                if (this.game.playerShip === this) {
+                    this.game.sounds.playerthrust.play();
+                }
+
+            }
+        }
     }
 });
 

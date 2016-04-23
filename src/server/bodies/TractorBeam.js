@@ -9,13 +9,10 @@ var p2 = require('p2');
 
 var RADIUS = 0.5;
 
-var Starcoder = require('../../common/Starcoder.js');
-
 var SyncBodyBase = require('./SyncBodyBase.js');
-var UpdateProperties = require('../../common/UpdateProperties.js').TractorBeam;
 
-var TractorBeam = function (config) {
-    SyncBodyBase.call(this, config);
+var TractorBeam = function (starcoder, config) {
+    SyncBodyBase.call(this, starcoder, config);
     if (!(this.beamParent instanceof TractorBeam)) {
         this.onWorldAdd = this.onWorldAddFirstGen;
     }
@@ -23,8 +20,6 @@ var TractorBeam = function (config) {
 
 TractorBeam.prototype = Object.create(SyncBodyBase.prototype);
 TractorBeam.prototype.constructor = TractorBeam;
-
-Starcoder.mixinPrototype(TractorBeam.prototype, UpdateProperties.prototype);
 
 TractorBeam.prototype.clientType = 'TractorBeam';
 TractorBeam.prototype.serverType = 'TractorBeam';
@@ -55,7 +50,7 @@ TractorBeam.prototype.expand = function () {
     this.beamConstraint = new p2.DistanceConstraint(this.beamParent, this);
     this.world.addConstraint(this.beamConstraint);
     if (this.gen > 0) {
-        this.beamChild = this.world.addSyncableBody(TractorBeam, {
+        this.beamChild = this.worldapi.addSyncableBody(TractorBeam, {
             x: this.position[0],
             y: this.position[1],
             vx: 25 * Math.sin(this.direction),
@@ -87,7 +82,7 @@ TractorBeam.prototype.retract = function (instant) {
     delete this.beamParent.beamChild;
     //console.log('Tract', this);
     if (this.world) {           // FIXME - not sure why this is necessary
-        this.world.removeSyncableBody(this);
+        this.worldapi.removeSyncableBody(this);
     }
     if (this.beamParent instanceof TractorBeam) {
         if (instant) {

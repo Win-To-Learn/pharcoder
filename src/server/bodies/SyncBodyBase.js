@@ -9,7 +9,9 @@ var p2 = require('p2');
 var vec2 = p2.vec2;
 var decomp = require('poly-decomp');
 
-var SyncBodyBase = function (config) {
+var SyncBodyBase = function (starcoder, config) {
+    this.starcoder = starcoder;
+    this.worldapi = starcoder.worldapi;
     this._dirtyProperties = {};
     config = config || {};
     this.setDefaults(config);
@@ -63,7 +65,7 @@ SyncBodyBase.prototype.setDefaults = function (config) {
  */
 SyncBodyBase.prototype.removeSelfFromWorld = function () {
     if (this.world) {
-        this.world.removeSyncableBody(this);
+        this.worldapi.removeSyncableBody(this);
     }
 };
 
@@ -177,6 +179,9 @@ SyncBodyBase.prototype.runTimer = function (timer) {
         var args = timer.args || [];
         timer.fun.apply(this, args);
     }
+    if (timer.respawn) {
+        this.worldapi.respawn(this, timer.respawn || {});
+    }
 };
 
 /**
@@ -244,97 +249,13 @@ SyncBodyBase.prototype.adjustShape = function () {
     // Set collision properties on new shapes
     this.setCollisionGroup();
     this.setCollisionMask();
-    //if (this.coreCollisionGroup || this.coreCollisionMask) {
-    //    for (i = 0, l = this.shapes.length; i < l; i++) {
-    //        this.shapes[i].collisionGroup = this.coreCollisionGroup;
-    //        this.shapes[i].collisionMask = this.coreCollisionMask;
-    //    }
-    //}
 
 };
 
-/*
-SyncBodyBase.prototype.adjustShape = function () {
-    //var oldGroup, oldMask;
-    //if (this.shapes.length > 0) {
-    //    // For now all bodies are made of shapes with same collision group/mask
-    //    oldGroup = this.shapes[0].collisionGroup;
-    //    oldMask = this.shapes[0].collisionMask;
-    //}
-    var polyflag = false;
-    if (this._shape) {
-        var vertices = [];
-        var x = this.position[0], y = this.position[1];
-        for (var i = 0, l = this.shape.length; i < l; i++) {
-            //vertices.push([x + this.shape[i][0]*this.vectorScale, y + -this.shape[i][1]*this.vectorScale]);
-            vertices.push([-this.shape[i][0]*this.vectorScale, -this.shape[i][1]*this.vectorScale]);
-        }
-        polyflag = this.fromPolygon(vertices);
-    }
-    var dx = this.position[0] - x, dy = this.position[1] - y;
-    if (polyflag) {
-        // Not entirely sure why this is necessary
-        this.position[0] = x;
-        this.position[1] = y;
-    } else {
-        this.clearAllShapes();
-        this.addShape(new p2.Circle({radius: this._radius || 1}));
-    }
-    //this.world.setCollisionGroup(this, this.collisionGroup || this.serverType || 'general');
-    //this.world.setCollisionMask(this, this.collisionInclude, this.collisionExclude);
-    // Reset old group/mask on all shapes
-    if (this.coreCollisionGroup || this.coreCollisionMask) {
-        for (i = 0, l = this.shapes.length; i < l; i++) {
-            this.shapes[i].collisionGroup = this.coreCollisionGroup;
-            this.shapes[i].collisionMask = this.coreCollisionMask;
-        }
-    }
-
-    //var d = vec2.fromValues(dx, dy);
-    //for (i = 0, l = this.shapes.length; i < l; i++) {
-    //    var shape = this.shapes[i];
-    //    vec2.add(shape.position, shape.position, d);
-    //}
-    this.outline = this.concavePath;
-
-    // Find center of mass FIXME: ugly and redundant
-    //var sum = vec2.fromValues(0, 0);
-    //var t = vec2.fromValues(0, 0);
-    //var cm = vec2.fromValues(0, 0);
-    //var area = 0;
-    //
-    //if (this.concavePath) {
-    //    //for (i = 0, l = this.shapes.length; i <l; i++) {
-    //    //    var shape = this.shapes[i];
-    //    //    vec2.scale(t, shape.position, shape.area);
-    //    //    vec2.add(sum, sum, t);
-    //    //    area += shape.area;
-    //    //    console.log('Shp', shape.position[0], shape.position[1], shape.centerOfMass[0], shape.centerOfMass[1], shape.area, area);
-    //    //}
-    //    //vec2.scale(cm, sum, 1/area);
-    //    //console.log('CM', cm[0], cm[1]);
-    //    console.log('D', dx, dy);
-    //    this.outline = [];
-    //    for (i = 0, l = this.concavePath.length; i < l; i++) {
-    //        var p = this.concavePath[i];
-    //        this.outline.push([p[0] - dx, p[1] - dy]);
-    //    }
-    //}
-    //console.log('S', this.shape);
-    //console.log('P', this.concavePath);
-    //this.outline = this.concavePath;
-    //this._shape = this.concavePath;
-    //this._dirtyProperties.shape = true;
-    //for (i = 0, l = this.shapes.length; i < l; i++) {
-    //    if (!this.shapes[i].vertices) {
-    //        continue;
-    //    }
-    //    for (var j = 0; j < this.shapes[i].vertices.length; j++) {
-    //        console.log('Vert', this.shapes[i].vertices[j][0], this.shapes[i].vertices[j][1]);
-    //    }
-    //}
+SyncBodyBase.prototype.clean = function () {
+    this._dirtyProperties = {};
+    this.newborn = false;
 };
-*/
 
 /**
  * Generate plain object representation of object state for client
@@ -342,33 +263,18 @@ SyncBodyBase.prototype.adjustShape = function () {
  * @param full {boolean} - Include all properties, not just those changed
  * @return {object}
  */
-SyncBodyBase.prototype.getUpdatePacket = function (full) {
-    var update = {
-        id: this.id,
-        x: this.interpolatedPosition[0],
-        y: this.interpolatedPosition[1],
-        vx: this.velocity[0],
-        vy: this.velocity[1],
-        a: this.interpolatedAngle,
-        av: this.angularVelocity
-    };
+SyncBodyBase.prototype.getUpdateProperties = function (full) {
+    full = full || this.newborn;
     if (full) {
-        update.t = this.clientType;
+        var update = {type: this.clientType};
+    } else {
+        update = {};
     }
-    //if (!this.getPropertyUpdate) {
-    //    return update;
-    //}
-    var properties = {};
-    var hasProps = false;
-    for (var i = 0, l = this.updateProperties.length; i < l; i++) {
+    for (var i = 0; i < this.updateProperties.length; i++) {
         var propname = this.updateProperties[i];
         if (full || this._dirtyProperties[propname]) {
-            hasProps = true;
-            this.getPropertyUpdate(propname, properties);
+            update[propname] = this[propname];
         }
-    }
-    if (hasProps) {
-        update.properties = properties;
     }
     return update;
 };
@@ -403,12 +309,7 @@ SyncBodyBase.prototype.setPolarForce = function (mag) {
     this.force[1] = -Math.cos(this.angle)*mag;
 };
 
-/**
- * Clear dirty flag for all properties
- */
-SyncBodyBase.prototype.clean = function () {
-    this._dirtyProperties = {};
-};
+SyncBodyBase.prototype.updateProperties = [];
 
 // Common vector properties
 

@@ -6,7 +6,7 @@
 module.exports = {
     init: function () {
         var self = this;
-        //this.onLoginCB.push(this.addPlayerToLeaderBoard);
+        //this.login.push(this.addPlayerToLeaderBoard);
         this.leaderBoardCategories = {};
         setInterval(function () {
             var data = {};
@@ -23,7 +23,7 @@ module.exports = {
         }, 1000);
     },
 
-    onReadyCB: function (player) {
+    ready: function (player) {
         for (var cat in this.leaderBoardCategories) {
             var rec = this.leaderBoardCategories[cat];
             if (rec.asc) {
@@ -35,7 +35,7 @@ module.exports = {
         }
     },
 
-    onDisconnectCB: function (socket, player) {
+    disconnect: function (socket, player) {
         for (var k in this.leaderBoardCategories) {
             var rec = this.leaderBoardCategories[k];
             for (var i = 0, l = rec.data.length; i < l; i++) {
