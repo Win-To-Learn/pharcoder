@@ -357,11 +357,11 @@ module.exports = {
          * code generation for set seeder props
          */
         Blockly.JavaScript['sc_set_seeder_props'] = function (block) {
-            var tl = block.getFieldValue('TL');
-            var bf = block.getFieldValue('BF');
-            var bd = block.getFieldValue('BD');
-            var sp = block.getFieldValue('SP');
-            var dp = block.getFieldValue('DP');
+            var tl = Blockly.JavaScript.valueToCode('TL', Blockly.JavaScript.ORDER_COMMA);
+            var bf = Blockly.JavaScript.valueToCode('BF', Blockly.JavaScript.ORDER_COMMA);
+            var bd = Blockly.JavaScript.valueToCode('BD', Blockly.JavaScript.ORDER_COMMA);
+            var sp = Blockly.JavaScript.valueToCode('SP', Blockly.JavaScript.ORDER_COMMA);
+            var dp = Blockly.JavaScript.valueToCode('DP', Blockly.JavaScript.ORDER_COMMA);
             return 'setSeederProperties(' + tl + ',' + bf + ',' + bd + ',' + sp + ',' + dp + ');\n';
         };
 
