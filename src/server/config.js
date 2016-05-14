@@ -17,7 +17,7 @@ module.exports = {
         kill: 10
     },
     initialBodies: [
-        {type: 'Asteroid', number: 25, config: {
+        {type: 'Asteroid', number: 35, config: {
             position: {random: 'world'},
             velocity: {random: 'vector', lo: -15, hi: 15},
             angularVelocity: {random: 'float', lo: -5, hi: 5},
@@ -27,10 +27,9 @@ module.exports = {
         {type: 'Hydra', number: 1, config: {
             position: {random: 'world', pad: 50}
         }},
-        {type: 'Planetoid', number: 6, config: {
+        {type: 'Planetoid', number: 8, config: {
             position: {random: 'world', pad: 30},
             angularVelocity: {random: 'float', lo: -2, hi: 2},
-            vectorScale: 2.5,
             mass: 100
         }},
         {type: 'Alien', number: 2, config: {

@@ -31,6 +31,7 @@ Planetoid.prototype.clientType = 'Planetoid';
 Planetoid.prototype.serverType = 'Planetoid';
 
 Planetoid.prototype.tractorable = true;
+Planetoid.prototype.defaults = {vectorScale: 3.75};
 
 Planetoid.prototype.adjustShape = function () {
     SyncBodyBase.prototype.adjustShape.call(this);
