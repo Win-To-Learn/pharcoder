@@ -7,8 +7,12 @@ module.exports = {
     updateProperties: {
         vectorScale: 'ufixed16',
         lineColor: 'string',
-        depth: 'uint8',
         step: 'uint8',
-        graph: 'tree'
+        //graph: 'tree',
+        depth: 'uint8',
+        trunkLength: 'ufixed16',
+        branchFactor: 'uint8',
+        spread: 'ufixed32',
+        branchDecay: 'ufixed16'
     }
 };

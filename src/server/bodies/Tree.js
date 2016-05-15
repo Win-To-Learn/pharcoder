@@ -16,9 +16,9 @@ var Tree = function (starcoder, config) {
     this.trunkLength = config.trunkLength || 2;
     this.branchFactor = Math.max(config.branchFactor || 5, 2);
     this.depth = config.depth || 5;
-    this._step = this.depth;
     this.spread = config.spread || 90;
     this.branchDecay = config.branchDecay || 0.75;
+    this._step = this.depth;
     //this.growthRate = 1000 || config.growthRate;
     this.growthRate = 1 || config.growthRate;
     this.hulls = [];
@@ -29,6 +29,7 @@ var Tree = function (starcoder, config) {
     var initial = -this.spread * Math.PI / 360;
     var inc = (this.spread * Math.PI) / ((this.branchFactor - 1) * 180);
     this._makeBranch(this.graph, this.trunkLength, 0, initial, inc, this.depth);
+    //console.log('G', JSON.stringify(this.graph));
     SyncBodyBase.call(this, starcoder, config);
     //setTimeout(this._growTimeout.bind(this), this.growthRate);
     //for (i = 0; i < this.depth; i++) {
