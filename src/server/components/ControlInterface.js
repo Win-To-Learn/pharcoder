@@ -31,7 +31,7 @@ var defaultHandlers = {
         if (state) {
             player.ship.state.thrust = -1;
         } else {
-            player.ship.statethrust = 0;
+            player.ship.state.thrust = 0;
         }
     },
     left: function (player, state) {

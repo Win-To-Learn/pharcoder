@@ -20,6 +20,7 @@ var Planetoid = function (starcoder, config) {
     //this.damping = 0;
     //this.angularDamping = 0;
     this.trees = [];
+    this.attachments = {};
 };
 
 Planetoid.prototype = Object.create(SyncBodyBase.prototype);

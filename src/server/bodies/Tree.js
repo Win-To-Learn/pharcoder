@@ -197,8 +197,15 @@ Tree.prototype.beginContact = function (other) {
             if (this.owner != other.player) {
                 this.owner = other.player;
                 this.lineColor = other.lineColor;
+                other.player.stats.treesPlanted++;
             }
             break;
+        case 'Bullet':
+            if (other.firer.player != this.owner) {
+                this.owner = other.firer.player;
+                this.lineColor = other.firer.lineColor;
+                other.firer.player.stats.treesPlanted++;
+            }
     }
 };
 

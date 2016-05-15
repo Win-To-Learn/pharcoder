@@ -63,6 +63,7 @@ StationBlock.prototype.attach = function (other, x, y) {
 StationBlock.prototype.beginContact = function (other, equations) {
     switch (other.serverType) {
         case 'StationBlock':
+        case 'Planetoid':
             equations = equations[0];
             if (equations.bodyA === this) {
                 var point = equations.contactPointA;
