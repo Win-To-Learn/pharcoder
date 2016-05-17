@@ -27,7 +27,9 @@ var starcoder = new Starcoder([commonConfig, serverConfig, buildConfig], app, io
 
 //console.log('DBG', process.env.NODE_ENV, 'P', process.env.PORT, 'IP', process.env.IP);
 
-server.listen(process.env.PORT, starcoder.config.serverAddress || '0.0.0.0');
-//server.listen(process.env.NODE_ENV == 'production' ? 7610 : 8080, starcoder.config.serverAddress || '0.0.0.0');
+//server.listen(process.env.PORT, starcoder.config.serverAddress || '0.0.0.0');
+server.listen(process.env.NODE_ENV == 'production' ? 7610 : 8080, starcoder.config.serverAddress || '0.0.0.0');
+console.log('Listening on ', starcoder.config.serverAddress || '0.0.0.0',
+    process.env.NODE_ENV == 'production' ? 7610 : 8080);
 
 //server.listen(8080, starcoder.config.serverAddress || '0.0.0.0');
