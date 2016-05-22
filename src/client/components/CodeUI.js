@@ -81,7 +81,7 @@ module.exports = {
                 var xml_text = Blockly.Xml.domToText(xml);
                 self.sendCodeMessage('deploy', {blockly: xml_text});
             } else {
-                self.sendCodeMessage('deploy', {js: self.aceEditor.getValue()});
+                //self.sendCodeMessage('deploy', {js: self.aceEditor.getValue()});
             }
         });
         this.toggleCodeWindow(false)

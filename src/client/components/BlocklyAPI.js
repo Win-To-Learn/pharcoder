@@ -7,6 +7,8 @@
 
 module.exports = {
     init: function () {
+        // Custom Starcoder blocks
+
         /**
          * Set scale of player ship
          * @type {{init: Function}}
@@ -688,7 +690,8 @@ module.exports = {
             starcoder: {
                 defaults: [
                     {type: 'block', name: 'VALUE', subtype: 'text', value: 'Hello universe!'}
-                ]
+                ],
+                disabled: true              // Pending better profanity filter
             }
         };
 
@@ -727,6 +730,91 @@ module.exports = {
             var pairs = Blockly.JavaScript.valueToCode(block, 'PAIRS', Blockly.JavaScript.ORDER_NONE) || '';
             return 'createStationBlock(' + pairs + ');\n';
         };
+
+        // Redefinition of standard Blockly blocks
+
+        Blockly.Blocks['variables_get'] = {
+            /**
+             * Block for variable getter.
+             * @this Blockly.Block
+             */
+            init: function() {
+                this.setHelpUrl(Blockly.Msg.VARIABLES_GET_HELPURL);
+                this.setColour(Blockly.Blocks.variables.HUE);
+                this.appendDummyInput()
+                    .appendField(new Blockly.FieldDropdown(_generateVarNames), 'VAR');
+                this.setOutput(true);
+                this.setTooltip(Blockly.Msg.VARIABLES_GET_TOOLTIP);
+                //this.contextMenuMsg_ = Blockly.Msg.VARIABLES_GET_CREATE_SET;
+            },
+            /**
+             * Return all variables referenced by this block.
+             * @return {!Array.<string>} List of variable names.
+             * @this Blockly.Block
+             */
+            getVars: function() {
+                return [this.getFieldValue('VAR')];
+            },
+            /**
+             * Notification that a variable is renaming.
+             * If the name matches one of this block's variables, rename it.
+             * @param {string} oldName Previous name of variable.
+             * @param {string} newName Renamed variable.
+             * @this Blockly.Block
+             */
+            renameVar: function(oldName, newName) {
+                if (Blockly.Names.equals(oldName, this.getFieldValue('VAR'))) {
+                    this.setFieldValue(newName, 'VAR');
+                }
+            }
+        };
+        Blockly.Blocks['variables_set'] = {
+            /**
+             * Block for variable setter.
+             * @this Blockly.Block
+             */
+            init: function() {
+                this.jsonInit({
+                    "message0": Blockly.Msg.VARIABLES_SET,
+                    "args0": [
+                        {
+                            "type": "field_dropdown",
+                            "name": "VAR",
+                            "options": _generateVarNames()
+                        },
+                        {
+                            "type": "input_value",
+                            "name": "VALUE"
+                        }
+                    ],
+                    "previousStatement": null,
+                    "nextStatement": null,
+                    "colour": Blockly.Blocks.variables.HUE,
+                    "tooltip": Blockly.Msg.VARIABLES_SET_TOOLTIP,
+                    "helpUrl": Blockly.Msg.VARIABLES_SET_HELPURL
+                });
+             },
+            /**
+             * Return all variables referenced by this block.
+             * @return {!Array.<string>} List of variable names.
+             * @this Blockly.Block
+             */
+            getVars: function() {
+                return [this.getFieldValue('VAR')];
+            },
+            /**
+             * Notification that a variable is renaming.
+             * If the name matches one of this block's variables, rename it.
+             * @param {string} oldName Previous name of variable.
+             * @param {string} newName Renamed variable.
+             * @this Blockly.Block
+             */
+            renameVar: function(oldName, newName) {
+                if (Blockly.Names.equals(oldName, this.getFieldValue('VAR'))) {
+                    this.setFieldValue(newName, 'VAR');
+                }
+            },
+        };
     },
 
     /**
@@ -741,7 +829,7 @@ module.exports = {
         for (var k in Blockly.Blocks) {
             var proto = Blockly.Blocks[k];
             var sc = proto.starcoder;
-            if (sc) {
+            if (sc && !sc.disabled) {
                 var el = document.createElement('block');
                 el.setAttribute('type', k);
                 var defaults = sc.defaults || [];
@@ -782,3 +870,24 @@ function addChildValue (el, desc) {
             break;
     }
 }
+
+var _stdVarNames = ['i', 'j', 'k', 'n', 'x', 'y'];
+var _baseVarNames= ['var', 'item', 'list'];
+var _numVarsPerName = 5;
+/**
+ * Generate list of allowed variable names
+ * @return {array}
+ * @private
+ */
+var _generateVarNames = function () {
+    var options = [];
+    for (var i = 0; i < _stdVarNames.length; i++) {
+        options.push([_stdVarNames[i], _stdVarNames[i]]);
+    }
+    for (i = 0; i < _baseVarNames.length; i++) {
+        for (var j = 1; j <= _numVarsPerName; j++) {
+            options.push([_baseVarNames[i] + j, _baseVarNames[i] + j]);
+        }
+    }
+    return options;
+};

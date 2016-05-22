@@ -38,8 +38,8 @@ module.exports = {
             mass: 5
         }},
         // vvvvv Testing vvvvv
-        {type: 'Tree', number: 20, config: {
-            position: {random: 'world', pad: 30}
-        }}
+        //{type: 'Tree', number: 20, config: {
+        //    position: {random: 'world', pad: 30}
+        //}}
     ]
 };
