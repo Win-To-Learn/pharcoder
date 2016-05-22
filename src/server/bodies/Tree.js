@@ -16,9 +16,9 @@ var Tree = function (starcoder, config) {
     this.trunkLength = config.trunkLength || 2;
     this.branchFactor = Math.max(config.branchFactor || 5, 2);
     this.depth = config.depth || 5;
-    this._step = this.depth;
     this.spread = config.spread || 90;
     this.branchDecay = config.branchDecay || 0.75;
+    this._step = this.depth;
     //this.growthRate = 1000 || config.growthRate;
     this.growthRate = 1 || config.growthRate;
     this.hulls = [];
@@ -29,6 +29,7 @@ var Tree = function (starcoder, config) {
     var initial = -this.spread * Math.PI / 360;
     var inc = (this.spread * Math.PI) / ((this.branchFactor - 1) * 180);
     this._makeBranch(this.graph, this.trunkLength, 0, initial, inc, this.depth);
+    //console.log('G', JSON.stringify(this.graph));
     SyncBodyBase.call(this, starcoder, config);
     //setTimeout(this._growTimeout.bind(this), this.growthRate);
     //for (i = 0; i < this.depth; i++) {
@@ -47,8 +48,8 @@ Tree.prototype.collisionExclude = ['Tree', 'Planetoid'];
 
 // Currently using a tiny body to avoid collisions and minimize impact on planet physics. Need to decide if that's
 // the behavior we want
-Tree.prototype._shape = [[0.1,0], [-0.1,0], [-0.1,0.1], [0.1,0.1]];
-Tree.prototype.defaults = {mass: 0.1, lineColor: '#99cc99', vectorScale: 0.8};
+//Tree.prototype._shape = [[0.1,0], [-0.1,0], [-0.1,0.1], [0.1,0.1]];
+Tree.prototype.defaults = {mass: 0.1, lineColor: '#99cc99', vectorScale: 1};
 
 Tree.prototype.onWorldAdd = function () {
     this.setTimer(this.growthRate, {fun: this._growTimeout.bind(this)});
@@ -75,7 +76,7 @@ Tree.prototype._makeBranch = function (graph, length, angle, initial, inc, depth
     }
     var child = {x: graph.x + length * Math.sin(angle), y: graph.y - length * Math.cos(angle)};
     if (depth < this.depth) {
-        this.hulls[depth].push([child.x, -child.y]);
+        this.hulls[depth].push([child.x, child.y]);
     }
     graph.c.push(child);
     if (depth > 0) {
@@ -153,16 +154,16 @@ Tree.prototype._cullHull = function (depth) {
     reduced.push(hull[len - 1 - Math.floor(2 * interval)]);
     reduced.push(hull[len - 1 - Math.floor(interval)]);
     reduced.push(hull[len - 1]);
+    // DEBUG
+    //for (var i = 0; i < reduced.length; i++) {
+    //    reduced[i][1] *= -1;
+    //}
+    //reduced.reverse();
+    // END DEBUG
     return reduced;
 };
 
 Tree.prototype.adjustShape = function () {
-    var oldGroup, oldMask;
-    if (this.shapes.length > 0) {
-        // For now all bodies are made of shapes with same collision group/mask
-        oldGroup = this.shapes[0].collisionGroup;
-        oldMask = this.shapes[0].collisionMask;
-    }
     if (!this.step) {
         return;
     }
@@ -171,24 +172,36 @@ Tree.prototype.adjustShape = function () {
     if (this.step === this.depth) {
         // trunk
         this.removeShape(this.shapes[0]);
-        this.addShape(new p2.Capsule({radius: 0.1, length: this.trunkLength}, [0, this.trunkLength / 2]));
+        //this.addShape(new p2.Capsule({radius: 0.1, length: this.trunkLength}), [0, this.trunkLength / 2]);
+        this.addShape(new p2.Convex(
+            {vertices: [[0.1, 0], [-0.1, 0], [-0.1, -this.trunkLength], [0.1, -this.trunkLength]]}));
     } else {
         // canopy
-        for (var i = 1, l = this.shapes.length; i < l; i++) {
-            this.removeShape(this.shapes[i]);
-        }
+        //for (var i = 1, l = this.shapes.length; i < l; i++) {
+        //    this.removeShape(this.shapes[i]);
+        //}
+        this.removeShape(this.shapes[1]);
         this._sortHull(this.step, 0, this.trunkLength);
         //console.log('h', this.hulls[this.step]);
         //var cv = new p2.Convex({vertices: this.hulls[this.step]});
         //console.log(cv.triangles);
         this.addShape(new p2.Convex({vertices: this._cullHull(this.step)}));
     }
-    if (oldGroup || oldMask) {
-        for (i = 0, l = this.shapes.length; i < l; i++) {
-            this.shapes[i].collisionGroup = oldGroup;
-            this.shapes[i].collisionMask = oldMask;
-        }
-    }
+    this.updateMassProperties();
+    this.updateBoundingRadius();
+    this.updateAABB();
+
+    this.setCollisionGroup();
+    this.setCollisionMask();
+    // Debugging
+    //console.log('>step>', this.step);
+    //console.log(this.shapes[0].length, this.shapes[0].radius, this.shapes[0].position[0], this.shapes[0].position[1]);
+    //if (this.shapes[1]) {
+    //    console.log(this.shapes[1].position[0], ',', this.shapes[1].position[1]);
+    //    for (var d = 0; d < this.shapes[1].vertices.length; d++) {
+    //        console.log('vvv', this.shapes[1].vertices[d][0], ',', this.shapes[1].vertices[d][1]);
+    //    }
+    //}
 };
 
 Tree.prototype.beginContact = function (other) {

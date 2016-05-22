@@ -10,6 +10,11 @@ var VectorSprite = require('./VectorSprite.js');
 var SyncBodyInterface = require('./SyncBodyInterface.js');
 
 var Tree = function (game, config) {
+    this.graph = {x: 0, y: 0};
+    var initial = -config.spread * Math.PI / 360;
+    var inc = (config.spread * Math.PI) / ((config.branchFactor - 1) * 180);
+    this._makeBranch(
+        this.graph, config.trunkLength, config.branchDecay, config.branchFactor, 0, initial, inc, config.depth);
     VectorSprite.call(this, game, config);
     this.anchor.setTo(0.5, 1);
 };
@@ -24,6 +29,33 @@ Tree.prototype = Object.create(VectorSprite.prototype);
 Tree.prototype.constructor = Tree;
 
 Starcoder.mixinPrototype(Tree.prototype, SyncBodyInterface.prototype);
+
+/**
+ * Add a branch to the tree graph
+ *
+ * @param graph {object} - root node for new branch
+ * @param length {number} - length of branch
+ * @param decay {number} - decay factor for child branches
+ * @param factor {number} - number of branches at each level
+ * @param angle {number} - angle of branch in radians (relative to parents)
+ * @param initial {number} - angle offset (radians) of leftmost branch
+ * @param inc {number} - angle delta (radians) between adjacent branches
+ * @param depth {number} - depth of tree
+ * @private
+ */
+Tree.prototype._makeBranch = function (graph, length, decay, factor, angle, initial, inc, depth) {
+    //console.log(arguments);
+    if (!graph.c) {
+        graph.c = [];
+    }
+    var child = {x: graph.x + length * Math.sin(angle), y: graph.y - length * Math.cos(angle)};
+    graph.c.push(child);
+    if (depth > 0) {
+        for (var i = 0; i < factor; i++) {
+            this._makeBranch(child, length * decay, decay, factor, angle + initial + inc * i, initial, inc, depth - 1);
+        }
+    }
+};
 
 /**
  * Draw tree, overriding standard shape and geometry method to use graph

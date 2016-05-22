@@ -38,9 +38,8 @@ module.exports = {
             mass: 5
         }},
         // vvvvv Testing vvvvv
-        //{type: 'CodeCapsule', number: 10, config: {
-        //    position: {random: 'world', pad: 30},
-        //    vectorScale: 0.5
-        //}}
+        {type: 'Tree', number: 20, config: {
+            position: {random: 'world', pad: 30}
+        }}
     ]
 };
