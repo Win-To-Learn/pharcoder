@@ -76,7 +76,7 @@ Tree.prototype._makeBranch = function (graph, length, angle, initial, inc, depth
     }
     var child = {x: graph.x + length * Math.sin(angle), y: graph.y - length * Math.cos(angle)};
     if (depth < this.depth) {
-        this.hulls[depth].push([child.x, -child.y]);
+        this.hulls[depth].push([child.x, child.y]);
     }
     graph.c.push(child);
     if (depth > 0) {
@@ -154,6 +154,12 @@ Tree.prototype._cullHull = function (depth) {
     reduced.push(hull[len - 1 - Math.floor(2 * interval)]);
     reduced.push(hull[len - 1 - Math.floor(interval)]);
     reduced.push(hull[len - 1]);
+    // DEBUG
+    //for (var i = 0; i < reduced.length; i++) {
+    //    reduced[i][1] *= -1;
+    //}
+    //reduced.reverse();
+    // END DEBUG
     return reduced;
 };
 
@@ -166,7 +172,9 @@ Tree.prototype.adjustShape = function () {
     if (this.step === this.depth) {
         // trunk
         this.removeShape(this.shapes[0]);
-        this.addShape(new p2.Capsule({radius: 0.1, length: this.trunkLength}), [0, this.trunkLength / 2]);
+        //this.addShape(new p2.Capsule({radius: 0.1, length: this.trunkLength}), [0, this.trunkLength / 2]);
+        this.addShape(new p2.Convex(
+            {vertices: [[0.1, 0], [-0.1, 0], [-0.1, -this.trunkLength], [0.1, -this.trunkLength]]}));
     } else {
         // canopy
         //for (var i = 1, l = this.shapes.length; i < l; i++) {
