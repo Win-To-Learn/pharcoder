@@ -91,7 +91,7 @@ Space.prototype.create = function () {
 
     this.starcoder.syncclient.start();
     //this.starcoder.socket.emit('client ready');
-    this._setupMessageHandlers(this.starcoder.socket);
+    //this._setupMessageHandlers(this.starcoder.socket);
     this.starcoder.socket.emit('ready');
 
     // Groups for particle effects

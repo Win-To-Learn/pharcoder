@@ -16,6 +16,9 @@ module.exports = {
         critical: 5,
         kill: 10
     },
+    ioServerOptions: {
+        perMessageDeflate: false
+    },
     initialBodies: [
         {type: 'Asteroid', number: 35, config: {
             position: {random: 'world'},

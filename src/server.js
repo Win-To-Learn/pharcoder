@@ -12,7 +12,7 @@ var buildConfig = buildConfig || {};
 var fs = require('fs');
 var app = require('express')();
 var server = require('http').Server(app);
-var io = require('socket.io')(server);
+var io = require('socket.io')(server, serverConfig.ioServerOptions);
 var Starcoder = require('./server/Starcoder-server.js');
 
 app.use(function(req, res, next) {
