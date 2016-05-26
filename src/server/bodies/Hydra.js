@@ -73,7 +73,7 @@ HydraHead.prototype.kill = function () {
         this.worldapi.removeSyncableBody(this.arms[i]);
     }
     for (i = 0, l = this.constraints.length; i < l; i++) {
-        this.worldapi.removeConstraint(this.constraints[i]);
+        this.world.removeConstraint(this.constraints[i]);
     }
     this.worldapi.removeSyncableBody(this);
     this.worldapi.addSyncableBody(Crystal, {

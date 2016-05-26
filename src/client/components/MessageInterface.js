@@ -1,5 +1,5 @@
 /**
- * MessageInterface.sj
+ * MessageInterface.js
  * Client side
  */
 'use strict';

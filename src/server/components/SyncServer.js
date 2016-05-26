@@ -81,7 +81,9 @@ var altsync = function () {
     }
     // Clear dirty properties on all objects
     for (j = 0; j < nBodies; j++) {
-        this.worldapi.syncableBodies[j].clean();
+        if (this.worldapi.syncableBodies[j]) {      // FIXME: Probably shouldn't need this
+            this.worldapi.syncableBodies[j].clean();
+        }
     }
 };
 
