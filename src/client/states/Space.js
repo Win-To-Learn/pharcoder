@@ -92,6 +92,13 @@ Space.prototype.create = function () {
     this.starcoder.syncclient.start();
     //this.starcoder.socket.emit('client ready');
     //this._setupMessageHandlers(this.starcoder.socket);
+    // FIXME - stopgap 
+    var self = this;
+    this.starcoder.socket.on('msg code pickup', function (val) {
+        self.game.sounds.chime.play();
+        Toast.spinUp(self.game, self.game.playerShip.x, self.game.playerShip.y, 'New Code!');
+        self.starcoder.setCodeForUI(val);
+    });
     this.starcoder.socket.emit('ready');
 
     // Groups for particle effects
