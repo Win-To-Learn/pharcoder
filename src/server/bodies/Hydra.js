@@ -93,7 +93,7 @@ HydraHead.prototype.beginContact = function (other) {
     switch (other.serverType) {
         case 'Bullet':
             this.kill();
-            setTimeout(this.respawn, this.respawnTime * 1000, this.world);
+            setTimeout(this.respawn.bind(this), this.respawnTime * 1000, this.world);
             break;
     }
 };
