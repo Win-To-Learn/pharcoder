@@ -81,7 +81,7 @@ Alien.prototype.beginContact = function (body) {
         case 'Bullet':
             this.dead = true;
             this.worldapi.removeSyncableBody(body);
-            this.setTimer(5, {fun: this.world.respawn.bind(this.world, this, {position: {random: 'world'}})});
+            this.setTimer(5, {fun: this.worldapi.respawn.bind(this.world, this, {position: {random: 'world'}})});
             break;
     }
 };
