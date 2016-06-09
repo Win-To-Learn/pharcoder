@@ -16,6 +16,15 @@ var SyncBodyBase = function (starcoder, config) {
     config = config || {};
     this.setDefaults(config);
     p2.Body.call(this, config);
+    // Do this early so more specific config can override
+    if (this.genera) {
+        if (config.genus) {
+            this.setGenus(config.genus);
+            delete config.genus;
+        } else {
+            this.setGenus();
+        }
+    }
     for (var k in config) {
         switch (k) {
             case 'x':
@@ -309,7 +318,29 @@ SyncBodyBase.prototype.setPolarForce = function (mag) {
     this.force[1] = -Math.cos(this.angle)*mag;
 };
 
-SyncBodyBase.prototype.updateProperties = [];
+SyncBodyBase.prototype.setGenus = function (genus) {
+    var i, item;
+    if (genus) {
+        for (i = 0, item = this.genera[0]; i < this.genera.length; item = this.genera[++i]) {
+            if (genus === item.name) {
+                break;
+            }
+        }
+    } else {
+        var r = Math.random();
+        for (i = 0, item = this.genera[0]; i < this.genera.length; item = this.genera[++i]) {
+            if (r <= item.prob) {
+                break;
+            }
+        }
+    }
+    if (item) {
+        this.genusName = item.name;
+        for (var k in item.props) {
+            this[k] = item.props[k];
+        }
+    }
+};
 
 // Common vector properties
 
@@ -416,5 +447,33 @@ Object.defineProperty(SyncBodyBase.prototype, 'dead', {
         this._dirtyProperties.dead = true;
     }
 });
+
+// Statics
+
+/**
+ * Add a genus property to set multiple properties at once and possibly at random
+ * @param base
+ * @param genera
+ */
+SyncBodyBase.applyGenera = function (base, genera) {
+    var i, item;
+    var total = 0;
+    var cumprob = 0;
+    // Get total for relative freq
+    for (i = 0, item = genera[0]; i < genera.length; item = genera[++i]) {
+        if (item.freq) {
+            total += item.freq;
+        } else {
+            item.freq = 1;
+            total += 1;
+        }
+    }
+    // Convert freq to cumulative probabilities
+    for (i = 0, item = genera[0]; i < genera.length; item = genera[++i]) {
+        item.prob = cumprob + item.freq / total;
+        cumprob = item.prob;
+    }
+    base.prototype.genera = genera;
+};
 
 module.exports = SyncBodyBase;

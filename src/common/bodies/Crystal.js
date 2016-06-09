@@ -13,6 +13,7 @@ module.exports = {
     },
 
     updateProperties: {
-        vectorScale: 'ufixed16'
+        vectorScale: 'ufixed16',
+        lineColor: 'string'
     }
 };
