@@ -22,7 +22,13 @@ Crystal.prototype.constructor = p2;
 Crystal.prototype.clientType = 'Crystal';
 Crystal.prototype.serverType = 'Crystal';
 
-Crystal.prototype.value = 50;
+var genera = [
+    {name: 'monophasic', freq: 4, props: {value: 50, lineColor: '#00ffff'}},
+    {name: 'biphasic', freq: 2, props: {value: 75, lineColor: '#ffff00'}},
+    {name: 'triphasic', freq: 1, props: {value: 100, lineColor: '#eeeeee'}}
+];
+
+SyncBodyBase.applyGenera(Crystal, genera);
 
 Crystal.prototype.beginContact = function (other) {
     switch (other.serverType) {
