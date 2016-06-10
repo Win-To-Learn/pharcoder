@@ -67,6 +67,7 @@ Alien.prototype.control = function () {
  * Randomly select one of nine regions of the world as a goal
  */
 Alien.prototype.setGoal = function () {
+    this.target = null;
     var rx = (Math.floor(Math.random()*3) + 1) * 0.25;
     var ry = (Math.floor(Math.random()*3) + 1) * 0.25;
     this.goal = {x: Math.floor(this.starcoder.worldLeft + rx*this.starcoder.worldWidth),
@@ -74,6 +75,7 @@ Alien.prototype.setGoal = function () {
     //console.log('SC', this.starcoder.worldLeft, this.starcoder.worldWidth, this.starcoder.worldTop, this.starcoder.worldHeight);
     //this.goal = {x: Math.floor(-200 + rx*400),
     //    y: Math.floor(-200 + ry*400)};
+    //console.log('Changing goal for', this.genusName, 'alien', this.id, 'to', this.goal);
 };
 
 Alien.prototype.beginContact = function (body) {
@@ -122,7 +124,7 @@ var AlienBrain = function () {
         initial: {start: 'plotting'},
         plotting: {auto: 'roaming'},
         roaming: {'target in range': 'chasing', 'reached goal': 'plotting', auto: 'plotting', timeout: 5000},
-        chasing: {'target escaped': 'plotting'}
+        chasing: {'target escaped': 'plotting', auto: 'plotting', timeout: 10000}
     }, 'initial');
     //this.alien = alien;
     //this.on('plotting', this.alien.setGoal.bind(this.alien));

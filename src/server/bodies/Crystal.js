@@ -25,7 +25,7 @@ Crystal.prototype.serverType = 'Crystal';
 var genera = [
     {name: 'monophasic', freq: 4, props: {value: 50, lineColor: '#00ffff'}},
     {name: 'biphasic', freq: 2, props: {value: 75, lineColor: '#ffff00'}},
-    {name: 'triphasic', freq: 1, props: {value: 100, lineColor: '#eeeeee'}}
+    {name: 'triphasic', freq: 1, props: {value: 150, lineColor: '#eeeeee'}}
 ];
 
 SyncBodyBase.applyGenera(Crystal, genera);

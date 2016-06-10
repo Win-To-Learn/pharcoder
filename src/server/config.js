@@ -48,7 +48,7 @@ module.exports = {
             mass: 5
         }}
         // vvvvv Testing vvvvv
-        //{type: 'Crystal', number: 30, config: {
+        //{type: 'Crystal', number: 100, config: {
         //    position: {random: 'world', pad: 30}
         //}}
     ]
