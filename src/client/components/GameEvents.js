@@ -23,6 +23,10 @@ var events = {
         this.game.sounds.planttree.play();
     },
 
+    alienapproach: function () {
+        this.game.sounds.chopper.play();
+    },
+
     asteroid: function (size) {
         if (size > 1) {
             this.game.sounds.bigpop.play();

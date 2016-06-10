@@ -65,6 +65,7 @@ Loader.prototype.preload = function () {
     //this.game.load.audio('music', 'assets/sounds/ignore.ogg');
 	this.game.load.audio('music', 'assets/sounds/lumpyspacejam.mp3');
     this.game.load.audio('alert', 'assets/sounds/zapTwoTone2.mp3');
+    this.game.load.audio('chopper', 'assets/sounds/space_chopper_passing.mp3');
     // Spritesheets
     this.game.load.atlas('joystick', 'assets/joystick/generic-joystick.png', 'assets/joystick/generic-joystick.json');
     // Images

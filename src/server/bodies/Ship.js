@@ -16,9 +16,14 @@ var CodeCapsule = require('./CodeCapsule.js');
 var LOG5 = Math.log(0.6);                           // LOG of charge rate decay factor for faster exponentiation
 var sin = Math.sin;
 var cos = Math.cos;
+//var SHIP_SCAN_RADIUS = 25;
 
 var Ship = function (starcoder, config) {
     SyncBodyBase.call(this, starcoder, config);
+    //this.proximitySensor = new p2.Circle({radius: SHIP_SCAN_RADIUS, sensor: true, mass: 0.000001});
+    //this.setCollisionGroup(this.proximitySensor);
+    //this.setCollisionMask(this.proximitySensor, ['Alien']);
+    //this.addShape(this.proximitySensor);
     this.damping = 0.85;
     this.angularDamping = 0.85;
     this.state = {
@@ -116,6 +121,14 @@ Ship.prototype.control = function () {
         this.toggleTractorBeam();
     }
 };
+
+//Ship.prototype.beginSense = function (body) {
+//    switch (body.serverType) {
+//        case 'Alien':
+//            this.starcoder.sendMessage(this.player, 'alienapproach');
+//            break;
+//    }
+//};
 
 Ship.prototype.toggleTractorBeam = function () {
     // FIXME: magic numbers

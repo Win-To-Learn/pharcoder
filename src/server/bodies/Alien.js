@@ -23,7 +23,7 @@ var Alien = function (starcoder, config) {
     this.setCollisionGroup(this.proximitySensor);
     this.setCollisionMask(this.proximitySensor, [this.targetType]);
     this.addShape(this.proximitySensor);
-    this.brain = new AlienBrain();
+    this.brain = new AlienBrain(this.patience, this.persistence);
     //this.brain.on('plotting', function () {console.log('plot state')});
     this.brain.on('plotting', this.setGoal.bind(this));
     this.brain.transition('start');
@@ -35,9 +35,12 @@ Alien.prototype.constructor = Alien;
 Alien.prototype.clientType = 'Alien';
 Alien.prototype.serverType = 'Alien';
 
+Alien.prototype.patience = 5000;
+Alien.prototype.persistence = 10000;
+
 var genera = [
     {name: 'Warrior', props: {thrustForce: 150, targetType: 'Ship', lineColor: '#ffa500'}},
-    {name: 'EcoTerrorist', props: {thrustForce: 75, targetType: 'Tree', lineColor: '#ffcc99'}}
+    {name: 'EcoTerrorist', props: {thrustForce: 75, targetType: 'Tree', lineColor: '#ffcc99', patience: 10000}}
 ];
 
 SyncBodyBase.applyGenera(Alien, genera);
@@ -68,8 +71,8 @@ Alien.prototype.control = function () {
  */
 Alien.prototype.setGoal = function () {
     this.target = null;
-    var rx = (Math.floor(Math.random()*3) + 1) * 0.25;
-    var ry = (Math.floor(Math.random()*3) + 1) * 0.25;
+    var rx = (Math.floor(Math.random()*7) + 1) * 0.125;
+    var ry = (Math.floor(Math.random()*7) + 1) * 0.125;
     this.goal = {x: Math.floor(this.starcoder.worldLeft + rx*this.starcoder.worldWidth),
         y: Math.floor(this.starcoder.worldBottom + ry*this.starcoder.worldHeight)};
     //console.log('SC', this.starcoder.worldLeft, this.starcoder.worldWidth, this.starcoder.worldTop, this.starcoder.worldHeight);
@@ -119,12 +122,12 @@ Alien.prototype.endSense = function (body) {
 };
 
 
-var AlienBrain = function () {
+var AlienBrain = function (patience, persistence) {
     FSM.call(this, {
         initial: {start: 'plotting'},
         plotting: {auto: 'roaming'},
-        roaming: {'target in range': 'chasing', 'reached goal': 'plotting', auto: 'plotting', timeout: 5000},
-        chasing: {'target escaped': 'plotting', auto: 'plotting', timeout: 10000}
+        roaming: {'target in range': 'chasing', 'reached goal': 'plotting', auto: 'plotting', timeout: patience},
+        chasing: {'target escaped': 'plotting', auto: 'plotting', timeout: persistence}
     }, 'initial');
     //this.alien = alien;
     //this.on('plotting', this.alien.setGoal.bind(this.alien));

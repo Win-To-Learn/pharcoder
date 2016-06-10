@@ -79,6 +79,7 @@ Space.prototype.create = function () {
     this.game.sounds.tagged = this.game.sound.add('tagged', 1, false);
     this.game.sounds.laser = this.game.sound.add('laser', 1, false);
     this.game.sounds.alert = this.game.sound.add('alert', 1, false);
+    this.game.sounds.chopper = this.game.sound.add('chopper', 1, false);
 
     this.game.sounds.music = this.game.sound.add('music', 1, true);
     this.game.sounds.music.play();
