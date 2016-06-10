@@ -9,9 +9,9 @@ var p2 = require('p2');
 var SyncBodyBase = require('./SyncBodyBase.js');
 var FSM = require('../util/FSM.js');
 
-var ALIEN_THRUST_FORCE = 150;
+//var ALIEN_THRUST_FORCE = 150;
 var ALIEN_ROTATION_FORCE = 50;
-var ALIEN_SCAN_RADIUS = 50;
+var ALIEN_SCAN_RADIUS = 75;
 
 var Alien = function (starcoder, config) {
     SyncBodyBase.call(this, starcoder, config);
@@ -40,7 +40,7 @@ Alien.prototype.persistence = 10000;
 
 var genera = [
     {name: 'Warrior', props: {thrustForce: 150, targetType: 'Ship', lineColor: '#ffa500'}},
-    {name: 'EcoTerrorist', props: {thrustForce: 75, targetType: 'Tree', lineColor: '#ffcc99', patience: 10000}}
+    {name: 'EcoTerrorist', props: {thrustForce: 125, targetType: 'Tree', lineColor: '#ffcc99', patience: 10000}}
 ];
 
 SyncBodyBase.applyGenera(Alien, genera);
