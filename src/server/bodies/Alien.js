@@ -163,5 +163,4 @@ var AlienBrain = function (patience, persistence) {
 AlienBrain.prototype = Object.create(FSM.prototype);
 AlienBrain.prototype.constructor = AlienBrain;
 
-
 module.exports = Alien;
