@@ -731,7 +731,7 @@ module.exports = {
             return 'createStationBlock(' + pairs + ');\n';
         };
 
-        // Redefinition of standard Blockly blocks
+        /** Redefinition of standard Blockly blocks */
 
         Blockly.Blocks['variables_get'] = {
             /**
@@ -887,6 +887,27 @@ var _generateVarNames = function () {
     for (i = 0; i < _baseVarNames.length; i++) {
         for (var j = 1; j <= _numVarsPerName; j++) {
             options.push([_baseVarNames[i] + j, _baseVarNames[i] + j]);
+        }
+    }
+    return options;
+};
+
+var _stdFunNames = ['start', 'finish', 'main', 'mainloop'];
+var _baseFunNames= ['f', 'func', 'function', 'proc', 'procedure', 'subroutine', 'task'];
+var _numFunsPerName = 5;
+/**
+ * Generate list of allowed variable names
+ * @return {array}
+ * @private
+ */
+var _generateFunNames = function () {
+    var options = [];
+    for (var i = 0; i < _stdFunNames.length; i++) {
+        options.push([_stdFunNames[i], _stdFunNames[i]]);
+    }
+    for (i = 0; i < _baseFunNames.length; i++) {
+        for (var j = 1; j <= _numFunsPerName; j++) {
+            options.push([_baseFunNames[i] + j, _baseFunNames[i] + j]);
         }
     }
     return options;

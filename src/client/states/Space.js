@@ -139,6 +139,37 @@ Space.prototype.create = function () {
     this.game.leaderboard.visible = false;
     this.game.starcoder.startLeaderBoard();
 
+    // Links
+    for (var i = 0; i < sc.config.links.length; i++) {
+        var spec = sc.config.links[i];
+        var x = spec.x;
+        if (x[x.length - 1] === '%') {
+            x = Math.floor(this.game.width * Number(x.substr(0, x.length - 1)) * 0.01);
+        } else {
+            x = Number(x);
+        }
+        if (x < 0) {
+            x = this.game.width + x;
+        }
+        var y = spec.y;
+        if (y[y.length - 1] === '%') {
+            y = Math.floor(this.game.height * Number(y.substr(0, y.length - 1)) * 0.01);
+        } else {
+            y = Number(y);
+        }
+        if (y < 0) {
+            y = this.game.height + y;
+        }
+        var linktext = sc.makeFlexText(x, y, spec.text, spec.properties);
+        linktext.anchor.setTo(0.5);
+        linktext.inputEnabled = true;
+        linktext.destURL = spec.url;
+        linktext.events.onInputUp.add(function (link) {
+            window.open(link.destURL);
+        });
+        this.game.ui.add(linktext);
+    }
+
 };
 
 //Space.prototype.update = function () {

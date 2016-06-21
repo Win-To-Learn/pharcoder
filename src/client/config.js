@@ -15,6 +15,12 @@ module.exports = {
         leaderBoard: {font: '18px Arial', fill: '#0000ff'},
         leaderBoardTitle: {font: 'bold 20px Arial', align: 'center', fill: '#ff0000'}
     },
+    links: [
+        {text: 'STARCODER MISSIONS', url: 'http://bit.ly/starcodermission', x: '25%', y: '-24',
+        properties: {font: '20px Arial', fill: '#ffa500', align: 'center'}},
+        {text: 'FEEDBACK', url: 'http://goo.gl/forms/kbEqsuMSFeN4aP0X2', x: '75%', y: '-24',
+            properties: {font: '20px Arial', fill: '#ffa500', align: 'center'}}
+    ],
     gridSpacing: 10,
     gridColor: '#fff380',
     gamerTags: {
