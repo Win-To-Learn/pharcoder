@@ -52,7 +52,7 @@ Alien.prototype.persistence = 10000;
 
 var genera = [
     {name: 'Warrior', props: {thrustForce: 150, targetType: 'Ship', lineColor: '#ffa500'}},
-    {name: 'EcoTerrorist', props: {thrustForce: 125, targetType: 'Tree', lineColor: '#ffcc99', patience: 10000}}
+    {name: 'EcoTerrorist', props: {thrustForce: 850, targetType: 'Tree', lineColor: '#ffcc99', patience: 10000}}
 ];
 
 SyncBodyBase.applyGenera(Alien, genera);
@@ -94,6 +94,10 @@ Alien.prototype.setGoal = function () {
     //var ry = (Math.floor(Math.random()*7) + 1) * 0.125;
     this.goal = {x: Math.floor(this.starcoder.worldLeft + rx*this.starcoder.worldWidth),
         y: Math.floor(this.starcoder.worldBottom + ry*this.starcoder.worldHeight)};
+
+
+    //this.goal = {x: Math.floor(this.starcoder.worldLeft + rx*this.starcoder.worldWidth),
+    //    y: Math.floor(this.starcoder.worldBottom + ry*this.starcoder.worldHeight)};
     //console.log('SC', this.starcoder.worldLeft, this.starcoder.worldWidth, this.starcoder.worldTop, this.starcoder.worldHeight);
     //this.goal = {x: Math.floor(-200 + rx*400),
     //    y: Math.floor(-200 + ry*400)};
