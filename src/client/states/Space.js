@@ -9,6 +9,7 @@ var SimpleParticle = require('../bodies/SimpleParticle.js');
 var ThrustGenerator = require('../bodies/ThrustGenerator.js');
 var MiniMap = require('../ui/MiniMap.js');
 var LeaderBoard = require('../ui/LeaderBoard.js');
+var VidPlayer = require('../ui/VidPlayer.js');
 var Toast = require('../ui/Toast.js');
 var HUD = require('../ui/HUD.js');
 var TutorMessage = require('../ui/TutorMessage.js');
@@ -84,11 +85,11 @@ Space.prototype.create = function () {
     this.game.sounds.music = this.game.sound.add('music', 1, true);
     this.game.sounds.music.play();
 
-    // Background
-    this.starcoder.starfield = this.game.make.bitmapData(600, 600, 'starfield', true);
-    this.starcoder.drawStarField(this.starcoder.starfield.ctx, 600, 16);
+    // Background - FIXME
+    //this.starcoder.starfield = this.game.make.bitmapData(600, 600, 'starfield', true);
+    //this.starcoder.drawStarField(this.starcoder.starfield.ctx, 600, 16);
     //this.game.add.tileSprite(wb[0]*ps, wb[1]*ps, (wb[2]-wb[0])*ps, (wb[3]-wb[1])*ps, this.starcoder.starfield);
-    this.game.add.tileSprite(sc.phaserLeft, sc.phaserTop, sc.phaserWidth, sc.phaserHeight);
+    //this.game.add.tileSprite(sc.phaserLeft, sc.phaserTop, sc.phaserWidth, sc.phaserHeight);
 
     this.starcoder.syncclient.start();
     //this.starcoder.socket.emit('client ready');
@@ -139,6 +140,22 @@ Space.prototype.create = function () {
     this.game.leaderboard.visible = false;
     this.game.starcoder.startLeaderBoard();
 
+    // Video
+    this.game.vidplayer = new VidPlayer(this.game, this.game.width/2, this.game.height/2);
+    this.game.ui.add(this.game.vidplayer);
+    //this.game.vidplayer.visible = false;
+    //this.game.tutvideo = this.game.add.video('defeathydra');
+    //this.game.tutvideo.onPlay.add(function () {
+    //    console.log('Vid playing');
+    //});
+    //this.game.tutvideo.onComplete.add(function() {
+    //    console.log('vid done');
+    //});
+    //this.game.vidscreen = this.game.make.image(this.game.width/2, this.game.height/2, this.game.tutvideo);
+    //this.game.vidscreen.anchor.setTo(0.5);
+    //this.game.ui.add(this.game.vidscreen);
+    //this.game.vidscreen.visible = false;
+
     // Links
     for (var i = 0; i < sc.config.links.length; i++) {
         var spec = sc.config.links[i];
@@ -168,6 +185,18 @@ Space.prototype.create = function () {
             window.open(link.destURL);
         });
         this.game.ui.add(linktext);
+
+        // Button for testing
+        var dostuff = sc.makeFlexText(this.game.width / 2, this.game.height - 24, 'Do Stuff',
+            {font: '20px Arial', fill: '#0000ff', align: 'center'});
+        dostuff.anchor.setTo(0.5);
+        dostuff.inputEnabled = true;
+        dostuff.events.onInputUp.add(function () {
+            console.log('Stuff');
+            //this.game.vidscreen.visible = true;
+            //this.game.tutvideo.play();
+        }, this);
+        this.game.ui.add(dostuff);
     }
 
 };

@@ -69,7 +69,10 @@ Loader.prototype.preload = function () {
     // Spritesheets
     this.game.load.atlas('joystick', 'assets/joystick/generic-joystick.png', 'assets/joystick/generic-joystick.json');
     // Images
-
+    this.game.load.image('vidframe', 'assets/images/vidframe.png');
+    this.game.load.image('closebut', 'assets/images/closebut.png');
+    // Videos
+    this.game.load.video('defeathydra', 'assets/video/defeathydra.mp4');
 };
 
 Loader.prototype.update = function () {

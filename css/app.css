@@ -6,7 +6,7 @@ body {
 }
 
 .playfield {
-  position: relative;
+  position: absolute;
   height: 100%;
   width: 100%;
 }
@@ -30,6 +30,18 @@ body {
 
 .popup {
     z-index: 100;
+}
+
+#flex-layer {
+    z-index: 200;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#vid-container {
+    width: 600px;
+    height: 600px;
 }
 
 #code-window {
