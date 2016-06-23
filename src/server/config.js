@@ -41,7 +41,7 @@ module.exports = {
             vectorScale: 1,
             mass: 5
         }},
-        {type: 'Alien', number: 3, config: {
+        {type: 'Alien', number: 16, config: {
             position: {random: 'world', pad: 30},
             genus: 'EcoTerrorist',
             vectorScale: 1,
