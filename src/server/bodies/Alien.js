@@ -35,10 +35,10 @@ var Alien = function (starcoder, config) {
     this.setCollisionGroup(this.proximitySensor);
     this.setCollisionMask(this.proximitySensor, [this.targetType]);
     this.addShape(this.proximitySensor);
-    this.brain = new AlienBrain(this.patience, this.persistence);
+    //this.brain = new AlienBrain(this.patience, this.persistence);
     //this.brain.on('plotting', function () {console.log('plot state')});
     //this.brain.on('plotting', this.setGoal.bind(this));
-    this.brain.transition('start');
+    //this.brain.transition('start');
 };
 
 Alien.prototype = Object.create(SyncBodyBase.prototype);
@@ -121,7 +121,8 @@ Alien.prototype.beginContact = function (body) {
         case 'Bullet':
             this.dead = true;
             this.worldapi.removeSyncableBody(body);
-            this.setTimer(5, {fun: this.worldapi.respawn.bind(this.world, this, {position: {random: 'world'}})});
+            this.setTimer(5, {fun: this.worldapi.respawn.bind(this.world, this,
+                {position: {random: 'world', pad: 30}, genus: this.genusName})});
             break;
         case 'HydraArm':
         case 'Planetoid':
@@ -138,7 +139,7 @@ Alien.prototype.beginSense = function (body) {
     if (body.serverType === this.targetType) {
         if (!this.target) {
             this.target = body;
-            this.brain.transition('target in range');
+            //this.brain.transition('target in range');
             //console.log('Pursuing ship');
         }
     }
@@ -147,24 +148,24 @@ Alien.prototype.beginSense = function (body) {
 Alien.prototype.endSense = function (body) {
     if (this.target === body) {
         this.target = null;
-        this.brain.transition('target escaped');
+        //this.brain.transition('target escaped');
         //console.log('Ship escaped');
     }
 };
 
 
-var AlienBrain = function (patience, persistence) {
-    FSM.call(this, {
-        initial: {start: 'plotting'},
-        plotting: {auto: 'roaming'},
-        roaming: {'target in range': 'chasing', 'reached goal': 'plotting', auto: 'plotting', timeout: patience},
-        chasing: {'target escaped': 'plotting', auto: 'plotting', timeout: persistence}
-    }, 'initial');
-    //this.alien = alien;
-    //this.on('plotting', this.alien.setGoal.bind(this.alien));
-};
-
-AlienBrain.prototype = Object.create(FSM.prototype);
-AlienBrain.prototype.constructor = AlienBrain;
+//var AlienBrain = function (patience, persistence) {•••••
+//    FSM.call(this, {
+//        initial: {start: 'plotting'},
+//        plotting: {auto: 'roaming'},
+//        roaming: {'target in range': 'chasing', 'reached goal': 'plotting', auto: 'plotting', timeout: patience},
+//        chasing: {'target escaped': 'plotting', auto: 'plotting', timeout: persistence}
+//    }, 'initial');
+//    //this.alien = alien;
+//    //this.on('plotting', this.alien.setGoal.bind(this.alien));
+//};
+//
+//AlienBrain.prototype = Object.create(FSM.prototype);
+//AlienBrain.prototype.constructor = AlienBrain;
 
 module.exports = Alien;
