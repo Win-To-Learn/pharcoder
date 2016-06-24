@@ -9,11 +9,11 @@ var VidPlayer = function (game, x, y) {
 
     this.onClose = new Phaser.Signal();
 
-    this.vid = game.add.video();
-    this.vid.onComplete.add(function () {
-        self.playing = false;
-        self.close();
-    });
+    //this.vid = game.add.video();
+    //this.vid.onComplete.add(function () {
+    //    self.playing = false;
+    //    self.close();
+    //});
     this.vidscreen = game.add.image(0, 0, null, 0, this);
     this.vidscreen.scale.setTo(0.5);
     var vidframe = game.add.image(0, 0, 'vidframe', 0, this);
@@ -26,6 +26,7 @@ var VidPlayer = function (game, x, y) {
 
     this.x = x - vidframe.width / 2;
     this.y = y - vidframe.height / 2;
+    this.visible = false;
 };
 
 VidPlayer.prototype = Object.create(Phaser.Group.prototype);
@@ -40,7 +41,18 @@ VidPlayer.prototype.close = function () {
 };
 
 VidPlayer.prototype.play = function (url) {
-    this.vid.changeSource(url, true);
+    var self = this;
+    this.visible = true;
+    if (!this.vid) {
+        this.vid = this.game.add.video(null, url);
+        this.vidscreen.loadTexture(this.vid);
+        this.vid.onComplete.add(function () {
+            self.close();
+        });
+        this.vid.play();
+    } else {
+        this.vid.changeSource(url, true);
+    }
 };
 
 module.exports = VidPlayer;

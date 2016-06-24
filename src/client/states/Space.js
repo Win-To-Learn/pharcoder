@@ -9,7 +9,7 @@ var SimpleParticle = require('../bodies/SimpleParticle.js');
 var ThrustGenerator = require('../bodies/ThrustGenerator.js');
 var MiniMap = require('../ui/MiniMap.js');
 var LeaderBoard = require('../ui/LeaderBoard.js');
-//var VidPlayer = require('../ui/VidPlayer.js');
+var VidPlayer = require('../ui/VidPlayer.js');
 var Toast = require('../ui/Toast.js');
 var HUD = require('../ui/HUD.js');
 var TutorMessage = require('../ui/TutorMessage.js');
@@ -141,7 +141,7 @@ Space.prototype.create = function () {
     this.game.starcoder.startLeaderBoard();
 
     // Video
-    /*
+
     this.game.vidplayer = new VidPlayer(this.game, this.game.width/2, this.game.height/2);
     this.game.ui.add(this.game.vidplayer);
     //this.game.vidplayer.visible = false;
@@ -156,7 +156,7 @@ Space.prototype.create = function () {
     //this.game.vidscreen.anchor.setTo(0.5);
     //this.game.ui.add(this.game.vidscreen);
     //this.game.vidscreen.visible = false;
-    */
+
 
     // Links
     for (var i = 0; i < sc.config.links.length; i++) {
@@ -195,12 +195,13 @@ Space.prototype.create = function () {
         dostuff.anchor.setTo(0.5);
         dostuff.inputEnabled = true;
         dostuff.events.onInputUp.add(function () {
-            console.log('Stuff');
+            this.game.vidplayer.play('/assets/video/defeathydra.mp4');
             //this.game.vidscreen.visible = true;
             //this.game.tutvideo.play();
         }, this);
         this.game.ui.add(dostuff);
         */
+
     }
 
 };
