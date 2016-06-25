@@ -63,8 +63,12 @@ var events = {
         this.game.tutormessage.setMessage(text);
     },
 
+    tutorialvid: function (vid) {
+        this.game.vidplayer.play('/assets/video/' + vid);
+    },
+
     alert: function (text) {
         this.game.sounds.alert.play();
-        Toast.growUp(self.game, self.game.camera.view.centerX, self.game.camera.view.bottom, text);
+        Toast.growUp(this.game, this.game.camera.view.centerX, this.game.camera.view.bottom, text);
     }
 };

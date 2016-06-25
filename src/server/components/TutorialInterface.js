@@ -33,6 +33,10 @@ module.exports = {
             self.sendMessage(player, 'tutorial', 'Great!');
             self.sendMessage(player, 'crystal', 50);
         });
+        player.tutorial.once('goalDefeatHydra', function () {
+            self.sendMessage(player, 'tutorialvid', 'defeathydra.mp4');
+            self.sendMessage(player, 'tutorial', 'Defeat the space hydra!');
+        });
         player.tutorial.once('goalPlantTree', function () {
             self.sendMessage(player, 'tutorial', 'Now fly to a green planet and touch it to plant a tree.');
         });
@@ -75,8 +79,10 @@ var standardTutorial = {
         retrothrust: 'goalThrust', stopthrust: 'goalThrust',
         auto: 'achievedThrust', timeout: 500
     },
-    achievedThrust: {auto: 'goalPlantTree', timeout: 1500},
-    goalPlantTree: {planttree: 'achievedPlantTree'},
-    achievedPlantTree: {auto: 'endTutorial1',timeout:7000},
-	endTutorial1: {auto: 'endTutorial2',timeout:7000}
+    achievedThrust: {auto: 'goalDefeatHydra', timeout: 1500},
+    goalDefeatHydra: {defeathydra: 'achievedDefeatHydra'}
+    //achievedThrust: {auto: 'goalPlantTree', timeout: 1500},
+    //goalPlantTree: {planttree: 'achievedPlantTree'},
+    //achievedPlantTree: {auto: 'endTutorial1',timeout:7000},
+	//endTutorial1: {auto: 'endTutorial2',timeout:7000}
 };

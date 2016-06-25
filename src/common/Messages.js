@@ -11,6 +11,7 @@ module.exports = {
     'music' : 'string',
     'grid' : 'string',
     'tutorial' : 'string',
+    'tutorialvid' : 'string',
     'alert' : 'string',
     // Controls
     'up' : 'boolean',
@@ -18,5 +19,5 @@ module.exports = {
     'left' : 'boolean',
     'right' : 'boolean',
     'fire' : 'boolean',
-    'tractor' : 'boolean',
+    'tractor' : 'boolean'
 };
