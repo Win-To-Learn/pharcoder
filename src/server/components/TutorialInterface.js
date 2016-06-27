@@ -34,8 +34,8 @@ module.exports = {
             self.sendMessage(player, 'crystal', 50);
         });
         player.tutorial.once('goalDefeatHydra', function () {
-            self.sendMessage(player, 'tutorialvid', 'defeathydra.mp4');
-            self.sendMessage(player, 'tutorial', 'Defeat the space hydra!');
+            self.sendMessage(player, 'tutorialvid', 'colorchange.mp4');
+            self.sendMessage(player, 'tutorial', 'Change the color of your ship.');
         });
         player.tutorial.once('goalPlantTree', function () {
             self.sendMessage(player, 'tutorial', 'Now fly to a green planet and touch it to plant a tree.');

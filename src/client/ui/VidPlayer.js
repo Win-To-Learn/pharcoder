@@ -14,8 +14,8 @@ var VidPlayer = function (game, x, y) {
     //    self.playing = false;
     //    self.close();
     //});
-    this.vidscreen = game.add.image(0, 0, null, 0, this);
-    this.vidscreen.scale.setTo(0.5);
+    this.vidscreen = game.add.image(24, 24, null, 0, this);
+    this.vidscreen.scale.setTo(0.666);
     var vidframe = game.add.image(0, 0, 'vidframe', 0, this);
     var closebut = game.add.image(664, 0, 'closebut', 0, this);
 

@@ -97,6 +97,10 @@ Controls.prototype.addVirtualControls = function (texture) {
     this.tractorbutton.onUp.add(function () {
         this.joystickState.tractor = false;
     }, this);
+    /* NOTE: Disabling stick for now but leaving creation code because it's tangled up elsewhere */
+    this.stick.visible = false;
+    this.firebutton.visible = false;
+    this.tractorbutton.visible = false;
 };
 
 Controls.prototype.layoutVirtualControls = function (scale) {
