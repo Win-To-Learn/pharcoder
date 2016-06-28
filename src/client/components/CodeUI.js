@@ -13,7 +13,7 @@ module.exports = {
         var xml = document.getElementById('toolbox');
         //BlocklyAPI.addStarcoderBlocks(xml);
         this.addStarcoderBlocks(xml);
-        this.blocklyWorkspace = Blockly.inject('blockly', {toolbox: xml});
+        this.blocklyWorkspace = Blockly.inject('blockly', {toolbox: xml, comments: false});
         Blockly.svgResize(self.blocklyWorkspace);
         //var button = $('#send-code');
         this.aceEditor = ace.edit('aceeditor');
