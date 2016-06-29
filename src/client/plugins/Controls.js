@@ -190,7 +190,7 @@ Controls.prototype.preUpdate = function () {
     }
     if (!controls.grid.isDown && grid) {
         grid = false;
-        this.game.starcoder.toggleGrid();
+        this.game.gridOverlay.toggle();
     }
 };
 

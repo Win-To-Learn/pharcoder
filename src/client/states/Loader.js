@@ -71,6 +71,8 @@ Loader.prototype.preload = function () {
     // Images
     this.game.load.image('vidframe', 'assets/images/vidframe.png');
     this.game.load.image('closebut', 'assets/images/closebut.png');
+    this.game.load.image('hgridline', 'assets/images/hgridline.png');
+    this.game.load.image('vgridline', 'assets/images/vgridline.png');
     // Videos
     //this.game.load.video('defeathydra', 'assets/video/defeathydra.mp4');
 };

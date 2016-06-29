@@ -55,7 +55,7 @@ Starcoder.prototype.init = function () {
     this.implementFeature(require('./components/BlocklyAPI.js'));
     this.implementFeature(require('./components/CodeUI.js'));
     this.implementFeature(require('./components/FlexTextWrapper.js'));
-    this.implementFeature(require('./components/GridOverlay.js'));
+    //this.implementFeature(require('./components/GridOverlay.js'));
     this.implementFeature(require('./components/GameEvents.js'));
 };
 

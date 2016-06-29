@@ -13,6 +13,7 @@ var VidPlayer = require('../ui/VidPlayer.js');
 var Toast = require('../ui/Toast.js');
 var HUD = require('../ui/HUD.js');
 var TutorMessage = require('../ui/TutorMessage.js');
+var Grid = require('../ui/Grid.js');
 
 var Controls = require('../plugins/Controls.js');
 var SyncClient = require('../plugins/SyncClient.js');
@@ -110,7 +111,9 @@ Space.prototype.create = function () {
     this.game.playfield = this.game.add.group();
 
     // Group for grid
-    this.game.gridOverlay = this.starcoder.createGrid();
+    //this.game.gridOverlay = this.starcoder.createGrid();
+    this.game.gridOverlay = new Grid(this.game);
+    this.game.add.existing(this.game.gridOverlay);
 
     // UI
     this.game.ui = this.game.add.group();
