@@ -33,9 +33,14 @@ module.exports = {
             self.sendMessage(player, 'tutorial', 'Great!');
             self.sendMessage(player, 'crystal', 50);
         });
-        player.tutorial.once('goalDefeatHydra', function () {
+        player.tutorial.once('goalChangeColor', function () {
             self.sendMessage(player, 'tutorialvid', 'colorchange.mp4');
             self.sendMessage(player, 'tutorial', 'Change the color of your ship.');
+        });
+        player.tutorial.once('achievedChangeColor', function () {
+            player.getShip().crystals += 250;
+            self.sendMessage(player, 'tutorial', 'Terrific!');
+            self.sendMessage(player, 'crystal', 250);
         });
         player.tutorial.once('goalPlantTree', function () {
             self.sendMessage(player, 'tutorial', 'Now fly to a green planet and touch it to plant a tree.');
@@ -79,10 +84,10 @@ var standardTutorial = {
         retrothrust: 'goalThrust', stopthrust: 'goalThrust',
         auto: 'achievedThrust', timeout: 500
     },
-    achievedThrust: {auto: 'goalDefeatHydra', timeout: 1500},
-    goalDefeatHydra: {defeathydra: 'achievedDefeatHydra'}
-    //achievedThrust: {auto: 'goalPlantTree', timeout: 1500},
-    //goalPlantTree: {planttree: 'achievedPlantTree'},
-    //achievedPlantTree: {auto: 'endTutorial1',timeout:7000},
-	//endTutorial1: {auto: 'endTutorial2',timeout:7000}
+    achievedThrust: {auto: 'goalChangeColor', timeout: 1500},
+    goalChangeColor: {changecolor: 'achievedChangeColor'},
+    achievedChangeColor: {auto: 'goalPlantTree', timeout: 1500},
+    goalPlantTree: {planttree: 'achievedPlantTree'},
+    achievedPlantTree: {auto: 'endTutorial1',timeout:7000},
+	endTutorial1: {auto: 'endTutorial2',timeout:7000}
 };

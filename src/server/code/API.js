@@ -46,7 +46,11 @@ Object.defineProperty(API, 'init', {
  * @param color {string}
  */
 API.changeShipColor = function (player, color) {
-    player.getShip().lineColor = color;
+    var oldColor = player.getShip().lineColor;
+    if (color !== oldColor) {
+        player.getShip().lineColor = color;
+        player.achieve('changecolor');
+    }
 };
 
 /**
