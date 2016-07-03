@@ -289,6 +289,15 @@ SyncBodyBase.prototype.getUpdateProperties = function (full) {
 };
 
 /**
+ * Generate proxy object for code system
+ *
+ * @returns {BodyProxy}
+ */
+SyncBodyBase.prototype.getProxy = function () {
+    return new BodyProxy(this);
+};
+
+/**
  * Copy object property to properties object. Subclasses can offer more complex behavior for specific properties
  *
  * @param propname
@@ -340,6 +349,10 @@ SyncBodyBase.prototype.setGenus = function (genus) {
             this[k] = item.props[k];
         }
     }
+};
+
+SyncBodyBase.prototype.debugInfo = function () {
+    return this.serverType + ' ' + this.id + ' ' + this.position[0] + ',' + this.position[1];
 };
 
 // Common vector properties
@@ -475,5 +488,76 @@ SyncBodyBase.applyGenera = function (base, genera) {
     }
     base.prototype.genera = genera;
 };
+
+// Helpers
+
+/**
+ * Proxy for public properties to be used in code system
+ * @param body
+ * @constructor
+ */
+var BodyProxy = function (body) {
+    this.__target = body;
+};
+
+Object.defineProperty(BodyProxy.prototype, 'x', {
+    enumerable: true,
+    get: function () {
+        return this.__target.position[0];
+    },
+    set: function (v) {
+        this.__target.position[0] = v;
+    }
+});
+
+Object.defineProperty(BodyProxy.prototype, 'y', {
+    enumerable: true,
+    get: function () {
+        return this.__target.position[1];
+    },
+    set: function (v) {
+        this.__target.position[1] = v;
+    }
+});
+
+Object.defineProperty(BodyProxy.prototype, 'vx', {
+    enumerable: true,
+    get: function () {
+        return this.__target.velocity[0];
+    },
+    set: function (v) {
+        this.__target.velocity[0] = v;
+    }
+});
+
+Object.defineProperty(BodyProxy.prototype, 'vy', {
+    enumerable: true,
+    get: function () {
+        return this.__target.velocity[1];
+    },
+    set: function (v) {
+        this.__target.velocity[1] = v;
+    }
+});
+
+Object.defineProperty(BodyProxy.prototype, 'a', {
+    enumerable: true,
+    get: function () {
+        return this.__target.angle;
+    },
+    set: function (v) {
+        this.__target.angle = v;
+    }
+});
+
+Object.defineProperty(BodyProxy.prototype, 'av', {
+    enumerable: true,
+    get: function () {
+        return this.__target.angularVelocity;
+    },
+    set: function (v) {
+        this.__target.angularVelocity = v;
+    }
+});
 
 module.exports = SyncBodyBase;

@@ -184,8 +184,8 @@ nativeToInterp.function = function (interpreter, f) {
 };
 
 nativeToInterp.object = function (interpreter, o) {
-    if (o.getUpdatePacket) {
-        o = o.getUpdatePacket(true);
+    if (o.getProxy) {
+        o = o.getProxy();
     }
     if (o instanceof Array) {
         var pseudo = interpreter.createObject(interpreter.ARRAY);
@@ -201,7 +201,7 @@ nativeToInterp.object = function (interpreter, o) {
         pseudo = interpreter.createObject(interpreter.OBJECT);
         o.__pseudo = pseudo;
         for (i in o) {
-            if (i === '__pseudo') {
+            if (i === '__pseudo' || i === '__target') {
                 continue;
             }
             if (o[i].__pseudo) {

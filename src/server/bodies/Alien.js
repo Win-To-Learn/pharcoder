@@ -11,7 +11,7 @@ var FSM = require('../util/FSM.js');
 
 //var ALIEN_THRUST_FORCE = 150;
 var ALIEN_ROTATION_FORCE = 50;
-var ALIEN_SCAN_RADIUS = 150;
+var ALIEN_SCAN_RADIUS = 50;
 
 
 var _routes = [
