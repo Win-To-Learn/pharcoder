@@ -107,7 +107,13 @@ LeaderBoard.prototype.setContent = function (title, list, playerid) {
         if (pid && this.playerMap[pid]) {
             var tag = this.playerMap[pid].tag;
             var line = this.lines[i];
-            line.setText((i + 1) + '. ' + tag + ' (' + list[i].val + ')');
+            var text = (i + 1) + '. ' + tag + ' (' + list[i].val + ')';
+            if (list[i].val >= 10) {
+                text += '**';
+            } else if (list[i].val >= 5) {
+                text += '*';
+            }
+            line.setText(text);
             if (pid === playerid) {
                 line.fontWeight = 'bold';
                 playerVisible = true;
