@@ -16,7 +16,7 @@ var LoginPage = function (config) {
 
     $('.select').selectmenu();
     $('.loginbutton').button({icons: {primary: 'ui-icon-triangle-1-e'}});
-    $('.accordion').accordion({heightStyle: 'content'});
+    $('.accordion').accordion({active: 2, heightStyle: 'content'});
 
     var self = this;
     $('#guestlogin').click(function () {
