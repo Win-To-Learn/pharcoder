@@ -25,11 +25,11 @@ Crystal.prototype.constructor = Crystal;
 
 Starcoder.mixinPrototype(Crystal.prototype, SyncBodyInterface.prototype);
 
-//Crystal.prototype._lineColor = '#00ffff';
-Crystal.prototype._fillColor = '#000000';
+Crystal.prototype._lineColor = '#00ffff';
+//Crystal.prototype._fillColor = '#000000';
 Crystal.prototype._shapeClosed = true;
 Crystal.prototype._lineWidth = 1;
-Crystal.prototype._fillAlpha = 0.0;
+Crystal.prototype._fillAlpha = 0.25;
 Crystal.prototype._geometry = [
     {type: 'poly', closed: true, points: Paths.d2cross}
 ];
