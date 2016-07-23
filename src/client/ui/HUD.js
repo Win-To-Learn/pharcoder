@@ -18,12 +18,13 @@ HUD.prototype.constructor = HUD;
 
 HUD.prototype.layout = function (width, height) {
     var xunit = Math.floor(width / 18);
-    var yunit = Math.floor(height / 8);
+    var yunit = Math.floor(height / 10);
     // Outline
     this.lineStyle(2, 0xcccccc, 1.0);
     // Crossline
     this.moveTo(0, 4 * yunit);
     this.lineTo(width, 4 * yunit);
+    // Outline
     this.drawRect(0, 0, width, height);
     // Code Area
     this.codetext = this.game.starcoder.makeFlexText(xunit * 9, yunit * 2, 'CODE',
@@ -54,17 +55,29 @@ HUD.prototype.layout = function (width, height) {
         {font: '26px Arial', fill: '#00ff00', align: 'center'});
     this.treetext.anchor.setTo(0.5, 0.5);
     this.addChild(this.treetext);
+    // Labels
+    var t = this.game.starcoder.makeFlexText(xunit * 4, yunit * 6.25, 'CRYSTALS',
+        {font: '14px Arial', fill : '#00ffff'});
+    t.anchor.setTo(0.5, 0);
+    this.addChild(t);
+    t = this.game.starcoder.makeFlexText(xunit * 13, yunit * 6.25, 'TREES',
+        {font: '14px Arial', fill : '#00ff00'});
+    t.anchor.setTo(0.5, 0);
+    this.addChild(t);
     this.lasers = [];
     for (i = 0; i < 5; i++) {
         var laser = new Bullet(this.game, {nophysics: true, properties: {lineColor: '#ff0000'}});
         laser.x = xunit * 2 + i * 24;
-        laser.y = yunit * 7;
+        laser.y = yunit * 8;
         laser.anchor.setTo(0.5);
         laser.angle = 90;
         this.addChild(laser);
         this.lasers.push(laser);
     }
-
+    t = this.game.starcoder.makeFlexText(xunit * 9, yunit * 8.75, 'LASERS',
+        {font: '14px Arial', fill : '#ff0000'});
+    t.anchor.setTo(0.5, 0);
+    this.addChild(t);
 };
 
 HUD.prototype.setLaserColor = function (color) {

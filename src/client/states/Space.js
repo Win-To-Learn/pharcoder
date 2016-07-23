@@ -119,7 +119,7 @@ Space.prototype.create = function () {
     this.game.ui = this.game.add.group();
     this.game.ui.fixedToCamera = true;
 
-    this.game.hud = new HUD(this.game, (this.game.width - 180)/ 2, 2, 180, 120);
+    this.game.hud = new HUD(this.game, (this.game.width - 180)/ 2, 2, 180, 150);
     this.game.ui.add(this.game.hud);
     //this.game.hud.anchor.setTo(0.5, 0);
 
@@ -127,7 +127,7 @@ Space.prototype.create = function () {
     this.game.ui.add(this.game.tutormessage);
     //this.game.tutormessage.setMessage('');
     this.game.tutormessage.x = this.game.width / 2;
-    this.game.tutormessage.y = 150;
+    this.game.tutormessage.y = 180;
 
     // MiniMap
     this.game.minimap = new MiniMap(this.game, 300, 300);

@@ -10,7 +10,7 @@ module.exports = {
         var self = this;
         player.tutorial = new FSM(standardTutorial, 'init');
         player.tutorial.once('goalTurnRight', function () {
-            self.sendMessage(player, 'tutorial', 'Use the joystick or arrow keys to turn your ship to the right.');
+            self.sendMessage(player, 'tutorial', 'Press the RIGHT ARROW key on your keyboard to turn to the right');
         });
         player.tutorial.once('achievedTurnRight', function () {
             player.getShip().crystals += 50;
@@ -18,7 +18,7 @@ module.exports = {
             self.sendMessage(player, 'crystal', 50);
         });
         player.tutorial.once('goalTurnLeft', function () {
-            self.sendMessage(player, 'tutorial', 'Use the joystick or arrow keys to turn your ship to the left.');
+            self.sendMessage(player, 'tutorial', 'Press the LEFT ARROW key on your keyboard to turn to the left');
         });
         player.tutorial.once('achievedTurnLeft', function () {
             player.getShip().crystals += 50;
@@ -26,7 +26,7 @@ module.exports = {
             self.sendMessage(player, 'crystal', 50);
         });
         player.tutorial.once('goalThrust', function () {
-            self.sendMessage(player, 'tutorial', 'Use the joystick or arrow keys to move your ship forward.');
+            self.sendMessage(player, 'tutorial', 'Press the UP ARROW key on your keyboard to thrust forward');
         });
         player.tutorial.once('achievedThrust', function () {
             player.getShip().crystals += 50;
@@ -46,8 +46,11 @@ module.exports = {
             self.sendMessage(player, 'tutorial', 'Now fly to a green planet and touch it to plant a tree.');
         });
         player.tutorial.once('achievedPlantTree', function () {
-            self.sendMessage(player, 'tutorial', 'Fantastic! Now use the spacebar to shoot lasers at the red asteroids. Collect the blue crystals.');
+            self.sendMessage(player, 'tutorial', 'Fantastic!');
 		});
+        player.tutorial.once('goalLasers', function () {
+            self.sendMessage(player, 'tutorial', 'Press the SPACEBAR on your keyboard to fire your lasers');
+        });
 		player.tutorial.once('endTutorial1', function () {
 			self.sendMessage(player, 'tutorial', 'Create space station blocks and use the T key to emit your tractor beam.');
 		});
@@ -88,6 +91,7 @@ var standardTutorial = {
     goalChangeColor: {changecolor: 'achievedChangeColor'},
     achievedChangeColor: {auto: 'goalPlantTree', timeout: 1500},
     goalPlantTree: {planttree: 'achievedPlantTree'},
-    achievedPlantTree: {auto: 'endTutorial1',timeout:7000},
-	endTutorial1: {auto: 'endTutorial2',timeout:7000}
+    achievedPlantTree: {auto: 'goalLasers',timeout: 1500},
+    goalLasers: {auto: 'endTutorial1', timeout: 7000},
+	endTutorial1: {auto: 'endTutorial2', timeout: 7000}
 };
