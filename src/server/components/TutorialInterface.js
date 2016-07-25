@@ -51,9 +51,15 @@ module.exports = {
         player.tutorial.once('goalLasers', function () {
             self.sendMessage(player, 'tutorial', 'Press the SPACEBAR to fire your lasers at maroon asteroids and orange aliens.');
         });
+        player.tutorial.once('endTutorial1', function () {
+            self.sendMessage(player, 'tutorial', 'Gather crystals & plant 5 trees to make your planet livable. Good luck!');
+        });
+
+        /**
 		player.tutorial.once('endTutorial1', function () {
 			self.sendMessage(player, 'tutorial', 'Create space station blocks and use the T key to emit your tractor beam.');
 		});
+        **/
 		player.tutorial.once('endTutorial2', function () {
 			self.sendMessage(player, 'tutorial', '');
 		});
