@@ -33,11 +33,11 @@ module.exports = {
             self.sendMessage(player, 'tutorial', 'Great!');
             self.sendMessage(player, 'crystal', 50);
         });
-        player.tutorial.once('goalChangeColor', function () {
-            self.sendMessage(player, 'tutorialvid', 'colorchange.mp4');
-            self.sendMessage(player, 'tutorial', 'Change the color of your ship.');
+        player.tutorial.once('goalChangeThrust', function () {
+            self.sendMessage(player, 'tutorialvid', 'changethrustforce.mp4');
+            self.sendMessage(player, 'tutorial', 'Change your thrust force.');
         });
-        player.tutorial.once('achievedChangeColor', function () {
+        player.tutorial.once('achievedChangeThrust', function () {
             player.getShip().crystals += 250;
             self.sendMessage(player, 'tutorial', 'Terrific!');
             self.sendMessage(player, 'crystal', 250);
@@ -49,7 +49,7 @@ module.exports = {
             self.sendMessage(player, 'tutorial', 'Fantastic!');
 		});
         player.tutorial.once('goalLasers', function () {
-            self.sendMessage(player, 'tutorial', 'Press the SPACEBAR on your keyboard to fire your lasers');
+            self.sendMessage(player, 'tutorial', 'Press the SPACEBAR to fire your lasers at maroon asteroids and orange aliens.');
         });
 		player.tutorial.once('endTutorial1', function () {
 			self.sendMessage(player, 'tutorial', 'Create space station blocks and use the T key to emit your tractor beam.');
@@ -87,9 +87,10 @@ var standardTutorial = {
         retrothrust: 'goalThrust', stopthrust: 'goalThrust',
         auto: 'achievedThrust', timeout: 500
     },
-    achievedThrust: {auto: 'goalChangeColor', timeout: 1500},
-    goalChangeColor: {changecolor: 'achievedChangeColor'},
-    achievedChangeColor: {auto: 'goalPlantTree', timeout: 1500},
+    achievedThrust: {auto: 'goalChangeThrust', timeout: 1500},
+    //goalChangeColor: {changecolor: 'achievedChangeColor'},
+    goalChangeThrust: {changethrust: 'achievedChangeThrust'},
+    achievedChangeThrust: {auto: 'goalPlantTree', timeout: 1500},
     goalPlantTree: {planttree: 'achievedPlantTree'},
     achievedPlantTree: {auto: 'goalLasers',timeout: 1500},
     goalLasers: {auto: 'endTutorial1', timeout: 7000},

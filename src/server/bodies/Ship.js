@@ -210,6 +210,7 @@ Ship.prototype.rechargeLasers = function () {
  * @param {object} code
  */
 Ship.prototype.deployCodeCapsule = function (code) {
+    /**
     var cc = this.worldapi.addSyncableBody(CodeCapsule, {
         vectorScale: 0.5, owner: this.player, payload: code, lineColor: this.lineColor});
     // FIXME: positioning and error check
@@ -217,6 +218,7 @@ Ship.prototype.deployCodeCapsule = function (code) {
     cc.position[0] = this.position[0] - sin(this.angle) * r;
     cc.position[1] = this.position[1] + cos(this.angle) * r;
     cc.angle = this.angle;
+     **/
 };
 
 Ship.prototype.beginContact = function (other) {
