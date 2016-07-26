@@ -83,7 +83,7 @@ Space.prototype.create = function () {
     this.game.sounds.alert = this.game.sound.add('alert', 1, false);
     this.game.sounds.chopper = this.game.sound.add('chopper', 1, false);
 
-    this.game.sounds.music = this.game.sound.add('music', 1, true);
+    this.game.sounds.music = this.game.sound.add('music', 0.4, true);
     this.game.sounds.music.play();
 
     // Background - FIXME

@@ -178,6 +178,7 @@ Controls.prototype.preUpdate = function () {
         tractor = true;
         //this.queue.push({type: 'tractor_pressed', executed: false, seq: seq++});
         this.starcoder.sendMessage('tractor', true);
+        this.starcoder.sendMessage('ready', true);
     }
     if ((!state.tractor && !controls.tractor.isDown) && tractor) {
         tractor = false;//

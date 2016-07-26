@@ -10,7 +10,7 @@ module.exports = {
         var self = this;
         player.tutorial = new FSM(standardTutorial, 'init');
         player.tutorial.once('goalTurnRight', function () {
-            self.sendMessage(player, 'tutorial', 'Press the RIGHT ARROW key on your keyboard to turn to the right');
+            self.sendMessage(player, 'tutorial', 'Hold the RIGHT ARROW key on your keyboard to turn to the right');
         });
         player.tutorial.once('achievedTurnRight', function () {
             player.getShip().crystals += 50;
@@ -18,7 +18,7 @@ module.exports = {
             self.sendMessage(player, 'crystal', 50);
         });
         player.tutorial.once('goalTurnLeft', function () {
-            self.sendMessage(player, 'tutorial', 'Press the LEFT ARROW key on your keyboard to turn to the left');
+            self.sendMessage(player, 'tutorial', 'Hold the LEFT ARROW key on your keyboard to turn to the left');
         });
         player.tutorial.once('achievedTurnLeft', function () {
             player.getShip().crystals += 50;
@@ -26,7 +26,7 @@ module.exports = {
             self.sendMessage(player, 'crystal', 50);
         });
         player.tutorial.once('goalThrust', function () {
-            self.sendMessage(player, 'tutorial', 'Press the UP ARROW key on your keyboard to thrust forward');
+            self.sendMessage(player, 'tutorial', 'Hold the UP ARROW key on your keyboard to thrust forward');
         });
         player.tutorial.once('achievedThrust', function () {
             player.getShip().crystals += 50;
@@ -49,10 +49,10 @@ module.exports = {
             self.sendMessage(player, 'tutorial', 'Fantastic!');
 		});
         player.tutorial.once('goalLasers', function () {
-            self.sendMessage(player, 'tutorial', 'Press the SPACEBAR to fire your lasers at maroon asteroids and orange aliens.');
+            self.sendMessage(player, 'tutorial', 'Press the SPACEBAR to fire your lasers at purple asteroids & orange aliens.');
         });
         player.tutorial.once('endTutorial1', function () {
-            self.sendMessage(player, 'tutorial', 'Gather crystals & plant 5 trees to make your planet livable. Good luck!');
+            self.sendMessage(player, 'tutorial', 'You need 150 blue crystals to plant each additional tree. Try to plant 5!');
         });
 
         /**

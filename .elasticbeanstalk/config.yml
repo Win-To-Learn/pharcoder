@@ -1,10 +1,12 @@
 branch-defaults:
   aws:
     environment: pharcoder-dev
-  master:
-    environment: pharcoder-single-1
   dev:
     environment: pharcoder-dev
+  jdm:
+    environment: pharcoder-game-portals
+  master:
+    environment: pharcoder-single-1
 deploy:
   artifact: deployments/web.zip
 global:
@@ -12,5 +14,5 @@ global:
   default_ec2_keyname: null
   default_platform: Node.js
   default_region: us-east-1
-  profile: eb-cli
+  profile: null
   sc: git
