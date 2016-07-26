@@ -4,7 +4,7 @@ branch-defaults:
   dev:
     environment: pharcoder-dev
   jdm:
-    environment: pharcoder-game-portals
+    environment: pharcoder-dev
   master:
     environment: pharcoder-single-1
 deploy:
