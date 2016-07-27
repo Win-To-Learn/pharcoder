@@ -632,8 +632,8 @@ MsgBuffer.prototype.readFieldValue = function (r) {
             this.len += 2;
             a = this.buffer.toString('utf8', this.len, this.len + n);
             if (type === 'json') {
-                console.log('json', a);
                 a = JSON.parse(a);
+                //console.log('json', a);
             }
             r[field] = a;
             this.len += n;

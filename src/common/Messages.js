@@ -11,7 +11,8 @@ module.exports = {
     'music' : 'string',
     'grid' : 'string',
     'tutorial' : 'string',
-    'tutorialvid' : 'string',
+    //'tutorialvid' : 'string',
+    'tutorialvid' : 'json',
     'alert' : 'string',
     // Controls
     'up' : 'boolean',

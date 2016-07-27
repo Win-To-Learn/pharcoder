@@ -75,6 +75,8 @@ Loader.prototype.preload = function () {
     this.game.load.image('vgridline', 'assets/images/vgridline.png');
     // Videos
     //this.game.load.video('defeathydra', 'assets/video/defeathydra.mp4');
+    // Thumbnails
+    this.game.load.image('test-thumb', 'assets/video/test-thumb.png');
 };
 
 Loader.prototype.update = function () {

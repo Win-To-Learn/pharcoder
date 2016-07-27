@@ -10,6 +10,7 @@ var ThrustGenerator = require('../bodies/ThrustGenerator.js');
 var MiniMap = require('../ui/MiniMap.js');
 var LeaderBoard = require('../ui/LeaderBoard.js');
 var VidPlayer = require('../ui/VidPlayer.js');
+var VidPicker = require('../ui/VidPicker.js');
 var Toast = require('../ui/Toast.js');
 var HUD = require('../ui/HUD.js');
 var TutorMessage = require('../ui/TutorMessage.js');
@@ -147,6 +148,8 @@ Space.prototype.create = function () {
 
     this.game.vidplayer = new VidPlayer(this.game, this.game.width/2, this.game.height/2);
     this.game.ui.add(this.game.vidplayer);
+    this.game.vidpicker = new VidPicker(this.game, this.game.width/2, this.game.height/2);
+    this.game.ui.add(this.game.vidpicker);
     //this.game.vidplayer.visible = false;
     //this.game.tutvideo = this.game.add.video('defeathydra');
     //this.game.tutvideo.onPlay.add(function () {
@@ -191,86 +194,57 @@ Space.prototype.create = function () {
         });
         this.game.ui.add(linktext);
 
-        /*
-        // Button for testing
-        var dostuff = sc.makeFlexText(this.game.width / 2, this.game.height - 24, 'Do Stuff',
-            {font: '20px Arial', fill: '#0000ff', align: 'center'});
-        dostuff.anchor.setTo(0.5);
-        dostuff.inputEnabled = true;
-        dostuff.events.onInputUp.add(function () {
-            this.game.vidplayer.play('/assets/video/defeathydra.mp4');
-            //this.game.vidscreen.visible = true;
-            //this.game.tutvideo.play();
-        }, this);
-        this.game.ui.add(dostuff);
-        */
 
     }
 
 };
-
-//Space.prototype.update = function () {
-//    // FIXME: just a mess for testing
+//
+//Space.prototype._setupMessageHandlers = function (socket) {
 //    var self = this;
-//    this.starcoder.controls.processQueue(function (a) {
-//        if (a.type === 'up_pressed') {
-//            self.game.playerShip.localState.thrust = 'starting';
-//            //self.game.sounds.playerthrust.play();
-//            //self.game.thrustgenerator.startOn(self.game.playerShip);
-//        } else if (a.type === 'up_released') {
-//            self.game.playerShip.localState.thrust = 'shutdown';
-//            //self.game.sounds.playerthrust.stop();
-//            //self.game.thrustgenerator.stopOn(self.game.playerShip);
+//    socket.on('msg code pickup', function (val) {
+//        self.game.sounds.chime.play();
+//        Toast.spinUp(self.game, self.game.playerShip.x, self.game.playerShip.y, 'New Code!');
+//        self.starcoder.setCodeForUI(val);
+//    });
+//    socket.on('msg plant tree', function (val) {
+//        self.game.sounds.planttree.play();
+//    });
+//    socket.on('msg asteroid pop', function (size) {
+//        if (size > 1) {
+//            self.game.sounds.bigpop.play();
+//        } else {
+//            self.game.sounds.littlepop.play();
 //        }
 //    });
+//    socket.on('msg tagged', function (val) {
+//        self.game.sounds.tagged.play();
+//    });
+//    socket.on('msg laser', function (val) {
+//        self.game.sounds.laser.play();
+//    });
+//    socket.on('music', function (state) {
+//        if (state === 'on') {
+//            self.game.sounds.music.resume();
+//        } else {
+//            self.game.sounds.music.pause();
+//        }
+//    });
+//    socket.on('grid', function (state) {
+//        console.log('grid state', state);
+//        if (state === 'on') {
+//            self.game.starcoder.showGrid();
+//        } else {
+//            self.game.starcoder.hideGrid();
+//        }
+//    });
+//    socket.on('msg tutorial', function (msg) {
+//        console.log('tut msg', msg);
+//        self.game.tutormessage.setMessage(msg);
+//    });
+//    socket.on('alert', function (text) {
+//        self.game.sounds.alert.play();
+//        Toast.growUp(self.game, self.game.camera.view.centerX, self.game.camera.view.bottom, text);
+//    });
 //};
-
-Space.prototype._setupMessageHandlers = function (socket) {
-    var self = this;
-    socket.on('msg code pickup', function (val) {
-        self.game.sounds.chime.play();
-        Toast.spinUp(self.game, self.game.playerShip.x, self.game.playerShip.y, 'New Code!');
-        self.starcoder.setCodeForUI(val);
-    });
-    socket.on('msg plant tree', function (val) {
-        self.game.sounds.planttree.play();
-    });
-    socket.on('msg asteroid pop', function (size) {
-        if (size > 1) {
-            self.game.sounds.bigpop.play();
-        } else {
-            self.game.sounds.littlepop.play();
-        }
-    });
-    socket.on('msg tagged', function (val) {
-        self.game.sounds.tagged.play();
-    });
-    socket.on('msg laser', function (val) {
-        self.game.sounds.laser.play();
-    });
-    socket.on('music', function (state) {
-        if (state === 'on') {
-            self.game.sounds.music.resume();
-        } else {
-            self.game.sounds.music.pause();
-        }
-    });
-    socket.on('grid', function (state) {
-        console.log('grid state', state);
-        if (state === 'on') {
-            self.game.starcoder.showGrid();
-        } else {
-            self.game.starcoder.hideGrid();
-        }
-    });
-    socket.on('msg tutorial', function (msg) {
-        console.log('tut msg', msg);
-        self.game.tutormessage.setMessage(msg);
-    });
-    socket.on('alert', function (text) {
-        self.game.sounds.alert.play();
-        Toast.growUp(self.game, self.game.camera.view.centerX, self.game.camera.view.bottom, text);
-    });
-};
 
 module.exports = Space;

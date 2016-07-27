@@ -63,8 +63,12 @@ var events = {
         this.game.tutormessage.setMessage(text);
     },
 
-    tutorialvid: function (vid) {
-        this.game.vidplayer.play('/assets/video/' + vid);
+    tutorialvid: function (desc) {
+        var vidurl = '/assets/video/' + desc.key + '.mp4';
+        var thumbkey = desc.key + 'thumb';
+        thumbkey = 'test-thumb';
+        this.game.vidpicker.addVideo(thumbkey, desc.title, vidurl);
+        this.game.vidplayer.play(vidurl);
     },
 
     alert: function (text) {

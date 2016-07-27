@@ -20,6 +20,7 @@ Controls.prototype.init = function (queue) {
     this.controls.fire = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
     this.controls.tractor = this.game.input.keyboard.addKey(Phaser.Keyboard.T);
     this.controls.grid = this.game.input.keyboard.addKey(Phaser.Keyboard.G);
+    this.controls.vids = this.game.input.keyboard.addKey(Phaser.Keyboard.V);
     this.joystickState = {
         up: false,
         down: false,
@@ -192,6 +193,13 @@ Controls.prototype.preUpdate = function () {
         grid = false;
         this.game.gridOverlay.toggle();
     }
+    // Local Only - Video Picker
+    if (controls.vids.isDown && !this.game.vidpicker.visible) {
+        this.game.vidpicker.open();
+    }
+    //if (controls.vids.isDown && this.game.vidpicker.visible) {
+    //    this.game.vidpicker.close();
+    //}
 };
 
 var action;             // Module scope to avoid allocations

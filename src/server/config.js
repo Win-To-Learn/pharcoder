@@ -46,10 +46,10 @@ module.exports = {
             genus: 'EcoTerrorist',
             vectorScale: 1,
             mass: 5
-        }},
-        // vvvvv Testing vvvvv
-        {type: 'Crystal', number: 100, config: {
-            position: {random: 'world', pad: 30}
         }}
+        // vvvvv Testing vvvvv
+        //{type: 'Crystal', number: 100, config: {
+        //    position: {random: 'world', pad: 30}
+        //}}
     ]
 };

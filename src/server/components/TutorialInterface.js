@@ -34,7 +34,7 @@ module.exports = {
             self.sendMessage(player, 'crystal', 50);
         });
         player.tutorial.once('goalChangeColor', function () {
-            self.sendMessage(player, 'tutorialvid', 'colorchange.mp4');
+            self.sendMessage(player, 'tutorialvid', {key: 'colorchange', title: 'Change Ship Color'});
             self.sendMessage(player, 'tutorial', 'Change the color of your ship.');
         });
         player.tutorial.once('achievedChangeColor', function () {
