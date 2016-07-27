@@ -65,8 +65,7 @@ var events = {
 
     tutorialvid: function (desc) {
         var vidurl = '/assets/video/' + desc.key + '.mp4';
-        var thumbkey = desc.key + 'thumb';
-        thumbkey = 'test-thumb';
+        var thumbkey = desc.key + '-thumb';
         this.game.vidpicker.addVideo(thumbkey, desc.title, vidurl);
         this.game.vidplayer.play(vidurl);
     },
