@@ -39,13 +39,13 @@ module.exports = {
             position: {random: 'world', pad: 30},
             genus: 'Warrior',
             vectorScale: 1,
-            mass: 15
+            mass: 5
         }},
-        {type: 'Alien', number: 4, config: {
+        {type: 'Alien', number: 16, config: {
             position: {random: 'world', pad: 30},
             genus: 'EcoTerrorist',
             vectorScale: 1,
-            mass: 15
+            mass: 5
         }}
         // vvvvv Testing vvvvv
         //{type: 'Crystal', number: 100, config: {
