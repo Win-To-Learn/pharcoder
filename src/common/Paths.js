@@ -74,6 +74,24 @@ exports.star = [
     [sin(3*TAU/5), cos(3*TAU/5)]
 ];
 
+exports.star7pt = [
+    [sin(0), cos(0)],
+    [0.2*sin(TAU/14), 0.2*cos(TAU/14)],
+    [sin(2*TAU/14), cos(2*TAU/14)],
+    [0.2*sin(3*TAU/14), 0.2*cos(3*TAU/14)],
+    [sin(4*TAU/14), cos(4*TAU/14)],
+    [0.2*sin(5*TAU/14), 0.2*cos(5*TAU/14)],
+    [sin(6*TAU/14), cos(6*TAU/14)],
+    [0.2*sin(7*TAU/14), 0.2*cos(7*TAU/14)],
+    [sin(8*TAU/14), cos(8*TAU/14)],
+    [0.2*sin(9*TAU/14), 0.2*cos(9*TAU/14)],
+    [sin(10*TAU/14), cos(10*TAU/14)],
+    [0.2*sin(11*TAU/14), 0.2*cos(11*TAU/14)],
+    [sin(12*TAU/14), cos(12*TAU/14)],
+    [0.2*sin(13*TAU/14), 0.2*cos(13*TAU/14)]
+];
+
+
 exports.hexagon = [
     [2*cos(0*TAU/6), 2*sin(0*TAU/6)],
     [2*cos(1*TAU/6), 2*sin(1*TAU/6)],
