@@ -1,0 +1,16 @@
+{
+    "thumbs": [
+        {
+            "type": "image",
+            "key": "colorchange-thumb",
+            "url": "assets/video/colorchange-thumb.png",
+            "overwrite": false
+        },
+        {
+            "type": "image",
+            "key": "defeathydra-thumb",
+            "url": "assets/video/defeathydra-thumb.png",
+            "overwrite": false
+        }
+    ]
+}

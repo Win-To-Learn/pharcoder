@@ -12,6 +12,9 @@ var shell = require('gulp-shell');
 var argv = require('yargs').argv;
 var replace = require('gulp-replace');
 var fs = require('fs');
+var spawn = require('child_process').spawnSync;
+var glob = require('glob-fs')({ gitignore: true });
+var path = require('path');
 var bump = require('gulp-bump');
 var rename = require('gulp-rename');
 
@@ -90,6 +93,20 @@ gulp.task('bump-major', function () {
     gulp.src('./package.json')
         .pipe(bump({type: 'major'}))
         .pipe(gulp.dest('.'));
+});
+
+gulp.task('make-thumbs', function () {
+    var vids = glob.readdirSync('assets/video/*.mp4', {});
+    var pack = {thumbs: []};
+    for (i = 0; i < vids.length; i++) {
+        var vid = path.basename(vids[i]);
+        var base = vid.substr(0,vid.length-4);
+        var pngname = base + '-thumb.png';
+        spawn('ffmpeg', ['-i', vid, '-vf', 'thumbnail,scale=120:90', '-frames:v', 1, pngname],
+            {cwd: process.cwd() + '/assets/video'});
+        pack.thumbs.push({type: 'image', key: base + '-thumb', url: 'assets/video/' + pngname, overwrite: false})
+    }
+    fs.writeFileSync('assets/video/thumbs.json', JSON.stringify(pack, null, 4));
 });
 
 gulp.task('watchify', ['watchify-client', 'watchify-frontend']);
