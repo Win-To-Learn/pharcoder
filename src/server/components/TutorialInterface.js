@@ -9,7 +9,15 @@ module.exports = {
     setTutorial: function (player) {
         var self = this;
         player.tutorial = new FSM(standardTutorial, 'init');
-        player.tutorial.once('goalTurnRight', function () {
+        player.tutorial.once('goalPlayAnimatedMission', function () {
+            self.sendMessage(player, 'tutorialvid', {key: 'cinematicintro', title: 'Play Animated Mission'});
+            //self.sendMessage(player, 'tutorial', 'Change the color of your ship.');
+        });
+        
+        
+        
+        
+        player.tutorial.once('goalPlayAnimatedMission', function () {
             self.sendMessage(player, 'tutorial', 'Press the RIGHT ARROW key on your keyboard to turn to the right');
         });
         player.tutorial.once('achievedTurnRight', function () {
@@ -69,7 +77,8 @@ module.exports = {
 };
 
 var standardTutorial = {
-    init: {start: 'goalTurnRight'},
+    init: {start: 'goalPlayAnimatedMission'},
+    goalPlayAnimatedMission: {auto: 'goalTurnRight'},
     goalTurnRight: {turnright: 'pendingTurnRight'},
     pendingTurnRight: {
         turnleft: 'goalTurnRight', stopturning: 'goalTurnRight',
