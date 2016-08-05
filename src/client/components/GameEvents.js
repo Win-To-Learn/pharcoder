@@ -16,7 +16,7 @@ module.exports = {
 var events = {
     crystal: function (val) {
         this.game.sounds.chime.play();
-        Toast.spinUp(this.game, this.game.playerShip.x, this.game.playerShip.y, '+' + val + ' crystals!');
+        Toast.spinUp(this.game, this.game.playerShip.x, this.game.playerShip.y, '+' + val + ' biocrystals!');
     },
 
     planttree: function () {
@@ -28,11 +28,12 @@ var events = {
     },
 
     asteroid: function (size) {
-        if (size > 1) {
+        /**if (size > 1) {
             this.game.sounds.bigpop.play();
         } else {
             this.game.sounds.littlepop.play();
-        }
+        }**/
+        this.game.sounds.bigpop.play();
     },
 
     tagged: function () {

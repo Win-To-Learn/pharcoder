@@ -2,6 +2,18 @@
     "thumbs": [
         {
             "type": "image",
+            "key": "changethrustforce-thumb",
+            "url": "assets/video/changethrustforce-thumb.png",
+            "overwrite": false
+        },
+        {
+            "type": "image",
+            "key": "cinematicintro-thumb",
+            "url": "assets/video/cinematicintro-thumb.png",
+            "overwrite": false
+        },
+        {
+            "type": "image",
             "key": "colorchange-thumb",
             "url": "assets/video/colorchange-thumb.png",
             "overwrite": false
@@ -10,6 +22,12 @@
             "type": "image",
             "key": "defeathydra-thumb",
             "url": "assets/video/defeathydra-thumb.png",
+            "overwrite": false
+        },
+        {
+            "type": "image",
+            "key": "wordsofwisdom-thumb",
+            "url": "assets/video/wordsofwisdom-thumb.png",
             "overwrite": false
         }
     ]

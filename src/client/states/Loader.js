@@ -63,7 +63,7 @@ Loader.prototype.preload = function () {
     this.game.load.audio('tagged', 'assets/sounds/tagged.mp3');
     this.game.load.audio('laser', 'assets/sounds/laser.mp3');
     //this.game.load.audio('music', 'assets/sounds/ignore.ogg');
-	this.game.load.audio('music', 'assets/sounds/lumpyspacejam.mp3');
+	this.game.load.audio('music', 'assets/sounds/multitracks.mp3');
     this.game.load.audio('alert', 'assets/sounds/zapTwoTone2.mp3');
     this.game.load.audio('chopper', 'assets/sounds/space_chopper_passing.mp3');
     // Spritesheets

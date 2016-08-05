@@ -14,7 +14,7 @@ module.exports = {
         _lineWidth: 2,
         _shapeClosed: true,
         _fillAlpha: 0.25,
-        _shape: Paths.hexagon
+        _shape: Paths.star7pt
     },
 
     updateProperties: {

@@ -29,7 +29,9 @@ Alien.prototype = Object.create(VectorSprite.prototype);
 Alien.prototype.constructor = Alien;
 
 Alien.prototype._geometry = [
-    {type: 'poly', closed: false, points: Paths.k6}
+    //{type: 'poly', closed: false, points: Paths.k6}
+    {type: 'poly', closed: false, points: Paths.star7pt}
+
 ];
 
 Starcoder.mixinPrototype(Alien.prototype, SyncBodyInterface.prototype);

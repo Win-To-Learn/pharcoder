@@ -39,12 +39,12 @@ var Ship = function (starcoder, config) {
         trunkLength: 2
     };
     // Engine
-    this.thrustForce = 500;
+    this.thrustForce = 500.001;
     this.turningForce = 35;
     // Weapons system
-    this.charge = 10;
+    this.charge = 8;
     this.maxCharge = 5;
-    this.chargeRate = 10;
+    this.chargeRate = 8;
     this.bulletSalvoSize = 1;
     this.bulletVelocity = 50;
     this.bulletRange = 40;
