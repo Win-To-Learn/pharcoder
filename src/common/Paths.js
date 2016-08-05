@@ -92,6 +92,33 @@ exports.star7pt = [
     [star7ptOuterR*sin(12*TAU/14), star7ptOuterR*cos(12*TAU/14)],
     [star7ptInnerR*sin(13*TAU/14), star7ptInnerR*cos(13*TAU/14)]
 ];
+//exports.star7pt = [
+//    [1,0.5],
+//    [1,-0.5],
+//    [-1,-1],
+//    [-1,1]
+//];
+
+var star8ptInnerR = 0.75;
+var star8ptOuterR = 1.5;
+exports.star8pt = [
+    [star8ptOuterR*sin(0), star8ptOuterR*cos(0)],
+    [star8ptInnerR*sin(TAU/16), star8ptInnerR*cos(TAU/16)],
+    [star8ptOuterR*sin(2*TAU/16), star8ptOuterR*cos(2*TAU/16)],
+    [star8ptInnerR*sin(3*TAU/16), star8ptInnerR*cos(3*TAU/16)],
+    [star8ptOuterR*sin(4*TAU/16), star8ptOuterR*cos(4*TAU/16)],
+    [star8ptInnerR*sin(5*TAU/16), star8ptInnerR*cos(5*TAU/16)],
+    [star8ptOuterR*sin(6*TAU/16), star8ptOuterR*cos(6*TAU/16)],
+    [star8ptInnerR*sin(7*TAU/16), star8ptInnerR*cos(7*TAU/16)],
+    [star8ptOuterR*sin(8*TAU/16), star8ptOuterR*cos(8*TAU/16)],
+    [star8ptInnerR*sin(9*TAU/16), star8ptInnerR*cos(9*TAU/16)],
+    [star8ptOuterR*sin(10*TAU/16), star8ptOuterR*cos(10*TAU/16)],
+    [star8ptInnerR*sin(11*TAU/16), star8ptInnerR*cos(11*TAU/16)],
+    [star8ptOuterR*sin(12*TAU/16), star8ptOuterR*cos(12*TAU/16)],
+    [star8ptInnerR*sin(13*TAU/16), star8ptInnerR*cos(13*TAU/16)],
+    [star8ptOuterR*sin(14*TAU/16), star8ptOuterR*cos(14*TAU/16)],
+    [star8ptInnerR*sin(15*TAU/16), star8ptInnerR*cos(15*TAU/16)]
+];
 
 exports.hexagon = [
     [2*cos(0*TAU/6), 2*sin(0*TAU/6)],

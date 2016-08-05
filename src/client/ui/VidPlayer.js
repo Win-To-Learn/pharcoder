@@ -47,6 +47,7 @@ VidPlayer.prototype.play = function (url) {
         this.vid = this.game.add.video(null, url);
         this.vidscreen.loadTexture(this.vid);
         this.vid.onComplete.add(function () {
+            //console.log('video finished - closing');
             self.close();
         });
         this.vid.play();

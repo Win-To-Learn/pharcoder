@@ -190,19 +190,19 @@ VectorSprite.prototype.updateTextures = function () {
     this._dirty = false;
 };
 
-VectorSprite.prototype.updateBody = function () {
-    switch (this.physicsBodyType) {
-        case "circle":
-            if (typeof this.circle === 'undefined') {
-                var r = this.graphics.getBounds();
-                var radius = Math.round(Math.sqrt(r.width* r.height)/2);
-            } else {
-                radius = this.radius;
-            }
-            this.body.setCircle(radius);
-            break;
-    }
-};
+//VectorSprite.prototype.updateBody = function () {
+//    switch (this.physicsBodyType) {
+//        case "circle":
+//            if (typeof this.circle === 'undefined') {
+//                var r = this.graphics.getBounds();
+//                var radius = Math.round(Math.sqrt(r.width* r.height)/2);
+//            } else {
+//                radius = this.radius;
+//            }
+//            this.body.setCircle(radius);
+//            break;
+//    }
+//};
 
 /**
  * Render vector to bitmap of graphics object at given scale
@@ -268,6 +268,7 @@ VectorSprite.prototype._drawPolygon = function (graphics, points, closed, render
     //var sc = this.game.physics.p2.mpxi(this.vectorScale)*renderScale;
     //var sc = this.game.physics.p2.mpxi(renderScale);
     var scale = this.game.starcoder.config.physicsScale * this.vectorScale * renderScale;
+    var flatpoints = [];
     points = points.slice();
     if (closed) {
         points.push(points[0]);

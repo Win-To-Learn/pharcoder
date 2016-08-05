@@ -11,7 +11,7 @@ var VectorSprite = require('./VectorSprite.js');
 var SyncBodyInterface = require('./SyncBodyInterface.js');
 var Common = require('../../common/bodies/Alien.js');
 //var UpdateProperties = require('../../common/UpdateProperties.js').Alien;
-var Paths = require('../../common/Paths.js');
+//var Paths = require('../../common/Paths.js');
 
 var Alien = function (game, config) {
     VectorSprite.call(this, game, config);
