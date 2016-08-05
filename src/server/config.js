@@ -30,7 +30,7 @@ module.exports = {
         {type: 'Hydra', number: 1, config: {
             position: {random: 'world', pad: 50}
         }},
-        {type: 'Planetoid', number: 20, config: {
+        {type: 'Planetoid', number: 30, config: {
             position: {random: 'world', pad: 30},
             angularVelocity: {random: 'float', lo: -2, hi: 2},
             mass: 120
