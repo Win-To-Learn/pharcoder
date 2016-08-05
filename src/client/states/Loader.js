@@ -77,8 +77,9 @@ Loader.prototype.preload = function () {
     //this.game.load.video('defeathydra', 'assets/video/defeathydra.mp4');
     // Thumbnails
     this.game.load.image('colorchange-thumb', 'assets/video/colorchange-thumb.png');
-    this.game.load.image('colorchange-thumb', 'assets/video/changethrustforce-thumb.png');
+    this.game.load.image('changethrustforce-thumb', 'assets/video/changethrustforce-thumb.png');
     this.game.load.image('cinematicintro-thumb', 'assets/video/cinematicintro-thumb.png');
+    this.game.load.image('defeathydra-thumb', 'assets/video/defeathydra-thumb.png');
     
 };
 
