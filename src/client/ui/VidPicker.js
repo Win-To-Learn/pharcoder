@@ -45,6 +45,8 @@ VidPicker.prototype.addVideo = function (key, title, url) {
     var row = Math.floor(this.thumbs.length / COLUMNS);
     var col = this.thumbs.length % COLUMNS;
     var thumb = this.game.add.image(BORDER + col * (THUMB_W + HPAD), BORDER + row * (THUMB_H + VPAD), key, null, this);
+    thumb.width = THUMB_W;
+    thumb.height = THUMB_H;
     thumb.inputEnabled = true;
     thumb.events.onInputUp.add(function () {
         self.close();
