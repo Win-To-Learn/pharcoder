@@ -27,8 +27,9 @@ HUD.prototype.layout = function (width, height) {
     // Outline
     this.drawRect(0, 0, width, height);
     // Code Area
-    this.codetext = this.game.starcoder.makeFlexText(xunit * 9, yunit * 2, 'CLICK TO CODE',
-        {font: '21px Arial', fill: '#ff9900', align: 'center'});
+    //this.codetext = this.game.starcoder.makeFlexText(xunit * 9, yunit * 2, 'CLICK TO CODE',
+    //    {font: '21px Arial', fill: '#ff9900', align: 'center'});
+    this.codetext = this.game.make.image(xunit * 9, yunit * 2, 'clickcode');
     this.codetext.anchor.setTo(0.5, 0.5);
     this.codetext.inputEnabled = true;
     this.codetext.events.onInputDown.add(this.game.starcoder.toggleCodeWindow, this.game.starcoder);
