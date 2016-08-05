@@ -3,12 +3,24 @@
 body {
     background-color: #000000;
     background-image: url(/assets/images/space-tile.png);
-    background-repeat: repeat;
+
+    /*background-image: url(/assets/images/starsglow2.gif);*/
+
+    /*background-image: url(/assets/images/landing2.gif);*/
+    /*background-size: 800px 600px;*/
+    /*background-repeat: repeat;*/
 }
 
 .logo {
     display: block;
     margin: 0 auto;
+}
+
+.reel {
+    display: block;
+    margin: auto;
+    width: 50%;
+
 }
 
 #header {
