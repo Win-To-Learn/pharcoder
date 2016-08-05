@@ -16,10 +16,12 @@ module.exports = {
         leaderBoardTitle: {font: 'bold 20px Arial', align: 'center', fill: '#ff0000'}
     },
     links: [
-        {text: 'STARCODER MISSIONS', url: 'http://bit.ly/starcodermissions', x: '25%', y: '-24',
-        properties: {font: '20px Arial', fill: '#ffa500', align: 'center'}},
+        {text: 'STARCODER MISSIONS', url: 'https://docs.google.com/presentation/d/1_-dH1ScTq2lz3vmLTBpw9YLW5HGa0lUil7Ry7ztFQNU/edit?usp=sharing', x: '25%', y: '-24',
+            properties: {font: '20px Arial', fill: '#ffa500', align: 'center'}},
         {text: 'FEEDBACK', url: 'http://goo.gl/forms/kbEqsuMSFeN4aP0X2', x: '75%', y: '-24',
-            properties: {font: '20px Arial', fill: '#ffa500', align: 'center'}}
+            properties: {font: '20px Arial', fill: '#ffa500', align: 'center'}},
+        {text: '*please turn your speakers on*', url: '', x: '52%', y: '-24',
+            properties: {font: '15px Arial', fill: '#ffffff', align: 'center'}}
     ],
     gridSpacing: 10,
     gridColor: '#fff380',

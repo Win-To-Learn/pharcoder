@@ -27,8 +27,8 @@ HUD.prototype.layout = function (width, height) {
     // Outline
     this.drawRect(0, 0, width, height);
     // Code Area
-    this.codetext = this.game.starcoder.makeFlexText(xunit * 9, yunit * 2, 'CODE',
-        {font: '24px Arial', fill: '#ff9900', align: 'center'});
+    this.codetext = this.game.starcoder.makeFlexText(xunit * 9, yunit * 2, 'CLICK TO CODE',
+        {font: '21px Arial', fill: '#ff9900', align: 'center'});
     this.codetext.anchor.setTo(0.5, 0.5);
     this.codetext.inputEnabled = true;
     this.codetext.events.onInputDown.add(this.game.starcoder.toggleCodeWindow, this.game.starcoder);
@@ -56,7 +56,7 @@ HUD.prototype.layout = function (width, height) {
     this.treetext.anchor.setTo(0.5, 0.5);
     this.addChild(this.treetext);
     // Labels
-    var t = this.game.starcoder.makeFlexText(xunit * 4, yunit * 6.25, 'CRYSTALS',
+    var t = this.game.starcoder.makeFlexText(xunit * 5, yunit * 6.25, 'BIOCRYSTALS',
         {font: '14px Arial', fill : '#00ffff'});
     t.anchor.setTo(0.5, 0);
     this.addChild(t);

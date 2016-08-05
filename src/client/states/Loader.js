@@ -63,7 +63,7 @@ Loader.prototype.preload = function () {
     this.game.load.audio('tagged', 'assets/sounds/tagged.mp3');
     this.game.load.audio('laser', 'assets/sounds/laser.mp3');
     //this.game.load.audio('music', 'assets/sounds/ignore.ogg');
-	this.game.load.audio('music', 'assets/sounds/lumpyspacejam.mp3');
+	this.game.load.audio('music', 'assets/sounds/multitracks.mp3');
     this.game.load.audio('alert', 'assets/sounds/zapTwoTone2.mp3');
     this.game.load.audio('chopper', 'assets/sounds/space_chopper_passing.mp3');
     // Spritesheets
@@ -77,6 +77,7 @@ Loader.prototype.preload = function () {
     //this.game.load.video('defeathydra', 'assets/video/defeathydra.mp4');
     // Thumbnails
     this.game.load.image('colorchange-thumb', 'assets/video/colorchange-thumb.png');
+    this.game.load.image('colorchange-thumb', 'assets/video/changethrustforce-thumb.png');
     this.game.load.image('cinematicintro-thumb', 'assets/video/cinematicintro-thumb.png');
     
 };

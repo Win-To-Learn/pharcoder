@@ -181,7 +181,11 @@ API.setShipScale = function (player, scale) {
  * @param scale {number}
  */
 API.setThrustForce = function (player, force) {
-    player.getShip().thrustForce = clamp(100, force, 1500);
+    var oldForce = player.getShip().thrustForce;
+    if(force !== oldForce){
+        player.getShip().thrustForce = clamp(100, force, 1500);
+        player.achieve('changethrust');
+    }
 };
 
 
