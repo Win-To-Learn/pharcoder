@@ -40,6 +40,7 @@ var Grid = function (game) {
     }
 
     this.alpha = 0.5;
+    this.visible = false;
 };
 
 Grid.prototype = Object.create(Phaser.Group.prototype);

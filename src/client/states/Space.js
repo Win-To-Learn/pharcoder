@@ -15,6 +15,7 @@ var Toast = require('../ui/Toast.js');
 var HUD = require('../ui/HUD.js');
 var TutorMessage = require('../ui/TutorMessage.js');
 var Grid = require('../ui/Grid.js');
+var Starfield = require('../ui/Starfield.js');
 
 var Controls = require('../plugins/Controls.js');
 var SyncClient = require('../plugins/SyncClient.js');
@@ -88,10 +89,13 @@ Space.prototype.create = function () {
     this.game.sounds.music.play();
 
     // Background - FIXME
-    //this.starcoder.starfield = this.game.make.bitmapData(600, 600, 'starfield', true);
-    //this.starcoder.drawStarField(this.starcoder.starfield.ctx, 600, 16);
-    //this.game.add.tileSprite(wb[0]*ps, wb[1]*ps, (wb[2]-wb[0])*ps, (wb[3]-wb[1])*ps, this.starcoder.starfield);
-    //this.game.add.tileSprite(sc.phaserLeft, sc.phaserTop, sc.phaserWidth, sc.phaserHeight);
+    //this.starcoder.starfield = this.game.make.bitmapData(512, 512, 'starfield', true);
+    //this.starcoder.drawStarField(this.starcoder.starfield.ctx, 512, 16);
+    ////this.game.add.tileSprite(wb[0]*ps, wb[1]*ps, (wb[2]-wb[0])*ps, (wb[3]-wb[1])*ps, this.starcoder.starfield);
+    //var starfield = this.game.add.tileSprite(0, 0, this.game.width, this.game.height, this.starcoder.starfield);
+    //starfield.fixedToCamera = true;
+    this.game.starfield = new Starfield(this.game, 0, 0, this.game.width, this.game.height, 512, 16);
+    this.game.world.add(this.game.starfield);
 
     this.starcoder.syncclient.start();
     //this.starcoder.socket.emit('client ready');

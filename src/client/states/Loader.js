@@ -5,6 +5,8 @@
  */
 'use strict';
 
+var Starfield = require('../ui/Starfield.js');
+
 var Loader = function () {};
 
 Loader.prototype = Object.create(Phaser.State.prototype);
@@ -12,9 +14,11 @@ Loader.prototype.constructor = Loader;
 
 Loader.prototype.init = function () {
     // Init and draw starfield
-    this.starcoder.starfield = this.game.make.bitmapData(600, 600, 'starfield', true);
-    this.starcoder.drawStarField(this.starcoder.starfield.ctx, 600, 16);
-    this.game.add.tileSprite(0, 0, this.game.width, this.game.height, this.starcoder.starfield);
+    //this.starcoder.starfield = this.game.make.bitmapData(600, 600, 'starfield', true);
+    //this.starcoder.drawStarField(this.starcoder.starfield.ctx, 600, 16);
+    //this.game.add.tileSprite(0, 0, this.game.width, this.game.height, this.starcoder.starfield);
+    var starfield = new Starfield(this.game, 0, 0, this.game.width, this.game.height, 512, 16);
+    this.game.world.add(starfield);
 
     // Position progress bar
     var barWidth = Math.floor(0.4 * this.game.width);

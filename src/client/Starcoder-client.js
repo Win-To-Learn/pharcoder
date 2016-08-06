@@ -46,7 +46,7 @@ Starcoder.prototype.init = function () {
     this.implementFeature(require('./../common/components/MsgBufferInterface.js'));
     this.implementFeature(require('./components/WorldApi.js'));
     this.implementFeature(require('./components/CodeEndpointClient.js'));
-    this.implementFeature(require('./components/Starfield.js'));
+    //this.implementFeature(require('./components/Starfield.js'));
     this.implementFeature(require('./components/LeaderBoardClient.js'));
     //this.implementFeature(DOMInterface);
     this.implementFeature(require('./components/NetworkInterface.js'));
