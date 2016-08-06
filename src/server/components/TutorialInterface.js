@@ -72,10 +72,14 @@ module.exports = {
             self.sendMessage(player, 'tutorial', 'You need 150 blue biocrystals to plant each additional tree. Try to plant 5!');
 		});
         player.tutorial.once('endTutorial2', function () {
-            self.sendMessage(player, 'tutorial', 'Click V to replay videos of mission briefings.');
+            self.sendMessage(player, 'tutorial', 'Click V to replay and try new videos of mission briefings.');
         });
 		player.tutorial.once('endTutorial3', function () {
 			self.sendMessage(player, 'tutorial', '');
+            self.sendMessage(player, 'loadvid', {key: 'defeathydra', title: 'Defeat the Hydra'});
+            self.sendMessage(player, 'loadvid', {key: 'wordsofwisdom', title: 'Words of Wisdom'});
+            self.sendMessage(player, 'loadvid', {key: 'tilsacodingintro', title: 'Tilsa Coding Intro'});
+            self.sendMessage(player, 'loadvid', {key: 'createstationblock', title: 'Create Station Block'});
 		});
     },
 

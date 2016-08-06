@@ -6,6 +6,7 @@ module.exports = {
     'crystal' : 'uint16',
     'planttree' : 'null',
     'tagged' : 'null',
+    'explosion' : 'null',   
     'laser' : 'null',
     'asteroid' : 'ufixed16',
     'music' : 'string',
@@ -13,6 +14,7 @@ module.exports = {
     'tutorial' : 'string',
     //'tutorialvid' : 'string',
     'tutorialvid' : 'json',
+    'loadvid' : 'json',
     'alert' : 'string',
     // Controls
     'up' : 'boolean',

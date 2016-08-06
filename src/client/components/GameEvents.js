@@ -40,6 +40,10 @@ var events = {
         this.game.sounds.tagged.play();
     },
 
+    explosion: function () {
+        this.game.sounds.explosion.play();
+    },
+
     laser: function () {
         this.game.sounds.laser.play();
     },
@@ -70,6 +74,12 @@ var events = {
         this.game.vidpicker.addVideo(thumbkey, desc.title, vidurl);
         this.game.vidplayer.play(vidurl);
     },
+
+    loadvid: function (desc) {
+        var vidurl = '/assets/video/' + desc.key + '.mp4';
+        var thumbkey = desc.key + '-thumb';
+        this.game.vidpicker.addVideo(thumbkey, desc.title, vidurl);
+    },    
 
     alert: function (text) {
         this.game.sounds.alert.play();

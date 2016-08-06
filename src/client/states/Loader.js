@@ -64,6 +64,7 @@ Loader.prototype.preload = function () {
     this.game.load.audio('planttree', 'assets/sounds/planttree.mp3');
     this.game.load.audio('bigpop', 'assets/sounds/bigpop.mp3');
     this.game.load.audio('littlepop', 'assets/sounds/littlepop.mp3');
+    this.game.load.audio('explosion', 'assets/sounds/explosion.mp3');   
     this.game.load.audio('tagged', 'assets/sounds/tagged.mp3');
     this.game.load.audio('laser', 'assets/sounds/laser.mp3');
     //this.game.load.audio('music', 'assets/sounds/ignore.ogg');

@@ -20,8 +20,20 @@
         },
         {
             "type": "image",
+            "key": "createstationblock-thumb",
+            "url": "assets/video/createstationblock-thumb.png",
+            "overwrite": false
+        },
+        {
+            "type": "image",
             "key": "defeathydra-thumb",
             "url": "assets/video/defeathydra-thumb.png",
+            "overwrite": false
+        },
+        {
+            "type": "image",
+            "key": "tilsacodingintro-thumb",
+            "url": "assets/video/tilsacodingintro-thumb.png",
             "overwrite": false
         },
         {

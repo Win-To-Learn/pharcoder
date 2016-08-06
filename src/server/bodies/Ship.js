@@ -39,8 +39,8 @@ var Ship = function (starcoder, config) {
         trunkLength: 2
     };
     // Engine
-    this.thrustForce = 500.001;
-    this.turningForce = 35;
+    this.thrustForce = 700.001;
+    this.turningForce = 55;
     // Weapons system
     this.charge = 8;
     this.maxCharge = 5;
@@ -239,6 +239,7 @@ Ship.prototype.beginContact = function (other) {
             }
             break;
         case 'Asteroid':
+            this.starcoder.sendMessage(this.player, 'explosion');
         case 'HydraArm':
             if (!this.dead) {
                 this.knockOut();

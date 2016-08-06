@@ -76,6 +76,7 @@ Space.prototype.create = function () {
     // Sounds
     this.game.sounds = {};
     this.game.sounds.playerthrust = this.game.sound.add('playerthrust', 1, true);
+    this.game.sounds.explosion = this.game.sound.add('explosion', 1, false);
     this.game.sounds.chime = this.game.sound.add('chime', 1, false);
     this.game.sounds.planttree = this.game.sound.add('planttree', 1, false);
     this.game.sounds.bigpop = this.game.sound.add('bigpop', 1, false);
