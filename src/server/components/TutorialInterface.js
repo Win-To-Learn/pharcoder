@@ -10,10 +10,9 @@ module.exports = {
         var self = this;
         player.tutorial = new FSM(standardTutorial, 'init');
         player.tutorial.once('goalPlayAnimatedMission', function () {
-            self.sendMessage(player, 'tutorialvid', {key: 'cinematicintro', title: 'Play Animated Mission'});
+            self.sendMessage(player, 'tutorialvid', {key: 'cinematicintro', title: 'Mission\nBriefing'});
             //self.sendMessage(player, 'tutorial', 'Change the color of your ship.');
         });
-
         player.tutorial.once('goalPlayAnimatedMission', function () {
             self.sendMessage(player, 'tutorial', 'Hold the RIGHT ARROW key on your keyboard to turn right');
         });

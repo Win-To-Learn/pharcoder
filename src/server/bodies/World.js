@@ -45,99 +45,15 @@ var World = function (starcoder, bounds, initialBodies) {
     this._cGroups = {};
     this._cGroupIdx = 1;
     this._setBounds.apply(this, bounds);
+    this._setContactMaterials();
     this._populate(initialBodies);
 };
+
+World.wallMaterial = new p2.Material();
 
 World.prototype = Object.create(p2.World.prototype);
 World.prototype.constructor = World;
 
-/**
- * Set named collision group on body
- *
- * @param shapes {Shape|Shape[]} - Shape or array of shapes to set group for
- * @param groupname {string} - Name of group
- */
-//World.prototype.setCollisionGroup = function (shapes, groupname) {
-//    var gid = this._cGroups[groupname];
-//    if (!gid) {
-//        gid = this._createCollisionGroup(groupname);
-//    }
-//    //body.coreCollisionGroup = gid;
-//    if (Array.isArray(shapes)) {
-//        for (var i = 0, l = shapes.length; i < l; i++) {
-//            shapes[i].collisionGroup = gid;
-//        }
-//    } else {
-//        shapes.collisionGroup = gid;
-//    }
-//
-//    //for (var i = 0, l = body.shapes.length; i < l; i++) {
-//    //    var shape = body.shapes[i];
-//    //    if (!shape.special) {
-//    //        shape.collisionGroup = gid;
-//    //    }
-//    //}
-//};
-
-///**
-// * Use named flags to set collision mask on body
-// *
-// * @param shapes {Shape|Shape[]} - Shape or shapes to set mask for
-// * @param include {Array} - List of groups to enable collisions for
-// * @param exclude {Array} - List of groups to disable collisions for
-// */
-//World.prototype.setCollisionMask = function (shapes, include, exclude) {
-//    if (include && include.length >= 1) {
-//        var mask = 0x0001;                          // For wall collisions
-//        for (var i = 0, l = include.length; i < l; i++) {
-//            var gid = this._cGroups[include[i]];
-//            if (!gid) {
-//                gid = this._createCollisionGroup(include[i]);
-//            }
-//            mask |= gid;
-//        }
-//    } else {
-//        mask = 0xffff;
-//    }
-//    if (exclude && exclude.length >= 1) {
-//        for (i = 0, l = exclude.length; i < l; i++) {
-//            gid = this._cGroups[exclude[i]];
-//            if (!gid) {
-//                gid = this._createCollisionGroup(exclude[i]);
-//            }
-//            mask &= ~gid;
-//        }
-//    }
-//    if (Array.isArray(shapes)) {
-//        for (i = 0, l = shapes.length; i < l; i++) {
-//            shapes[i].collisionMask = mask;
-//        }
-//    } else {
-//        shapes.collisionMask = mask;
-//    }
-//    //body.coreCollisionMask = mask;
-//    //for (i = 0, l = body.shapes.length; i < l; i++) {
-//    //    var shape = body.shapes[i];
-//    //    if (!shape.special) {
-//    //        shape.collisionMask = mask;
-//    //    }
-//    //}
-//};
-
-///**
-// * Create new collision group, with error check
-// *
-// * @param groupname
-// * @returns {number}
-// * @private
-// */
-//World.prototype._createCollisionGroup = function (groupname) {
-//    if (this._cGroupIdx >= 32) {
-//        console.log('Cannot create new collision group');
-//    } else {
-//        return this._cGroups[groupname] = Math.pow(2, this._cGroupIdx++);
-//    }
-//};
 
 /**
  * Need to override so we easily trigger a callback on body being added
@@ -349,9 +265,15 @@ World.prototype._setBounds = function (l, t, r, b) {
         var body = this._bounds[k];
         var shape = new p2.Plane();
         shape.collisionMask = 0xffff;
+        shape.material = World.wallMaterial;
         body.addShape(shape);
         this.addBody(body);
     }
+};
+
+World.prototype._setContactMaterials = function () {
+    var wallAsteroid = new p2.ContactMaterial(World.wallMaterial, bodyTypes.Asteroid.material,
+        {restitution: 1, stiffness: 1e6});
 };
 
 /**
