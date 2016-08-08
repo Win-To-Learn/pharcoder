@@ -32,6 +32,12 @@
         },
         {
             "type": "image",
+            "key": "tilsacallforhelp-thumb",
+            "url": "assets/video/tilsacallforhelp-thumb.png",
+            "overwrite": false
+        },
+        {
+            "type": "image",
             "key": "tilsacodingintro-thumb",
             "url": "assets/video/tilsacodingintro-thumb.png",
             "overwrite": false

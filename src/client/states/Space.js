@@ -77,6 +77,8 @@ Space.prototype.create = function () {
     this.game.sounds = {};
     this.game.sounds.playerthrust = this.game.sound.add('playerthrust', 1, true);
     this.game.sounds.explosion = this.game.sound.add('explosion', 1, false);
+    this.game.sounds.shipattacked = this.game.sound.add('shipattacked', 1, false);
+    this.game.sounds.treesdestroyed = this.game.sound.add('treesdestroyed', 1, false);
     this.game.sounds.chime = this.game.sound.add('chime', 1, false);
     this.game.sounds.planttree = this.game.sound.add('planttree', 1, false);
     this.game.sounds.bigpop = this.game.sound.add('bigpop', 1, false);
@@ -86,7 +88,7 @@ Space.prototype.create = function () {
     this.game.sounds.alert = this.game.sound.add('alert', 1, false);
     this.game.sounds.chopper = this.game.sound.add('chopper', 1, false);
 
-    this.game.sounds.music = this.game.sound.add('music', 0.2, true);
+    this.game.sounds.music = this.game.sound.add('music', 0.4, true);
     this.game.sounds.music.play();
 
     // Background - FIXME

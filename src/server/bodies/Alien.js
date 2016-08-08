@@ -110,11 +110,14 @@ Alien.prototype.beginContact = function (body) {
     }
     switch (body.serverType) {
         case 'Ship':
+            this.starcoder.sendMessage(body.player, 'shipattacked');
             if (!body.dead) {
                 body.knockOut();
             }
             break;
         case 'Tree':
+            //this.starcoder.sendMessage(body.owner, 'treesdestroyed');
+            //this.starcoder.game.sounds.treesdestroyed.play();
             this.world.removeConstraint(body.attachmentConstraint);
             body.removeSelfFromWorld();
             break;

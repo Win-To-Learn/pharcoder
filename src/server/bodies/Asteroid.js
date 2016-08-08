@@ -36,9 +36,9 @@ Asteroid.prototype.explode = function (respawn) {
         this.worldapi.addSyncableBody(Asteroid, {
             position: {random: 'world'},
             velocity: {random: 'vector', lo: -15, hi: 15},
-            angularVelocity: {random: 'float', lo: -5, hi: 5},
+            angularVelocity: {random: 'float', lo: -15, hi: 15},
             vectorScale: {random: 'float', lo: 0.6, hi: 1.4},
-            mass: 10
+            mass: 7
         });
     }
 };

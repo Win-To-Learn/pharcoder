@@ -240,6 +240,8 @@ Ship.prototype.beginContact = function (other) {
             break;
         case 'Asteroid':
             this.starcoder.sendMessage(this.player, 'explosion');
+        //case 'Alien':
+            //this.starcoder.sendMessage(this.player, 'shipattacked');
         case 'HydraArm':
             if (!this.dead) {
                 this.knockOut();

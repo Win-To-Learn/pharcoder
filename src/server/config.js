@@ -20,32 +20,32 @@ module.exports = {
         perMessageDeflate: false
     },
     initialBodies: [
-        {type: 'Asteroid', number: 55, config: {
+        {type: 'Asteroid', number: 35, config: {
             position: {random: 'world'},
-            velocity: {random: 'vector', lo: -5, hi: 5},
-            angularVelocity: {random: 'float', lo: -3, hi: 3},
+            velocity: {random: 'vector', lo: -8, hi: 8},
+            angularVelocity: {random: 'float', lo: -12, hi: 12},
             vectorScale: {random: 'float', lo: 2, hi: 4},
-            mass: 25
+            mass: 12
         }},
         {type: 'Hydra', number: 1, config: {
             position: {random: 'world', pad: 50}
         }},
-        {type: 'Planetoid', number: 30, config: {
+        {type: 'Planetoid', number: 20, config: {
             position: {random: 'world', pad: 30},
-            angularVelocity: {random: 'float', lo: -2, hi: 2},
+            angularVelocity: {random: 'float', lo: -5, hi: 5},
             mass: 120
         }},
-        {type: 'Alien', number: 4, config: {
+        {type: 'Alien', number: 6, config: {
             position: {random: 'world', pad: 30},
             genus: 'Warrior',
             vectorScale: 1,
-            mass: 10
+            mass: 7
         }},
-        {type: 'Alien', number: 8, config: {
+        {type: 'Alien', number: 9, config: {
             position: {random: 'world', pad: 30},
             genus: 'EcoTerrorist',
             vectorScale: 1,
-            mass: 10
+            mass: 7
         }},
         // vvvvv Testing vvvvv
         {type: 'Crystal', number: 40, config: {

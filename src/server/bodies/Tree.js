@@ -20,7 +20,7 @@ var Tree = function (starcoder, config) {
     this.branchDecay = config.branchDecay || 0.75;
     this._step = this.depth;
     //this.growthRate = 1000 || config.growthRate;
-    this.growthRate = 1 || config.growthRate;
+    this.growthRate = 5 || config.growthRate;
     this.hulls = [];
     for (var i = 0; i < this.depth; i++) {
         this.hulls.push([]);

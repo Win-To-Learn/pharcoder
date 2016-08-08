@@ -13,10 +13,7 @@ module.exports = {
             self.sendMessage(player, 'tutorialvid', {key: 'cinematicintro', title: 'Play Animated Mission'});
             //self.sendMessage(player, 'tutorial', 'Change the color of your ship.');
         });
-        
-        
-        
-        
+
         player.tutorial.once('goalPlayAnimatedMission', function () {
             self.sendMessage(player, 'tutorial', 'Hold the RIGHT ARROW key on your keyboard to turn right');
         });
@@ -68,11 +65,21 @@ module.exports = {
         player.tutorial.once('goalLasers', function () {
             self.sendMessage(player, 'tutorial', 'Press the SPACEBAR on your keyboard to fire your lasers at purple asteroids & orange aliens');
         });
+        player.tutorial.once('goalCreateStationBlocks', function () {
+            self.sendMessage(player, 'tutorial', 'Create station blocks & push them to the planet to create a fort around your trees');
+            self.sendMessage(player, 'tutorialvid', {key: 'createstationblock', title: 'Create Station Blocks'});
+        });
+        player.tutorial.once('achievedCreateStationBlocks', function () {
+            player.getShip().crystals += 250;
+            self.sendMessage(player, 'tutorial', 'Amazing!');
+            self.sendMessage(player, 'crystal', 250);
+        });
 		player.tutorial.once('endTutorial1', function () {
-            self.sendMessage(player, 'tutorial', 'You need 150 blue biocrystals to plant each additional tree. Try to plant 5!');
+            self.sendMessage(player, 'tutorial', '150 blue biocrystals needed for each additional tree. Plant 5 so the Pharcoes can return!');
 		});
         player.tutorial.once('endTutorial2', function () {
-            self.sendMessage(player, 'tutorial', 'Click V to replay and try new videos of mission briefings.');
+            self.sendMessage(player, 'tutorial', 'Click V to play mission briefings. T key for tractor beam');
+            self.sendMessage(player, 'tutorialvid', {key: 'tilsacallforhelp', title: 'Tilsas Call'});
         });
 		player.tutorial.once('endTutorial3', function () {
 			self.sendMessage(player, 'tutorial', '');
@@ -118,8 +125,10 @@ var standardTutorial = {
     goalChangeColor: {changecolor: 'achievedChangeColor'},
     achievedChangeColor: {auto: 'goalPlantTree', timeout: 1500},
     goalPlantTree: {planttree: 'achievedPlantTree'},
-    achievedPlantTree: {auto: 'goalLasers',timeout: 1500},
-    goalLasers: {auto: 'endTutorial1', timeout: 7000},
+    achievedPlantTree: {auto: 'goalLasers',timeout: 2500},
+    goalLasers: {auto: 'goalCreateStationBlocks', timeout: 1500},
+    goalCreateStationBlocks: {createstationblocks: 'achievedCreateStationBlocks'},
+    achievedCreateStationBlocks: {auto: 'endTutorial1', timeout: 7000},
 	endTutorial1: {auto: 'endTutorial2', timeout: 7000},
     endTutorial2: {auto: 'endTutorial3', timeout: 7000},
 };

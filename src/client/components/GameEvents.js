@@ -44,6 +44,14 @@ var events = {
         this.game.sounds.explosion.play();
     },
 
+    shipattacked: function () {
+        this.game.sounds.shipattacked.play();
+    },
+
+    treesdestroyed: function () {
+        this.game.sounds.treesdestroyed.play();
+    },
+    
     laser: function () {
         this.game.sounds.laser.play();
     },

@@ -408,6 +408,7 @@ API.createStationBlock = function (player, shape) {
     var r = ship.boundingRadius + station.boundingRadius + 1;
     station.position[0] = ship.position[0] + sin(ship.angle) * r;
     station.position[1] = ship.position[1] + -cos(ship.angle) * r;
+    player.achieve('createstationblocks');
 };
 
 function _normalizeShape (shape) {
