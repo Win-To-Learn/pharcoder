@@ -8,6 +8,7 @@ var THUMB_H = 90;
 var BORDER = 8;
 var HPAD = 8;
 var VPAD = 18;
+var FONTSIZE = 16;
 var COLUMNS = 6;
 var ROWS = 4;
 var WIDTH = COLUMNS * (THUMB_W + HPAD) + 2 * BORDER - HPAD;
@@ -54,7 +55,7 @@ VidPicker.prototype.addVideo = function (key, title, url) {
     });
     var text = this.game.add.text(BORDER + col * (THUMB_W + HPAD) + THUMB_W / 2,
         BORDER + row * (THUMB_H + VPAD) + THUMB_H, title,
-        {fill: '#cccccc', font: (VPAD - 2) + 'px Arial', align: 'center'}, this);
+        {fill: '#cccccc', font: FONTSIZE + 'px Arial', align: 'center'}, this);
     text.anchor.setTo(0.5, 0);
     this.thumbs.push(thumb);
 };

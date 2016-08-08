@@ -5,6 +5,8 @@
  */
 'use strict';
 
+var p2 = require('p2');
+
 var SyncBodyBase = require('./SyncBodyBase.js');
 
 var Crystal = require('./Crystal.js');
@@ -15,13 +17,17 @@ var Asteroid = function (starcoder, config) {
     this.angularDamping = 0;
 };
 
+// Static
+
+Asteroid.material = new p2.Material();
+
 Asteroid.prototype = Object.create(SyncBodyBase.prototype);
 Asteroid.prototype.constructor = Asteroid;
 
 Asteroid.prototype.clientType = 'Asteroid';
 Asteroid.prototype.serverType = 'Asteroid';
 
-
+Asteroid.prototype.material = Asteroid.material;
 Asteroid.prototype.deadly = true;
 Asteroid.prototype.tractorable = true;
 

@@ -96,6 +96,14 @@ SyncBodyBase.prototype._createCollisionGroup = function (groupname) {
     }
 };
 
+SyncBodyBase.prototype.setMaterial = function () {
+    if (this.material && this.shapes && this.shapes.length) {
+        for (var i = 0; i < this.shapes.length; i++) {
+            this.shapes[i].material = this.material;
+        }
+    }
+};
+
 /**
  * Set named collision group on body
  *
@@ -259,6 +267,8 @@ SyncBodyBase.prototype.adjustShape = function () {
     this.setCollisionGroup();
     this.setCollisionMask();
 
+    // Set material on new shapes
+    this.setMaterial();
 };
 
 SyncBodyBase.prototype.clean = function () {
