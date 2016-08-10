@@ -10,7 +10,7 @@ module.exports = {
         var self = this;
         player.tutorial = new FSM(standardTutorial, 'init');
         player.tutorial.once('goalPlayAnimatedMission', function () {
-            self.sendMessage(player, 'tutorialvid', {key: 'cinematicintro', title: 'Mission\nBriefing'});
+            self.sendMessage(player, 'tutorialvid', {key: 'cinematicintro', title: 'Mission\nBriefing #1'});
             //self.sendMessage(player, 'tutorial', 'Change the color of your ship.');
         });
         player.tutorial.once('goalPlayAnimatedMission', function () {
@@ -38,7 +38,7 @@ module.exports = {
             self.sendMessage(player, 'crystal', 50);
         });
         player.tutorial.once('goalChangeThrust', function () {
-            self.sendMessage(player, 'tutorialvid', {key: 'changethrustforce', title: 'Change your thrust force'});
+            self.sendMessage(player, 'tutorialvid', {key: 'changethrustforce', title: 'Change\nthrust force #2'});
             self.sendMessage(player, 'tutorial', 'Change your thrust force. Press V to replay video missions.');
         });
         player.tutorial.once('achievedChangeThrust', function () {
@@ -47,7 +47,7 @@ module.exports = {
                 self.sendMessage(player, 'crystal', 250);
         });
         player.tutorial.once('goalChangeColor', function () {
-            self.sendMessage(player, 'tutorialvid', {key: 'colorchange', title: 'Change Ship Color'});
+            self.sendMessage(player, 'tutorialvid', {key: 'colorchange', title: 'Change Ship Color\n#3'});
             self.sendMessage(player, 'tutorial', 'Change the color of your ship.');
         });
         player.tutorial.once('achievedChangeColor', function () {
@@ -66,7 +66,7 @@ module.exports = {
         });
         player.tutorial.once('goalCreateStationBlocks', function () {
             self.sendMessage(player, 'tutorial', 'Create station blocks & push them to the planet to create a fort around your trees');
-            self.sendMessage(player, 'tutorialvid', {key: 'createstationblock', title: 'Create Station Blocks'});
+            self.sendMessage(player, 'tutorialvid', {key: 'createstationblock', title: 'Create Station\nBlocks #4'});
         });
         player.tutorial.once('achievedCreateStationBlocks', function () {
             player.getShip().crystals += 250;
@@ -78,14 +78,17 @@ module.exports = {
 		});
         player.tutorial.once('endTutorial2', function () {
             self.sendMessage(player, 'tutorial', 'Click V to play mission briefings. T key for tractor beam');
-            self.sendMessage(player, 'tutorialvid', {key: 'tilsacallforhelp', title: 'Tilsas Call'});
+            self.sendMessage(player, 'tutorialvid', {key: 'tilsacallforhelp', title: 'Tilsas Call\n #5'});
         });
-		player.tutorial.once('endTutorial3', function () {
+        player.tutorial.once('endTutorial3', function () {
+            self.sendMessage(player, 'tutorial', 'Use the Editor and Javascript to camouflage your ship from the Gwexies.');
+            self.sendMessage(player, 'tutorialvid', {key: 'changetocamo', title: 'Camouflage #6'});
+        });
+		player.tutorial.once('endTutorial4', function () {
 			self.sendMessage(player, 'tutorial', '');
-            self.sendMessage(player, 'loadvid', {key: 'defeathydra', title: 'Defeat the Hydra'});
-            self.sendMessage(player, 'loadvid', {key: 'wordsofwisdom', title: 'Words of Wisdom'});
-            self.sendMessage(player, 'loadvid', {key: 'tilsacodingintro', title: 'Tilsa Coding Intro'});
-            self.sendMessage(player, 'loadvid', {key: 'createstationblock', title: 'Create Station Block'});
+            self.sendMessage(player, 'loadvid', {key: 'defeathydra', title: 'Defeat the\nHydra #7'});
+            self.sendMessage(player, 'loadvid', {key: 'wordsofwisdom', title: 'Words of\nWisdom #8'});
+            self.sendMessage(player, 'loadvid', {key: 'tilsacodingintro', title: 'Tilsa Coding\nIntro #9'});
 		});
     },
 
@@ -129,5 +132,6 @@ var standardTutorial = {
     goalCreateStationBlocks: {createstationblocks: 'achievedCreateStationBlocks'},
     achievedCreateStationBlocks: {auto: 'endTutorial1', timeout: 7000},
 	endTutorial1: {auto: 'endTutorial2', timeout: 7000},
-    endTutorial2: {auto: 'endTutorial3', timeout: 7000},
+    endTutorial2: {auto: 'endTutorial3', timeout: 20000},
+    endTutorial3: {auto: 'endTutorial4', timeout: 20000}
 };

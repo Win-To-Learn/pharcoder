@@ -111,7 +111,7 @@ HydraArm.prototype.serverType = 'HydraArm';
 HydraArm.prototype.collisionGroup = 'Hydra';
 HydraArm.prototype.collisionExclude = ['Hydra'];
 
-HydraArm.prototype.defaults = {mass: 50, lineColor: '#00ff00'};
+HydraArm.prototype.defaults = {mass: 50, lineColor: '#ff66ff'};
 
 //HydraArm.prototype._shape = Paths.octagon;
 

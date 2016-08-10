@@ -23,7 +23,11 @@ module.exports = {
         {text: '*please turn your speakers on*', url: '', x: '52%', y: '-24',
             properties: {font: '15px Arial', fill: '#ffffff', align: 'center'}},
         {text: '*PRESS V TO REPLAY VIDEOS*', url: '', x: '52%', y: '-44',
-            properties: {font: '20px Arial', fill: '#ffffff', align: 'center'}}
+            properties: {font: '20px Arial', fill: '#ffffff', align: 'center'}},
+        {text: 'LEFT & RIGHT ARROW = TURN,  UP ARROW = THRUST,  SPACEBAR = FIRE,  T = TRACTOR BEAM, G = TOGGLE GRID', url: '', x: '52%', y: '-64',
+            properties: {font: '18px Arial', fill: '#ffffff', align: 'center'}}
+
+
     ],
     gridSpacing: 10,
     gridColor: '#fff380',

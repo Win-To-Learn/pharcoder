@@ -112,7 +112,10 @@ Alien.prototype.beginContact = function (body) {
         case 'Ship':
             this.starcoder.sendMessage(body.player, 'shipattacked');
             if (!body.dead) {
-                body.knockOut();
+                var color = body.player.getShip().lineColor;
+                if (color != '#ffa500') {
+                    body.knockOut();
+                }
             }
             break;
         case 'Tree':

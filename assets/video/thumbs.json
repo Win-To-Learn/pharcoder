@@ -8,6 +8,12 @@
         },
         {
             "type": "image",
+            "key": "changetocamo-thumb",
+            "url": "assets/video/changetocamo-thumb.png",
+            "overwrite": false
+        },
+        {
+            "type": "image",
             "key": "cinematicintro-thumb",
             "url": "assets/video/cinematicintro-thumb.png",
             "overwrite": false

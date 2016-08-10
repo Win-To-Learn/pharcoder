@@ -40,7 +40,7 @@ var Ship = function (starcoder, config) {
     };
     // Engine
     this.thrustForce = 700.001;
-    this.turningForce = 55;
+    this.turningForce = 45;
     // Weapons system
     this.charge = 8;
     this.maxCharge = 5;

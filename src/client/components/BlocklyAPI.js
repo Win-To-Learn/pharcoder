@@ -8,15 +8,14 @@
 module.exports = {
     init: function () {
         // Custom Starcoder blocks
-
         /**
-         * Set scale of player ship
+         * set ship thrust power
          * @type {{init: Function}}
          */
-        Blockly.Blocks['sc_set_scale'] = {
+        Blockly.Blocks['sc_set_thrust_power'] = {
             init: function () {
                 this.jsonInit({
-                    message0: 'set ship scale to %1',
+                    message0: 'set ship thrust force to %1',
                     args0: [{type: 'input_value', name: 'VALUE', check: 'Number'}],
                     previousStatement: null,
                     nextStatement: null,
@@ -25,22 +24,68 @@ module.exports = {
             },
             starcoder: {
                 defaults: [
-                    {type: 'block', name: 'VALUE', subtype: 'math_number', value: 1.5}
+                    {type: 'block', name: 'VALUE', subtype: 'math_number', value: 1000}
                 ]
             }
         };
 
         /**
-         * Code generation for set_scale
+         * Code generation for set_thrust_power
          *
          * @param block
          * @returns {string}
          */
-        Blockly.JavaScript['sc_set_scale'] = function (block) {
+        Blockly.JavaScript['sc_set_thrust_power'] = function (block) {
             var arg = Blockly.JavaScript.valueToCode(block, 'VALUE', Blockly.JavaScript.ORDER_NONE) || '1';
-            return 'setShipScale(' + arg + ');\n';
+            return 'setThrustForce(' + arg + ');\n';
         };
 
+        /**
+         * set ship color
+         */
+        Blockly.Blocks['sc_set_color'] = {
+            init: function () {
+                this.jsonInit({
+                    message0: 'set ship color %1',
+                    args0: [{type: 'field_colour', name: 'COLOR', colour: '#ff0000'}],
+                    previousStatement: null,
+                    nextStatement: null,
+                    colour: 30
+                });
+            },
+            starcoder: {}
+        };
+
+        /**
+         * code generation for set color
+         */
+        Blockly.JavaScript['sc_set_color'] = function (block) {
+            var color = block.getFieldValue('COLOR');
+            return 'changeShipColor(\'' + color + '\');\n';
+        };
+        /**
+         * Block to create station block body
+         */
+        Blockly.Blocks['sc_create_station_block'] = {
+            init: function () {
+                this.jsonInit({
+                    message0: 'create station block with shape %1',
+                    args0: [{type: 'input_value', name: 'PAIRS', check: 'Array'}],
+                    previousStatement: null,
+                    nextStatement: null,
+                    colour: 300
+                });
+            },
+            starcoder: {}
+        };
+
+        /**
+         * Generate code for create station
+         */
+        Blockly.JavaScript['sc_create_station_block'] = function (block) {
+            var pairs = Blockly.JavaScript.valueToCode(block, 'PAIRS', Blockly.JavaScript.ORDER_NONE) || '';
+            return 'createStationBlock(' + pairs + ');\n';
+        };
         /**
          * Block representing an ordered pair of coordinates
          */
@@ -77,6 +122,97 @@ module.exports = {
         /**
          * Block representing a set of ordered pairs to be used as the player's shape
          */
+
+        /**
+         * set ship turning power
+         * @type {{init: Function}}
+         */
+        Blockly.Blocks['sc_set_turning_power'] = {
+            init: function () {
+                this.jsonInit({
+                    message0: 'set ship turning force to %1',
+                    args0: [{type: 'input_value', name: 'VALUE', check: 'Number'}],
+                    previousStatement: null,
+                    nextStatement: null,
+                    colour: 160
+                });
+            },
+            starcoder: {
+                defaults: [
+                    {type: 'block', name: 'VALUE', subtype: 'math_number', value: 100}
+                ]
+            }
+        };
+
+        /**
+         * Code generation for set_turning_power
+         *
+         * @param block
+         * @returns {string}
+         */
+        Blockly.JavaScript['sc_set_turning_power'] = function (block) {
+            var arg = Blockly.JavaScript.valueToCode(block, 'VALUE', Blockly.JavaScript.ORDER_NONE) || '1';
+            return 'setTurningForce(' + arg + ');\n';
+        };
+
+
+        /**
+         * translate ship to new position
+         */
+        Blockly.Blocks['sc_translate'] = {
+            init: function () {
+                this.jsonInit({
+                    message0: 'warp ship to (%1,%2)',
+                    args0: [
+                        {type: 'input_value', name: 'X', check: 'Number'},
+                        {type: 'input_value', name: 'Y', check: 'Number'}
+                    ],
+                    previousStatement: null,
+                    nextStatement: null,
+                    colour: 240,
+                    inputsInline: true
+                });
+            },
+            starcoder: {
+                defaults: [
+                    {type: 'block', name: 'X', subtype: 'math_number', value: 0},
+                    {type: 'block', name: 'Y', subtype: 'math_number', value: 0}
+                ]
+            }
+        };
+        /**
+         * Set scale of player ship
+         * @type {{init: Function}}
+         */
+        Blockly.Blocks['sc_set_scale'] = {
+            init: function () {
+                this.jsonInit({
+                    message0: 'set ship scale to %1',
+                    args0: [{type: 'input_value', name: 'VALUE', check: 'Number'}],
+                    previousStatement: null,
+                    nextStatement: null,
+                    colour: 160
+                });
+            },
+            starcoder: {
+                defaults: [
+                    {type: 'block', name: 'VALUE', subtype: 'math_number', value: 1.5}
+                ]
+            }
+        };
+
+        /**
+         * Code generation for set_scale
+         *
+         * @param block
+         * @returns {string}
+         */
+        Blockly.JavaScript['sc_set_scale'] = function (block) {
+            var arg = Blockly.JavaScript.valueToCode(block, 'VALUE', Blockly.JavaScript.ORDER_NONE) || '1';
+            return 'setShipScale(' + arg + ');\n';
+        };
+
+
         Blockly.Blocks['sc_change_shape'] = {
             init: function () {
                 this.jsonInit({
@@ -157,71 +293,6 @@ module.exports = {
         };
 
         /**
-         * set ship thrust power
-         * @type {{init: Function}}
-         */
-        Blockly.Blocks['sc_set_thrust_power'] = {
-            init: function () {
-                this.jsonInit({
-                    message0: 'set ship thrust force to %1',
-                    args0: [{type: 'input_value', name: 'VALUE', check: 'Number'}],
-                    previousStatement: null,
-                    nextStatement: null,
-                    colour: 160
-                });
-            },
-            starcoder: {
-                defaults: [
-                    {type: 'block', name: 'VALUE', subtype: 'math_number', value: 1000}
-                ]
-            }
-        };
-
-        /**
-         * Code generation for set_thrust_power
-         *
-         * @param block
-         * @returns {string}
-         */
-        Blockly.JavaScript['sc_set_thrust_power'] = function (block) {
-            var arg = Blockly.JavaScript.valueToCode(block, 'VALUE', Blockly.JavaScript.ORDER_NONE) || '1';
-            return 'setThrustForce(' + arg + ');\n';
-        };
-
-
-        /**
-         * set ship turning power
-         * @type {{init: Function}}
-         */
-        Blockly.Blocks['sc_set_turning_power'] = {
-            init: function () {
-                this.jsonInit({
-                    message0: 'set ship turning force to %1',
-                    args0: [{type: 'input_value', name: 'VALUE', check: 'Number'}],
-                    previousStatement: null,
-                    nextStatement: null,
-                    colour: 160
-                });
-            },
-            starcoder: {
-                defaults: [
-                    {type: 'block', name: 'VALUE', subtype: 'math_number', value: 100}
-                ]
-            }
-        };
-
-        /**
-         * Code generation for set_turning_power
-         *
-         * @param block
-         * @returns {string}
-         */
-        Blockly.JavaScript['sc_set_turning_power'] = function (block) {
-            var arg = Blockly.JavaScript.valueToCode(block, 'VALUE', Blockly.JavaScript.ORDER_NONE) || '1';
-            return 'setTurningForce(' + arg + ');\n';
-        };
-
-        /**
          * create new planet
          */
 //Blockly.Blocks['sc_new_planet'] = {
@@ -251,55 +322,6 @@ module.exports = {
 //    var scale = block.getFieldValue('SCALE');
 //    return 'newPlanet(' + x + ',' + y + ',' + scale + ')';
 //};
-
-        /**
-         * set ship color
-         */
-        Blockly.Blocks['sc_set_color'] = {
-            init: function () {
-                this.jsonInit({
-                    message0: 'set ship color %1',
-                    args0: [{type: 'field_colour', name: 'COLOR', colour: '#ff0000'}],
-                    previousStatement: null,
-                    nextStatement: null,
-                    colour: 30
-                });
-            },
-            starcoder: {}
-        };
-
-        /**
-         * code generation for set color
-         */
-        Blockly.JavaScript['sc_set_color'] = function (block) {
-            var color = block.getFieldValue('COLOR');
-            return 'changeShipColor(\'' + color + '\');\n';
-        };
-
-        /**
-         * translate ship to new position
-         */
-        Blockly.Blocks['sc_translate'] = {
-            init: function () {
-                this.jsonInit({
-                    message0: 'warp ship to (%1,%2)',
-                    args0: [
-                        {type: 'input_value', name: 'X', check: 'Number'},
-                        {type: 'input_value', name: 'Y', check: 'Number'}
-                    ],
-                    previousStatement: null,
-                    nextStatement: null,
-                    colour: 240,
-                    inputsInline: true
-                });
-            },
-            starcoder: {
-                defaults: [
-                    {type: 'block', name: 'X', subtype: 'math_number', value: 0},
-                    {type: 'block', name: 'Y', subtype: 'math_number', value: 0}
-                ]
-            }
-        };
 
         /**
          * code generation for ship translation
@@ -704,31 +726,6 @@ module.exports = {
         Blockly.JavaScript['sc_alert'] = function (block) {
             var arg = Blockly.JavaScript.valueToCode(block, 'VALUE', Blockly.JavaScript.ORDER_NONE) || '1';
             return 'alert(' + arg + ');\n';
-        };
-
-
-        /**
-         * Block to create station block body
-         */
-        Blockly.Blocks['sc_create_station_block'] = {
-            init: function () {
-                this.jsonInit({
-                    message0: 'create station block with shape %1',
-                    args0: [{type: 'input_value', name: 'PAIRS', check: 'Array'}],
-                    previousStatement: null,
-                    nextStatement: null,
-                    colour: 300
-                });
-            },
-            starcoder: {}
-        };
-
-        /**
-         * Generate code for create station
-         */
-        Blockly.JavaScript['sc_create_station_block'] = function (block) {
-            var pairs = Blockly.JavaScript.valueToCode(block, 'PAIRS', Blockly.JavaScript.ORDER_NONE) || '';
-            return 'createStationBlock(' + pairs + ');\n';
         };
 
         /** Redefinition of standard Blockly blocks */
