@@ -113,7 +113,7 @@ Alien.prototype.beginContact = function (body) {
             this.starcoder.sendMessage(body.player, 'shipattacked');
             if (!body.dead) {
                 var color = body.player.getShip().lineColor;
-                if (color != '#ffa500') {
+                if (color != '#ffa500' && body.player.getShip().shape.length != 8) {
                     body.knockOut();
                 }
             }
