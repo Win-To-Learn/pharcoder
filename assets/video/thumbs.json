@@ -44,6 +44,12 @@
         },
         {
             "type": "image",
+            "key": "deploycode-thumb",
+            "url": "assets/video/deploycode-thumb.png",
+            "overwrite": false
+        },
+        {
+            "type": "image",
             "key": "tilsacallforhelp-thumb",
             "url": "assets/video/tilsacallforhelp-thumb.png",
             "overwrite": false

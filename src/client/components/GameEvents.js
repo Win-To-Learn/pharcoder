@@ -21,6 +21,7 @@ var events = {
 
     planttree: function () {
         this.game.sounds.planttree.play();
+        Toast.spinUp(this.game, this.game.playerShip.x, this.game.playerShip.y,  'You planted a tree! Life is returning!');
     },
 
     alienapproach: function () {
@@ -34,6 +35,7 @@ var events = {
             this.game.sounds.littlepop.play();
         }**/
         this.game.sounds.bigpop.play();
+        Toast.spinUp(this.game, this.game.playerShip.x, this.game.playerShip.y,  'You shot an Asteroid!');
     },
 
     tagged: function () {
@@ -42,10 +44,12 @@ var events = {
 
     explosion: function () {
         this.game.sounds.explosion.play();
+        Toast.spinUp(this.game, this.game.playerShip.x, this.game.playerShip.y,  'You collided with an Asteroid!');
     },
 
     shipattacked: function () {
         this.game.sounds.shipattacked.play();
+        Toast.spinUp(this.game, this.game.playerShip.x, this.game.playerShip.y,  'You were attacked by a Gwexi!');
     },
 
     treesdestroyed: function () {

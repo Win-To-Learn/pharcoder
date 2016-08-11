@@ -11,9 +11,11 @@ module.exports = {
         player.tutorial = new FSM(standardTutorial, 'init');
         player.tutorial.once('goalPlayAnimatedMission', function () {
             self.sendMessage(player, 'tutorialvid', {key: 'cinematicintro', title: 'Mission\nBriefing #1'});
-            //self.sendMessage(player, 'tutorial', 'Change the color of your ship.');
         });
-        player.tutorial.once('goalPlayAnimatedMission', function () {
+        player.tutorial.once('pendingPlayAnimatedMission', function () {
+            self.sendMessage(player, 'tutorial', 'Bring life back to the galaxy!\nPlant 5 trees on a planet so the Pharcoes can come home!');
+        });
+        player.tutorial.once('achievedPlayAnimatedMission', function () {
             self.sendMessage(player, 'tutorial', 'Hold the RIGHT ARROW key on your keyboard to turn right');
         });
         player.tutorial.once('achievedTurnRight', function () {
@@ -89,6 +91,8 @@ module.exports = {
             self.sendMessage(player, 'loadvid', {key: 'defeathydra', title: 'Defeat the\nHydra #7'});
             self.sendMessage(player, 'loadvid', {key: 'wordsofwisdom', title: 'Words of\nWisdom #8'});
             self.sendMessage(player, 'loadvid', {key: 'tilsacodingintro', title: 'Tilsa Coding\nIntro #9'});
+            self.sendMessage(player, 'loadvid', {key: 'changingshape', title: 'Changing Shape\nIntro #10'});
+            self.sendMessage(player, 'loadvid', {key: 'deploycode', title: 'Deploy Code\nIntro #11'});
 		});
     },
 
@@ -103,7 +107,9 @@ module.exports = {
 
 var standardTutorial = {
     init: {start: 'goalPlayAnimatedMission'},
-    goalPlayAnimatedMission: {auto: 'goalTurnRight'},
+    goalPlayAnimatedMission: {auto: 'pendingPlayAnimatedMission', timeout:21000},
+    pendingPlayAnimatedMission: {auto: 'achievedPlayAnimatedMission', timeout:7000},
+    achievedPlayAnimatedMission: {auto: 'goalTurnRight'},
     goalTurnRight: {turnright: 'pendingTurnRight'},
     pendingTurnRight: {
         turnleft: 'goalTurnRight', stopturning: 'goalTurnRight',
