@@ -57,7 +57,9 @@ var altsync = function () {
             //this.msgBufOut.writeUInt32AtMark(this.msgBufOut.len, 'start');
             bufReady = true;
         }
+        //this.msgBufOut.mark('msgstart');
         this.doPlayerUpdate(player);
+        //this.msgBufOut.rewindToMark('msgstart');
         //this.sendPlayerUpdate(player, worldUpdate);
     }
     // Then send full updates to new players
