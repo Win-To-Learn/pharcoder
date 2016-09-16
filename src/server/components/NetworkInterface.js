@@ -25,9 +25,11 @@ module.exports = {
     },
 
     doPlayerUpdate: function (player) {
+        this.msgBufOut.mark('msgstart');
         this.serializeMessages(player.msgQueue);
         player.msgQueue.length = 0;
         player.socket.emit('message', this.msgBufOut.export());
+        this.msgBufOut.rewindToMark('msgstart');
     }
 };
 
