@@ -47,6 +47,7 @@ body {
 #code-window {
     position: absolute;
     left: 10%;
+    /*right: 10%;*/
     right: 10%;
     top: 100px;
     bottom: 100px;
@@ -95,9 +96,11 @@ body {
 
 /* Hacky stuff */
 .blocklySvg {
-    background-color: rgba(0, 0, 0, 0) !important;
+    background-color: rgba(0, 0, 0, 0.2) !important;
+    /*background-color: rgba(255, 255, 255, 20) !important;*/
 }
 
 #code-window .ui-widget-content {
-    background-color: rgba(0, 0, 0, 0) !important;
+    background-color: rgba(0, 0, 0, 0.2) !important;
+    /*background-color: rgba(255, 255, 255, 20) !important;*/
 }
