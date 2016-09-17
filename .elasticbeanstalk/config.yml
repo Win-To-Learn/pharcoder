@@ -12,5 +12,5 @@ global:
   default_ec2_keyname: null
   default_platform: Node.js
   default_region: us-east-1
-  profile: null
+  profile: eb-cli
   sc: git
