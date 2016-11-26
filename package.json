@@ -46,7 +46,7 @@
     "mongodb": "latest",
     "nexe": "latest",
     "p2": "latest",
-    "poly-decomp": "git://github.com/schteppe/poly-decomp.js",
+    "poly-decomp": "git://github.com/schteppe/poly-decomp.js#c56785f",
     "randomcolor": "latest",
     "socket.io": "latest"
   }
