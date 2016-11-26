@@ -18,10 +18,26 @@ var VidPlayer = function (game, x, y) {
     this.vidscreen.scale.setTo(0.666);
     var vidframe = game.add.image(0, 50, 'vidframe', 0, this);
     var closebut = game.add.image(664, 50, 'closebut', 0, this);
+    var pause = game.add.image(25, 375, 'pause', 0, this);
+    var rewind = game.add.image(75, 375, 'rewind', 0, this);
 
     closebut.inputEnabled = true;
-    closebut.events.onInputUp.add(function() {
+    closebut.events.onInputUp.add(function () {
         self.close();
+    });
+
+    pause.inputEnabled = true;
+    pause.events.onInputUp.add(function () {
+        if (self.vid) {
+            self.vid.paused = !self.vid.paused;
+        }
+    });
+
+    rewind.inputEnabled = true;
+    rewind.events.onInputUp.add(function () {
+        if (self.vid) {
+            self.vid.currentTime = 0;
+        }
     });
 
     this.x = x - vidframe.width / 2;

@@ -78,6 +78,8 @@ Loader.prototype.preload = function () {
     // Images
     this.game.load.image('vidframe', 'assets/images/vidframe.png');
     this.game.load.image('closebut', 'assets/images/closebut.png');
+    this.game.load.image('pause', 'assets/images/pause.png');
+    this.game.load.image('rewind', 'assets/images/rewind.png');
     this.game.load.image('hgridline', 'assets/images/hgridline.png');
     this.game.load.image('vgridline', 'assets/images/vgridline.png');
     this.game.load.image('clickcode', 'assets/images/clickcode.png');
