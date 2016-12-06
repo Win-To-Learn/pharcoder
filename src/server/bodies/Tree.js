@@ -92,6 +92,8 @@ Tree.prototype._growTimeout = function () {
     if (this.step > 0) {
         this.setTimer(this.growthRate, {fun: this._growTimeout.bind(this)});
         //setTimeout(this._growTimeout.bind(this), this.growthRate);
+    } else {
+        this.emit({type: 'fullygrown'});
     }
 };
 

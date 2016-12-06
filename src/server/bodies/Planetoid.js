@@ -14,6 +14,7 @@ var Paths = require('../../common/Paths.js');
 var UpdateProperties = require('../../common/UpdateProperties.js').Planetoid;
 
 var Tree = require('./Tree.js');
+var Crystal = require('./Crystal.js');
 
 var Planetoid = function (starcoder, config) {
     SyncBodyBase.call(this, starcoder, config);
@@ -21,6 +22,7 @@ var Planetoid = function (starcoder, config) {
     //this.angularDamping = 0;
     this.trees = [];
     this.attachments = {};
+    this.saved = false;
 };
 
 Planetoid.prototype = Object.create(SyncBodyBase.prototype);
@@ -58,6 +60,24 @@ Planetoid.prototype.plantTree = function (x, y, ship) {
     //tree.angle = Math.atan2(x, -y);
     tree.attachmentConstraint = new p2.LockConstraint(this, tree);
     this.world.addConstraint(tree.attachmentConstraint);
+    var self = this;
+    tree.on('fullygrown', function () {
+        self.trees.push(tree);
+        if (self.trees.length === 1) {
+            for (var i = 0; i < self.trees.length; i++) {
+                var t = self.trees[i];
+                var height = 0.5;
+                var cx = t.position[0] + height * Math.cos(t.angle);
+                var cy = t.position[1] - height * Math.sin(t.angle);
+                //console.log('Crystal at', cx, cy, ':', self.position[0], self.position[1]);
+                self.worldapi.addSyncableBody(Crystal, {
+                    value: 300,
+                    fillColor: '#ffffff',
+                    position: [cx, cy]
+                });
+            }
+        }
+    });
 };
 
 Planetoid.prototype.beginContact = function (other, equations) {
