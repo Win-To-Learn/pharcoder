@@ -17,7 +17,7 @@ var Crystal = function (starcoder, config) {
 };
 
 Crystal.prototype = Object.create(SyncBodyBase.prototype);
-Crystal.prototype.constructor = p2;
+Crystal.prototype.constructor = Crystal;
 
 Crystal.prototype.clientType = 'Crystal';
 Crystal.prototype.serverType = 'Crystal';
