@@ -75,6 +75,9 @@ SyncBodyBase.prototype.setDefaults = function (config) {
 SyncBodyBase.prototype.removeSelfFromWorld = function () {
     if (this.world) {
         this.worldapi.removeSyncableBody(this);
+        if (this.attachmentConstraint) {
+            this.world.removeConstraint(this.attachmentConstraint);
+        }
     }
 };
 
