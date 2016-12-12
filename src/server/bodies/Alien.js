@@ -121,7 +121,11 @@ Alien.prototype.beginContact = function (body) {
         case 'Tree':
             //this.starcoder.sendMessage(body.owner, 'treesdestroyed');
             //this.starcoder.game.sounds.treesdestroyed.play();
-            this.world.removeConstraint(body.attachmentConstraint);
+            //this.world.removeConstraint(body.attachmentConstraint);
+            if (body.planetoid) {
+                var i = body.planetoid.trees.indexOf(body);
+                body.planetoid.splice(i, 1);
+            }
             body.removeSelfFromWorld();
             break;
         case 'Bullet':

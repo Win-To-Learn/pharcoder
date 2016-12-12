@@ -63,6 +63,7 @@ Planetoid.prototype.plantTree = function (x, y, ship) {
     var self = this;
     tree.on('fullygrown', function () {
         self.trees.push(tree);
+        tree.planetoid = self;
         if (self.trees.length === 5 && !self.bloomed) {
             self.bloom()
         }
@@ -77,7 +78,7 @@ Planetoid.prototype.bloom = function () {
         var cy = tree.position[1] + sf * (tree.position[1] - this.position[1]);
         //console.log('Crystal at', cx, cy, ':', self.position[0], self.position[1]);
         var crystal = this.worldapi.addSyncableBody(Crystal, {
-            mass: 1000,
+            collisionExclude: ['Crystal', 'Tree', 'Planettoid'],
             value: 300,
             fillColor: '#ff0000',
             position: [cx, cy]
