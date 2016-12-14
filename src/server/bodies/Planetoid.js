@@ -64,7 +64,7 @@ Planetoid.prototype.plantTree = function (x, y, ship) {
     tree.on('fullygrown', function () {
         self.trees.push(tree);
         tree.planetoid = self;
-        if (self.trees.length >= 1 && !self.bloomed) {
+        if (self.trees.length >= 5 && !self.bloomed) {
             self.bloom()
         }
     });
