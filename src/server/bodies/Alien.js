@@ -124,7 +124,7 @@ Alien.prototype.beginContact = function (body) {
             //this.world.removeConstraint(body.attachmentConstraint);
             if (body.planetoid) {
                 var i = body.planetoid.trees.indexOf(body);
-                body.planetoid.splice(i, 1);
+                body.planetoid.trees.splice(i, 1);
             }
             body.removeSelfFromWorld();
             break;

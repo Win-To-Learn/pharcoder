@@ -40,7 +40,7 @@ var SyncBodyBase = function (starcoder, config) {
                 this.velocity[1] = config[k];
                 break;
             default:
-                if (!this.hasOwnProperty(k)) {
+                if (true || !this.hasOwnProperty(k)) {      // FIXME: not sure why this is needed
                     this[k] = config[k];
                 }
                 break;
