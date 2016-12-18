@@ -13,6 +13,7 @@ module.exports = {
         trunkLength: 'ufixed16',
         branchFactor: 'uint8',
         spread: 'ufixed32',
-        branchDecay: 'ufixed16'
+        branchDecay: 'ufixed16',
+        bloomed: 'boolean'
     }
 };

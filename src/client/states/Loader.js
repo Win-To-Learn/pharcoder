@@ -80,6 +80,8 @@ Loader.prototype.preload = function () {
     this.game.load.image('closebut', 'assets/images/closebut.png');
     this.game.load.image('pause', 'assets/images/pause.png');
     this.game.load.image('rewind', 'assets/images/rewind.png');
+    this.game.load.image('koala-r', 'assets/images/koala-r.png');
+    this.game.load.image('koala-l', 'assets/images/koala-l.png');
     this.game.load.image('hgridline', 'assets/images/hgridline.png');
     this.game.load.image('vgridline', 'assets/images/vgridline.png');
     this.game.load.image('clickcode', 'assets/images/clickcode.png');

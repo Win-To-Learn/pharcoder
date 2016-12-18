@@ -19,6 +19,7 @@ var Tree = function (starcoder, config) {
     this.spread = config.spread || 90;
     this.branchDecay = config.branchDecay || 0.75;
     this._step = this.depth;
+    this._bloomed = false;
     //this.growthRate = 1000 || config.growthRate;
     this.growthRate = 3 || config.growthRate;
     this.hulls = [];
@@ -231,6 +232,16 @@ Object.defineProperty(Tree.prototype, 'step', {
     set: function (val) {
         this._step = val;
         this._dirtyProperties.step = true;
+    }
+});
+
+Object.defineProperty(Tree.prototype, 'bloomed', {
+    get: function () {
+        return this._bloomed;
+    },
+    set: function (val) {
+        this._bloomed = val;
+        this._dirtyProperties.bloomed = true;
     }
 });
 

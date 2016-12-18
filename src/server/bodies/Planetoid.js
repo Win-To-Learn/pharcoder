@@ -85,6 +85,7 @@ Planetoid.prototype.bloom = function () {
         });
         crystal.attachmentConstraint = new p2.LockConstraint(this, crystal);
         this.world.addConstraint(crystal.attachmentConstraint);
+        tree.bloomed = true;
     }
     this.bloomed = true;
 };

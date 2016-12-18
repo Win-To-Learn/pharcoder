@@ -67,6 +67,19 @@ Tree.prototype.drawProcedure = function (renderScale) {
     var lineColor = Phaser.Color.hexToRGB(this.lineColor);
     this.graphics.lineStyle(1, lineColor, 1);
     this._drawBranch(this.graph, this.game.starcoder.config.physicsScale*this.vectorScale*renderScale, this.depth);
+    // Add koala
+    if ((renderScale === 1) && this.bloomed && !this.koala) {
+        console.log('draw koala');
+        if (Math.random() > 0.5) {
+            this.koala = this.game.make.image(0, 0, 'koala-r');
+            this.koala.anchor.setTo(0, 1);
+        } else {
+            this.koala = this.game.make.image(0, 0, 'koala-l');
+            this.koala.anchor.setTo(1, 1);
+        }
+        this.koala.scale.setTo(0.5);
+        this.addChild(this.koala);
+    }
 };
 
 Tree.prototype._drawBranch = function (graph, sc, depth) {
@@ -86,6 +99,17 @@ Object.defineProperty(Tree.prototype, 'step', {
     },
     set: function (val) {
         this._step = val;
+        this._dirty = true;
+    }
+});
+
+Object.defineProperty(Tree.prototype, 'bloomed', {
+    get: function () {
+        return this._bloomed;
+    },
+    set: function (val) {
+        console.log('bloom set');
+        this._bloomed = val;
         this._dirty = true;
     }
 });
