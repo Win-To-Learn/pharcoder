@@ -79,7 +79,7 @@ Planetoid.prototype.bloom = function () {
         //console.log('Crystal at', cx, cy, ':', self.position[0], self.position[1]);
         var crystal = this.worldapi.addSyncableBody(Crystal, {
             collisionExclude: ['Crystal', 'Tree', 'Planetoid'],
-            value: 400,
+            value: 150,
             fillColor: '#ff0000',
             position: [cx, cy]
         });
