@@ -13,4 +13,19 @@ Here is an overview of the major landmarks for game state when a user logs in an
 9. Meanwhile, once the Boot state finishes preloading the progress bar assets, it switches to the Preload state where it loads the rest of the game assets.
 10. Once the preloading has finished and the client has received the `'loginSuccess'` message, the game switches to the Space state. The `create` function in the Space state sends a `'ready'` message to the server which tells it to start sending physics updates.
 
+# Game Objects
+
+Three folders contain files that implement objects in the same world: `/src/bodies/client`, `/src/bodies/server`, and `/src/bodies/common`. The general functions of each piece of the implementation are as follows:
+
+## Common
+
+The modules in the `/src/bodies/common` folder have two properties each. `BODY.proto` contains properties to be added to the prototypes of both the client and server implementations of the BODY. `BODY.updateProperties` is an object with property names as keys and strings naming data types as values. These are properties of the object that the sync system will update on the client when they change on the server. It is important that these be defined identically on the client and the server because the sync system creates a table to encode them as numbers to decrease bandwidth.
+
+## Client
+
+Most client implementations for bodies are pure boilerplate. Client bodies inherit from VectorSprite and also receive properties from SyncBodyInterface and their implementation from `/src/bodies/common` as mixins. In the common case where the visual representation of the body is simply given by the path in its `shape` property nothing else needs to be done. The base methods in VectorSprite will stroke the path according to the `lineColor` and `lineWidth` properties and fill according to `fillColor` and `fillAlpha`. Alternatively, the `geometry` property is provided for images composed of multiple different vector components. Currently the implementation only handles polygons.
+
+Bodies with more complex visuals or that use different internal representations of their appearance need to override the `drawProcedure(renderScale)` method. The `renderScale` parameter will be less than 1 if the body is being drawn for the minimap. `drawProcedure` should use the Phaser.Graphics object provide at `this.graphics` to do its work.
+
+## Server
 
