@@ -173,9 +173,10 @@ World.prototype.start = function (rate, substeps) {
     var self = this;
     substeps = substeps || 10;
     this._lastHRTime = process.hrtime();
+    this.on('postStep', this.postStep.bind(this));
     return setInterval(function () {
         var diff = process.hrtime(self._lastHRTime);
-        self.preStep();
+        //self.preStep();
         self.step(rate, diff[0] + diff[1]*1e-9, substeps);
         self._lastHRTime = process.hrtime();
     }, rate*1000);
@@ -184,7 +185,7 @@ World.prototype.start = function (rate, substeps) {
 /**
  * Call update functions on body objects
  */
-World.prototype.preStep = function () {
+World.prototype.postStep = function () {
     for (var i = this._syncableBodies.length - 1; i >= 0; i--) {
         var body = this._syncableBodies[i];
         if (body.control) {

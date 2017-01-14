@@ -107,7 +107,7 @@ var writeBody = function (buf, body, forcefull) {
     // Not using velocities so save the bytes
     //buf.addFixed32(body.velocity[0]);
     //buf.addFixed32(body.velocity[1]);
-    buf.addFixed16(body.interpolatedAngle);
+    buf.addFixed32(body.interpolatedAngle);
     //buf.addFixed16(body.angularVelocity);
     var update = body.getUpdateProperties(forcefull);
     var keys = Object.keys(update);

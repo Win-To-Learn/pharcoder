@@ -13,9 +13,9 @@ var Bullet = require('./Bullet.js');
 var TractorBeam = require('./TractorBeam.js');
 var CodeCapsule = require('./CodeCapsule.js');
 
-var LOG5 = Math.log(0.6);                           // LOG of charge rate decay factor for faster exponentiation
-var sin = Math.sin;
-var cos = Math.cos;
+const LOG5 = Math.log(0.6);                           // LOG of charge rate decay factor for faster exponentiation
+const sin = Math.sin;
+const cos = Math.cos;
 //var SHIP_SCAN_RADIUS = 25;
 
 var Ship = function (starcoder, config) {
@@ -117,7 +117,7 @@ Ship.prototype.onWorldRemove = function () {
 
 Ship.prototype.control = function () {
     this.angularForce = this.turningForce*this.state.turn;
-    this.setPolarForce(this.thrustForce*this.state.thrust);
+    this.applyForceLocal([0, -this.thrustForce*this.state.thrust]);
     if (this.state.firing && ((this.world.time - this._lastShot) > 0.25) && (this.charge > 0)) {
         this.shoot();
     }

@@ -70,7 +70,7 @@ var deserializeBody = function (buf) {
     update.physics.y = buf.readFixed32();
     //update.physics.vx = buf.readFixed32();
     //update.physics.vy = buf.readFixed32();
-    update.physics.a = buf.readFixed16();
+    update.physics.a = buf.readFixed32();
     //update.physics.av = buf.readFixed16();
     var nFields = buf.readUInt16();
     if (nFields > 0) {
