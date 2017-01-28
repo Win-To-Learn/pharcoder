@@ -29,3 +29,4 @@ Bodies with more complex visuals or that use different internal representations 
 
 ## Server
 
+Server implementations inherit from SyncBodyBase. Derived classes need to set `serverType` and `clientType` to appropriate identifier strings. Usually these will be the same, but in some situations it may make sense to for different bodies to share implementations on one side but not the other. Four methods are used for collision handling: `BeginCollision`, `EndCollision`, `BeginSense`, and `EndSense`. Each of these accepts the collided with body as an argument. The XCollision methods are called for collisions with the "physical" extents of the body. The XSense methods are called for collisions with sensors shapes that are part of the body. These are used for detecting collisions that don't correspond with the physical extents of the body, i.e. for Aliens detecting nearby Ships at distance.
