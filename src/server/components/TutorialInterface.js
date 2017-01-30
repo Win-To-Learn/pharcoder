@@ -6,6 +6,7 @@
 var FSM = require('../util/FSM.js');
 
 module.exports = {
+
     setTutorial: function (player) {
         var self = this;
         player.tutorial = new FSM(standardTutorial, 'init');
@@ -66,11 +67,13 @@ module.exports = {
     },
 
     login: function (socket, player) {
-        this.setTutorial(player);
-    },
+
+            //this.setTutorial(player);
+        },
+
 
     ready: function (player) {
-        player.tutorial.transition('start');
+        //player.tutorial.transition('start');
     }
 };
 

@@ -83,6 +83,8 @@ module.exports = {
             });
         } else if (req.body.tag) {
             this.addTicket('FIXME', 'guest', req.body.tag).then(function (ticketid) {
+                //this.addTicket('FIXME', 'guest', 'SCORE').then(function (ticketid) {
+
                 //req.session.player = {id: ticketid};
                 req.session.ticketid = ticketid;
                 req.session.server = 'FIXME';

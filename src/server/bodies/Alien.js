@@ -51,8 +51,8 @@ Alien.prototype.patience = 5000;
 Alien.prototype.persistence = 10000;
 
 var genera = [
-    {name: 'Warrior', props: {thrustForce: 250, targetType: 'Ship', lineColor: '#ffa500'}},
-    {name: 'EcoTerrorist', props: {thrustForce: 200, targetType: 'Tree', lineColor: '#ffcc99', patience: 10000}}
+    {name: 'Warrior', props: {thrustForce: 350, targetType: 'Ship', lineColor: '#ffa500'}},
+    {name: 'EcoTerrorist', props: {thrustForce: 300, targetType: 'Tree', lineColor: '#ffcc99', patience: 10000}}
 ];
 
 SyncBodyBase.applyGenera(Alien, genera);
@@ -111,7 +111,12 @@ Alien.prototype.beginContact = function (body) {
     switch (body.serverType) {
         case 'Ship':
             if (!body.dead) {
-                body.knockOut();
+
+                var color = body.player.getShip().lineColor;
+                if (color != '#ffa500' || body.player.getShip().shape.length != 8) {
+                    body.knockOut();
+                }
+
             }
             break;
         case 'Tree':
