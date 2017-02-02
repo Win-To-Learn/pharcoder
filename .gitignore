@@ -1,5 +1,8 @@
 ## Project specific
 
+# Used for editing examples for .md files
+example.js
+
 js/
 
 deployments/
