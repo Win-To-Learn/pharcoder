@@ -12,6 +12,9 @@ Ship.prototype.updateProperties = ['lineWidth', 'lineColor', 'fillColor', 'fillA
 var Asteroid = function () {};//
 Asteroid.prototype.updateProperties = ['vectorScale'];
 
+var TitaniumAsteroid = function () {};//
+Asteroid.prototype.updateProperties = ['vectorScale'];
+
 var Alien = function () {};//
 Alien.prototype.updateProperties = ['vectorScale'];
 
@@ -39,6 +42,7 @@ StarTarget.prototype.updateProperties = ['stars', 'lineColor', 'vectorScale'];
 
 exports.Ship = Ship;
 exports.Asteroid = Asteroid;
+//exports.TitaniumAsteroid = TitaniumAsteroid;
 exports.Crystal = Crystal;
 exports.GenericOrb = GenericOrb;
 exports.Bullet = Bullet;

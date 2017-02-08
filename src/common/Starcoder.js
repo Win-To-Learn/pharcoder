@@ -71,6 +71,7 @@ Starcoder.prototype.consolidateBody = function (local, common) {
     // Mixin prototype stuff
     for (var j = 0; j < a.length; j++) {
         local = a[j];
+        console.log('===========>>>', local);
         if (common.proto) {
             var keys = Object.keys(common.proto);
             for (var i = 0; i < keys.length; i++) {

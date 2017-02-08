@@ -14,6 +14,7 @@ var randomColor = require('randomcolor');
 var bodyTypes = {
     Ship: require('./Ship.js'),
     Asteroid: require('./Asteroid.js'),
+    TitaniumAsteroid: require('./TitaniumAsteroid.js'),
     Crystal: require('./Crystal.js'),
     Hydra: require('./Hydra.js'),
     Planetoid: require('./Planetoid.js'),

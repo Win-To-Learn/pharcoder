@@ -31,6 +31,17 @@ module.exports = {
             vectorScale: {random: 'float', lo: 2, hi: 4},
             mass: 25
         }},
+        /*
+        {type: 'TitaniumAsteroid', number: 10,
+            config: {
+                position: {random: 'world'},
+                velocity: {random: 'vector', lo: -5, hi: 5},
+                angularVelocity: {random: 'float', lo: -3, hi: 3},
+                vectorScale: {random: 'float', lo: 2, hi: 4},
+                mass: 25
+
+        }},
+        */
         {type: 'Hydra', number: 0, config: {
             position: {random: 'world', pad: 50}
         }},

@@ -7,6 +7,7 @@
 
 var bodyDefs = {
     Ship: [require('../bodies/Ship.js'), require('../../common/bodies/Ship.js')],
+    TitaniumAsteroid: [require('../bodies/TitaniumAsteroid.js'), require('../../common/bodies/TitaniumAsteroid.js')],
     Asteroid: [require('../bodies/Asteroid.js'), require('../../common/bodies/Asteroid.js')],
     Crystal: [require('../bodies/Crystal.js'), require('../../common/bodies/Crystal.js')],
     Bullet: [require('../bodies/Bullet.js'), require('../../common/bodies/Bullet.js')],
