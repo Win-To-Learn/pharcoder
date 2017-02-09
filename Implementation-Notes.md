@@ -125,6 +125,21 @@ TitaniumAsteroid.prototype.explode = function (respawn) {
         });
     }
 };
+
+Asteroid.prototype.beginContact = function (other) {
+    switch (other.serverType) {
+        case 'Bullet':
+            this.starcoder.sendMessage(other.firer.player, 'asteroid', this.vectorScale);
+            other.removeSelfFromWorld();
+            if (++this.hits >= 3) {
+                this.explode(true);
+            }
+            break;
+        // Could handle other collision types here
+    }
+};
+
+module.exports = TitaniumAsteroid;
 ```
 
 ### Client
