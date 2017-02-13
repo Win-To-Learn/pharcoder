@@ -174,3 +174,22 @@ Starcoder.mixinPrototype(TitaniumAsteroid.prototype, SyncBodyInterface.prototype
 
 module.exports = TitaniumAsteroid;
 ```
+
+# LeaderBoard
+
+To create a new leader board category, call the `newLeaderBoardCategory` method in the `init` method of `Starcoder-server.js`.
+
+```angular2html
+this.newLeaderBoardCategory('My Category Name');
+```
+
+To set the value of a player's statistic in your category, call the `updatePlayerScore` method at an appropriate place in the game logic (e.g. a collsiion function).
+
+```
+/* Assumes this.starcoder is a reference to the Starcoder singleton. This will be the
+ * case if called from within a game object method.
+ */
+this.starcoder.updatePlayerScore('My Category Name', targetPlayer.id, newValue);
+```
+
+The leader board API is very limited and doesn't handle any of the logic of managing game statistics. The convention is that statistics are stored in the `stats` property of the `Player` object.
