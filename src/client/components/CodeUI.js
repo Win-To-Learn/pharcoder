@@ -55,6 +55,7 @@ module.exports = {
             }
         });
         $('#save-code').on('click', function () {
+            /*
             var label = $('#code-name').val();
             if (label.length) {
                 if (self.codeWindowMode === 'blockly') {
@@ -67,6 +68,8 @@ module.exports = {
                 }
                 $('#code-name').val('');
             }
+            */
+            
         });
         $('#load-code').on('click', function () {
             var op = $('#select-code option:selected');
