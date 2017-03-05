@@ -275,6 +275,7 @@ World.prototype._setBounds = function (l, t, r, b) {
 World.prototype._setContactMaterials = function () {
     var wallAsteroid = new p2.ContactMaterial(World.wallMaterial, bodyTypes.Asteroid.material,
         {restitution: 1, stiffness: 1e6});
+    this.addContactMaterial(wallAsteroid);
 };
 
 /**
