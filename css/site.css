@@ -42,7 +42,7 @@ body {
     margin-right: 12px;
 }
 
-.form-row input {
+.form-row input[text] {
     width: 35%;
     margin: 0px 8px;
 }

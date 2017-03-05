@@ -17,26 +17,30 @@ var LoginPage = function (config) {
     $('.select').selectmenu();
     $('.loginbutton').button({icons: {primary: 'ui-icon-triangle-1-e'}});
     $('.accordion').accordion({active: 2, heightStyle: 'content'});
+    $('input[checkbox]').button();
 
     var self = this;
     $('#guestlogin').click(function () {
         self.doLogin({
             server: $('#server').val(),
-            tag: $('#gt1').val() + ' ' + $('#gt2').val()
+            tag: $('#gt1').val() + ' ' + $('#gt2').val(),
+            tutorial: $('#tutorial3').is(':checked')
         });
     });
     $('#userlogin').click(function () {
         self.doLogin({
             login: true,
             user: $('#username').val(),
-            pass: $('#password').val()
+            pass: $('#password').val(),
+            tutorial: $('#tutorial3').is(':checked')
         });
     });
     $('#userreg').click(function () {
         self.doLogin({
             code: $('#regcode').val(),
             user: $('#username-reg').val(),
-            pass: $('#password-reg').val()
+            pass: $('#password-reg').val(),
+            tutorial: $('#tutorial3').is(':checked')
         });
     });
 };

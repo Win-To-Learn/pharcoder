@@ -20,11 +20,15 @@ module.exports = {
      * @param {string} server - server
      * @param {string} type - type of login (guest, trial, etc.)
      * @param {string|object} identity - minimal info to pass identity
+     * @param {boolean} tutorial - should we show tutorial or not
      * @return {Promise}
      */
-    addTicket: function (server, type, identity) {
+    addTicket: function (server, type, identity, tutorial) {
+        if (typeof tutorial === 'undefined') {
+            tutorial = true;
+        }
         var self = this;
-        var doc = {server: server, type: type, identity: identity, createdAt: new Date()};
+        var doc = {server: server, type: type, identity: identity, tutorial: tutorial, createdAt: new Date()};
         return this.mongoInsertOne(this.mongoTickets, doc).then(function (ticket) {
             self.cacheObject('tickets', ticket._id.toHexString(), doc, 60000);
             return ticket._id.toHexString();
@@ -41,7 +45,7 @@ module.exports = {
         return this.mongoFind(this.mongoTickets, {_id: new ObjectId(id)}, 1).then(function (doc) {
             // TODO: Check server validity
             if (doc) {
-                return {type: doc.type, identity: doc.identity};
+                return {type: doc.type, identity: doc.identity, tutorial: doc.tutorial};
             } else {
                 cb(null);
             }

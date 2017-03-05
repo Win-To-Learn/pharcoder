@@ -23,6 +23,7 @@ var Player = function (gamertag, password, regimeId, role, demographics) {
     this.passwordClear = true;
     this.role = role;
     this.regimeId = regimeId;
+    this.tutorialEnabled = true;
     if (demographics) {
         this.demographics = demographics;       // FIXME: Probably want to destructure
     }
@@ -181,11 +182,22 @@ Player.prototype.getShip = function (w) {
  * @param {string} task - Identifier of task accomplished
  */
 Player.prototype.accomplish = function (task) {
-    if (this.tutorial) {
+    if (this.tutorial && this.tutorialEnabled) {
         this.tutorial.transition(task);
     }
 };
 Player.prototype.achieve = Player.prototype.accomplish;     // FIXME
+
+/**
+ * Enable or disable playing of tutorials
+ * @param {boolean} state
+ */
+Player.prototype.toggleTutorial = function (state) {
+    this.tutorialEnabled = state;
+    if (this.tutorial && state) {
+        this.tutorial.transition('start');
+    }
+};
 
 Player.playerTypes = {};
 Player.playerTypes['Player'] = Player;

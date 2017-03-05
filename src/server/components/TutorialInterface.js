@@ -101,7 +101,11 @@ module.exports = {
         },
 
     ready: function (player) {
-        player.tutorial.transition('start');
+        console.log('tut', player.id, player.tutorialEnabled, typeof player.tutorialEnabled);
+        if (player.tutorialEnabled) {
+            console.log('tustart', player.id);
+            player.tutorial.transition('start');
+        }
     }
 };
 

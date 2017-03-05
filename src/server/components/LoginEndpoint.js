@@ -20,6 +20,7 @@ module.exports = {
         this.checkTicket(ticketid, 'FIXME').then(function (ticket) {
             if (ticket.type === 'player') {
                 self.getPlayerById(ticket.identity).then(function (player) {
+                    player.toggleTutorial(ticket.tutorial);
                     if (player) {
                         self.loginSuccess(socket, player);
                     } else {
@@ -29,7 +30,9 @@ module.exports = {
             } else if (ticket.type === 'guest') {
                 //var g = new Guest(identity);
                 //g.disambiguate(self.playerList);
-                self.loginSuccess(socket, new Guest(ticket.identity));
+                var guest = new Guest(ticket.identity);
+                guest.toggleTutorial(ticket.tutorial);
+                self.loginSuccess(socket, guest);
             }
         });
         //if (token.guest) {

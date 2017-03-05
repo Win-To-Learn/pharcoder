@@ -69,9 +69,10 @@ module.exports = {
                             //req.session.player = player.getPOJO();
                             ////req.session.player.role = 'player';
                             //res.status(200).send({goto: 'play.html'}).end();
-                            self.addTicket('FIXME', 'player', player.id).then(function (ticketid) {
+                            self.addTicket('FIXME', 'player', player.id, (req.body.tutorial === 'true')).then(function (ticketid) {
                                 //req.session.player = {id: player.id};
                                 req.session.ticketid = ticketid;
+                                //req.session.tutorial = req.body.tutorial;
                                 req.session.server = 'FIXME';
                                 res.status(200).send({goto: 'play.html'}).end();
                             });
@@ -82,9 +83,10 @@ module.exports = {
                 }
             });
         } else if (req.body.tag) {
-            this.addTicket('FIXME', 'guest', req.body.tag).then(function (ticketid) {
+            this.addTicket('FIXME', 'guest', req.body.tag, (req.body.tutorial === 'true')).then(function (ticketid) {
                 //req.session.player = {id: ticketid};
                 req.session.ticketid = ticketid;
+                req.session.tutorial = req.body.tutorial;
                 req.session.server = 'FIXME';
                 res.status(200).send({goto: 'play.html'}).end();
             });
@@ -95,6 +97,7 @@ module.exports = {
                 } else {
                     self.registerPlayerWithCode(req.body.code, req.body.user, hash).then(function (ticketid) {
                         req.session.ticketid = ticketid;
+                        //req.session.tutorial = req.body.tutorial;
                         req.session.server = 'FIXME';
                         res.status(200).send({goto: 'play.html'}).end();
                     }, function (reason) {
