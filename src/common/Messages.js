@@ -24,5 +24,6 @@ module.exports = {
     'left' : 'boolean',
     'right' : 'boolean',
     'fire' : 'boolean',
-    'tractor' : 'boolean'
+    'tractor' : 'boolean',
+    'vidclose' : 'null'
 };

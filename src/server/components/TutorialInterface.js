@@ -10,6 +10,7 @@ module.exports = {
         var self = this;
         player.tutorial = new FSM(standardTutorial, 'init');
         player.tutorial.once('goalPlayAnimatedMission', function () {
+            player.ship.invulnerable = true;
             self.sendMessage(player, 'tutorialvid', {key: 'cinematicintro', title: 'Mission\nBriefing #1'});
         });
         player.tutorial.once('pendingPlayAnimatedMission', function () {
@@ -40,6 +41,7 @@ module.exports = {
             self.sendMessage(player, 'crystal', 50);
         });
         player.tutorial.once('goalChangeThrust', function () {
+            player.ship.invulnerable = true;
             self.sendMessage(player, 'tutorialvid', {key: 'changethrustforce', title: 'Change\nthrust force #2'});
             self.sendMessage(player, 'tutorial', 'Change your thrust force. Press V to replay video missions.');
         });
@@ -49,6 +51,7 @@ module.exports = {
                 self.sendMessage(player, 'crystal', 250);
         });
         player.tutorial.once('goalChangeColor', function () {
+            player.ship.invulnerable = true;
             self.sendMessage(player, 'tutorialvid', {key: 'colorchange', title: 'Change Ship Color\n#3'});
             self.sendMessage(player, 'tutorial', 'Change the color of your ship.');
         });
@@ -68,6 +71,7 @@ module.exports = {
         });
         player.tutorial.once('goalCreateStationBlocks', function () {
             self.sendMessage(player, 'tutorial', 'Create station blocks & push them to the planet to create a fort around your trees');
+            player.ship.invulnerable = true;
             self.sendMessage(player, 'tutorialvid', {key: 'createstationblock', title: 'Create Station\nBlocks #4'});
         });
         player.tutorial.once('achievedCreateStationBlocks', function () {
@@ -80,14 +84,17 @@ module.exports = {
 		});
         player.tutorial.once('endTutorial2', function () {
             self.sendMessage(player, 'tutorial', 'Click V to play mission briefings. T key for tractor beam');
+            player.ship.invulnerable = true;
             self.sendMessage(player, 'tutorialvid', {key: 'tilsacallforhelp', title: 'Tilsas Call\n #5'});
         });
         player.tutorial.once('endTutorial3', function () {
             self.sendMessage(player, 'tutorial', 'Use the Editor and Javascript to camouflage your ship from the Gwexies.');
+            player.ship.invulnerable = true;
             self.sendMessage(player, 'tutorialvid', {key: 'changetocamo', title: 'Camouflage #6'});
         });
 		player.tutorial.once('endTutorial4', function () {
 			self.sendMessage(player, 'tutorial', '');
+            player.ship.invulnerable = true;
             self.sendMessage(player, 'loadvid', {key: 'defeathydra', title: 'Defeat the\nHydra #7'});
             self.sendMessage(player, 'loadvid', {key: 'wordsofwisdom', title: 'Words of\nWisdom #8'});
             self.sendMessage(player, 'loadvid', {key: 'tilsacodingintro', title: 'Tilsa Coding\nIntro #9'});
@@ -101,9 +108,7 @@ module.exports = {
         },
 
     ready: function (player) {
-        console.log('tut', player.id, player.tutorialEnabled, typeof player.tutorialEnabled);
         if (player.tutorialEnabled) {
-            console.log('tustart', player.id);
             player.tutorial.transition('start');
         }
     }

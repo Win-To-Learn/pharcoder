@@ -59,5 +59,8 @@ var defaultHandlers = {
         if (state) {
             player.ship.state.tractorFiring = true;
         }
+    },
+    vidclose: function (player) {
+        player.ship.invulnerable = false;
     }
 };

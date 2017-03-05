@@ -38,6 +38,7 @@ var Ship = function (starcoder, config) {
         spread: 90,
         trunkLength: 2
     };
+    this.invulnerable = false;
     // Engine
     this.thrustForce = 700.001;
     this.turningForce = 45;
@@ -222,7 +223,7 @@ Ship.prototype.deployCodeCapsule = function (code) {
 Ship.prototype.beginContact = function (other) {
     switch (other.serverType) {
         case 'Bullet':
-            if (other.firer !== this) {
+            if (!this.invulnerable && other.firer !== this) {
                 this.starcoder.sendMessage(this.player, 'tagged');
                 this.setTimer(2, {props: {lineColor: this.lineColor}});
                 this.lineColor = other.firer.lineColor;
@@ -239,11 +240,15 @@ Ship.prototype.beginContact = function (other) {
             }
             break;
         case 'Asteroid':
-            this.starcoder.sendMessage(this.player, 'explosion');
+            if (!this.invulnerable && !this.dead) {
+                this.starcoder.sendMessage(this.player, 'explosion');
+                this.knockOut();
+            }
+            break;
         //case 'Alien':
             //this.starcoder.sendMessage(this.player, 'shipattacked');
         case 'HydraArm':
-            if (!this.dead) {
+            if (!this.invulnerable && !this.dead) {
                 this.knockOut();
             }
             break;

@@ -54,6 +54,7 @@ VidPlayer.prototype.close = function () {
     }
     this.visible = false;
     this.onClose.dispatch();
+    this.game.starcoder.sendMessage('vidclose');
 };
 
 VidPlayer.prototype.play = function (url) {

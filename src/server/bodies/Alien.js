@@ -110,11 +110,13 @@ Alien.prototype.beginContact = function (body) {
     }
     switch (body.serverType) {
         case 'Ship':
-            this.starcoder.sendMessage(body.player, 'shipattacked');
-            if (!body.dead) {
-                var color = body.player.getShip().lineColor;
-                if (color != '#ffa500' && body.player.getShip().shape.length != 8) {
-                    body.knockOut();
+            if (!body.invulnerable) {
+                this.starcoder.sendMessage(body.player, 'shipattacked');
+                if (!body.dead) {
+                    var color = body.player.getShip().lineColor;
+                    if (color != '#ffa500' && body.player.getShip().shape.length != 8) {
+                        body.knockOut();
+                    }
                 }
             }
             break;
