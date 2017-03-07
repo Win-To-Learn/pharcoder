@@ -111,6 +111,20 @@ module.exports = {
         if (player.tutorialEnabled) {
             player.tutorial.transition('start');
         }
+        else{
+            this.sendMessage(player, 'loadvid', {key: 'cinematicintro', title: 'Mission\nBriefing #1'});
+            this.sendMessage(player, 'loadvid', {key: 'changethrustforce', title: 'Change\nthrust force #2'});
+            this.sendMessage(player, 'loadvid', {key: 'colorchange', title: 'Change Ship Color\n#3'});
+            this.sendMessage(player, 'loadvid', {key: 'createstationblock', title: 'Create Station\nBlocks #4'});
+            this.sendMessage(player, 'loadvid', {key: 'tilsacallforhelp', title: 'Tilsas Call\n #5'});
+            this.sendMessage(player, 'loadvid', {key: 'changetocamo', title: 'Camouflage #6'});
+            this.sendMessage(player, 'loadvid', {key: 'defeathydra', title: 'Defeat the\nHydra #7'});
+            this.sendMessage(player, 'loadvid', {key: 'wordsofwisdom', title: 'Words of\nWisdom #8'});
+            this.sendMessage(player, 'loadvid', {key: 'tilsacodingintro', title: 'Tilsa Coding\nIntro #9'});
+            this.sendMessage(player, 'loadvid', {key: 'changingshape', title: 'Changing Shape\nIntro #10'});
+            this.sendMessage(player, 'loadvid', {key: 'deploycode', title: 'Deploy Code\nIntro #11'});
+        }
+
     }
 };
 
