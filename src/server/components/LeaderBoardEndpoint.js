@@ -8,19 +8,85 @@ module.exports = {
         var self = this;
         //this.login.push(this.addPlayerToLeaderBoard);
         this.leaderBoardCategories = {};
+        // Save to DB
+        setInterval(function () {
+            self.mongoExtra.update({key: 'hiscore'}, {$set: {data: self.leaderBoardPersistentCategories}});
+        }, 10000);
+        // Update persistent categories
+        setInterval(function () {
+            for (var cat in self.leaderBoardCategories) {
+                var rec = self.leaderBoardCategories[cat];
+                var prec = self.leaderBoardPersistentCategories[cat];
+                // if (!rec.dirty) {
+                //     continue;
+                // }
+                for (var i = 0; i < rec.data.length; i++) {
+                    var d = rec.data[i];
+                    if (d.id[0] === 'G') {
+                        continue;
+                    }
+                    var found = false;
+                    for (var j = 0; j < prec.data.length; j++) {
+                        if (prec.data[j].id === d.id) {
+                            found = true;
+                            if ((!rec.asc && d.val > prec.data[j].val) || (rec.asc && d.val < prec.data[j].val)) {
+                                prec.data[j].val = d.val;
+                            }
+                        }
+                    }
+                    if (!found && (!rec.asc && d.val > 0) || (rec.asc && d.val < Infinity)) {
+                        prec.data.push({id: d.id, name: self.playersById[d.id].gamertag, val: d.val});
+                        prec.dirty = true;
+                    }
+                }
+            }
+        }, 5000);
+        // Send updates
         setInterval(function () {
             var data = {};
-            var dataFlag = false;
             for (var cat in self.leaderBoardCategories) {
                 var rec = self.leaderBoardCategories[cat];
                 if (rec.dirty) {
                     data[cat] = rec.data;
-                    dataFlag = true;
+                    rec.dirty = false;
+                }
+            }
+            for (cat in self.leaderBoardPersistentCategories) {
+                rec = self.leaderBoardPersistentCategories[cat];
+                if (rec.dirty) {
+                    data['*' + cat + '*'] = rec.data;
                     rec.dirty = false;
                 }
             }
             self.io.emit('leaderboard', data);
         }, 1000);
+    },
+
+    finalize: function () {
+        //console.log('final');
+        var self = this;
+        this.mongoExtra.find({key: 'hiscore'}).limit(1).next().then(function (res) {
+            if (res) {
+                //console.log('Path 1');
+                self.leaderBoardPersistentCategories = res.data;
+            } else {
+                //console.log('Path 2');
+                self.leaderBoardPersistentCategories = {};
+                self.leaderBoardPersistentCategories['Ships Tagged'] = {
+                    dirty: true,
+                    data: []
+                };
+                self.leaderBoardPersistentCategories['Trees Planted'] = {
+                    dirty: true,
+                    data: []
+                };
+                self.leaderBoardPersistentCategories['Tag Streak'] = {
+                    dirty: true,
+                    data: []
+                };
+                self.mongoExtra.insert({key: 'hiscore', data: self.leaderBoardPersistentCategories});
+            }
+        }, this.handleDBError.bind(this));
     },
 
     ready: function (player) {
@@ -31,6 +97,10 @@ module.exports = {
             } else {
                 rec.data.push({id: player.id, val: 0});
             }
+            rec.dirty = true;
+        }
+        for (cat in this.leaderBoardPersistentCategories) {
+            rec = this.leaderBoardPersistentCategories[cat];
             rec.dirty = true;
         }
     },
@@ -54,7 +124,12 @@ module.exports = {
             data: [],
             dirty: false,
             asc: !!asc
-        }
+        };
+        // this.leaderBoardPersistentCategories[cat] = {
+        //     data: [],
+        //     dirty: false,
+        //     asc: !!asc
+        // }
     },
 
     addPlayerToLeaderBoard: function (socket, player) {

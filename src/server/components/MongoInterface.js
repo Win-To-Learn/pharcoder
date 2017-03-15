@@ -152,6 +152,7 @@ module.exports = {
             self.mongoPeople = db.collection('people');
             self.mongoGuests = db.collection('guests');
             self.mongoRegimes = db.collection('regimes');
+            self.mongoExtra = db.collection('extra');
             self.events.emit('dbConnected');
             self.semDec();
         })

@@ -104,8 +104,9 @@ LeaderBoard.prototype.setContent = function (title, list, playerid) {
     var playerVisible = false;
     for (var i = 0; i < this.numLines; i++) {
         var pid = list[i] && list[i].id;
-        if (pid && this.playerMap[pid]) {
-            var tag = this.playerMap[pid].tag;
+        var name = list[i] && list[i].name;
+        if (name || (pid && this.playerMap[pid])) {
+            var tag = name || this.playerMap[pid].tag;
             var line = this.lines[i];
             var text = (i + 1) + '. ' + tag + ' (' + list[i].val + ')';
             if (list[i].val >= 10) {

@@ -21,6 +21,7 @@ Starcoder.prototype.init = function (app, io) {
     this.app = app;
     this.io = io;
     this.players = {};          // Logged in schema
+    this.playersById = {};
     this.playerList = [];
     this.implementFeature(require('./../common/components/MsgBufferInterface.js'));
     this.registerField('up', 'boolean');
@@ -91,6 +92,7 @@ Starcoder.prototype.onDisconnect = function (socket) {
         var i = this.playerList.indexOf(player);
         this.playerList.splice(i, 1);
         delete this.players[socket.id];
+        delete this.playersById[player.id];
         this.worldapi.removeSyncableBody(player.getShip());
     }
     // TODO: Confirm no other socket.io methods need to be called
@@ -138,6 +140,7 @@ Starcoder.prototype.getServerUri = function (player, req) {
 
 Starcoder.prototype.addPlayer = function (player) {
     this.players[player.socket.id] = player;
+    this.playersById[player.id] = player;
     if (player.disambiguate) {
         player.disambiguate(this.playerList);
     }
