@@ -41,7 +41,7 @@ module.exports = {
             }
         });
         player.socket.on('code save', function (code) {
-            //console.log('save code', code);
+            console.log('save code', code);
             if (code.js) {
                 player.codeSnippets[code.label] =  {js: code.js};
             } else {
