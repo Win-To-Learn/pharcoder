@@ -64,13 +64,20 @@ StationBlock.prototype.beginContact = function (other, equations) {
     switch (other.serverType) {
         case 'StationBlock':
         case 'Planetoid':
-            equations = equations[0];
-            if (equations.bodyA === this) {
-                var point = equations.contactPointA;
+            if (equations.length) {
+                equations = equations[0];
+                if (equations.bodyA === this) {
+                    var point = equations.contactPointA;
+                } else {
+                    point = equations.contactPointB;
+                }
+                this.attach(other, this.position[0] + point[0], this.position[1] + point[1]);
             } else {
-                point = equations.contactPointB;
+                console.log('XXX Contact without equations');
+                console.log(this);
+                console.log(other);
+                console.log(equations);
             }
-            this.attach(other, this.position[0] + point[0], this.position[1] + point[1]);
             break;
     }
 };
