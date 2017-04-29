@@ -28,9 +28,12 @@ module.exports = {
                     }
                 });
             } else if (ticket.type === 'guest') {
+
                 //var g = new Guest(identity);
                 //g.disambiguate(self.playerList);
                 var guest = new Guest(ticket.identity);
+                //console.log(guest);
+                guest.role = 'guest';
                 guest.toggleTutorial(ticket.tutorial);
                 self.loginSuccess(socket, guest);
             }
