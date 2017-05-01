@@ -23,12 +23,14 @@ CodeCapsule.prototype.serverType = 'CodeCapsule';
 CodeCapsule.prototype.beginContact = function (other) {
     switch (other.serverType) {
         case 'Ship':
-            if (!this.pickedup) {
-                this.pickedup = true;
-                other.player.sendMessage('code pickup', this.payload);
-                this.removeSelfFromWorld();
+            if (other.player.role === 'player') {
+                if (!this.pickedup) {
+                    this.pickedup = true;
+                    other.player.sendMessage('code pickup', this.payload);
+                    this.removeSelfFromWorld();
+                }
+                break;
             }
-            break;
     }
 };
 
