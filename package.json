@@ -1,6 +1,6 @@
 {
   "name": "pharcoder",
-  "version": "0.7.265",
+  "version": "0.7.281",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -42,6 +42,7 @@
     "es6-promise": "latest",
     "express": "latest",
     "express-session": "latest",
+    "mailgun-js": "^0.10.1",
     "minimist": "latest",
     "mongodb": "latest",
     "nexe": "latest",
