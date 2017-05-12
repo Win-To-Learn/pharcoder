@@ -24,6 +24,13 @@ module.exports = {
                 text: 'Your child or student - ' + player.gamertag + ' - has just created a station block! This shows their ability to use Cartesian coordinates in a series of blocks to create a geometric object with code!'
             };
 
+            var color_message = {
+                from: 'Team Starcoder <postmaster@sandboxb5a8ef1c9c5441d2afd27e5d8a15329d.mailgun.org>',
+                to: 'markellisdev@gmail.com',
+                subject: 'Student Progress - Color change',
+                text: "Your child or student - " + player.gamertag + " - has just changed their ship's color! This shows their ability to use Cartesian coordinates."
+            }
+
         player.tutorial = new FSM(standardTutorial, 'init');
         player.tutorial.once('goalPlayAnimatedMission', function () {
             player.ship.invulnerable = true;
@@ -73,6 +80,11 @@ module.exports = {
             self.sendMessage(player, 'tutorial', 'Change the color of your ship.');
         });
         player.tutorial.once('achievedChangeColor', function () {
+            if (player.role === 'player') {
+                mailgun.messages().send(color_message, function (error, body) {
+                    console.log(body);
+                })
+            }
             player.getShip().crystals += 250;
             self.sendMessage(player, 'tutorial', 'Terrific! See your red ship on the minimap!');
             self.sendMessage(player, 'crystal', 250);
