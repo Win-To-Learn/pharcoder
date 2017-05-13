@@ -347,10 +347,9 @@ module.exports = {
     },
 
     updatePlayerSnippets: function (player, cb) {
-        // this.mongoPeople.findOneAndUpdate({_id: player.id}, {$set: {codeSnippets: player.codeSnippets}}).then(cb,
-        //     this.handleDBError.bind(this));
         this.mongoPeople.findOneAndUpdate({username: player.gamertag}, {$set: {codeSnippets: player.codeSnippets}}).then(cb,
             this.handleDBError.bind(this));
+        console.log(this.handleDBError);
     },
 
     registerUser: function (username, password, cb) {

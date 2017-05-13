@@ -41,7 +41,7 @@ module.exports = {
             }
         });
         player.socket.on('code save', function (code) {
-            //console.log('save code', code);
+            console.log('save code', code);
             if (code.js) {
                 player.codeSnippets[code.label] =  {js: code.js};
             } else {
@@ -54,7 +54,7 @@ module.exports = {
                 });
             } else {
                 console.log('guest no save');
-                self.sendCodeMessage(player, 'saved', code.label);
+                self.sendCodeMessage(player, 'not saved', code.label);
             }
         });
         player.socket.on('code load', function (label) {
@@ -69,7 +69,10 @@ module.exports = {
             }
         });
         player.socket.on('code deploy', function (code) {
-            player.getShip().deployCodeCapsule(code);
+            //console.log(player);
+            if (player.role === 'player') {
+                player.getShip().deployCodeCapsule(code);
+            }
         });
         // Send code labels
         this.sendCodeMessage(player, 'labels', Object.keys(player.codeSnippets));

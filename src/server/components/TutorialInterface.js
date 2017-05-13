@@ -5,9 +5,25 @@
 
 var FSM = require('../util/FSM.js');
 
+var api_key = 'key-426b722a669becf8c90a677a8409f907';
+var domain = 'sandboxb5a8ef1c9c5441d2afd27e5d8a15329d.mailgun.org';
+var mailgun = require('mailgun-js')({apiKey: api_key, domain: domain});
+
+
+
+
 module.exports = {
-    setTutorial: function (player) {
+
+        setTutorial: function (player) {
         var self = this;
+
+            var data = {
+                from: 'Team Starcoder <postmaster@sandboxb5a8ef1c9c5441d2afd27e5d8a15329d.mailgun.org>',
+                to: 'jonathanmartinnyc@gmail.com',
+                subject: 'Student Progress',
+                text: 'Your child or student - ' + player.gamertag + ' - has just created a station block! This shows their ability to use Cartesian coordinates in a series of blocks to create a geometric object with code!'
+            };
+
         player.tutorial = new FSM(standardTutorial, 'init');
         player.tutorial.once('goalPlayAnimatedMission', function () {
             player.ship.invulnerable = true;
@@ -23,6 +39,7 @@ module.exports = {
             player.getShip().crystals += 50;
             self.sendMessage(player, 'tutorial', 'Well done!');
             self.sendMessage(player, 'crystal', 50);
+
         });
         player.tutorial.once('goalTurnLeft', function () {
             self.sendMessage(player, 'tutorial', 'Hold the LEFT ARROW key on your keyboard to turn left');
@@ -73,8 +90,14 @@ module.exports = {
             self.sendMessage(player, 'tutorial', 'Create station blocks & push them to the planet to create a fort around your trees');
             player.ship.invulnerable = true;
             self.sendMessage(player, 'tutorialvid', {key: 'createstationblock', title: 'Create Station\nBlocks #4'});
+
         });
         player.tutorial.once('achievedCreateStationBlocks', function () {
+            if (player.role === 'player') {
+                mailgun.messages().send(data, function (error, body) {
+                    console.log(body);
+                });
+            }
             player.getShip().crystals += 250;
             self.sendMessage(player, 'tutorial', 'Amazing!');
             self.sendMessage(player, 'crystal', 250);
