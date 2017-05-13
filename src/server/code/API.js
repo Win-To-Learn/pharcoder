@@ -25,6 +25,11 @@ var D2R = Math.PI / 180;
 
 var starcoder = null;
 
+const sbLimit = 50;                     // Max number of station blocks in world
+const sbDiameter = 3;                   // Max extent of station block
+const sbPoints = 12;                    // Max number of points making station block
+var sbCount = 0;                        // Number of existing station blocks
+
 /**
  * init
  *
@@ -406,9 +411,13 @@ API.alert = function (player, text) {
 };
 
 API.createStationBlock = function (player, shape) {
+    if (sbCount >= sbLimit) {
+        throw new SCError('StationBlock limit reached');
+    }
     _normalizeShape(shape);
     var ship = player.getShip();
     var station = ship.worldapi.addSyncableBody(StationBlock, {shape: shape, vectorScale: 1, mass: 40, owner: player});
+    sbCount += 1;
     // FIXME: positioning and error check
     var r = ship.boundingRadius + station.boundingRadius + 1;
     station.position[0] = ship.position[0] + sin(ship.angle) * r;
@@ -419,11 +428,25 @@ API.createStationBlock = function (player, shape) {
 function _normalizeShape (shape) {
     if (shape.length < 3) {
         throw new SCError('Path must contain at least three points');
+    } else if (shape.length > sbPoints) {
+        throw new SCError('Path is too complex');
+    }
+    // Check diameter
+    var maxx = -Infinity, maxy = -Infinity, minx = Infinity, miny = Infinity;
+    for (var i = 0; i < shape.length; i++) {
+        shape[i][0] = -shape[i][0];     // Reversing x's due to coordinate weirdness
+        maxx = max(maxx, shape[i][0]);
+        maxy = max(maxy, shape[i][1]);
+        minx = min(minx, shape[i][0]);
+        miny = min(miny, shape[i][1]);
+    }
+    if ((maxx - minx) > sbDiameter || (maxy - miny) > sbDiameter) {
+        throw new SCError('Station Block is too big');
     }
     // Reversing x's due to coordinate system weirdness. Should probably be fixed elsewhere but this'll do for now
-    for (var i = 0, l = shape.length; i < l; i++) {
-        shape[i][0] = -shape[i][0];
-    }
+    // for (i = 0; i < shape.length; i++) {
+    //     shape[i][0] = -shape[i][0];
+    // }
     // Check to make sure poly isn't self intersecting
     var p = new decomp.Polygon();
     p.vertices = shape;
