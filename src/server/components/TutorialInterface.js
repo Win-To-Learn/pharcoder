@@ -28,7 +28,7 @@ module.exports = {
                 from: 'Team Starcoder <postmaster@sandboxb5a8ef1c9c5441d2afd27e5d8a15329d.mailgun.org>',
                 to: 'markellisdev@gmail.com',
                 subject: 'Student Progress - Color change',
-                text: "Your child or student - " + player.gamertag + " - has just changed their ship's color! This shows their ability to use Cartesian coordinates."
+                text: "Your child or student - " + player.gamertag + " - has just changed their ship's color!"
             }
 
         player.tutorial = new FSM(standardTutorial, 'init');
