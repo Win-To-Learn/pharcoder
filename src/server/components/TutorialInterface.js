@@ -8,6 +8,7 @@ var FSM = require('../util/FSM.js');
 var api_key = 'key-426b722a669becf8c90a677a8409f907';
 var domain = 'sandboxb5a8ef1c9c5441d2afd27e5d8a15329d.mailgun.org';
 var mailgun = require('mailgun-js')({apiKey: api_key, domain: domain});
+var mongo = require('./MongoInterface.js');
 
 
 
@@ -45,6 +46,7 @@ module.exports = {
         player.tutorial.once('achievedTurnRight', function () {
             player.getShip().crystals += 50;
             self.sendMessage(player, 'tutorial', 'Well done!');
+            mongo.mongoInsertOne('highscores', ['test558pmMay19']);
             self.sendMessage(player, 'crystal', 50);
 
         });
@@ -86,7 +88,7 @@ module.exports = {
                 })
             }
             player.getShip().crystals += 250;
-            self.sendMessage(player, 'tutorial', 'Terrific! See your red ship on the minimap!');
+                self.sendMessage(player, 'tutorial', 'Terrific! See your red ship on the minimap!');
             self.sendMessage(player, 'crystal', 250);
         });
         player.tutorial.once('goalPlantTree', function () {
