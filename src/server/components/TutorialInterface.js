@@ -59,10 +59,7 @@ module.exports = {
             // console.log("mongo highscores is ", self.mongoHighscores);
             debugger;
             mongo.mongoInsertOne(self.mongoHighscores, {'achievement': 'test251pmMay23'});
-
-                    //console.log("What is this or self? ", self);
-            // self.mongoDB.collection('tickets');
-            // mongo.mongoInsertOne(highscores, ['test558pmMay19']);
+            
             self.sendMessage(player, 'crystal', 50);
 
         });
