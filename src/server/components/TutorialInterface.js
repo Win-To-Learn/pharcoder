@@ -9,11 +9,18 @@ var api_key = 'key-426b722a669becf8c90a677a8409f907';
 var domain = 'sandboxb5a8ef1c9c5441d2afd27e5d8a15329d.mailgun.org';
 var mailgun = require('mailgun-js')({apiKey: api_key, domain: domain});
 var mongo = require('./MongoInterface.js');
-
+const util = require('util');
 
 
 
 module.exports = {
+    // Don't think the following is necessary, but left in case May 20, 2017
+        // init: function () {
+        //     var self = this;
+        //     this.events.on('dbConnected', function () {
+        //         self.mongoHighscores = self.mongoDB.collection('highscores');     // FIXME: use config
+        //     });
+        // },
 
         setTutorial: function (player) {
         var self = this;
@@ -35,18 +42,27 @@ module.exports = {
         player.tutorial = new FSM(standardTutorial, 'init');
         player.tutorial.once('goalPlayAnimatedMission', function () {
             player.ship.invulnerable = true;
-            self.sendMessage(player, 'tutorialvid', {key: 'cinematicintro', title: 'Mission\nBriefing #1'});
+            // <-- Next line commented out to speed through tutorial May 20, 2017 need to comment back in when git-diff
+            // self.sendMessage(player, 'tutorialvid', {key: 'cinematicintro', title: 'Mission\nBriefing #1'});
         });
-        player.tutorial.once('pendingPlayAnimatedMission', function () {
-            self.sendMessage(player, 'tutorial', 'Bring life back to the galaxy!\nPlant 5 trees on a planet so the Pharcoes can come home!');
-        });
+            // <-- Next section commented out to speed through tutorial May 20, 2017 need to comment back in when
+            // git-diff
+        // player.tutorial.once('pendingPlayAnimatedMission', function () {
+        //     self.sendMessage(player, 'tutorial', 'Bring life back to the galaxy!\nPlant 5 trees on a planet so the Pharcoes can come home!');
+        // });
         player.tutorial.once('achievedPlayAnimatedMission', function () {
             self.sendMessage(player, 'tutorial', 'Hold the RIGHT ARROW key on your keyboard to turn right');
         });
         player.tutorial.once('achievedTurnRight', function () {
             player.getShip().crystals += 50;
             self.sendMessage(player, 'tutorial', 'Well done!');
-            mongo.mongoInsertOne('highscores', ['test558pmMay19']);
+            // console.log("mongo highscores is ", self.mongoHighscores);
+            debugger;
+            mongo.mongoInsertOne(self.mongoHighscores, {'achievement': 'test251pmMay23'});
+
+                    //console.log("What is this or self? ", self);
+            // self.mongoDB.collection('tickets');
+            // mongo.mongoInsertOne(highscores, ['test558pmMay19']);
             self.sendMessage(player, 'crystal', 50);
 
         });
