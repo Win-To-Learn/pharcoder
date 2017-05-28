@@ -58,8 +58,9 @@ module.exports = {
             self.sendMessage(player, 'tutorial', 'Well done!');
             // console.log("mongo highscores is ", self.mongoHighscores);
             debugger;
-            mongo.mongoInsertOne(self.mongoHighscores, {'achievement': 'test251pmMay23'});
-            
+            // mongo.mongoInsertOne(self.mongoHighscores, {'achievement': 'turnright121pmMay24'});
+            mongo.mongoInsertOne(self.mongoHighscores, player.achievements);
+
             self.sendMessage(player, 'crystal', 50);
 
         });

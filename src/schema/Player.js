@@ -1,4 +1,4 @@
-/**
+ /**
  * Player.js
  *
  * Base class representing a user interacting with the game world
@@ -78,6 +78,20 @@ Player.prototype.init = function () {
         treesPlanted: 0,
         bestTagStreak: 0,
         currentTagStreak: 0
+    };
+
+    /**
+     * Achievements saved cumulatively
+     * @property {Object} achievements
+     * @property {string} achievements.type
+     * @property {string} achievements.date
+     */
+    let currentDate = new Date().toISOString().slice(0,-14)
+    this.achievements = {
+      achievement: {
+        type: 'right turn Clyde',
+        date: currentDate
+      }
     };
 
     /**
