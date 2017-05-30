@@ -89,7 +89,7 @@ Player.prototype.init = function () {
     let currentDate = new Date().toISOString().slice(0,-14)
     this.achievements = {
       achievement: {
-        type: 'right turn Clyde',
+        type: 'right turn Clyde', //need a way to dynamically write correct achievement, i.e. activated thrust
         date: currentDate
       }
     };

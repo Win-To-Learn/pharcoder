@@ -140,31 +140,9 @@ module.exports = {
     /**
      * Make initial connection to MongoDB
      */
-    // mongoConnect: function () {
-    //     var self = this;
-    //     MongoClient.connect(this.config.mongoUri, function (err, db) {
-    //         if (err) {
-    //             console.log('Could not connect to MongoDB. Exiting.');
-    //             process.exit(1);
-    //         }
-    //         console.log('Connected to MongoDB', db.databaseName);
-    //         self.mongoDB = db;
-    //         self.mongoPeople = db.collection('people');
-    //         self.mongoGuests = db.collection('guests');
-    //         self.mongoRegimes = db.collection('regimes');
-    //         self.mongoExtra = db.collection('extra');
-    //         self.events.emit('dbConnected');
-    //         self.semDec();
-    //     })
-    // },
-
-    /**
-     * Make initial connection to Mark Ellis' local MongoDB
-     */
     mongoConnect: function () {
-        var url = 'mongodb://localhost:27017/starcoder';
         var self = this;
-        MongoClient.connect(url, function (err, db) {
+        MongoClient.connect(this.config.mongoUri, function (err, db) {
             if (err) {
                 console.log('Could not connect to MongoDB. Exiting.');
                 process.exit(1);
@@ -175,7 +153,6 @@ module.exports = {
             self.mongoGuests = db.collection('guests');
             self.mongoRegimes = db.collection('regimes');
             self.mongoExtra = db.collection('extra');
-            // debugger;
             self.mongoHighscores = db.collection('highscores');
             self.events.emit('dbConnected');
             self.semDec();

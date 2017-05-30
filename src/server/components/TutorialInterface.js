@@ -14,13 +14,6 @@ const util = require('util');
 
 
 module.exports = {
-    // Don't think the following is necessary, but left in case May 20, 2017
-        // init: function () {
-        //     var self = this;
-        //     this.events.on('dbConnected', function () {
-        //         self.mongoHighscores = self.mongoDB.collection('highscores');     // FIXME: use config
-        //     });
-        // },
 
         setTutorial: function (player) {
         var self = this;
@@ -56,9 +49,6 @@ module.exports = {
         player.tutorial.once('achievedTurnRight', function () {
             player.getShip().crystals += 50;
             self.sendMessage(player, 'tutorial', 'Well done!');
-            // console.log("mongo highscores is ", self.mongoHighscores);
-            debugger;
-            // mongo.mongoInsertOne(self.mongoHighscores, {'achievement': 'turnright121pmMay24'});
             mongo.mongoInsertOne(self.mongoHighscores, player.achievements);
 
             self.sendMessage(player, 'crystal', 50);
