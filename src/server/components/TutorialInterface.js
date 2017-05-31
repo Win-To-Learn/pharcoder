@@ -18,19 +18,28 @@ module.exports = {
         setTutorial: function (player) {
         var self = this;
 
-            var data = {
+            var stationblock_message = {
                 from: 'Team Starcoder <postmaster@sandboxb5a8ef1c9c5441d2afd27e5d8a15329d.mailgun.org>',
                 to: 'jonathanmartinnyc@gmail.com',
-                subject: 'Student Progress',
+                subject: 'Student Progress - Station Block Creation',
                 text: 'Your child or student - ' + player.gamertag + ' - has just created a station block! This shows their ability to use Cartesian coordinates in a series of blocks to create a geometric object with code!'
             };
 
             var color_message = {
                 from: 'Team Starcoder <postmaster@sandboxb5a8ef1c9c5441d2afd27e5d8a15329d.mailgun.org>',
-                to: 'markellisdev@gmail.com',
+                to: 'jonathanmartinnyc@gmail.com',
                 subject: 'Student Progress - Color change',
                 text: "Your child or student - " + player.gamertag + " - has just changed their ship's color!"
-            }
+            };
+
+            var thrust_message = {
+                from: 'Team Starcoder <postmaster@sandboxb5a8ef1c9c5441d2afd27e5d8a15329d.mailgun.org>',
+                to: 'jonathanmartinnyc@gmail.com',
+                subject: 'Student Progress - Thrust change',
+                text: "Your child or student - " + player.gamertag + " - has just changed their thrust power!"
+            };
+
+
 
         player.tutorial = new FSM(standardTutorial, 'init');
         player.tutorial.once('goalPlayAnimatedMission', function () {
@@ -49,8 +58,11 @@ module.exports = {
         player.tutorial.once('achievedTurnRight', function () {
             player.getShip().crystals += 50;
             self.sendMessage(player, 'tutorial', 'Well done!');
-            mongo.mongoInsertOne(self.mongoHighscores, player.achievements);
-
+            //mongo.mongoInsertOne(self.mongoHighscores, player.achievements);
+            var d = new Date();
+            var currentDate = d.toISOString().slice(0,-14);
+            var n = d.toTimeString().slice(0,-15);
+            mongo.mongoInsertOne(self.mongoHighscores, { gamertag: player.gamertag, date: currentDate, time: n, achievement: 'right turn' });
             self.sendMessage(player, 'crystal', 50);
 
         });
@@ -69,6 +81,10 @@ module.exports = {
             player.getShip().crystals += 50;
             self.sendMessage(player, 'tutorial', 'Great!');
             self.sendMessage(player, 'crystal', 50);
+            if (player.role === 'player') {
+                mailgun.messages().send(thrust_message, function (error, body) {
+                })
+            }
         });
         player.tutorial.once('goalChangeThrust', function () {
             player.ship.invulnerable = true;
@@ -88,7 +104,6 @@ module.exports = {
         player.tutorial.once('achievedChangeColor', function () {
             if (player.role === 'player') {
                 mailgun.messages().send(color_message, function (error, body) {
-                    console.log(body);
                 })
             }
             player.getShip().crystals += 250;
@@ -112,8 +127,7 @@ module.exports = {
         });
         player.tutorial.once('achievedCreateStationBlocks', function () {
             if (player.role === 'player') {
-                mailgun.messages().send(data, function (error, body) {
-                    console.log(body);
+                mailgun.messages().send(stationblock_message, function (error, body) {
                 });
             }
             player.getShip().crystals += 250;
