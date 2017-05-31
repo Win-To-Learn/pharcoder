@@ -9,7 +9,6 @@ var api_key = 'key-426b722a669becf8c90a677a8409f907';
 var domain = 'sandboxb5a8ef1c9c5441d2afd27e5d8a15329d.mailgun.org';
 var mailgun = require('mailgun-js')({apiKey: api_key, domain: domain});
 var mongo = require('./MongoInterface.js');
-const util = require('util');
 
 
 
