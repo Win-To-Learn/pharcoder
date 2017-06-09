@@ -221,7 +221,8 @@ module.exports = {
           _id: player_id
         })
         .then(
-          function() {if (doc._id && typeof doc._id === 'string') {
+          console.log("Inside the .then of mongoUpdate", doc),
+          function() {if (doc.achievement_title === 'string') {
             $push: {object}
           }}
         )

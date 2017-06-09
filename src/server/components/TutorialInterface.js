@@ -92,8 +92,8 @@ module.exports = {
               self.mongoHighscores,
               { "_id" : "593961de6be5c4283e0eea03", id: player.id },
               {
-                $push:
-                {achievements: {achievement_title: 'right turn', date: currentDate, time: n }}});
+                achievements: {achievement_title: 'right turn', date: currentDate, time: n
+              }});
             self.sendMessage(player, 'crystal', 50);
             if (player.role === 'player') {
                 mailgun.messages().send(turnright_message, function (error, body) {
