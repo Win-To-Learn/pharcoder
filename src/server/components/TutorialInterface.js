@@ -57,6 +57,14 @@ module.exports = {
                 text: "Your child or student - " + player.gamertag + " - has just turned their ship to the left!"
             };
 
+            var planttree_message = {
+                from: 'Team Starcoder <postmaster@sandboxb5a8ef1c9c5441d2afd27e5d8a15329d.mailgun.org>',
+                // to: 'jonathanmartinnyc@gmail.com',
+                to: 'markellisdev@gmail.com',
+                subject: 'Student Progress - Tree planted',
+                text: "Your child or student - " + player.gamertag + " - has just planted a tree!"
+            };
+
 
 
         player.tutorial = new FSM(standardTutorial, 'init');
