@@ -19,23 +19,42 @@ module.exports = {
 
             var stationblock_message = {
                 from: 'Team Starcoder <postmaster@sandboxb5a8ef1c9c5441d2afd27e5d8a15329d.mailgun.org>',
-                to: 'jonathanmartinnyc@gmail.com',
+                // to: 'jonathanmartinnyc@gmail.com',
+                to: 'markellisdev@gmail.com',
                 subject: 'Student Progress - Station Block Creation',
                 text: 'Your child or student - ' + player.gamertag + ' - has just created a station block! This shows their ability to use Cartesian coordinates in a series of blocks to create a geometric object with code!'
             };
 
             var color_message = {
                 from: 'Team Starcoder <postmaster@sandboxb5a8ef1c9c5441d2afd27e5d8a15329d.mailgun.org>',
-                to: 'jonathanmartinnyc@gmail.com',
+                // to: 'jonathanmartinnyc@gmail.com',
+                to: 'markellisdev@gmail.com',
                 subject: 'Student Progress - Color change',
                 text: "Your child or student - " + player.gamertag + " - has just changed their ship's color!"
             };
 
             var thrust_message = {
                 from: 'Team Starcoder <postmaster@sandboxb5a8ef1c9c5441d2afd27e5d8a15329d.mailgun.org>',
-                to: 'jonathanmartinnyc@gmail.com',
+                // to: 'jonathanmartinnyc@gmail.com',
+                to: 'markellisdev@gmail.com',
                 subject: 'Student Progress - Thrust change',
                 text: "Your child or student - " + player.gamertag + " - has just changed their thrust power!"
+            };
+
+            var turnright_message = {
+                from: 'Team Starcoder <postmaster@sandboxb5a8ef1c9c5441d2afd27e5d8a15329d.mailgun.org>',
+                // to: 'jonathanmartinnyc@gmail.com',
+                to: 'markellisdev@gmail.com',
+                subject: 'Student Progress - Turn change',
+                text: "Your child or student - " + player.gamertag + " - has just turned their ship to the right!"
+            };
+
+            var turnleft_message = {
+                from: 'Team Starcoder <postmaster@sandboxb5a8ef1c9c5441d2afd27e5d8a15329d.mailgun.org>',
+                // to: 'jonathanmartinnyc@gmail.com',
+                to: 'markellisdev@gmail.com',
+                subject: 'Student Progress - Turn change',
+                text: "Your child or student - " + player.gamertag + " - has just turned their ship to the left!"
             };
 
 
@@ -61,9 +80,17 @@ module.exports = {
             var d = new Date();
             var currentDate = d.toISOString().slice(0,-14);
             var n = d.toTimeString().slice(0,-15);
-            mongo.mongoInsertOne(self.mongoHighscores, { gamertag: player.gamertag, date: currentDate, time: n, achievement: 'right turn' });
+            mongo.mongoUpdate(
+              self.mongoHighscores,
+              { "_id" : "593961de6be5c4283e0eea03", id: player.id },
+              {
+                $push:
+                {achievements: {achievement_title: 'right turn', date: currentDate, time: n }}});
             self.sendMessage(player, 'crystal', 50);
-
+            if (player.role === 'player') {
+                mailgun.messages().send(turnright_message, function (error, body) {
+                })
+            }
         });
         player.tutorial.once('goalTurnLeft', function () {
             self.sendMessage(player, 'tutorial', 'Hold the LEFT ARROW key on your keyboard to turn left');
@@ -72,6 +99,14 @@ module.exports = {
             player.getShip().crystals += 50;
             self.sendMessage(player, 'tutorial', 'Nice job!');
             self.sendMessage(player, 'crystal', 50);
+            var d = new Date();
+            var currentDate = d.toISOString().slice(0,-14);
+            var n = d.toTimeString().slice(0,-15);
+            mongo.mongoInsertOne(self.mongoHighscores, { id: player.id, achievements: {achievement_title: 'left turn', date: currentDate, time: n }});
+            if (player.role === 'player') {
+                mailgun.messages().send(turnleft_message, function (error, body) {
+                })
+            }
         });
         player.tutorial.once('goalThrust', function () {
             self.sendMessage(player, 'tutorial', 'Hold the UP ARROW key on your keyboard to power thrusters');
