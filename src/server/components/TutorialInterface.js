@@ -86,14 +86,21 @@ module.exports = {
             self.sendMessage(player, 'tutorial', 'Well done!');
             //mongo.mongoInsertOne(self.mongoHighscores, player.achievements);
             var d = new Date();
+            debugger;
             var currentDate = d.toISOString().slice(0,-14);
             var n = d.toTimeString().slice(0,-15);
-            mongo.mongoUpdate(
+            // mongo.mongoUpdate(
+            //   self.mongoHighscores,
+            //   // { "_id" : "593961de6be5c4283e0eea03", id: player.id },
+            //   "591f496fc598c280453bff9b",
+            //   "2017-06-08"
+            //   {
+            //     achievements: {achievement_title: 'right turn', date: currentDate, time: n
+            //   }});
+            mongo.mongoFind(
               self.mongoHighscores,
-              { "_id" : "593961de6be5c4283e0eea03", id: player.id },
-              {
-                achievements: {achievement_title: 'right turn', date: currentDate, time: n
-              }});
+              {id: "591f496fc598c280453bff9b", date:  {$gte: "2017-06-08"}}
+            ).then(function(res) {console.log("These are the records ", res)});
             self.sendMessage(player, 'crystal', 50);
             if (player.role === 'player') {
                 mailgun.messages().send(turnright_message, function (error, body) {
@@ -108,9 +115,10 @@ module.exports = {
             self.sendMessage(player, 'tutorial', 'Nice job!');
             self.sendMessage(player, 'crystal', 50);
             var d = new Date();
+            var iso_d = d.toISOString();
             var currentDate = d.toISOString().slice(0,-14);
             var n = d.toTimeString().slice(0,-15);
-            mongo.mongoInsertOne(self.mongoHighscores, { id: player.id, achievements: {achievement_title: 'left turn', date: currentDate, time: n }});
+            mongo.mongoInsertOne(self.mongoHighscores, { player_id: player.gamertag, achievement: 'left turn', full_date: iso_d, date: currentDate, time: n });
             if (player.role === 'player') {
                 mailgun.messages().send(turnleft_message, function (error, body) {
                 })
