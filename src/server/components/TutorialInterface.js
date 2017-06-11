@@ -99,7 +99,7 @@ module.exports = {
             //   }});
             mongo.mongoFind(
               self.mongoHighscores,
-              {id: "591f496fc598c280453bff9b", date:  {$gte: "2017-06-08"}}
+              {gamertag: "markellisdev", date:  {$gte: "2017-06-05", $lt: "2017-06-12"}}
             ).then(function(res) {console.log("These are the records ", res)});
             self.sendMessage(player, 'crystal', 50);
             if (player.role === 'player') {
@@ -118,7 +118,7 @@ module.exports = {
             var iso_d = d.toISOString();
             var currentDate = d.toISOString().slice(0,-14);
             var n = d.toTimeString().slice(0,-15);
-            mongo.mongoInsertOne(self.mongoHighscores, { player_id: player.gamertag, achievement: 'left turn', full_date: iso_d, date: currentDate, time: n });
+            mongo.mongoInsertOne(self.mongoHighscores, { gamertag: player.gamertag, achievement: 'left turn', full_date: iso_d, date: currentDate, time: n });
             if (player.role === 'player') {
                 mailgun.messages().send(turnleft_message, function (error, body) {
                 })
