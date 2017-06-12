@@ -215,22 +215,6 @@ module.exports = {
         }, this.handleDBError.bind(this));
     },
 
-   mongoUpdate: function (col, player, date, object) {
-        var doc = save(object);
-        return this.mongoFind(col, player_id)
-        .then(
-          console.log("Inside the .then of mongoUpdate", doc),
-          function() {
-            debugger;
-            $push: {object}
-          }
-        )
-        // Below is a reference to be removed after I figure out the correct syntax
-        // this.mongoPeople.findOneAndUpdate({username: player.gamertag}, {$set: {codeSnippets: player.codeSnippets}}).then(cb,
-        //     this.handleDBError.bind(this));
-        // console.log(this.handleDBError);
-    }, //IN progress Jun9, 2017, 12:16pm
-
     /**
      * Get player by gamertag
      * @param {string} gamertag - Identifier for player

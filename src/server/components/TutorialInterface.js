@@ -84,23 +84,11 @@ module.exports = {
         player.tutorial.once('achievedTurnRight', function () {
             player.getShip().crystals += 50;
             self.sendMessage(player, 'tutorial', 'Well done!');
-            //mongo.mongoInsertOne(self.mongoHighscores, player.achievements);
             var d = new Date();
             debugger;
             var currentDate = d.toISOString().slice(0,-14);
             var n = d.toTimeString().slice(0,-15);
-            // mongo.mongoUpdate(
-            //   self.mongoHighscores,
-            //   // { "_id" : "593961de6be5c4283e0eea03", id: player.id },
-            //   "591f496fc598c280453bff9b",
-            //   "2017-06-08"
-            //   {
-            //     achievements: {achievement_title: 'right turn', date: currentDate, time: n
-            //   }});
-            mongo.mongoFind(
-              self.mongoHighscores,
-              {gamertag: "markellisdev", date:  {$gte: "2017-06-05", $lt: "2017-06-12"}}
-            ).then(function(res) {console.log("These are the records ", res)});
+            mongo.mongoInsertOne(self.mongoHighscores, { gamertag: player.gamertag, achievement: 'right turn', date: currentDate, time: n });
             self.sendMessage(player, 'crystal', 50);
             if (player.role === 'player') {
                 mailgun.messages().send(turnright_message, function (error, body) {
@@ -118,7 +106,7 @@ module.exports = {
             var iso_d = d.toISOString();
             var currentDate = d.toISOString().slice(0,-14);
             var n = d.toTimeString().slice(0,-15);
-            mongo.mongoInsertOne(self.mongoHighscores, { gamertag: player.gamertag, achievement: 'left turn', full_date: iso_d, date: currentDate, time: n });
+            mongo.mongoInsertOne(self.mongoHighscores, { gamertag: player.gamertag, achievement: 'left turn', date: currentDate, time: n });
             if (player.role === 'player') {
                 mailgun.messages().send(turnleft_message, function (error, body) {
                 })
@@ -131,6 +119,11 @@ module.exports = {
             player.getShip().crystals += 50;
             self.sendMessage(player, 'tutorial', 'Great!');
             self.sendMessage(player, 'crystal', 50);
+            var d = new Date();
+            debugger;
+            var currentDate = d.toISOString().slice(0,-14);
+            var n = d.toTimeString().slice(0,-15);
+            mongo.mongoInsertOne(self.mongoHighscores, { gamertag: player.gamertag, achievement: 'right turn', date: currentDate, time: n });
             if (player.role === 'player') {
                 mailgun.messages().send(thrust_message, function (error, body) {
                 })
@@ -152,6 +145,20 @@ module.exports = {
             self.sendMessage(player, 'tutorial', 'Change the color of your ship.');
         });
         player.tutorial.once('achievedChangeColor', function () {
+            var d = new Date();
+            debugger;
+            var currentDate = d.toISOString().slice(0,-14);
+            var n = d.toTimeString().slice(0,-15);
+            mongo.mongoInsertOne(self.mongoHighscores, { gamertag: player.gamertag, achievement: 'changed color', date: currentDate, time: n });
+            /**
+            The next function, mongoFind, retrieves the previous week's achievements.
+            Obviously, we'll want to move it out of an achievement and have it check date to calculate valid weekly dates, but I put it here to test functionality
+            */
+            mongo.mongoFind(
+              self.mongoHighscores,
+              {gamertag: "markellisdev", date:  {$gte: "2017-06-05", $lt: "2017-06-12"}}
+            ).then(function(res) {console.log("These are the records ", res)});
+
             if (player.role === 'player') {
                 mailgun.messages().send(color_message, function (error, body) {
                 })
@@ -164,6 +171,11 @@ module.exports = {
             self.sendMessage(player, 'tutorial', 'Now fly to a green planet and touch it to plant a tree.');
         });
         player.tutorial.once('achievedPlantTree', function () {
+            var d = new Date();
+            debugger;
+            var currentDate = d.toISOString().slice(0,-14);
+            var n = d.toTimeString().slice(0,-15);
+            mongo.mongoInsertOne(self.mongoHighscores, { gamertag: player.gamertag, achievement: 'plant tree', date: currentDate, time: n });
             self.sendMessage(player, 'tutorial', 'Fantastic!');
 		});
         player.tutorial.once('goalLasers', function () {
@@ -176,6 +188,11 @@ module.exports = {
 
         });
         player.tutorial.once('achievedCreateStationBlocks', function () {
+            var d = new Date();
+            debugger;
+            var currentDate = d.toISOString().slice(0,-14);
+            var n = d.toTimeString().slice(0,-15);
+            mongo.mongoInsertOne(self.mongoHighscores, { gamertag: player.gamertag, achievement: 'create stationblock', date: currentDate, time: n });
             if (player.role === 'player') {
                 mailgun.messages().send(stationblock_message, function (error, body) {
                 });
