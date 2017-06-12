@@ -19,48 +19,48 @@ module.exports = {
 
             var stationblock_message = {
                 from: 'Team Starcoder <postmaster@sandboxb5a8ef1c9c5441d2afd27e5d8a15329d.mailgun.org>',
-                // to: 'jonathanmartinnyc@gmail.com',
-                to: 'markellisdev@gmail.com',
+                to: 'jonathanmartinnyc@gmail.com',
+                // to: 'markellisdev@gmail.com',
                 subject: 'Student Progress - Station Block Creation',
                 text: 'Your child or student - ' + player.gamertag + ' - has just created a station block! This shows their ability to use Cartesian coordinates in a series of blocks to create a geometric object with code!'
             };
 
             var color_message = {
                 from: 'Team Starcoder <postmaster@sandboxb5a8ef1c9c5441d2afd27e5d8a15329d.mailgun.org>',
-                // to: 'jonathanmartinnyc@gmail.com',
-                to: 'markellisdev@gmail.com',
+                to: 'jonathanmartinnyc@gmail.com',
+                // to: 'markellisdev@gmail.com',
                 subject: 'Student Progress - Color change',
                 text: "Your child or student - " + player.gamertag + " - has just changed their ship's color!"
             };
 
             var thrust_message = {
                 from: 'Team Starcoder <postmaster@sandboxb5a8ef1c9c5441d2afd27e5d8a15329d.mailgun.org>',
-                // to: 'jonathanmartinnyc@gmail.com',
-                to: 'markellisdev@gmail.com',
+                to: 'jonathanmartinnyc@gmail.com',
+                // to: 'markellisdev@gmail.com',
                 subject: 'Student Progress - Thrust change',
                 text: "Your child or student - " + player.gamertag + " - has just changed their thrust power!"
             };
 
             var turnright_message = {
                 from: 'Team Starcoder <postmaster@sandboxb5a8ef1c9c5441d2afd27e5d8a15329d.mailgun.org>',
-                // to: 'jonathanmartinnyc@gmail.com',
-                to: 'markellisdev@gmail.com',
+                to: 'jonathanmartinnyc@gmail.com',
+                // to: 'markellisdev@gmail.com',
                 subject: 'Student Progress - Turn change',
                 text: "Your child or student - " + player.gamertag + " - has just turned their ship to the right!"
             };
 
             var turnleft_message = {
                 from: 'Team Starcoder <postmaster@sandboxb5a8ef1c9c5441d2afd27e5d8a15329d.mailgun.org>',
-                // to: 'jonathanmartinnyc@gmail.com',
-                to: 'markellisdev@gmail.com',
+                to: 'jonathanmartinnyc@gmail.com',
+                // to: 'markellisdev@gmail.com',
                 subject: 'Student Progress - Turn change',
                 text: "Your child or student - " + player.gamertag + " - has just turned their ship to the left!"
             };
 
             var planttree_message = {
                 from: 'Team Starcoder <postmaster@sandboxb5a8ef1c9c5441d2afd27e5d8a15329d.mailgun.org>',
-                // to: 'jonathanmartinnyc@gmail.com',
-                to: 'markellisdev@gmail.com',
+                to: 'jonathanmartinnyc@gmail.com',
+                // to: 'markellisdev@gmail.com',
                 subject: 'Student Progress - Tree planted',
                 text: "Your child or student - " + player.gamertag + " - has just planted a tree!"
             };
