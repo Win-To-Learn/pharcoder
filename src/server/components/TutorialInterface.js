@@ -17,52 +17,49 @@ module.exports = {
         setTutorial: function (player) {
         var self = this;
 
-            var stationblock_message = {
+            var makeMessage = function (message_type, player) {
+              return {
                 from: 'Team Starcoder <postmaster@sandboxb5a8ef1c9c5441d2afd27e5d8a15329d.mailgun.org>',
-                to: 'jonathanmartinnyc@gmail.com',
-                // to: 'markellisdev@gmail.com',
-                subject: 'Student Progress - Station Block Creation',
-                text: 'Your child or student - ' + player.gamertag + ' - has just created a station block! This shows their ability to use Cartesian coordinates in a series of blocks to create a geometric object with code!'
+                // to: 'jonathanmartinnyc@gmail.com',
+                to: 'markellisdev@gmail.com',
+                subject: ('Student Progress - ' + message_type.subject),
+                text: ('Your child or student - ' + player.gamertag + ' - has just ' + message_type.text)
+              }
+            };
+
+            var stationblock_message = {
+                subject: 'Station Block Creation',
+                text: 'created a station block! This shows their ability to use Cartesian coordinates in a series of blocks to create a geometric object with code!'
             };
 
             var color_message = {
-                from: 'Team Starcoder <postmaster@sandboxb5a8ef1c9c5441d2afd27e5d8a15329d.mailgun.org>',
-                to: 'jonathanmartinnyc@gmail.com',
-                // to: 'markellisdev@gmail.com',
-                subject: 'Student Progress - Color change',
-                text: "Your child or student - " + player.gamertag + " - has just changed their ship's color!"
+                subject: 'Color change',
+                text: "changed their ship's color!"
             };
 
             var thrust_message = {
-                from: 'Team Starcoder <postmaster@sandboxb5a8ef1c9c5441d2afd27e5d8a15329d.mailgun.org>',
-                to: 'jonathanmartinnyc@gmail.com',
-                // to: 'markellisdev@gmail.com',
-                subject: 'Student Progress - Thrust change',
-                text: "Your child or student - " + player.gamertag + " - has just changed their thrust power!"
+                subject: 'Thrust',
+                text: "activated their ship's thrust!"
+            };
+
+            var changethrust_message = {
+                subject: 'Thrust change',
+                text: "changed their ship's thrust power!"
             };
 
             var turnright_message = {
-                from: 'Team Starcoder <postmaster@sandboxb5a8ef1c9c5441d2afd27e5d8a15329d.mailgun.org>',
-                to: 'jonathanmartinnyc@gmail.com',
-                // to: 'markellisdev@gmail.com',
-                subject: 'Student Progress - Turn change',
-                text: "Your child or student - " + player.gamertag + " - has just turned their ship to the right!"
+                subject: 'Turn change - right',
+                text: "turned their ship to the right! TEST"
             };
 
             var turnleft_message = {
-                from: 'Team Starcoder <postmaster@sandboxb5a8ef1c9c5441d2afd27e5d8a15329d.mailgun.org>',
-                to: 'jonathanmartinnyc@gmail.com',
-                // to: 'markellisdev@gmail.com',
-                subject: 'Student Progress - Turn change',
-                text: "Your child or student - " + player.gamertag + " - has just turned their ship to the left!"
+                subject: 'Turn change - left',
+                text: "turned their ship to the left!"
             };
 
             var planttree_message = {
-                from: 'Team Starcoder <postmaster@sandboxb5a8ef1c9c5441d2afd27e5d8a15329d.mailgun.org>',
-                to: 'jonathanmartinnyc@gmail.com',
-                // to: 'markellisdev@gmail.com',
-                subject: 'Student Progress - Tree planted',
-                text: "Your child or student - " + player.gamertag + " - has just planted a tree!"
+                subject: 'Tree planted',
+                text: "planted a tree!"
             };
 
 
@@ -91,9 +88,9 @@ module.exports = {
             mongo.mongoInsertOne(self.mongoHighscores, { gamertag: player.gamertag, achievement: 'right turn', date: currentDate, time: n });
             self.sendMessage(player, 'crystal', 50);
             if (player.role === 'player') {
-                mailgun.messages().send(turnright_message, function (error, body) {
+                mailgun.messages().send(makeMessage(turnright_message, player), function (error, body) {
                 })
-            }
+            };
         });
         player.tutorial.once('goalTurnLeft', function () {
             self.sendMessage(player, 'tutorial', 'Hold the LEFT ARROW key on your keyboard to turn left');
@@ -103,14 +100,13 @@ module.exports = {
             self.sendMessage(player, 'tutorial', 'Nice job!');
             self.sendMessage(player, 'crystal', 50);
             var d = new Date();
-            var iso_d = d.toISOString();
             var currentDate = d.toISOString().slice(0,-14);
             var n = d.toTimeString().slice(0,-15);
-            mongo.mongoInsertOne(self.mongoHighscores, { gamertag: player.gamertag, achievement: 'left turn', date: currentDate, time: n });
+            mongo.mongoInsertOne(self.mongoHighscores, { gamertag: player.gamertag, achievement: 'left turn', full_date: d, date: currentDate, time: n });
             if (player.role === 'player') {
-                mailgun.messages().send(turnleft_message, function (error, body) {
+                mailgun.messages().send(makeMessage(turnleft_message, player), function (error, body) {
                 })
-            }
+            };
         });
         player.tutorial.once('goalThrust', function () {
             self.sendMessage(player, 'tutorial', 'Hold the UP ARROW key on your keyboard to power thrusters');
@@ -123,11 +119,11 @@ module.exports = {
             debugger;
             var currentDate = d.toISOString().slice(0,-14);
             var n = d.toTimeString().slice(0,-15);
-            mongo.mongoInsertOne(self.mongoHighscores, { gamertag: player.gamertag, achievement: 'right turn', date: currentDate, time: n });
+            mongo.mongoInsertOne(self.mongoHighscores, { gamertag: player.gamertag, achievement: 'right turn', full_date: d, date: currentDate, time: n });
             if (player.role === 'player') {
-                mailgun.messages().send(thrust_message, function (error, body) {
+                mailgun.messages().send(makeMessage(thrust_message, player), function (error, body) {
                 })
-            }
+            };
         });
         player.tutorial.once('goalChangeThrust', function () {
             player.ship.invulnerable = true;
@@ -135,9 +131,13 @@ module.exports = {
             self.sendMessage(player, 'tutorial', 'Change your thrust force. Press V to replay video missions.');
         });
         player.tutorial.once('achievedChangeThrust', function () {
-                player.getShip().crystals += 250;
-                self.sendMessage(player, 'tutorial', 'Terrific!');
-                self.sendMessage(player, 'crystal', 250);
+            player.getShip().crystals += 250;
+            self.sendMessage(player, 'tutorial', 'Terrific!');
+            self.sendMessage(player, 'crystal', 250);
+            if (player.role === 'player') {
+                mailgun.messages().send(makeMessage(changethrust_message, player), function (error, body) {
+                })
+            };
         });
         player.tutorial.once('goalChangeColor', function () {
             player.ship.invulnerable = true;
@@ -149,7 +149,7 @@ module.exports = {
             debugger;
             var currentDate = d.toISOString().slice(0,-14);
             var n = d.toTimeString().slice(0,-15);
-            mongo.mongoInsertOne(self.mongoHighscores, { gamertag: player.gamertag, achievement: 'changed color', date: currentDate, time: n });
+            mongo.mongoInsertOne(self.mongoHighscores, { gamertag: player.gamertag, achievement: 'changed color', full_date: d, date: currentDate, time: n });
             /**
             The next function, mongoFind, retrieves the previous week's achievements.
             Obviously, we'll want to move it out of an achievement and have it check date to calculate valid weekly dates, but I put it here to test functionality
@@ -160,9 +160,9 @@ module.exports = {
             ).then(function(res) {console.log("These are the records ", res)});
 
             if (player.role === 'player') {
-                mailgun.messages().send(color_message, function (error, body) {
+                mailgun.messages().send(makeMessage(color_message, player), function (error, body) {
                 })
-            }
+            };
             player.getShip().crystals += 250;
                 self.sendMessage(player, 'tutorial', 'Terrific! See your red ship on the minimap!');
             self.sendMessage(player, 'crystal', 250);
@@ -175,8 +175,12 @@ module.exports = {
             debugger;
             var currentDate = d.toISOString().slice(0,-14);
             var n = d.toTimeString().slice(0,-15);
-            mongo.mongoInsertOne(self.mongoHighscores, { gamertag: player.gamertag, achievement: 'plant tree', date: currentDate, time: n });
+            mongo.mongoInsertOne(self.mongoHighscores, { gamertag: player.gamertag, achievement: 'plant tree', full_date: d, date: currentDate, time: n });
             self.sendMessage(player, 'tutorial', 'Fantastic!');
+            if (player.role === 'player') {
+                mailgun.messages().send(makeMessage(planttree_message, player), function (error, body) {
+                });
+            };
 		});
         player.tutorial.once('goalLasers', function () {
             self.sendMessage(player, 'tutorial', 'Press the SPACEBAR on your keyboard to fire your lasers at purple asteroids & orange aliens');
@@ -192,9 +196,9 @@ module.exports = {
             debugger;
             var currentDate = d.toISOString().slice(0,-14);
             var n = d.toTimeString().slice(0,-15);
-            mongo.mongoInsertOne(self.mongoHighscores, { gamertag: player.gamertag, achievement: 'create stationblock', date: currentDate, time: n });
+            mongo.mongoInsertOne(self.mongoHighscores, { gamertag: player.gamertag, achievement: 'create stationblock', full_date: d, date: currentDate, time: n });
             if (player.role === 'player') {
-                mailgun.messages().send(stationblock_message, function (error, body) {
+                mailgun.messages().send(makeMessage(stationblock_message, player), function (error, body) {
                 });
             }
             player.getShip().crystals += 250;
