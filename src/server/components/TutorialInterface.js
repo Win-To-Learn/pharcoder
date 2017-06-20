@@ -15,53 +15,56 @@ var mongo = require('./MongoInterface.js');
 module.exports = {
 
         setTutorial: function (player) {
-        var self = this;
+          var self = this;
 
-            var makeMessage = function (message_type, player) {
-              return {
-                from: 'Team Starcoder <postmaster@sandboxb5a8ef1c9c5441d2afd27e5d8a15329d.mailgun.org>',
-                // to: 'jonathanmartinnyc@gmail.com',
-                to: 'markellisdev@gmail.com',
-                subject: ('Student Progress - ' + message_type.subject),
-                text: ('Your child or student - ' + player.gamertag + ' - has just ' + message_type.text)
-              }
-            };
+          var makeMessage = function (message_type, player) {
+            return {
+              from: 'Team Starcoder <postmaster@sandboxb5a8ef1c9c5441d2afd27e5d8a15329d.mailgun.org>',
+              // to: 'jonathanmartinnyc@gmail.com',
+              to: 'markellisdev@gmail.com',
+              subject: ('Student Progress - ' + message_type.subject),
+              text: ('Your child or student - ' + player.gamertag + ' - has just ' + message_type.text)
+            }
+          };
 
-            var stationblock_message = {
-                subject: 'Station Block Creation',
-                text: 'created a station block! This shows their ability to use Cartesian coordinates in a series of blocks to create a geometric object with code!'
-            };
+          var stationblock_message = {
+              subject: 'Station Block Creation',
+              text: 'created a station block! This shows their ability to use Cartesian coordinates in a series of blocks to create a geometric object with code!'
+          };
 
-            var color_message = {
-                subject: 'Color change',
-                text: "changed their ship's color!"
-            };
+          var color_message = {
+              subject: 'Color Change',
+              text: "changed their ship's color!"
+          };
 
-            var thrust_message = {
-                subject: 'Thrust',
-                text: "activated their ship's thrust!"
-            };
+          var thrust_message = {
+              subject: 'Thrust',
+              text: "activated their ship's thrust!"
+          };
 
-            var changethrust_message = {
-                subject: 'Thrust change',
-                text: "changed their ship's thrust power!"
-            };
+          var changethrust_message = {
+              subject: 'Thrust Change',
+              text: "changed their ship's thrust power!"
+          };
 
-            var turnright_message = {
-                subject: 'Turn change - right',
-                text: "turned their ship to the right! TEST"
-            };
+          var turnright_message = {
+              subject: 'Turn Change - Right',
+              text: "turned their ship to the right! TEST"
+          };
 
-            var turnleft_message = {
-                subject: 'Turn change - left',
-                text: "turned their ship to the left!"
-            };
+          var turnleft_message = {
+              subject: 'Turn Change - Left',
+              text: "turned their ship to the left!"
+          };
 
-            var planttree_message = {
-                subject: 'Tree planted',
-                text: "planted a tree!"
-            };
+          var planttree_message = {
+              subject: 'Tree Planted',
+              text: "planted a tree!"
+          };
 
+          var d = new Date();
+          var currentDate = d.toISOString().slice(0,-14);
+          var n = d.toTimeString().slice(0,-15);
 
 
         player.tutorial = new FSM(standardTutorial, 'init');
@@ -81,11 +84,7 @@ module.exports = {
         player.tutorial.once('achievedTurnRight', function () {
             player.getShip().crystals += 50;
             self.sendMessage(player, 'tutorial', 'Well done!');
-            var d = new Date();
-            debugger;
-            var currentDate = d.toISOString().slice(0,-14);
-            var n = d.toTimeString().slice(0,-15);
-            mongo.mongoInsertOne(self.mongoHighscores, { gamertag: player.gamertag, achievement: 'right turn', date: currentDate, time: n });
+            mongo.mongoInsertOne(self.mongoHighscores, { gamertag: player.gamertag, achievement: 'right turn', full_date: d });
             self.sendMessage(player, 'crystal', 50);
             if (player.role === 'player') {
                 mailgun.messages().send(makeMessage(turnright_message, player), function (error, body) {
@@ -99,10 +98,7 @@ module.exports = {
             player.getShip().crystals += 50;
             self.sendMessage(player, 'tutorial', 'Nice job!');
             self.sendMessage(player, 'crystal', 50);
-            var d = new Date();
-            var currentDate = d.toISOString().slice(0,-14);
-            var n = d.toTimeString().slice(0,-15);
-            mongo.mongoInsertOne(self.mongoHighscores, { gamertag: player.gamertag, achievement: 'left turn', full_date: d, date: currentDate, time: n });
+            mongo.mongoInsertOne(self.mongoHighscores, { gamertag: player.gamertag, achievement: 'left turn', full_date: d });
             if (player.role === 'player') {
                 mailgun.messages().send(makeMessage(turnleft_message, player), function (error, body) {
                 })
@@ -115,11 +111,7 @@ module.exports = {
             player.getShip().crystals += 50;
             self.sendMessage(player, 'tutorial', 'Great!');
             self.sendMessage(player, 'crystal', 50);
-            var d = new Date();
-            debugger;
-            var currentDate = d.toISOString().slice(0,-14);
-            var n = d.toTimeString().slice(0,-15);
-            mongo.mongoInsertOne(self.mongoHighscores, { gamertag: player.gamertag, achievement: 'right turn', full_date: d, date: currentDate, time: n });
+            mongo.mongoInsertOne(self.mongoHighscores, { gamertag: player.gamertag, achievement: 'thrust', full_date: d });
             if (player.role === 'player') {
                 mailgun.messages().send(makeMessage(thrust_message, player), function (error, body) {
                 })
@@ -134,6 +126,7 @@ module.exports = {
             player.getShip().crystals += 250;
             self.sendMessage(player, 'tutorial', 'Terrific!');
             self.sendMessage(player, 'crystal', 250);
+            mongo.mongoInsertOne(self.mongoHighscores, { gamertag: player.gamertag, achievement: 'thrust change', full_date: d });
             if (player.role === 'player') {
                 mailgun.messages().send(makeMessage(changethrust_message, player), function (error, body) {
                 })
@@ -145,18 +138,14 @@ module.exports = {
             self.sendMessage(player, 'tutorial', 'Change the color of your ship.');
         });
         player.tutorial.once('achievedChangeColor', function () {
-            var d = new Date();
-            debugger;
-            var currentDate = d.toISOString().slice(0,-14);
-            var n = d.toTimeString().slice(0,-15);
-            mongo.mongoInsertOne(self.mongoHighscores, { gamertag: player.gamertag, achievement: 'changed color', full_date: d, date: currentDate, time: n });
+            mongo.mongoInsertOne(self.mongoHighscores, { gamertag: player.gamertag, achievement: 'change color', full_date: d });
             /**
             The next function, mongoFind, retrieves the previous week's achievements.
             Obviously, we'll want to move it out of an achievement and have it check date to calculate valid weekly dates, but I put it here to test functionality
             */
             mongo.mongoFind(
               self.mongoHighscores,
-              {gamertag: "markellisdev", date:  {$gte: "2017-06-05", $lt: "2017-06-12"}}
+              {gamertag: "markellisdev", full_date:  {$gte: "2017-06-05T00:00:00.856Z", $lt: "2017-06-12T00:00:00.856Z"}}
             ).then(function(res) {console.log("These are the records ", res)});
 
             if (player.role === 'player') {
@@ -171,11 +160,7 @@ module.exports = {
             self.sendMessage(player, 'tutorial', 'Now fly to a green planet and touch it to plant a tree.');
         });
         player.tutorial.once('achievedPlantTree', function () {
-            var d = new Date();
-            debugger;
-            var currentDate = d.toISOString().slice(0,-14);
-            var n = d.toTimeString().slice(0,-15);
-            mongo.mongoInsertOne(self.mongoHighscores, { gamertag: player.gamertag, achievement: 'plant tree', full_date: d, date: currentDate, time: n });
+            mongo.mongoInsertOne(self.mongoHighscores, { gamertag: player.gamertag, achievement: 'plant tree', full_date: d });
             self.sendMessage(player, 'tutorial', 'Fantastic!');
             if (player.role === 'player') {
                 mailgun.messages().send(makeMessage(planttree_message, player), function (error, body) {
@@ -192,11 +177,7 @@ module.exports = {
 
         });
         player.tutorial.once('achievedCreateStationBlocks', function () {
-            var d = new Date();
-            debugger;
-            var currentDate = d.toISOString().slice(0,-14);
-            var n = d.toTimeString().slice(0,-15);
-            mongo.mongoInsertOne(self.mongoHighscores, { gamertag: player.gamertag, achievement: 'create stationblock', full_date: d, date: currentDate, time: n });
+            mongo.mongoInsertOne(self.mongoHighscores, { gamertag: player.gamertag, achievement: 'create stationblock', full_date: d });
             if (player.role === 'player') {
                 mailgun.messages().send(makeMessage(stationblock_message, player), function (error, body) {
                 });
