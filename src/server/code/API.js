@@ -74,9 +74,10 @@ API.changeShipShape = function (player, shape) {
     //    throw new SCError('Path must contain at least three points');
     //}
     //// Reversing x's due to coordinate system weirdness. Should probably be fixed elsewhere but this'll do for now
-    //for (var i = 0, l = shape.length; i < l; i++) {
-    //    shape[i][0] = -shape[i][0];
-    //}
+    for (var i = 0, l = shape.length; i < l; i++) {
+        shape[i][0] = -shape[i][0];
+        shape[i][1] = -shape[i][1];
+    }
     //// Check to make sure poly isn't self intersecting
     //var p = new decomp.Polygon();
     //p.vertices = shape;
@@ -413,6 +414,10 @@ API.alert = function (player, text) {
 API.createStationBlock = function (player, shape) {
     if (sbCount >= sbLimit) {
         throw new SCError('StationBlock limit reached');
+    }
+    for (var i = 0, l = shape.length; i < l; i++) {
+        shape[i][0] = -shape[i][0];
+        shape[i][1] = -shape[i][1];
     }
     _normalizeShape(shape);
     var ship = player.getShip();
