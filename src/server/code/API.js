@@ -25,9 +25,9 @@ var D2R = Math.PI / 180;
 
 var starcoder = null;
 
-const sbLimit = 50;                     // Max number of station blocks in world
-const sbDiameter = 10;                  // Max extent of station block
-const sbPoints = 12;                    // Max number of points making station block
+const sbLimit = 100;                     // Max number of station blocks in world
+const sbDiameter = 20;                  // Max extent of station block
+const sbPoints = 20;                    // Max number of points making station block
 var sbCount = 0;                        // Number of existing station blocks
 
 /**
