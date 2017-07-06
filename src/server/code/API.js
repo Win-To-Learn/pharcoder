@@ -21,6 +21,9 @@ var sin = Math.sin;
 var clamp = function (a, x, b) {
     return  x < a ? a : (x > b ? b : x);
 };
+var isNumeric = function (n) {
+    return !isNaN(parseFloat(n)) && isFinite(n);
+};
 var D2R = Math.PI / 180;
 
 var starcoder = null;
@@ -223,8 +226,8 @@ API.setTurningForce = function (player, force) {
  */
 API.translate = function (player, x, y) {
     var ship = player.getShip();
-    ship.position[0] = x;
-    ship.position[1] = -y;
+    ship.position[0] = clamp(starcoder.config.worldBounds[0], x, starcoder.config.worldBounds[2]);
+    ship.position[1] = clamp(starcoder.config.worldBounds[1], -y, starcoder.config.worldBounds[3]);
 };
 
 /**
