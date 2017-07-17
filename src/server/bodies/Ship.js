@@ -58,6 +58,8 @@ var Ship = function (starcoder, config) {
     this._fillAlpha = 0;
     this._thrustState = 0;
     //this._crystals = 150;
+    //Add array to keep track of ship's previous warp coordinates
+    //Add array for significant previous warp locations
 };
 
 Ship.prototype = Object.create(SyncBodyBase.prototype);
