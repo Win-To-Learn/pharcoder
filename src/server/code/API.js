@@ -10,6 +10,11 @@ var SCError = require('./SCError.js');
 
 var StationBlock = require('../bodies/StationBlock.js');
 
+var api_key = 'key-426b722a669becf8c90a677a8409f907';
+var domain = 'sandboxb5a8ef1c9c5441d2afd27e5d8a15329d.mailgun.org';
+var mailgun = require('mailgun-js')({apiKey: api_key, domain: domain});
+
+
 var API = {};
 
 var max = Math.max;
@@ -54,17 +59,33 @@ Object.defineProperty(API, 'init', {
  * @param color {string}
  */
 API.changeShipColor = function (player, color) {
+    var data = {
+        from: 'Team Starcoder <postmaster@sandboxb5a8ef1c9c5441d2afd27e5d8a15329d.mailgun.org>',
+        to: 'jonathanmartinnyc@gmail.com',
+        subject: 'Student Progress',
+        text: 'Your child or student - ' + player.gamertag + ' - has just altered the color of their ship!'
+    };
     var oldColor = player.getShip().lineColor;
     if (color !== oldColor) {
         player.getShip().lineColor = color;
         player.achieve('changecolor');
     }
-    /**
-    if (color == '#fff000') {
-        player.getShip().lineColor = color;
-        player.achieve('changecolor');
-    }**/
+
+    if (color == '#ffa500') {
+        data = {
+            from: 'Team Starcoder <postmaster@sandboxb5a8ef1c9c5441d2afd27e5d8a15329d.mailgun.org>',
+            to: 'jonathanmartinnyc@gmail.com',
+            subject: 'Student Progress',
+            text: 'Your child or student - ' + player.gamertag + ' - has just camouflaged themselves from the Gwexi using a specific hexadecimal code for ship color. Very clever!'
+        };
+    }
+    if (player.role === 'player') {
+        mailgun.messages().send(data, function (error, body) {
+            console.log(body);
+        });
+    }
 };
+
 
 /**
  * Set outline / physics shape for body
@@ -77,6 +98,12 @@ API.changeShipShape = function (player, shape) {
     //    throw new SCError('Path must contain at least three points');
     //}
     //// Reversing x's due to coordinate system weirdness. Should probably be fixed elsewhere but this'll do for now
+    var data = {
+        from: 'Team Starcoder <postmaster@sandboxb5a8ef1c9c5441d2afd27e5d8a15329d.mailgun.org>',
+        to: 'jmartin@wintolearn.com',
+        subject: 'Student Progress',
+        text: 'Your child or student - ' + player.gamertag + ' - has just changed the shape of their ship using points on the x-y coordinate plane!'
+    };
     for (var i = 0, l = shape.length; i < l; i++) {
         shape[i][0] = -shape[i][0];
         shape[i][1] = -shape[i][1];
@@ -89,6 +116,11 @@ API.changeShipShape = function (player, shape) {
     //}
     _normalizeShape(shape);
     player.getShip().shape = shape;
+    if (player.role === 'player') {
+        mailgun.messages().send(data, function (error, body) {
+            console.log(body);
+        });
+    }
 };
 
 API.directionsToPoints = function (player, directions) {
@@ -185,7 +217,18 @@ API.shoot = function (player) {
  * @param scale {number}
  */
 API.setShipScale = function (player, scale) {
+    var data = {
+        from: 'Team Starcoder <postmaster@sandboxb5a8ef1c9c5441d2afd27e5d8a15329d.mailgun.org>',
+        to: 'jonathanmartinnyc@gmail.com',
+        subject: 'Student Progress',
+        text: 'Your child or student - ' + player.gamertag + ' - has just altered the scale of their ship!'
+    };
     player.getShip().vectorScale = clamp(0.2, scale, 3);
+    if (player.role === 'player') {
+        mailgun.messages().send(data, function (error, body) {
+            console.log(body);
+        });
+    }
 };
 
 /**
