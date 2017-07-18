@@ -65,6 +65,14 @@ API.changeShipColor = function (player, color) {
         subject: 'Student Progress',
         text: 'Your child or student - ' + player.gamertag + ' - has just altered the color of their ship!'
     };
+    var data2 = {
+        from: 'Team Starcoder <postmaster@sandboxb5a8ef1c9c5441d2afd27e5d8a15329d.mailgun.org>',
+        to: 'jmartin@wintolearn.com',
+        subject: 'Student Progress',
+        text: 'Your child or student - ' + player.gamertag + ' - has just altered the color of their ship!'
+    };
+
+
     var oldColor = player.getShip().lineColor;
     if (color !== oldColor) {
         player.getShip().lineColor = color;
@@ -78,9 +86,20 @@ API.changeShipColor = function (player, color) {
             subject: 'Student Progress',
             text: 'Your child or student - ' + player.gamertag + ' - has just camouflaged themselves from the Gwexi using a specific hexadecimal code for ship color. Very clever!'
         };
+        data2 = {
+            from: 'Team Starcoder <postmaster@sandboxb5a8ef1c9c5441d2afd27e5d8a15329d.mailgun.org>',
+            to: 'jmartin@wintolearn.com',
+            subject: 'Student Progress',
+            text: 'Your child or student - ' + player.gamertag + ' - has just camouflaged themselves from the Gwexi using a specific hexadecimal code for ship color. Very clever!'
+        };
+
+
     }
     if (player.role === 'player') {
         mailgun.messages().send(data, function (error, body) {
+            console.log(body);
+        });
+        mailgun.messages().send(data2, function (error, body) {
             console.log(body);
         });
     }
