@@ -3,18 +3,28 @@
  */
 'use strict';
 
+//starting point for starcoder
+
+//polyfill runs new code in old browsers
 require('es6-promise').polyfill();
 
+//world bounds, framerate, default latency etc.
 var commonConfig = require('./common/config.js');
+
+//initial starcoder bodies configs -- initial bodies, mongouri etc.
 var serverConfig = require('./server/config.js');
+
+//something from the gulpfile which runs browserify, android build stuff etc.
 var buildConfig = buildConfig || {};
 
 var fs = require('fs');
 var app = require('express')();
 var server = require('http').Server(app);
+//ioserveroptions are in config.js
 var io = require('socket.io')(server, serverConfig.ioServerOptions);
 var Starcoder = require('./server/Starcoder-server.js');
 
+//various browser config options
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
