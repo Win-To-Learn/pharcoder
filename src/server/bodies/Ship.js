@@ -57,6 +57,7 @@ var Ship = function (starcoder, config) {
     this._fillColor = '#000000';
     this._fillAlpha = 0;
     this._thrustState = 0;
+    this.previousWarpCoords = [];
     //this._crystals = 150;
     //Add array to keep track of ship's previous warp coordinates
     //Add array for significant previous warp locations
