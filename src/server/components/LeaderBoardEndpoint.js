@@ -165,6 +165,9 @@ module.exports = {
             i++;
         }
         var j = i - 1;
+        if (!prec) {
+            return;
+        }
         while (j >= 0) {
             if ((!asc && prec.val > data[j].val) || (asc && prec.val < data[j].val)) {
                 j--;
