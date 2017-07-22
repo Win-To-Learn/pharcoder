@@ -20,8 +20,8 @@ module.exports = {
           var makeMessage = function (message_type, player) {
             return {
               from: 'Team Starcoder <postmaster@sandboxb5a8ef1c9c5441d2afd27e5d8a15329d.mailgun.org>',
-              // to: 'jonathanmartinnyc@gmail.com',
-              to: 'markellisdev@gmail.com',
+              to: 'jonathanmartinnyc@gmail.com',
+              // to: 'markellisdev@gmail.com',
               subject: ('Student Progress - ' + message_type.subject),
               text: ('Your child or student - ' + player.gamertag + ' - has just ' + message_type.text)
             }
@@ -70,14 +70,11 @@ module.exports = {
         player.tutorial = new FSM(standardTutorial, 'init');
         player.tutorial.once('goalPlayAnimatedMission', function () {
             player.ship.invulnerable = true;
-            // <-- Next line commented out to speed through tutorial May 20, 2017 need to comment back in when git-diff
-            // self.sendMessage(player, 'tutorialvid', {key: 'cinematicintro', title: 'Mission\nBriefing #1'});
+            self.sendMessage(player, 'tutorialvid', {key: 'cinematicintro', title: 'Mission\nBriefing #1'});
         });
-            // <-- Next section commented out to speed through tutorial May 20, 2017 need to comment back in when
-            // git-diff
-        // player.tutorial.once('pendingPlayAnimatedMission', function () {
-        //     self.sendMessage(player, 'tutorial', 'Bring life back to the galaxy!\nPlant 5 trees on a planet so the Pharcoes can come home!');
-        // });
+        player.tutorial.once('pendingPlayAnimatedMission', function () {
+            self.sendMessage(player, 'tutorial', 'Bring life back to the galaxy!\nPlant 5 trees on a planet so the Pharcoes can come home!');
+        });
         player.tutorial.once('achievedPlayAnimatedMission', function () {
             self.sendMessage(player, 'tutorial', 'Hold the RIGHT ARROW key on your keyboard to turn right');
         });
