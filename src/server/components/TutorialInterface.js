@@ -8,21 +8,64 @@ var FSM = require('../util/FSM.js');
 var api_key = 'key-426b722a669becf8c90a677a8409f907';
 var domain = 'sandboxb5a8ef1c9c5441d2afd27e5d8a15329d.mailgun.org';
 var mailgun = require('mailgun-js')({apiKey: api_key, domain: domain});
-
+var mongo = require('./MongoInterface.js');
 
 
 
 module.exports = {
 
         setTutorial: function (player) {
-        var self = this;
+          var self = this;
 
-            var data = {
-                from: 'Team Starcoder <postmaster@sandboxb5a8ef1c9c5441d2afd27e5d8a15329d.mailgun.org>',
-                to: 'jonathanmartinnyc@gmail.com',
-                subject: 'Student Progress',
-                text: 'Your child or student - ' + player.gamertag + ' - has just created a station block! This shows their ability to use Cartesian coordinates in a series of blocks to create a geometric object with code!'
-            };
+          var makeMessage = function (message_type, player) {
+            return {
+              from: 'Team Starcoder <postmaster@sandboxb5a8ef1c9c5441d2afd27e5d8a15329d.mailgun.org>',
+              to: 'jonathanmartinnyc@gmail.com',
+              // to: 'markellisdev@gmail.com',
+              subject: ('Student Progress - ' + message_type.subject),
+              text: ('Your child or student - ' + player.gamertag + ' - has just ' + message_type.text)
+            }
+          };
+
+          var stationblock_message = {
+              subject: 'Station Block Creation',
+              text: 'created a station block! This shows their ability to use Cartesian coordinates in a series of blocks to create a geometric object with code!'
+          };
+
+          var color_message = {
+              subject: 'Color Change',
+              text: "changed their ship's color!"
+          };
+
+          var thrust_message = {
+              subject: 'Thrust',
+              text: "activated their ship's thrust!"
+          };
+
+          var changethrust_message = {
+              subject: 'Thrust Change',
+              text: "changed their ship's thrust power!"
+          };
+
+          var turnright_message = {
+              subject: 'Turn Change - Right',
+              text: "turned their ship to the right! TEST"
+          };
+
+          var turnleft_message = {
+              subject: 'Turn Change - Left',
+              text: "turned their ship to the left!"
+          };
+
+          var planttree_message = {
+              subject: 'Tree Planted',
+              text: "planted a tree!"
+          };
+
+          var d = new Date();
+          var currentDate = d.toISOString().slice(0,-14);
+          var n = d.toTimeString().slice(0,-15);
+
 
         player.tutorial = new FSM(standardTutorial, 'init');
         player.tutorial.once('goalPlayAnimatedMission', function () {
@@ -38,8 +81,12 @@ module.exports = {
         player.tutorial.once('achievedTurnRight', function () {
             player.getShip().crystals += 50;
             self.sendMessage(player, 'tutorial', 'Well done!');
+            mongo.mongoInsertOne(self.mongoHighscores, { gamertag: player.gamertag, achievement: 'right turn', full_date: d });
             self.sendMessage(player, 'crystal', 50);
-
+            if (player.role === 'player') {
+                mailgun.messages().send(makeMessage(turnright_message, player), function (error, body) {
+                })
+            };
         });
         player.tutorial.once('goalTurnLeft', function () {
             self.sendMessage(player, 'tutorial', 'Hold the LEFT ARROW key on your keyboard to turn left');
@@ -48,6 +95,11 @@ module.exports = {
             player.getShip().crystals += 50;
             self.sendMessage(player, 'tutorial', 'Nice job!');
             self.sendMessage(player, 'crystal', 50);
+            mongo.mongoInsertOne(self.mongoHighscores, { gamertag: player.gamertag, achievement: 'left turn', full_date: d });
+            if (player.role === 'player') {
+                mailgun.messages().send(makeMessage(turnleft_message, player), function (error, body) {
+                })
+            };
         });
         player.tutorial.once('goalThrust', function () {
             self.sendMessage(player, 'tutorial', 'Hold the UP ARROW key on your keyboard to power thrusters');
@@ -56,6 +108,11 @@ module.exports = {
             player.getShip().crystals += 50;
             self.sendMessage(player, 'tutorial', 'Great!');
             self.sendMessage(player, 'crystal', 50);
+            mongo.mongoInsertOne(self.mongoHighscores, { gamertag: player.gamertag, achievement: 'thrust', full_date: d });
+            if (player.role === 'player') {
+                mailgun.messages().send(makeMessage(thrust_message, player), function (error, body) {
+                })
+            };
         });
         player.tutorial.once('goalChangeThrust', function () {
             player.ship.invulnerable = true;
@@ -63,9 +120,14 @@ module.exports = {
             self.sendMessage(player, 'tutorial', 'Change your thrust force. Press V to replay video missions.');
         });
         player.tutorial.once('achievedChangeThrust', function () {
-                player.getShip().crystals += 250;
-                self.sendMessage(player, 'tutorial', 'Terrific!');
-                self.sendMessage(player, 'crystal', 250);
+            player.getShip().crystals += 250;
+            self.sendMessage(player, 'tutorial', 'Terrific!');
+            self.sendMessage(player, 'crystal', 250);
+            mongo.mongoInsertOne(self.mongoHighscores, { gamertag: player.gamertag, achievement: 'thrust change', full_date: d });
+            if (player.role === 'player') {
+                mailgun.messages().send(makeMessage(changethrust_message, player), function (error, body) {
+                })
+            };
         });
         player.tutorial.once('goalChangeColor', function () {
             player.ship.invulnerable = true;
@@ -73,15 +135,34 @@ module.exports = {
             self.sendMessage(player, 'tutorial', 'Change the color of your ship.');
         });
         player.tutorial.once('achievedChangeColor', function () {
+            mongo.mongoInsertOne(self.mongoHighscores, { gamertag: player.gamertag, achievement: 'change color', full_date: d });
+            /**
+            The next function, mongoFind, retrieves the previous week's achievements.
+            Obviously, we'll want to move it out of an achievement and have it check date to calculate valid weekly dates, but I put it here to test functionality
+            */
+            mongo.mongoFind(
+              self.mongoHighscores,
+              {gamertag: "ransomsquest", full_date:  {$gte: "2017-06-05T00:00:00.856Z", $lt: "2017-06-12T00:00:00.856Z"}}
+            ).then(function(res) {console.log("These are the records ", res)});
+
+            if (player.role === 'player') {
+                mailgun.messages().send(makeMessage(color_message, player), function (error, body) {
+                })
+            };
             player.getShip().crystals += 250;
-            self.sendMessage(player, 'tutorial', 'Terrific! See your red ship on the minimap!');
+                self.sendMessage(player, 'tutorial', 'Terrific! See your red ship on the minimap!');
             self.sendMessage(player, 'crystal', 250);
         });
         player.tutorial.once('goalPlantTree', function () {
             self.sendMessage(player, 'tutorial', 'Now fly to a green planet and touch it to plant a tree.');
         });
         player.tutorial.once('achievedPlantTree', function () {
+            mongo.mongoInsertOne(self.mongoHighscores, { gamertag: player.gamertag, achievement: 'plant tree', full_date: d });
             self.sendMessage(player, 'tutorial', 'Fantastic!');
+            if (player.role === 'player') {
+                mailgun.messages().send(makeMessage(planttree_message, player), function (error, body) {
+                });
+            };
 		});
         player.tutorial.once('goalLasers', function () {
             self.sendMessage(player, 'tutorial', 'Press the SPACEBAR on your keyboard to fire your lasers at purple asteroids & orange aliens');
@@ -93,9 +174,9 @@ module.exports = {
 
         });
         player.tutorial.once('achievedCreateStationBlocks', function () {
+            mongo.mongoInsertOne(self.mongoHighscores, { gamertag: player.gamertag, achievement: 'create stationblock', full_date: d });
             if (player.role === 'player') {
-                mailgun.messages().send(data, function (error, body) {
-                    console.log(body);
+                mailgun.messages().send(makeMessage(stationblock_message, player), function (error, body) {
                 });
             }
             player.getShip().crystals += 250;
