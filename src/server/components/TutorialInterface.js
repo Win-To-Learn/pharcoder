@@ -142,7 +142,7 @@ module.exports = {
             */
             mongo.mongoFind(
               self.mongoHighscores,
-              {gamertag: "markellisdev", full_date:  {$gte: "2017-06-05T00:00:00.856Z", $lt: "2017-06-12T00:00:00.856Z"}}
+              {gamertag: "ransomsquest", full_date:  {$gte: "2017-06-05T00:00:00.856Z", $lt: "2017-06-12T00:00:00.856Z"}}
             ).then(function(res) {console.log("These are the records ", res)});
 
             if (player.role === 'player') {
