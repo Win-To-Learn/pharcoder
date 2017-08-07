@@ -153,6 +153,7 @@ module.exports = {
             self.mongoGuests = db.collection('guests');
             self.mongoRegimes = db.collection('regimes');
             self.mongoExtra = db.collection('extra');
+            self.mongoHighscores = db.collection('highscores');
             self.events.emit('dbConnected');
             self.semDec();
         })

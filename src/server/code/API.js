@@ -14,7 +14,6 @@ var api_key = 'key-426b722a669becf8c90a677a8409f907';
 var domain = 'sandboxb5a8ef1c9c5441d2afd27e5d8a15329d.mailgun.org';
 var mailgun = require('mailgun-js')({apiKey: api_key, domain: domain});
 
-
 var API = {};
 
 var max = Math.max;
@@ -101,12 +100,7 @@ API.changeShipShape = function (player, shape) {
     //    throw new SCError('Path must contain at least three points');
     //}
     //// Reversing x's due to coordinate system weirdness. Should probably be fixed elsewhere but this'll do for now
-    var data = {
-        from: 'Team Starcoder <postmaster@sandboxb5a8ef1c9c5441d2afd27e5d8a15329d.mailgun.org>',
-        to: 'jmartin@wintolearn.com',
-        subject: 'Student Progress',
-        text: 'Your child or student - ' + player.gamertag + ' - has just changed the shape of their ship using points on the x-y coordinate plane!'
-    };
+
     for (var i = 0, l = shape.length; i < l; i++) {
         shape[i][0] = -shape[i][0];
         shape[i][1] = -shape[i][1];
@@ -119,9 +113,38 @@ API.changeShipShape = function (player, shape) {
     //}
     _normalizeShape(shape);
     player.getShip().shape = shape;
+
+    function parseToM(coordPair){
+        var retString = 'M ' + coordPair[0] + ' ' + coordPair[1] + ',';
+        return retString;
+    }
+
+    function parseToL(coordPair){
+        var retString = 'L ' + coordPair[0] + ' ' + coordPair[1] + ' ';
+        return retString;
+    }
+
+
+    var mainStr = parseToM(shape[0]);
+
+    for(i=1;i<shape.length;i++){
+        mainStr = mainStr + parseToL(shape[i]);
+    }
+
+    mainStr = mainStr + parseToL(shape[0]) + 'z';
+
+    var data = {
+        from: 'Team Starcoder <postmaster@sandboxb5a8ef1c9c5441d2afd27e5d8a15329d.mailgun.org>',
+        to: 'jonathanmartinnyc@gmail.com',
+        subject: 'Student Progress',
+        text: 'Your child or student - ' + player.gamertag + ' - has just changed the shape of their ship using points on the x-y coordinate plane!' + '\r' + '\r' + mainStr
+
+    };
+
+
     if (player.role === 'player') {
         mailgun.messages().send(data, function (error, body) {
-           
+
         });
     }
 };
@@ -272,8 +295,14 @@ API.setTurningForce = function (player, force) {
  */
 API.translate = function (player, x, y) {
     var ship = player.getShip();
+    var tuple = [x,y];
+    ship.previousWarpCoords.push(tuple);
+    if(ship.previousWarpCoords.length >= 4){
+        ship.previousWarpCoords = ship.previousWarpCoords.slice(1);
+    }
     ship.position[0] = clamp(starcoder.config.worldBounds[0], x, starcoder.config.worldBounds[2]);
     ship.position[1] = clamp(starcoder.config.worldBounds[1], -y, starcoder.config.worldBounds[3]);
+    console.log(ship.previousWarpCoords);
 };
 
 /**
