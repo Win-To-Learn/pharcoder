@@ -17,7 +17,8 @@ module.exports = {
         kill: 10
     },
     ioServerOptions: {
-        perMessageDeflate: false
+        perMessageDeflate: false,
+        transports: ['websocket']
     },
     initialBodies: [
         {type: 'Asteroid', number: 35, config: {
