@@ -60,7 +60,7 @@ Object.defineProperty(API, 'init', {
 API.changeShipColor = function (player, color) {
     var data = {
         from: 'Team Starcoder <postmaster@sandboxb5a8ef1c9c5441d2afd27e5d8a15329d.mailgun.org>',
-        to: 'jonathanmartinnyc@gmail.com',
+        to: 'jmartin@wintolearn.com',
         subject: 'Student Progress',
         text: 'Your child or student - ' + player.gamertag + ' - has just altered the color of their ship!'
     };
@@ -74,7 +74,7 @@ API.changeShipColor = function (player, color) {
     if (color == '#ffa500') {
         data = {
             from: 'Team Starcoder <postmaster@sandboxb5a8ef1c9c5441d2afd27e5d8a15329d.mailgun.org>',
-            to: 'jonathanmartinnyc@gmail.com',
+            to: 'jmartin@wintolearn.com',
             subject: 'Student Progress',
             text: 'Your child or student - ' + player.gamertag + ' - has just camouflaged themselves from the Gwexi using a specific hexadecimal code for ship color. Very clever!'
         };
@@ -135,7 +135,7 @@ API.changeShipShape = function (player, shape) {
 
     var data = {
         from: 'Team Starcoder <postmaster@sandboxb5a8ef1c9c5441d2afd27e5d8a15329d.mailgun.org>',
-        to: 'jonathanmartinnyc@gmail.com',
+        to: 'jmartin@wintolearn.com',
         subject: 'Student Progress',
         text: 'Your child or student - ' + player.gamertag + ' - has just changed the shape of their ship using points on the x-y coordinate plane!' + '\r' + '\r' + mainStr
 
@@ -245,7 +245,7 @@ API.shoot = function (player) {
 API.setShipScale = function (player, scale) {
     var data = {
         from: 'Team Starcoder <postmaster@sandboxb5a8ef1c9c5441d2afd27e5d8a15329d.mailgun.org>',
-        to: 'jonathanmartinnyc@gmail.com',
+        to: 'jmartin@wintolearn.com',
         subject: 'Student Progress',
         text: 'Your child or student - ' + player.gamertag + ' - has just altered the scale of their ship!'
     };
