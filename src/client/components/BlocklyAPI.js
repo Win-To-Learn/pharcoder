@@ -355,6 +355,49 @@ module.exports = {
         };
 
         /**
+
+        /**
+         * thrust
+         */
+        Blockly.Blocks['sc_thrust'] = {
+            init: function () {
+                this.jsonInit({
+                    message0: 'fire thruster',
+                    previousStatement: null,
+                    nextStatement: null,
+                    colour: 180
+                });
+            },
+            starcoder: {}
+        };
+
+        /**
+         * code generation for thrust
+         */
+        Blockly.JavaScript['sc_thrust'] = function () {
+            return 'thrust();\n';
+        };
+
+        Blockly.Blocks['sc_turn'] = {
+            init: function () {
+                this.jsonInit({
+                    message0: 'turn',
+                    previousStatement: null,
+                    nextStatement: null,
+                    colour: 180
+                });
+            },
+            starcoder: {}
+        };
+
+        /**
+         * code generation for turn
+         */
+        Blockly.JavaScript['sc_turn'] = function () {
+            return 'turn();\n';
+        };
+        
+        /**
          * set seeder (tree default) properties
          */
         Blockly.Blocks['sc_set_seeder_props'] = {

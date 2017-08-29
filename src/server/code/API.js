@@ -237,6 +237,31 @@ API.shoot = function (player) {
 };
 
 /**
+ * Fire thruster in one pulse
+ *
+ * @param player {Player}
+ */
+API.thrust = function (player) {
+    var ship = player.getShip();
+    ship.state.thrust = 1;
+    setTimeout(function(){ship.state.thrust = 0;}, 500)
+    //ship.state.thrust = false;
+};
+
+
+/**
+ * Turn in one pulse
+ *
+ * @param player {Player}
+ */
+API.turn = function (player) {
+    var ship = player.getShip();
+    ship.state.turn = 1;
+    setTimeout(function(){ship.state.turn = 0;}, 500)
+    //ship.state.thrust = false;
+};
+
+/**
  * Set scale factor for player ship
  *
  * @param player {Player}
