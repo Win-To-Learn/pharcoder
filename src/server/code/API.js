@@ -241,9 +241,9 @@ API.shoot = function (player) {
  *
  * @param player {Player}
  */
-API.thrust = function (player) {
+API.thrust = function (player, force) {
     var ship = player.getShip();
-    ship.state.thrust = 1;
+    ship.state.thrust = force;
     setTimeout(function(){ship.state.thrust = 0;}, 500)
     //ship.state.thrust = false;
 };
@@ -254,9 +254,9 @@ API.thrust = function (player) {
  *
  * @param player {Player}
  */
-API.turn = function (player) {
+API.turn = function (player, force) {
     var ship = player.getShip();
-    ship.state.turn = 1;
+    ship.state.turn = force;
     setTimeout(function(){ship.state.turn = 0;}, 500)
     //ship.state.thrust = false;
 };

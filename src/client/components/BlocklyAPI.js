@@ -354,47 +354,61 @@ module.exports = {
             return 'shoot();\n';
         };
 
-        /**
 
-        /**
+
+        /*
          * thrust
          */
         Blockly.Blocks['sc_thrust'] = {
+
             init: function () {
                 this.jsonInit({
-                    message0: 'fire thruster',
+                    message0: 'fire thruster to %1',
+                    args0: [{type: 'input_value', name: 'VALUE', check: 'Number'}],
                     previousStatement: null,
                     nextStatement: null,
                     colour: 180
                 });
             },
-            starcoder: {}
+            starcoder: {
+                defaults: [
+                    {type: 'block', name: 'VALUE', subtype: 'math_number', value: 1}
+                ]
+            }
         };
 
-        /**
+        /*
          * code generation for thrust
          */
-        Blockly.JavaScript['sc_thrust'] = function () {
-            return 'thrust();\n';
+
+        Blockly.JavaScript['sc_thrust'] = function (block) {
+            var arg = Blockly.JavaScript.valueToCode(block, 'VALUE', Blockly.JavaScript.ORDER_NONE) || '1';
+            return 'thrust(' + arg + ');\n';
         };
+
+
 
         Blockly.Blocks['sc_turn'] = {
             init: function () {
                 this.jsonInit({
-                    message0: 'turn',
+                    message0: 'turn by %1',
+                    args0: [{type: 'input_value', name: 'VALUE', check: 'Number'}],
                     previousStatement: null,
                     nextStatement: null,
                     colour: 180
                 });
             },
-            starcoder: {}
+            starcoder: {
+                defaults: [
+                    {type: 'block', name: 'VALUE', subtype: 'math_number', value: 1}
+                ]
+            }
         };
 
-        /**
-         * code generation for turn
-         */
-        Blockly.JavaScript['sc_turn'] = function () {
-            return 'turn();\n';
+
+        Blockly.JavaScript['sc_turn'] = function (block) {
+            var arg = Blockly.JavaScript.valueToCode(block, 'VALUE', Blockly.JavaScript.ORDER_NONE) || '1';
+            return 'turn(' + arg + ');\n';
         };
         
         /**
