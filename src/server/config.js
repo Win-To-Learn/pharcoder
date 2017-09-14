@@ -51,6 +51,10 @@ module.exports = {
         // vvvvv Testing vvvvv
         {type: 'Crystal', number: 40, config: {
             position: {random: 'world', pad: 30}
+        }},
+        {type: 'Turret', number: 40, config: {
+            position: {random: 'world', pad: 30}
         }}
+
     ]
 };
