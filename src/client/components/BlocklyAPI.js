@@ -686,7 +686,6 @@ module.exports = {
             return 'musicOn();\n';
         };
 
-
         /**
          * Turn music off
          *
@@ -784,6 +783,112 @@ module.exports = {
             var arg = Blockly.JavaScript.valueToCode(block, 'VALUE', Blockly.JavaScript.ORDER_NONE) || '1';
             return 'alert(' + arg + ');\n';
         };
+
+        /**
+         * Create Turret
+         *
+         * @type {{init: Function}}
+         */
+        Blockly.Blocks['sc_create_turret'] = {
+            init: function () {
+                this.jsonInit({
+                    message0: 'create turret',
+                    previousStatement: null,
+                    nextStatement: null,
+                    colour: 240
+                });
+            },
+            starcoder: {}
+        };
+
+        /**
+         * Code generation of create turret
+         */
+        Blockly.JavaScript['sc_create_turret'] = function (block) {
+            return 'createTurret();\n';
+        };
+
+        /**
+         * shoot turret
+         */
+        Blockly.Blocks['sc_fire_turret'] = {
+            init: function () {
+                this.jsonInit({
+                    message0: 'fire turret %1',
+                    args0: [
+                        {type: 'input_value', name: 'TURRET'}
+                    ],
+                    colour: 210,
+                    previousStatement: true,
+                    nextStatement: true
+                });
+            },
+            starcoder: {}
+        };
+
+        /**
+         * code generation for fire turret
+         */
+        Blockly.JavaScript['sc_fire_turret'] = function (block) {
+            var turret = Blockly.JavaScript.valueToCode(block, 'TURRET', Blockly.JavaScript.ORDER_NONE);
+            return 'fireTurret(' + turret + ');\n';
+        };
+
+        /**
+         * aim turret
+         */
+        Blockly.Blocks['sc_aim_turret'] = {
+            init: function () {
+                this.jsonInit({
+                    message0: 'aim',
+                    message1: 'turret %1 at angle %2',
+                    args1: [
+                        {type: 'input_value', name: 'TURRET'},
+                        {type: 'input_value', name: 'ANGLE', check: 'Number'}
+                    ],
+                    colour: 210,
+                    previousStatement: true,
+                    nextStatement: true
+                });
+            },
+            starcoder: {}
+        };
+
+        /**
+         * code generation for aim turret
+         */
+        Blockly.JavaScript['sc_aim_turret'] = function (block) {
+            var turret = Blockly.JavaScript.valueToCode(block, 'TURRET', Blockly.JavaScript.ORDER_COMMA);
+            var angle = Blockly.JavaScript.valueToCode(block, 'ANGLE', Blockly.JavaScript.ORDER_COMMA);
+            return 'aimTurret(' + turret + ',' + angle + ');\n';
+        };
+
+        /**
+         * get turrets created by ship
+         *
+         * @type {{init: Function}}
+         */
+        Blockly.Blocks['sc_get_turrets'] = {
+            init: function () {
+                this.jsonInit({
+                    message0: 'get list of turrets',
+                    output: 'Array',
+                    colour: 270
+                });
+            },
+            starcoder: {}
+        };
+
+        /**
+         * code generation for get_turrets
+         *
+         * @param block
+         * @returns {string}
+         */
+        Blockly.JavaScript['sc_get_turrets'] = function (block) {
+            return ['getTurrets()', Blockly.JavaScript.ORDER_FUNCTION_CALL];
+        };
+
 
         /** Redefinition of standard Blockly blocks */
 

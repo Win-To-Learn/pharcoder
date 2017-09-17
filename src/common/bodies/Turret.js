@@ -17,6 +17,7 @@ module.exports = {
     updateProperties: {
         lineColor : 'string',
         vectorScale : 'ufixed16',
+        aim: 'ufixed16',
         shape : 'pairarrayfixed16'}
 };
 
