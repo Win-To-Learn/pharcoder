@@ -23,6 +23,12 @@ module.exports = {
     sendMessage: function (player, type, content) {
         player.msgQueue.push({msg: type, data: content});
     },
+    
+    broadcastMessage: function (type, content) {
+        for (let player of this.playerList) {
+            player.msgQueue.push({msg: type, data: content});
+        }
+    },
 
     deserializeMessages: function (player) {
         var n = this.msgBufIn.readUInt16();

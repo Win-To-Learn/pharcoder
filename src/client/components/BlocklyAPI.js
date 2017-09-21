@@ -893,8 +893,47 @@ module.exports = {
         Blockly.JavaScript['sc_get_turrets'] = function (block) {
             var arg = Blockly.JavaScript.valueToCode(block, 'VALUE', Blockly.JavaScript.ORDER_NONE) || '1';
             //return ['getTurrets("' + arg + '")', Blockly.JavaScript.ORDER_FUNCTION_CALL];
-            return ['getTurrets(' + arg + ')', Blockly.JavaScript.ORDER_ATOMIC];
+            return ['getTurret(' + arg + ')', Blockly.JavaScript.ORDER_ATOMIC];
         };
+
+        /**
+         * Broadcast message to all other players
+         *
+         * @type {{init: Function}}
+         */
+        Blockly.Blocks['sc_broadcast'] = {
+            init: function () {
+                this.jsonInit({
+                    message0: 'broadcast %1 message to other ships',
+                    args0: [
+                        {
+                            type: 'field_dropdown', name: 'MSG', options: [
+                            ["nice job!", '0'],
+                            ["how did you do that? can you deploy your code?", '1'],
+                            ["follow me!", '2'],
+                            ["very cool, any other cool code to share?", '3'],
+                            ["wow!", '4']
+                        ]
+                        }
+                    ],
+                    output: 'Array',
+                    colour: 240
+                });
+            },
+            starcoder: {}
+        };
+
+        /**
+         * Code generation for broadcast
+         *
+         * @param block
+         * @returns {*[]}
+         */
+        Blockly.JavaScript['sc_broadcast'] = function (block) {
+            let msg = block.getFieldValue('MSG');
+            return 'broadcast(' + msg + ')';
+        };
+
 
 
         /** Redefinition of standard Blockly blocks */

@@ -517,6 +517,28 @@ API.alert = function (player, text) {
     starcoder.sendMessage(player, 'alert', text);
 };
 
+
+var messageWhitelist = [
+    "nice job!",
+    "how did you do that? can you deploy your code?",
+    "follow me!",
+    "very cool, any other cool code to share?",
+    "wow!"
+];
+/**
+ * Broadcast message to all players
+ *
+ * @param player
+ * @param msgid {number}
+ */
+API.broadcast = function (player, msgid) {
+    let msg = messageWhitelist[msgid];
+    if (msg) {
+        starcoder.broadcastMessage('alert', player.gamertag + ": " + msg);
+    }
+};
+
+
 /**
  * Create StationBlock
  *
@@ -619,9 +641,10 @@ API.fireTurret = function (player, turret) {
  * Return array of turrets created by player
  *
  * @param player
+ * @param val
  * @returns {Array}
  */
-API.getTurrets = function (player, val) {
+API.getTurret = function (player, val) {
     return player.getShip().turrets[val];
 };
 
