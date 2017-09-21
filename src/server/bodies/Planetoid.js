@@ -46,6 +46,7 @@ Planetoid.prototype.adjustShape = function () {
 
 Planetoid.prototype.plantTree = function (x, y, ship) {
     var tree = this.worldapi.addSyncableBody(Tree, {
+        lifespan: 0,
         mass: 0.1,
         position: [this.position[0] + x, this.position[1] + y],
         angle: Math.atan2(x, -y),
@@ -68,17 +69,20 @@ Planetoid.prototype.plantTree = function (x, y, ship) {
             self.bloom()
         }
 
-        setTimeout(function(){
-            //if (self.trees.length >= 5 && self.bloomed) {
+        setInterval(function(){
             if (self.trees.length >= 1) {
-                
-                //console.log("update tree lifespan leaderboard");
-                this.starcoder.updatePlayerScore('Pharcoe Lifespan', tree.owner.id, 100);
+                if(tree !== null) {
+                    tree.lifespan++;
+                    if(tree.owner !== null) {
+                        self.starcoder.updatePlayerScore('Pharcoe Lifespan', tree.owner.id, tree.lifespan);
+                    }
+                }
             }
-        },10000, this.world)
+        },10000, self.world)
 
     });
 };
+
 
 Planetoid.prototype.bloom = function () {
     for (var i = 0; i < this.trees.length; i++) {
@@ -119,6 +123,7 @@ Planetoid.prototype.beginContact = function (other, equations) {
                 } else {
                     point = equations.contactPointB;
                 }
+                //console.log(this.starcoder);
                 this.starcoder.sendMessage(other.player, 'planttree');
                 other.player.achieve('planttree');
                 this.plantTree(point[0], point[1], other);
