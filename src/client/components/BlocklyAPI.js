@@ -871,12 +871,17 @@ module.exports = {
         Blockly.Blocks['sc_get_turrets'] = {
             init: function () {
                 this.jsonInit({
-                    message0: 'get list of turrets',
+                    message0: 'get turret element %1',
+                    args0: [{type: 'input_value', name: 'VALUE', check: 'Number'}],
                     output: 'Array',
                     colour: 270
                 });
             },
-            starcoder: {}
+            starcoder: {
+                defaults: [
+                    {type: 'block', name: 'VALUE', subtype: 'math_number', value: 0}
+                ]
+            }
         };
 
         /**
@@ -886,7 +891,9 @@ module.exports = {
          * @returns {string}
          */
         Blockly.JavaScript['sc_get_turrets'] = function (block) {
-            return ['getTurrets()', Blockly.JavaScript.ORDER_FUNCTION_CALL];
+            var arg = Blockly.JavaScript.valueToCode(block, 'VALUE', Blockly.JavaScript.ORDER_NONE) || '1';
+            //return ['getTurrets("' + arg + '")', Blockly.JavaScript.ORDER_FUNCTION_CALL];
+            return ['getTurrets(' + arg + ')', Blockly.JavaScript.ORDER_ATOMIC];
         };
 
 

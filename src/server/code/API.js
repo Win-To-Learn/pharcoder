@@ -621,8 +621,8 @@ API.fireTurret = function (player, turret) {
  * @param player
  * @returns {Array}
  */
-API.getTurrets = function (player) {
-    return player.getShip().turrets;
+API.getTurrets = function (player, val) {
+    return player.getShip().turrets[val];
 };
 
 module.exports = API;
