@@ -67,6 +67,16 @@ Planetoid.prototype.plantTree = function (x, y, ship) {
         if (self.trees.length >= 5 && !self.bloomed) {
             self.bloom()
         }
+
+        setTimeout(function(){
+            //if (self.trees.length >= 5 && self.bloomed) {
+            if (self.trees.length >= 1) {
+                
+                //console.log("update tree lifespan leaderboard");
+                this.starcoder.updatePlayerScore('Pharcoe Lifespan', tree.owner.id, 100);
+            }
+        },10000, this.world)
+
     });
 };
 
