@@ -21,7 +21,7 @@ module.exports = {
         transports: ['websocket']
     },
     initialBodies: [
-        {type: 'Asteroid', number: 35, config: {
+        {type: 'Asteroid', number: 25, config: {
             position: {random: 'world'},
             velocity: {random: 'vector', lo: -8, hi: 8},
             angularVelocity: {random: 'float', lo: -12, hi: 12},
@@ -31,7 +31,7 @@ module.exports = {
         {type: 'Hydra', number: 1, config: {
             position: {random: 'world', pad: 50}
         }},
-        {type: 'Planetoid', number: 20, config: {
+        {type: 'Planetoid', number: 15, config: {
             position: {random: 'world', pad: 30},
             angularVelocity: {random: 'float', lo: -5, hi: 5},
             mass: 120

@@ -168,6 +168,9 @@ interpToNative.object = function (o) {
         }
     }
     delete o.__native;
+    if (o.__target) {
+        native.__body = o.__target;
+    }
     return native;
 };
 
@@ -201,7 +204,10 @@ nativeToInterp.object = function (interpreter, o) {
         pseudo = interpreter.createObject(interpreter.OBJECT);
         o.__pseudo = pseudo;
         for (i in o) {
-            if (i === '__pseudo' || i === '__target') {
+            if (i === '__target') {
+                pseudo.__target = o[i];
+                continue;
+            } else if (i === '__pseudo') {
                 continue;
             }
             if (o[i].__pseudo) {

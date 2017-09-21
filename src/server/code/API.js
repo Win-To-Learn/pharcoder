@@ -9,6 +9,7 @@ var decomp = require('poly-decomp');
 var SCError = require('./SCError.js');
 
 var StationBlock = require('../bodies/StationBlock.js');
+var Turret = require('../bodies/Turret.js');
 
 var api_key = 'key-426b722a669becf8c90a677a8409f907';
 var domain = 'sandboxb5a8ef1c9c5441d2afd27e5d8a15329d.mailgun.org';
@@ -320,14 +321,16 @@ API.setTurningForce = function (player, force) {
  */
 API.translate = function (player, x, y) {
     var ship = player.getShip();
-    var tuple = [x,y];
-    ship.previousWarpCoords.push(tuple);
-    if(ship.previousWarpCoords.length >= 4){
-        ship.previousWarpCoords = ship.previousWarpCoords.slice(1);
-    }
+    //var tuple = [x,y];
+    //ship.previousWarpCoords.push(tuple);
+    //if(ship.previousWarpCoords.length >= 4){
+    //    ship.previousWarpCoords = ship.previousWarpCoords.slice(1);
+    //}
     ship.position[0] = clamp(starcoder.config.worldBounds[0], x, starcoder.config.worldBounds[2]);
-    ship.position[1] = clamp(starcoder.config.worldBounds[1], -y, starcoder.config.worldBounds[3]);
-    console.log(ship.previousWarpCoords);
+    ship.position[1] = clamp(starcoder.config.worldBounds[3], -y, starcoder.config.worldBounds[1]);
+    //ship.position[0] = x;
+    //ship.position[0] = y;
+    //console.log(ship.previousWarpCoords);
 };
 
 /**
@@ -514,6 +517,12 @@ API.alert = function (player, text) {
     starcoder.sendMessage(player, 'alert', text);
 };
 
+/**
+ * Create StationBlock
+ *
+ * @param player
+ * @param shape
+ */
 API.createStationBlock = function (player, shape) {
     if (sbCount >= sbLimit) {
         throw new SCError('StationBlock limit reached');
@@ -562,5 +571,58 @@ function _normalizeShape (shape) {
         throw new SCError('Path cannot cross itself');
     }
 }
+
+
+/**
+ * Create Turret
+ *
+ * @param player
+ * @param shape
+ */
+API.createTurret = function (player) {
+    var ship = player.getShip();
+    var turret = ship.worldapi.addSyncableBody(Turret, {vectorScale: 1, mass: 60, owner: player});
+    // FIXME: positioning and error check
+    var r = ship.boundingRadius + turret.boundingRadius + 1;
+    turret.position[0] = ship.position[0] + sin(ship.angle) * r;
+    turret.position[1] = ship.position[1] + -cos(ship.angle) * r;
+    turret.angle = ship.angle;
+    turret.owner = ship;
+    ship.turrets.push(turret);
+    return turret;
+};
+
+
+/**
+ * Aim turret in direction (0 = turret facing)
+ *
+ * @param player
+ * @param turret
+ * @param direction
+ */
+API.aimTurret = function (player, turret, direction) {
+    turret.__body.aim = direction;
+};
+
+/**
+ * Shoot in direction of turret aim
+ *
+ * @param player
+ * @param turret
+ * @param direction
+ */
+API.fireTurret = function (player, turret) {
+    turret.__body.fire();
+};
+
+/**
+ * Return array of turrets created by player
+ *
+ * @param player
+ * @returns {Array}
+ */
+API.getTurrets = function (player, val) {
+    return player.getShip().turrets[val];
+};
 
 module.exports = API;

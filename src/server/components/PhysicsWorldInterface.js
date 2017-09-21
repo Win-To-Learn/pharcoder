@@ -20,7 +20,8 @@ var bodyDefs = {
     StarTarget: [require('../bodies/StarTarget.js'), require('../../common/bodies/StarTarget.js')],
     StationBlock: [require('../bodies/StationBlock.js'), require('../../common/bodies/StationBlock.js')],
     Alien: [require('../bodies/Alien.js'), require('../../common/bodies/Alien.js')],
-    CodeCapsule: [require('../bodies/CodeCapsule.js'), require('../../common/bodies/CodeCapsule.js')]
+    CodeCapsule: [require('../bodies/CodeCapsule.js'), require('../../common/bodies/CodeCapsule.js')],
+    Turret: [require('../bodies/Turret.js'), require('../../common/bodies/Turret.js')]
 };
 
 var bodyTypes = {};
