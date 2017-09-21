@@ -11,7 +11,8 @@ module.exports = {
     //serverAddress: '1.2.3.4',
     //worldBounds: [-400, -400, 400, 400],
     //worldBounds: [-300, -300, 300, 300],
-    worldBounds: [-240, 240, 240, -240],                // left top right bottom
+    //worldBounds: [-240, 240, 240, -240],                // left top right bottom
+    worldBounds: [-450, 450, 450, -450],
     physicsScale: 20,
     renderLatency: 100,
     frameRate: (1 / 60),
