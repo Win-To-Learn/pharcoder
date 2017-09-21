@@ -321,14 +321,16 @@ API.setTurningForce = function (player, force) {
  */
 API.translate = function (player, x, y) {
     var ship = player.getShip();
-    var tuple = [x,y];
-    ship.previousWarpCoords.push(tuple);
-    if(ship.previousWarpCoords.length >= 4){
-        ship.previousWarpCoords = ship.previousWarpCoords.slice(1);
-    }
+    //var tuple = [x,y];
+    //ship.previousWarpCoords.push(tuple);
+    //if(ship.previousWarpCoords.length >= 4){
+    //    ship.previousWarpCoords = ship.previousWarpCoords.slice(1);
+    //}
     ship.position[0] = clamp(starcoder.config.worldBounds[0], x, starcoder.config.worldBounds[2]);
-    ship.position[1] = clamp(starcoder.config.worldBounds[1], -y, starcoder.config.worldBounds[3]);
-    console.log(ship.previousWarpCoords);
+    ship.position[1] = clamp(starcoder.config.worldBounds[3], -y, starcoder.config.worldBounds[1]);
+    //ship.position[0] = x;
+    //ship.position[0] = y;
+    //console.log(ship.previousWarpCoords);
 };
 
 /**
