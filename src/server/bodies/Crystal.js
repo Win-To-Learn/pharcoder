@@ -14,6 +14,7 @@ var Crystal = function (starcoder, config) {
     SyncBodyBase.call(this, starcoder, config);
     this.damping = 0;
     this.angularDamping = 0;
+    this.mass = 2;
 };
 
 Crystal.prototype = Object.create(SyncBodyBase.prototype);

@@ -79,6 +79,7 @@ StationBlock.prototype.beginContact = function (other, equations) {
                 console.log(equations);
             }
             break;
+
     }
 };
 

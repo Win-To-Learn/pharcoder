@@ -48,6 +48,12 @@ module.exports = {
             vectorScale: 1,
             mass: 7
         }},
+        {type: 'Alien', number: 4, config: {
+            position: {random: 'world', pad: 30},
+            genus: 'BlockBuster',
+            vectorScale: 1,
+            mass: 7
+        }},
         // vvvvv Testing vvvvv
         {type: 'Crystal', number: 40, config: {
             position: {random: 'world', pad: 30}
