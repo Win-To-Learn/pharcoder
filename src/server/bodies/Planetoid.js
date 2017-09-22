@@ -78,7 +78,7 @@ Planetoid.prototype.plantTree = function (x, y, ship) {
                     }
                 }
             }
-        },10000, self.world)
+        },20000, self.world)
 
     });
 };

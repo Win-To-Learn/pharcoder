@@ -15,6 +15,8 @@ module.exports = {
         // Update persistent categories
         setInterval(function () {
             for (var cat in self.leaderBoardCategories) {
+                console.log(self.leaderBoardCategories);
+                console.log(self.leaderBoardPersistentCategories);
                 var rec = self.leaderBoardCategories[cat];
                 var prec = self.leaderBoardPersistentCategories[cat];
                 // if (!rec.dirty) {
@@ -81,6 +83,10 @@ module.exports = {
                     data: []
                 };
                 self.leaderBoardPersistentCategories['Tag Streak'] = {
+                    dirty: true,
+                    data: []
+                };
+                self.leaderBoardPersistentCategories['Pharcoe Lifespan'] = {
                     dirty: true,
                     data: []
                 };
