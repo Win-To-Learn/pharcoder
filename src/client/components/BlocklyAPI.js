@@ -431,18 +431,26 @@ module.exports = {
                     nextStatement: true
                 });
             },
-            starcoder: {}
+            starcoder: {
+                defaults: [
+                    {type: 'block', name: 'TL', subtype: 'math_number', value: 2},
+                    {type: 'block', name: 'BF', subtype: 'math_number', value: 5},
+                    {type: 'block', name: 'BD', subtype: 'math_number', value: 5},
+                    {type: 'block', name: 'SP', subtype: 'math_number', value: 90},
+                    {type: 'block', name: 'DP', subtype: 'math_number', value: 0.75}
+                ]
+            }
         };
 
         /**
          * code generation for set seeder props
          */
         Blockly.JavaScript['sc_set_seeder_props'] = function (block) {
-            var tl = Blockly.JavaScript.valueToCode('TL', Blockly.JavaScript.ORDER_COMMA);
-            var bf = Blockly.JavaScript.valueToCode('BF', Blockly.JavaScript.ORDER_COMMA);
-            var bd = Blockly.JavaScript.valueToCode('BD', Blockly.JavaScript.ORDER_COMMA);
-            var sp = Blockly.JavaScript.valueToCode('SP', Blockly.JavaScript.ORDER_COMMA);
-            var dp = Blockly.JavaScript.valueToCode('DP', Blockly.JavaScript.ORDER_COMMA);
+            var tl = Blockly.JavaScript.valueToCode(block, 'TL', Blockly.JavaScript.ORDER_COMMA);
+            var bf = Blockly.JavaScript.valueToCode(block, 'BF', Blockly.JavaScript.ORDER_COMMA);
+            var bd = Blockly.JavaScript.valueToCode(block, 'BD', Blockly.JavaScript.ORDER_COMMA);
+            var sp = Blockly.JavaScript.valueToCode(block, 'SP', Blockly.JavaScript.ORDER_COMMA);
+            var dp = Blockly.JavaScript.valueToCode(block, 'DP', Blockly.JavaScript.ORDER_COMMA);
             return 'setSeederProperties(' + tl + ',' + bf + ',' + bd + ',' + sp + ',' + dp + ');\n';
         };
 
