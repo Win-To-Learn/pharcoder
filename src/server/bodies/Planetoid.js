@@ -70,8 +70,9 @@ Planetoid.prototype.plantTree = function (x, y, ship) {
         }
 
         setInterval(function(){
-            if (self.trees.length >= 1) {
+            if (self.trees.length >= 5) {
                 if(tree !== null) {
+                    
                     tree.lifespan++;
                     if(tree.owner !== null) {
                         self.starcoder.updatePlayerScore('Pharcoe Lifespan', tree.owner.id, tree.lifespan);

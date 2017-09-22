@@ -10,6 +10,7 @@ var VectorSprite = require('./VectorSprite.js');
 var SyncBodyInterface = require('./SyncBodyInterface.js');
 
 var Tree = function (game, config) {
+    this.clientLifespan = 0;
     this.graph = {x: 0, y: 0};
     var initial = -config.spread * Math.PI / 360;
     var inc = (config.spread * Math.PI) / ((config.branchFactor - 1) * 180);
@@ -64,6 +65,7 @@ Tree.prototype._makeBranch = function (graph, length, decay, factor, angle, init
  * blah blah
  */
 Tree.prototype.drawProcedure = function (renderScale) {
+    var self = this;
     var lineColor = Phaser.Color.hexToRGB(this.lineColor);
     this.graphics.lineStyle(1, lineColor, 1);
     this._drawBranch(this.graph, this.game.starcoder.config.physicsScale*this.vectorScale*renderScale, this.depth);
@@ -73,9 +75,25 @@ Tree.prototype.drawProcedure = function (renderScale) {
         if (Math.random() > 0.5) {
             this.koala = this.game.make.image(0, 0, 'koala-r');
             this.koala.anchor.setTo(0, 1);
+            //this.koala.scale.setTo(0.7+Math.random()*5, 0.7+Math.random()*5);
+            setInterval(function(){
+                    self.clientLifespan++;
+                    if(self !== null) {
+                        self.koala.tint = (0.5+(self.clientLifespan/300)) * 0xffffff;
+                        console.log(self.clientLifespan);
+                    }
+            },120000, self.world)
         } else {
             this.koala = this.game.make.image(0, 0, 'koala-l');
             this.koala.anchor.setTo(1, 1);
+            //this.koala.scale.setTo(0.7+Math.random()*5, 0.7+Math.random()*5);
+            setInterval(function(){
+                self.clientLifespan++;
+                if(self !== null) {
+                    self.koala.tint = (0.5+(self.clientLifespan/300)) * 0xffffff;
+                    console.log(self.clientLifespan);
+                }
+            },120000, self.world)
         }
         this.koala.scale.setTo(0.5);
         this.addChild(this.koala);
