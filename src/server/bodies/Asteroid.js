@@ -35,7 +35,7 @@ Asteroid.prototype.explode = function (respawn) {
     this.worldapi.addSyncableBody(Crystal, {
         x: this.position[0],
         y: this.position[1],
-        mass: 10
+        mass: 2
     });
     this.worldapi.removeSyncableBody(this);
     if (respawn) {

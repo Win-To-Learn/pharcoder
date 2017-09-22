@@ -15,6 +15,8 @@ module.exports = {
         // Update persistent categories
         setInterval(function () {
             for (var cat in self.leaderBoardCategories) {
+                //console.log(self.leaderBoardCategories);
+                //console.log(self.leaderBoardPersistentCategories);
                 var rec = self.leaderBoardCategories[cat];
                 var prec = self.leaderBoardPersistentCategories[cat];
                 // if (!rec.dirty) {
@@ -68,7 +70,21 @@ module.exports = {
         this.mongoExtra.find({key: 'hiscore'}).limit(1).next().then(function (res) {
             if (res) {
                 //console.log('Path 1');
+
                 self.leaderBoardPersistentCategories = res.data;
+
+                self.leaderBoardPersistentCategories['Pharcoe Lifespan'] = {
+                    dirty: false,
+                    data: [
+                        {
+                            "id": "58dabaaa064baf7b14574367",
+                            "name": "wizard3",
+                            "val": 1
+                        }
+                    ]
+                };
+                self.mongoExtra.insert({key: 'hiscore', data: self.leaderBoardPersistentCategories['Pharcoe Lifespan']});
+
             } else {
                 //console.log('Path 2');
                 self.leaderBoardPersistentCategories = {};
@@ -81,6 +97,10 @@ module.exports = {
                     data: []
                 };
                 self.leaderBoardPersistentCategories['Tag Streak'] = {
+                    dirty: true,
+                    data: []
+                };
+                self.leaderBoardPersistentCategories['Pharcoe Lifespan'] = {
                     dirty: true,
                     data: []
                 };
