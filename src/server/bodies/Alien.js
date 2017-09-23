@@ -132,7 +132,9 @@ Alien.prototype.beginContact = function (body) {
             body.removeSelfFromWorld();
             break;
         case 'StationBlock':
-            body.removeSelfFromWorld();
+            if(this.genusName === 'BlockBuster'){
+                body.removeSelfFromWorld();
+            }
             break;
         case 'Bullet':
             this.dead = true;
