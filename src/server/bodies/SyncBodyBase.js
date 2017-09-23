@@ -78,6 +78,13 @@ SyncBodyBase.prototype.removeSelfFromWorld = function () {
         if (this.attachmentConstraint) {
             this.world.removeConstraint(this.attachmentConstraint);
         }
+        for (let id in (this.attachments || {})) {
+            let constraint = this.attachments[id];
+            let other = (constraint.bodyA === this ? constraint.bodyB : constraint.bodyA);
+            delete other.attachments[this.id];
+            delete this.attachments[id];
+            this.world.removeConstraint(constraint);
+        }
     }
 };
 
