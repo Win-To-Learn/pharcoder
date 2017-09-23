@@ -29,9 +29,9 @@ Bullet.prototype.adjustShape = function () {
     this.setCollisionMask();
 };
 
-Bullet.prototype.update = function () {
+Bullet.prototype.control = function () {
     if (this.world.time >= this.tod) {
-        this.world.removeSyncableBody(this);
+        this.removeSelfFromWorld();
     }
 };
 
