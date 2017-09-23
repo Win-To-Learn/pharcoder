@@ -78,6 +78,9 @@ SyncBodyBase.prototype.removeSelfFromWorld = function () {
         if (this.attachmentConstraint) {
             this.world.removeConstraint(this.attachmentConstraint);
         }
+        if (this.RevoluteConstraint) {
+            this.world.removeConstraint(this.RevoluteConstraint);
+        }
     }
 };
 
