@@ -53,7 +53,7 @@ Alien.prototype.persistence = 10000;
 var genera = [
     {name: 'Warrior', props: {thrustForce: 250, targetType: 'Ship', lineColor: '#ffa500'}},
     {name: 'EcoTerrorist', props: {thrustForce: 200, targetType: 'Tree', lineColor: '#ffcc99', patience: 10000}},
-    {name: 'BlockBuster', props: {thrustForce: 300, targetType: 'StationBlock', lineColor: '#ffff00', patience: 15000}}
+    {name: 'BlockBuster', props: {thrustForce: 100, targetType: 'StationBlock', lineColor: '#ffff00', patience: 10000}}
 ];
 
 SyncBodyBase.applyGenera(Alien, genera);
@@ -132,7 +132,9 @@ Alien.prototype.beginContact = function (body) {
             body.removeSelfFromWorld();
             break;
         case 'StationBlock':
-            body.removeSelfFromWorld();
+            if(this.genusName === 'BlockBuster'){
+                body.removeSelfFromWorld();
+            }
             break;
         case 'Bullet':
             this.dead = true;

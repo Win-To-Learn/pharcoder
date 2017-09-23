@@ -920,7 +920,12 @@ module.exports = {
                             ["how did you do that? can you deploy your code?", '1'],
                             ["follow me!", '2'],
                             ["very cool, any other cool code to share?", '3'],
-                            ["wow!", '4']
+                            ["wow!", '4'],
+                            ["bom trabalho!", '5'],
+                            ["como você fez isso? você pode implantar seu código?", '6'],
+                            ["me siga!", '7'],
+                            ["muito legal, qualquer outro código legal para compartilhar?", '8'],
+                            ["Uau!", '9']
                         ]
                         }
                     ],
