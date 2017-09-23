@@ -523,7 +523,11 @@ var messageWhitelist = [
     "how did you do that? can you deploy your code?",
     "follow me!",
     "very cool, any other cool code to share?",
-    "wow!"
+    "wow!",
+    "bom trabalho!",
+    "como você fez isso? você pode implantar seu código?",
+    "muito legal, qualquer outro código legal para compartilhar?",
+    "Uau!"
 ];
 /**
  * Broadcast message to all players
