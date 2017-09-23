@@ -57,6 +57,7 @@ module.exports = {
                 event.body.onWorldRemove();
             }
         });
+        //world.islandSplit = false;
         this.initBodies(bodyDefs, bodyTypes);
         setBounds.apply(this, starcoder.config.worldBounds);
         populate(starcoder.config.initialBodies);
