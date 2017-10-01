@@ -19,6 +19,7 @@ var Starfield = require('../ui/Starfield.js');
 
 var Controls = require('../plugins/Controls.js');
 var SyncClient = require('../plugins/SyncClient.js');
+var Screenshot = require('../plugins/Screenshot');
 
 var Space = function () {};
 
@@ -29,6 +30,7 @@ Space.prototype.init = function () {
     this.starcoder.controls = this.starcoder.attachPlugin(Controls, this.starcoder.cmdQueue);
     this.starcoder.syncclient = this.starcoder.attachPlugin(SyncClient,
         this.starcoder.socket, this.starcoder.cmdQueue);
+    this.starcoder.screenshot = this.starcoder.attachPlugin(Screenshot);
     this.stage.disableVisibilityChange = true;
 };
 
