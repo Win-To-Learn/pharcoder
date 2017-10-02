@@ -59,7 +59,7 @@ Loader.prototype.preload = function () {
     //this.game.load.audio('chime', 'assets/sounds/chime.ogg');
 	this.game.load.audio('chime', 'assets/sounds/pickup1.mp3');
 
-
+    this.game.load.audio('photo', 'assets/sounds/photo.ogg');
     this.game.load.audio('levelup', 'assets/sounds/levelup.mp3');
     this.game.load.audio('planttree', 'assets/sounds/planttree.mp3');
     this.game.load.audio('bigpop', 'assets/sounds/bigpop.mp3');

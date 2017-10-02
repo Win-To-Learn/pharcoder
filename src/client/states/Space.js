@@ -12,6 +12,7 @@ var LeaderBoard = require('../ui/LeaderBoard.js');
 var VidPlayer = require('../ui/VidPlayer.js');
 var VidPicker = require('../ui/VidPicker.js');
 var Toast = require('../ui/Toast.js');
+var SSCarousel = require('../ui/SSCarousel.js');
 var HUD = require('../ui/HUD.js');
 var TutorMessage = require('../ui/TutorMessage.js');
 var Grid = require('../ui/Grid.js');
@@ -89,6 +90,7 @@ Space.prototype.create = function () {
     this.game.sounds.laser = this.game.sound.add('laser', 1, false);
     this.game.sounds.alert = this.game.sound.add('alert', 1, false);
     this.game.sounds.chopper = this.game.sound.add('chopper', 1, false);
+    this.game.sounds.photo = this.game.sound.add('photo', 1, false);
 
     this.game.sounds.music = this.game.sound.add('music', 0.4, true);
     this.game.sounds.music.play();
@@ -154,7 +156,6 @@ Space.prototype.create = function () {
     this.game.starcoder.startLeaderBoard();
 
     // Video
-
     this.game.vidplayer = new VidPlayer(this.game, this.game.width/2, this.game.height/2);
     this.game.ui.add(this.game.vidplayer);
     this.game.vidpicker = new VidPicker(this.game, this.game.width/2, this.game.height/2);
@@ -172,6 +173,9 @@ Space.prototype.create = function () {
     //this.game.ui.add(this.game.vidscreen);
     //this.game.vidscreen.visible = false;
 
+    // Screenshot Carousel
+    this.game.sscarousel = new SSCarousel(this.game, this.game.width/2, this.game.height/2);
+    this.game.ui.add(this.game.sscarousel);
 
     // Links
     for (var i = 0; i < sc.config.links.length; i++) {

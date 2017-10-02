@@ -18,19 +18,25 @@ Screenshot.prototype.constructor = Screenshot;
 
 Screenshot.prototype.init = function () {
     this.ssKey = this.game.input.keyboard.addKey(Phaser.Keyboard.S);
-    this.screenshots = [];
+    //this.screenshots = [];
     this.lastShot = -1;
+    this.numShots = 0;
     this.ssReq = false;
 };
 
 Screenshot.prototype.preUpdate = function () {
     // Take screenshot
-    if (debounce && this.ssKey.isDown) {
+    if (debounce && this.ssKey.isDown && this.ssKey.altKey) {
+        this.game.sounds.photo.play();
         this.ssReq = true;
         debounce = false;
         setTimeout(function () {
             debounce = true;
         }, debounceTime);
+    }
+    // Show SS interface
+    if (this.ssKey.isDown && !this.ssKey.altKey && this.game.sscarousel && this.numShots) {
+        this.game.sscarousel.open();
     }
 };
 
@@ -43,7 +49,11 @@ Screenshot.prototype.render = function () {
 
 Screenshot.prototype.addShot = function (dataurl) {
     this.lastShot = (this.lastShot + 1) % maxShots;
-    this.screenshots[this.lastShot] = dataurl;
+    this.numShots = Math.min(this.numShots + 1, maxShots);
+    //this.screenshots[this.lastShot] = dataurl;
+    //this.game.cache.addImage('screenshot_' + this.lastShot, null, dataurl);
+    this.game.load.image('screenshot_' + this.lastShot, dataurl);
+    this.game.load.start();
 };
 
 module.exports = Screenshot;
