@@ -7,8 +7,6 @@ js/
 
 deployments/
 
-ssuploads/
-
 # Include lib js
 !lib/**/js/
 
