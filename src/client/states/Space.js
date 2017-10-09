@@ -32,6 +32,7 @@ Space.prototype.init = function () {
     this.starcoder.syncclient = this.starcoder.attachPlugin(SyncClient,
         this.starcoder.socket, this.starcoder.cmdQueue);
     this.starcoder.screenshot = this.starcoder.attachPlugin(Screenshot);
+    this.starcoder.screenshot.getCount();
     this.stage.disableVisibilityChange = true;
 };
 

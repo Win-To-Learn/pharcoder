@@ -30,6 +30,7 @@ Starcoder.prototype.init = function (app, io) {
     this.implementFeature(require('./components/SessionHandler.js'));
     //load login.html
     this.implementFeature(require('./components/StaticServer.js'));
+    this.implementFeature(require('./components/Screenshots.js'));
     this.implementFeature(require('./components/LoginEndpoint.js'));
     this.implementFeature(require('./components/LeaderBoardEndpoint.js'));
     //this.implementFeature(require('./components/ControlEndPoint.js'));

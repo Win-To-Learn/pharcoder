@@ -118,7 +118,7 @@ gulp.task('forceExit', function(cb) {
 
 gulp.task('zip-eb', ['browserify', 'browserify-frontend'], function () {
     return gulp.src(['src/server.js', 'src/server/**', 'src/common/**', 'src/schema/**', 'package.json', 'assets/**',
-        'lib/**', 'css/**', 'js/**', '.ebextensions/**', 'html/**'], {base: '.'})
+        'lib/**', 'css/**', 'js/**', '.ebextensions/**', 'html/**', 'ssuploads/**'], {base: '.'})
         //.pipe(rename(function (path) {
         //    console.log('NN', path.dirname, path.basename);
         //}))
