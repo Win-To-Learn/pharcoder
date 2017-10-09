@@ -35,7 +35,7 @@ Screenshot.prototype.preUpdate = function () {
         }, debounceTime);
     }
     // Show SS interface
-    if (this.ssKey.isDown && !this.ssKey.altKey && this.game.sscarousel && this.numShots) {
+    if (this.ssKey.isDown && !this.ssKey.altKey && this.game.sscarousel) {
         this.game.sscarousel.open();
     }
 };
@@ -53,11 +53,20 @@ Screenshot.prototype.getCount = function () {
         method: 'GET',
         url: '/ss/num',
         success: (data) => {
-            this.ssCount = data.count;
-            this.numShots = Math.min(this.ssCount, maxShots);
-            for (let i = 0; i < this.numShots; i++) {
-                this.game.load.image(`screenshot_${i}`, `/ss/${this.ssCount - 1 - i}`);
-            }
+            //this.ssCount = data.count;
+            //this.numShots = Math.min(this.ssCount, maxShots);
+            this.curShot = data.count - 1;
+            // for (let i = 0; i < this.numShots; i++) {
+            //     this.game.load.image(`screenshot_${i}`, `/ss/${this.ssCount - 1 - i}`);
+            // }
+            this.game.load.image('ssone', `/ss/${this.curShot - 1}`);
+            this.game.load.image('sstwo', `/ss/${this.curShot}`);
+            this.game.load.image('ssthree', `/ss/${this.curShot + 1}`);
+            this.game.load.onLoadComplete.addOnce(() => {
+                this.game.sscarousel.ssLeft.loadTexture('ssone');
+                this.game.sscarousel.ssCenter.loadTexture('sstwo');
+                this.game.sscarousel.ssRight.loadTexture('ssthree');
+            });
             this.game.load.start();
             this.lastShot = 0;
         }

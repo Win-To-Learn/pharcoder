@@ -35,7 +35,9 @@ module.exports = {
 
         this.app.get('/ss/:n', function (req, res) {
             if (self.screenshots.length) {
-                const name = self.screenshots[req.params.n % self.screenshots.length];
+                let n = req.params.n % self.screenshots.length;
+                n = n < 0 ? n + self.screenshots.length : n;
+                const name = self.screenshots[n];
                 res.sendFile(name, {root: destDir});
             } else {
                 res.status(404).end();
