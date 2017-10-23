@@ -12,6 +12,7 @@
   "devDependencies": {
     "browserify": "latest",
     "crosswalk-app-tools": "latest",
+    "csv": "^2.0.0",
     "del": "latest",
     "git": "latest",
     "glob-fs": "^0.1.6",
