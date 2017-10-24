@@ -24,7 +24,7 @@ function connectToDB () {
 
 function addUsers (db, people, regimes, csv) {
     let input = fs.readFileSync(csv);
-    let parser = parse();
+    let parser = parse({relax_column_count: true});
     let regimeId;
     parser.on("readable", () => {
         let record;
@@ -35,7 +35,7 @@ function addUsers (db, people, regimes, csv) {
                 codeSnippets: {},
                 regimeId,
                 expired: false,
-                expirationDate: new Date(3000, 11, 31),
+                expirationDate: new Date(2100, 11, 31),
                 cType: 'Player'
             };
             if (record[2]) {
@@ -70,24 +70,35 @@ function addUsers (db, people, regimes, csv) {
     });
 }
 
-function main () {
-    let argv = yargs
-        .command('add <csv>', 'Add users from CSV file')
-        .help()
-        .argv;
-
-    connectToDB().then((db) => {
-        console.log('Connected to DB');
-        let people = db.collection('people');
-        let regimes = db.collection('regimes');
-
-        if (argv.csv) {
-            addUsers(db, people, regimes, argv.csv);
-        }
-    });
+function expireUsers (db, people) {
+    console.log('Expiring users');
+    let now = new Date();
+    people.updateMany({expirationDate: {$lt: now}, expired: false}, {$set: {expired: true}})
+        .then((res) => {
+            console.log(`${res.modifiedCount} users expired`);
+            db.close();
+        })
+        .catch((err) => {
+                    console.log(`DB Error: ${err}`);
+                });
 }
 
-main();
+let argv = yargs
+    .command('add <csv>', 'Add users from CSV file', () => {}, (argv) => {
+        console.log(`Adding users from file ${argv.csv}`);
+        connectToDB(mongoUri).then((db) => {
+            addUsers(db, db.collection('people'), db.collection('regimes'), argv.csv);
+        })
+    })
+    .command('expire', 'Set expired flag on users with expiration date', () => {}, (argv) => {
+        connectToDB(mongoUri).then((db) => {
+            expireUsers(db, db.collection('people'));
+        })
+    })
+    .help()
+    .argv;
+
+
 
 
 

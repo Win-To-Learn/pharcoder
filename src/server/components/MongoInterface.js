@@ -179,7 +179,7 @@ module.exports = {
             prom = cur.toArray();
         }
         return prom.then(function (res) {
-            if (raw) {
+            if (raw || !res) {
                 return res;
             } else if (limit && limit === 1) {
                 return restore(res);
@@ -230,7 +230,7 @@ module.exports = {
         //        cb(null);
         //    }
         //}, 1);
-        return this.mongoFind(this.mongoPeople, {username: gamertag}, 1).then(function (player) {
+        return this.mongoFind(this.mongoPeople, {username: gamertag, expired: {$ne: true}}, 1).then(function (player) {
             if (player) {
                 self.cacheObject('player', player.id, player, 10000);
                 return player;
