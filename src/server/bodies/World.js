@@ -34,7 +34,7 @@ var bodyTypes = {
 var World = function (starcoder, bounds, initialBodies) {
     p2.World.call(this, {
         broadphase: new p2.SAPBroadphase(),
-        islandSplit: true,
+        islandSplit: false,
         gravity: [0, 0]
     });
     this.starcoder = starcoder;

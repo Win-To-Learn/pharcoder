@@ -44,7 +44,7 @@ module.exports = {
         starcoder = this;
         world = new p2.World({
             broadphase: new p2.SAPBroadphase(),
-            islandSplit: true,
+            islandSplit: false,
             gravity: [0, 0]
         });
         world.on('addBody', function (event) {

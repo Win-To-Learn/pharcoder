@@ -7,6 +7,8 @@ branch-defaults:
     environment: pharcoder-dev
   master:
     environment: pharcoder-single-1
+  ss_share:
+    environment: pharcoder-dev
 deploy:
   artifact: deployments/web.zip
 global:
