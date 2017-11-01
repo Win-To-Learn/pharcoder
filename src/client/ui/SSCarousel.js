@@ -3,8 +3,8 @@
  */
 'use strict';
 
-const THUMB_W = 240;
-const THUMB_H = 180;
+const THUMB_W = 480;
+const THUMB_H = 360;
 const GUTTER = 36;
 const MARGIN = 24;
 const BORDER = 8;
