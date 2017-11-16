@@ -24,6 +24,8 @@ module.exports = {
         $('button').button();
         $('#select-code').selectmenu({position: {within: '#code-window'}});
 
+        $('#sample-accordion').accordion();
+
         $('#tabs').tabs({
             activate: function (event, ui) {
                 if (ui.oldPanel.is('#blockly')) {

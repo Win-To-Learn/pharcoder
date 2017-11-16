@@ -94,6 +94,15 @@ body {
     height: 360px;
 }
 
+#sample-accordion img {
+    margin: 24px auto;
+    display: block;
+}
+
+/*#sample-accordion .ui-accordion-content {*/
+    /*min-height: 600px;*/
+/*}*/
+
 /* Hacky stuff */
 .blocklySvg {
     background-color: rgba(0, 0, 0, 0.2) !important;
@@ -104,3 +113,10 @@ body {
     background-color: rgba(0, 0, 0, 0.2) !important;
     /*background-color: rgba(255, 255, 255, 20) !important;*/
 }
+
+
+
+#sample-accordion .ui-accordion-content {
+    background: #285c00 url(images/ui-bg_inset-soft_10_285c00_1x100.png) 50% bottom repeat-x !important;
+}
+
