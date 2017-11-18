@@ -52,7 +52,7 @@ module.exports = {
             position: {random: 'world', pad: 30},
             genus: 'BlockBuster',
             vectorScale: 1,
-            mass: 7
+            mass: 9
         }},
         // vvvvv Testing vvvvv
         {type: 'Crystal', number: 40, config: {

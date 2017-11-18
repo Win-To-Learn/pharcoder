@@ -95,8 +95,10 @@ body {
 }
 
 #sample-accordion img {
-    margin: 24px auto;
+    margin: 14px auto;
+    height: 240px;
     display: block;
+
 }
 
 /*#sample-accordion .ui-accordion-content {*/
