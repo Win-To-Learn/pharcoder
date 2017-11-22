@@ -56,6 +56,7 @@ module.exports = {
                 self.sendCodeMessage('exec', self.aceEditor.getValue());
             }
         });
+
         $('#save-code').on('click', function () {
 
             var label = $('#code-name').val();
@@ -71,6 +72,24 @@ module.exports = {
                 $('#code-name').val('');
             }
             
+        });
+        $('#load-ex1').on('dblclick', function () {
+            self.sendCodeMessage('load', "example1");
+        });
+        $('#load-ex2').on('dblclick', function () {
+            self.sendCodeMessage('load', "example2");
+        });
+        $('#load-ex3').on('dblclick', function () {
+            self.sendCodeMessage('load', "example3");
+        });
+        $('#load-ex4').on('dblclick', function () {
+            self.sendCodeMessage('load', "example4");
+        });
+        $('#load-ex5').on('dblclick', function () {
+            self.sendCodeMessage('load', "example5");
+        });
+        $('#load-ex6').on('dblclick', function () {
+            self.sendCodeMessage('load', "example6");
         });
         $('#load-code').on('click', function () {
             var op = $('#select-code option:selected');
