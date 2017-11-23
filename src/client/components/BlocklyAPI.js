@@ -434,10 +434,10 @@ module.exports = {
             starcoder: {
                 defaults: [
                     {type: 'block', name: 'TL', subtype: 'math_number', value: 2},
-                    {type: 'block', name: 'BF', subtype: 'math_number', value: 5},
-                    {type: 'block', name: 'BD', subtype: 'math_number', value: 5},
-                    {type: 'block', name: 'SP', subtype: 'math_number', value: 90},
-                    {type: 'block', name: 'DP', subtype: 'math_number', value: 0.75}
+                    {type: 'block', name: 'BF', subtype: 'math_number', value: 4},
+                    {type: 'block', name: 'BD', subtype: 'math_number', value: 0.7},
+                    {type: 'block', name: 'SP', subtype: 'math_number', value: 70},
+                    {type: 'block', name: 'DP', subtype: 'math_number', value: 3}
                 ]
             }
         };
