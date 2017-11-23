@@ -148,11 +148,15 @@ module.exports = {
     setCodeForUI: function (code) {
         $('#code-name').val(code.label);
         if (code.blockly) {
+            $('#tabs').tabs('option', 'active', 0);
             this.blocklyWorkspace.clear();
             var xml = Blockly.Xml.textToDom(code.blockly);
             Blockly.Xml.domToWorkspace(this.blocklyWorkspace, xml);
+            //var topBlocks = this.blocklyWorkspaceSvg.getTopBlocks(true);
+            //console.log(topBlocks);
+            //this.blocklyWorkspaceSvg.cleanUp();
             this.aceEditor.setValue(Blockly.JavaScript.workspaceToCode(this.blocklyWorkspace));
-            $('#tabs').tabs('option', 'active', 0);
+
         } else {
             this.blocklyWorkspace.clear();
             this.aceEditor.setValue(code.js);
