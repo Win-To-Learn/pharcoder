@@ -95,7 +95,7 @@ body {
 }
 
 #sample-accordion img {
-    margin: 14px auto;
+    margin: 0px !important;
     height: 240px;
     display: block;
 
@@ -119,6 +119,12 @@ body {
 
 
 #sample-accordion .ui-accordion-content {
+    //background: #ffa500 url(images/ui-bg_inset-soft_10_285c00_1x100.png) 50% bottom repeat-x !important;
     background: #285c00 url(images/ui-bg_inset-soft_10_285c00_1x100.png) 50% bottom repeat-x !important;
+}
+
+#sample-accordion .ui-accordion-header {
+    line-height: 10px; !important;
+    font-size: 10pt !important;
 }
 

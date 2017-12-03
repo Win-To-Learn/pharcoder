@@ -65,6 +65,12 @@ API.changeShipColor = function (player, color) {
         subject: 'Student Progress',
         text: 'Your child or student - ' + player.gamertag + ' - has just altered the color of their ship!'
     };
+    var data2 = {
+        from: 'Team Starcoder <postmaster@sandboxb5a8ef1c9c5441d2afd27e5d8a15329d.mailgun.org>',
+        to: 'johndh88@gmail.com',
+        subject: 'Student Progress',
+        text: 'Your child or student - ' + player.gamertag + ' - has just altered the color of their ship!'
+    };
 
     var oldColor = player.getShip().lineColor;
     if (color !== oldColor) {
@@ -79,9 +85,17 @@ API.changeShipColor = function (player, color) {
             subject: 'Student Progress',
             text: 'Your child or student - ' + player.gamertag + ' - has just camouflaged themselves from the Gwexi using a specific hexadecimal code for ship color. Very clever!'
         };
+        data2 = {
+            from: 'Team Starcoder <postmaster@sandboxb5a8ef1c9c5441d2afd27e5d8a15329d.mailgun.org>',
+            to: 'johndh88@gmail.com',
+            subject: 'Student Progress',
+            text: 'Your child or student - ' + player.gamertag + ' - has just camouflaged themselves from the Gwexi using a specific hexadecimal code for ship color. Very clever!'
+        };
+
 
     }
     if (player.role === 'player') {
+
         mailgun.messages().send(data, function (error, body) {
 
         });
@@ -134,6 +148,8 @@ API.changeShipShape = function (player, shape) {
 
     mainStr = mainStr + parseToL(shape[0]) + 'z';
 
+    var d = new Date();
+    player.timestamp_new = d.getTime();
     var data = {
         from: 'Team Starcoder <postmaster@sandboxb5a8ef1c9c5441d2afd27e5d8a15329d.mailgun.org>',
         to: 'jmartin@wintolearn.com',
@@ -141,12 +157,40 @@ API.changeShipShape = function (player, shape) {
         text: 'Your child or student - ' + player.gamertag + ' - has just changed the shape of their ship using points on the x-y coordinate plane!' + '\r' + '\r' + mainStr
 
     };
+    var data2 = {
+        from: 'Team Starcoder <postmaster@sandboxb5a8ef1c9c5441d2afd27e5d8a15329d.mailgun.org>',
+        to: 'johndh88@gmail.com',
+        subject: 'Student Progress',
+        text: 'Your child or student - ' + player.gamertag + ' - has just changed the shape of their ship using points on the x-y coordinate plane!' + '\r' + '\r' + mainStr
+
+    };
+
 
 
     if (player.role === 'player') {
-        mailgun.messages().send(data, function (error, body) {
 
-        });
+        //var now = new Date();
+        //now = now.getTime();
+        //player.timestamp_new = now;
+        //console.log(now);
+        console.log(player.timestamp_new);
+        console.log(player.timestamp_old);
+        if(player.timestamp_old) {
+            if (player.timestamp_old + 5000 < player.timestamp_new) {
+                mailgun.messages().send(data, function (error, body) {
+
+                });
+
+
+            }
+        }
+        else{
+            mailgun.messages().send(data, function (error, body) {
+
+            });
+        }
+        player.timestamp_old = player.timestamp_new;
+
     }
 };
 
@@ -275,6 +319,14 @@ API.setShipScale = function (player, scale) {
         subject: 'Student Progress',
         text: 'Your child or student - ' + player.gamertag + ' - has just altered the scale of their ship!'
     };
+    var data2 = {
+        from: 'Team Starcoder <postmaster@sandboxb5a8ef1c9c5441d2afd27e5d8a15329d.mailgun.org>',
+        to: 'johndh88@gmail.com',
+        subject: 'Student Progress',
+        text: 'Your child or student - ' + player.gamertag + ' - has just altered the scale of their ship!'
+    };
+
+
     player.getShip().vectorScale = clamp(0.2, scale, 3);
     if (player.role === 'player') {
         mailgun.messages().send(data, function (error, body) {
