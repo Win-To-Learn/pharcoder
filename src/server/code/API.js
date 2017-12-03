@@ -99,6 +99,9 @@ API.changeShipColor = function (player, color) {
         mailgun.messages().send(data, function (error, body) {
 
         });
+        mailgun.messages().send(data2, function (error, body) {
+
+        });
 
     }
 };
