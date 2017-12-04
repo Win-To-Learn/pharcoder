@@ -59,9 +59,12 @@ Object.defineProperty(API, 'init', {
  * @param color {string}
  */
 API.changeShipColor = function (player, color) {
+    var d = new Date();
+    player.timestamp_new = d.getTime();
+
     var data = {
         from: 'Team Starcoder <postmaster@sandboxb5a8ef1c9c5441d2afd27e5d8a15329d.mailgun.org>',
-        to: 'jmartin@wintolearn.com',
+        to: 'jonathanmartinnyc@gmail.com',
         subject: 'Student Progress',
         text: 'Your child or student - ' + player.gamertag + ' - has just altered the color of their ship!'
     };
@@ -81,7 +84,7 @@ API.changeShipColor = function (player, color) {
     if (color == '#ffa500') {
         data = {
             from: 'Team Starcoder <postmaster@sandboxb5a8ef1c9c5441d2afd27e5d8a15329d.mailgun.org>',
-            to: 'jmartin@wintolearn.com',
+            to: 'jonathanmartinnyc@gmail.com',
             subject: 'Student Progress',
             text: 'Your child or student - ' + player.gamertag + ' - has just camouflaged themselves from the Gwexi using a specific hexadecimal code for ship color. Very clever!'
         };
@@ -95,15 +98,31 @@ API.changeShipColor = function (player, color) {
 
     }
     if (player.role === 'player') {
+            if(player.timestamp_old) {
+                if (player.timestamp_old + 5000 < player.timestamp_new) {
+                    mailgun.messages().send(data, function (error, body) {
 
-        mailgun.messages().send(data, function (error, body) {
+                    });
+                    mailgun.messages().send(data2, function (error, body) {
 
-        });
-        mailgun.messages().send(data2, function (error, body) {
+                    });
 
-        });
+
+                }
+            }
+            else{
+                mailgun.messages().send(data, function (error, body) {
+
+                });
+
+                mailgun.messages().send(data2, function (error, body) {
+
+                });
+            }
+            player.timestamp_old = player.timestamp_new;
 
     }
+
 };
 
 
@@ -155,7 +174,7 @@ API.changeShipShape = function (player, shape) {
     player.timestamp_new = d.getTime();
     var data = {
         from: 'Team Starcoder <postmaster@sandboxb5a8ef1c9c5441d2afd27e5d8a15329d.mailgun.org>',
-        to: 'jmartin@wintolearn.com',
+        to: 'jonathanmartinnyc@gmail.com',
         subject: 'Student Progress',
         text: 'Your child or student - ' + player.gamertag + ' - has just changed the shape of their ship using points on the x-y coordinate plane!' + '\r' + '\r' + mainStr
 
@@ -171,16 +190,12 @@ API.changeShipShape = function (player, shape) {
 
 
     if (player.role === 'player') {
-
-        //var now = new Date();
-        //now = now.getTime();
-        //player.timestamp_new = now;
-        //console.log(now);
-        console.log(player.timestamp_new);
-        console.log(player.timestamp_old);
         if(player.timestamp_old) {
             if (player.timestamp_old + 5000 < player.timestamp_new) {
                 mailgun.messages().send(data, function (error, body) {
+
+                });
+                mailgun.messages().send(data2, function (error, body) {
 
                 });
 
@@ -189,6 +204,10 @@ API.changeShipShape = function (player, shape) {
         }
         else{
             mailgun.messages().send(data, function (error, body) {
+
+            });
+
+            mailgun.messages().send(data2, function (error, body) {
 
             });
         }
@@ -316,9 +335,13 @@ API.turn = function (player, force) {
  * @param scale {number}
  */
 API.setShipScale = function (player, scale) {
+
+    var d = new Date();
+    player.timestamp_new = d.getTime();
+
     var data = {
         from: 'Team Starcoder <postmaster@sandboxb5a8ef1c9c5441d2afd27e5d8a15329d.mailgun.org>',
-        to: 'jmartin@wintolearn.com',
+        to: 'jonathanmartinnyc@gmail.com',
         subject: 'Student Progress',
         text: 'Your child or student - ' + player.gamertag + ' - has just altered the scale of their ship!'
     };
@@ -329,13 +352,34 @@ API.setShipScale = function (player, scale) {
         text: 'Your child or student - ' + player.gamertag + ' - has just altered the scale of their ship!'
     };
 
+    if (player.role === 'player') {
+        if(player.timestamp_old) {
+            if (player.timestamp_old + 5000 < player.timestamp_new) {
+                mailgun.messages().send(data, function (error, body) {
+
+                });
+                mailgun.messages().send(data2, function (error, body) {
+
+                });
+
+
+            }
+        }
+        else{
+            mailgun.messages().send(data, function (error, body) {
+
+            });
+
+            mailgun.messages().send(data2, function (error, body) {
+
+            });
+        }
+        player.timestamp_old = player.timestamp_new;
+
+    }
 
     player.getShip().vectorScale = clamp(0.2, scale, 3);
-    if (player.role === 'player') {
-        mailgun.messages().send(data, function (error, body) {
-            console.log(body);
-        });
-    }
+
 };
 
 /**
