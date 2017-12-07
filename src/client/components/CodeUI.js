@@ -24,9 +24,10 @@ module.exports = {
         $('button').button();
         //$('#select-code').selectmenu({position: {within: '#code-window'}});
         $('#select-code').selectmenu({
-            position: {my: "left bottom", at: "left top"}//,
-            //classes: {"ui-selectmenu-open": "dumbfakeclass"}
+            position: {my: "left bottom", at: "left top"},
+            classes: {"ui-selectmenu-button-open": "ui-corner-bottom"}
             });
+        $('#select-code').selectmenu("menuWidget").addClass('ui-corner-top').removeClass('ui-corner-bottom');
 
         $('#sample-accordion').accordion();
 
