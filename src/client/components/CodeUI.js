@@ -22,7 +22,11 @@ module.exports = {
         this.aceEditor.setTheme("ace/theme/twilight");
 
         $('button').button();
-        $('#select-code').selectmenu({position: {within: '#code-window'}});
+        //$('#select-code').selectmenu({position: {within: '#code-window'}});
+        $('#select-code').selectmenu({
+            position: {my: "left bottom", at: "left top"}//,
+            //classes: {"ui-selectmenu-open": "dumbfakeclass"}
+            });
 
         $('#sample-accordion').accordion();
 
