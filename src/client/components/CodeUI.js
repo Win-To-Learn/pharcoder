@@ -10,6 +10,7 @@ module.exports = {
         var self = this;
         this.codeWindowMode = 'blockly';
         this.codeLabelCache = {};
+        this.pendingBlocklyCode = null;
         var xml = document.getElementById('toolbox');
         //BlocklyAPI.addStarcoderBlocks(xml);
         this.addStarcoderBlocks(xml);
@@ -133,6 +134,10 @@ module.exports = {
             } //else if (this.codeWindowMode === 'ace') {
             //    this.aceEditor.resize();
             //}
+            if (this.pendingBlocklyCode) {
+                this.setCodeForUI(this.pendingBlocklyCode);
+            }
+            this.pendingBlocklyCode = null;
             this.game.input.keyboard.enabled = false;
         } else {
             $('#code-window').hide();
@@ -153,15 +158,18 @@ module.exports = {
     setCodeForUI: function (code) {
         $('#code-name').val(code.label);
         if (code.blockly) {
-            $('#tabs').tabs('option', 'active', 0);
-            this.blocklyWorkspace.clear();
-            var xml = Blockly.Xml.textToDom(code.blockly);
-            Blockly.Xml.domToWorkspace(this.blocklyWorkspace, xml);
-            //var topBlocks = this.blocklyWorkspaceSvg.getTopBlocks(true);
-            //console.log(topBlocks);
-            //this.blocklyWorkspaceSvg.cleanUp();
-            this.aceEditor.setValue(Blockly.JavaScript.workspaceToCode(this.blocklyWorkspace));
-
+            if (this.codeWindowState) {
+                $('#tabs').tabs('option', 'active', 0);
+                this.blocklyWorkspace.clear();
+                var xml = Blockly.Xml.textToDom(code.blockly);
+                Blockly.Xml.domToWorkspace(this.blocklyWorkspace, xml);
+                //var topBlocks = this.blocklyWorkspaceSvg.getTopBlocks(true);
+                //console.log(topBlocks);
+                //this.blocklyWorkspaceSvg.cleanUp();
+                this.aceEditor.setValue(Blockly.JavaScript.workspaceToCode(this.blocklyWorkspace));
+            } else {
+                this.pendingBlocklyCode = code;
+            }
         } else {
             this.blocklyWorkspace.clear();
             this.aceEditor.setValue(code.js);
