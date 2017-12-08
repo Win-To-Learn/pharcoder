@@ -26,7 +26,7 @@ module.exports = {
         //$('#select-code').selectmenu({position: {within: '#code-window'}});
         $('#select-code').selectmenu({
             position: {my: "left bottom", at: "left top"},
-            classes: {"ui-selectmenu-button-open": "ui-corner-bottom"}
+            classes: {"ui-selectmenu-button-open": "ui-corner-bottom", "ui-menu": "ui-front"}
             });
         $('#select-code').selectmenu("menuWidget").addClass('ui-corner-top').removeClass('ui-corner-bottom');
 
