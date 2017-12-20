@@ -21,6 +21,7 @@ module.exports = {
     ready: function (player) {
         var self = this;
         player.socket.on('code exec', function (code) {
+            console.log(code);
             try {
                 if (player.interpreter) {
                     // Code already running - push onto queue
@@ -97,11 +98,25 @@ module.exports = {
                 player.codeSnippets['example6'] = {blockly: blockly_ex6};
                 self.sendCodeMessage(player, 'saved', 'example6');
             }
+            if(player.codeSnippets['example7'] == null){
+                var blockly_ex7 = '<xml xmlns=\"http://www.w3.org/1999/xhtml\"><block type=\"controls_repeat_ext\" id=\"201\" x=\"-490\" y=\"69\"><value name=\"TIMES\"><block type=\"math_number\" id=\"202\"><field name=\"NUM\">2</field></block></value></block><block type=\"sc_set_color\" id=\"48\" x=\"-245\" y=\"74\"><field name=\"COLOR\">#ff0000</field></block><block type=\"sc_set_color\" id=\"96\" x=\"-246\" y=\"128\"><field name=\"COLOR\">#ffff66</field></block><block type=\"sc_set_color\" id=\"144\" x=\"-245\" y=\"183\"><field name=\"COLOR\">#3366ff</field></block></xml>';
+
+                player.codeSnippets['example7'] = {blockly: blockly_ex7};
+                self.sendCodeMessage(player, 'saved', 'example7');
+            }
+            if(player.codeSnippets['example8'] == null){
+                var js_ex8 = 'var coordinate1 = 100;\n\ntranslate(coordinate1,0);\n';
+                player.codeSnippets['example8'] = {js: js_ex8};
+                self.sendCodeMessage(player, 'saved', 'example8');
+            }
 
             var code = player.codeSnippets[label];
 
+
             if (code) {
                 if (code.js) {
+                    console.log("yes it's code.js");
+                    console.log(label);
                     self.sendCodeMessage(player, 'loaded', {label: label, js: code.js});
                 } else {
                     self.sendCodeMessage(player, 'loaded', {label: label, blockly: code.blockly});

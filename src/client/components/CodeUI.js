@@ -97,6 +97,12 @@ module.exports = {
         $('#load-ex6').on('dblclick', function () {
             self.sendCodeMessage('load', "example6");
         });
+        $('#load-ex7').on('dblclick', function () {
+            self.sendCodeMessage('load', "example7");
+        });
+        $('#load-ex8').on('dblclick', function () {
+            self.sendCodeMessage('load', "example8");
+        });
         $('#load-code').on('click', function () {
             var op = $('#select-code option:selected');
             if (op.index() > 0) {
