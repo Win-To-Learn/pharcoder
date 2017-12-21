@@ -142,11 +142,12 @@ module.exports = {
      */
     mongoConnect: function () {
         var self = this;
-        MongoClient.connect(this.config.mongoUri, function (err, db) {
+        MongoClient.connect(this.config.mongoUri, function (err, client) {
             if (err) {
                 console.log('Could not connect to MongoDB. Exiting.');
                 process.exit(1);
             }
+            var db = client.db("starcoder");
             console.log('Connected to MongoDB', db.databaseName);
             self.mongoDB = db;
             self.mongoPeople = db.collection('people');
