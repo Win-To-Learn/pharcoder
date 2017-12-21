@@ -72,21 +72,21 @@ module.exports = {
                 //console.log('Path 1');
 
                 self.leaderBoardPersistentCategories = res.data;
-
-                self.leaderBoardPersistentCategories['Pharcoe Lifespan'] = {
-                    dirty: false,
-                    data: [
-                        {
-                            "id": "58dabaaa064baf7b14574367",
-                            "name": "wizard3",
-                            "val": 1
-                        }
-                    ]
-                };
-                self.mongoExtra.insert({key: 'hiscore', data: self.leaderBoardPersistentCategories['Pharcoe Lifespan']});
+                //console.log("RD", res.data);
+                // self.leaderBoardPersistentCategories['Pharcoe Lifespan'] = {
+                //     dirty: false,
+                //     data: [
+                //         {
+                //             "id": "58dabaaa064baf7b14574367",
+                //             "name": "wizard3",
+                //             "val": 1
+                //         }
+                //     ]
+                // };
+                // self.mongoExtra.insert({key: 'hiscore', data: self.leaderBoardPersistentCategories['Pharcoe Lifespan']});
 
             } else {
-                //console.log('Path 2');
+                console.log('Path 2');
                 self.leaderBoardPersistentCategories = {};
                 self.leaderBoardPersistentCategories['Ships Tagged'] = {
                     dirty: true,
@@ -120,6 +120,8 @@ module.exports = {
             rec.dirty = true;
         }
         for (cat in this.leaderBoardPersistentCategories) {
+            //console.log("Cat", cat);
+            //console.log(this.leaderBoardPersistentCategories[cat]);
             rec = this.leaderBoardPersistentCategories[cat];
             rec.dirty = true;
         }
