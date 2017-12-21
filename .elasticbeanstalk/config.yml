@@ -6,10 +6,6 @@ branch-defaults:
   jayturret:
     environment: pharcoder-dev
   master:
-    environment: pharcoder-single-1
-  sample_tabs:
-    environment: pharcoder-dev
-  ss_share:
     environment: pharcoder-dev
 deploy:
   artifact: deployments/web.zip
