@@ -42,7 +42,7 @@ module.exports = {
             }
         });
         player.socket.on('code save', function (code) {
-            console.log('save code', code);
+            //console.log('save code', code);
             if (code.js) {
                 player.codeSnippets[code.label] =  {js: code.js};
             } else {
@@ -51,13 +51,13 @@ module.exports = {
                 //player.codeSnippets['test1'] = {blockly: code.blockly};
             }
             if (player.role === 'player') {
-                console.log('savingto db');
+                //console.log('savingto db');
                 self.updatePlayerSnippets(player, function () {
                     self.sendCodeMessage(player, 'saved', code.label);
                     //self.sendCodeMessage(player, 'saved', 'test1');
                 });
             } else {
-                console.log('guest no save');
+                //console.log('guest no save');
                 self.sendCodeMessage(player, 'not saved', code.label);
             }
         });
@@ -115,8 +115,6 @@ module.exports = {
 
             if (code) {
                 if (code.js) {
-                    console.log("yes it's code.js");
-                    console.log(label);
                     self.sendCodeMessage(player, 'loaded', {label: label, js: code.js});
                 } else {
                     self.sendCodeMessage(player, 'loaded', {label: label, blockly: code.blockly});

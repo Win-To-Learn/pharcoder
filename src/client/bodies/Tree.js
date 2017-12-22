@@ -71,7 +71,7 @@ Tree.prototype.drawProcedure = function (renderScale) {
     this._drawBranch(this.graph, this.game.starcoder.config.physicsScale*this.vectorScale*renderScale, this.depth);
     // Add koala
     if ((renderScale === 1) && this.bloomed && !this.koala) {
-        console.log('draw koala');
+        //console.log('draw koala');
         if (Math.random() > 0.5) {
             this.koala = this.game.make.image(0, 0, 'koala-r');
             this.koala.anchor.setTo(0, 1);
@@ -80,7 +80,7 @@ Tree.prototype.drawProcedure = function (renderScale) {
                     self.clientLifespan++;
                     if(self !== null) {
                         self.koala.tint = (0.5+(self.clientLifespan/300)) * 0xffffff;
-                        console.log(self.clientLifespan);
+                        //console.log(self.clientLifespan);
                     }
             },120000, self.world)
         } else {
@@ -91,7 +91,7 @@ Tree.prototype.drawProcedure = function (renderScale) {
                 self.clientLifespan++;
                 if(self !== null) {
                     self.koala.tint = (0.5+(self.clientLifespan/300)) * 0xffffff;
-                    console.log(self.clientLifespan);
+                    //console.log(self.clientLifespan);
                 }
             },120000, self.world)
         }
@@ -126,7 +126,7 @@ Object.defineProperty(Tree.prototype, 'bloomed', {
         return this._bloomed;
     },
     set: function (val) {
-        console.log('bloom set');
+        //console.log('bloom set');
         this._bloomed = val;
         this._dirty = true;
     }

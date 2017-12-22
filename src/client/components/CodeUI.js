@@ -9,6 +9,7 @@ module.exports = {
     init: function () {
         var self = this;
         this.codeWindowMode = 'blockly';
+        this.old_codeWindowMode = '';
         this.codeLabelCache = {};
         this.pendingBlocklyCode = null;
         var xml = document.getElementById('toolbox');
@@ -34,23 +35,36 @@ module.exports = {
 
         $('#tabs').tabs({
             activate: function (event, ui) {
-                if (ui.oldPanel.is('#blockly')) {
+                if (ui.newPanel.is('#aceeditor')) {
+                //if (ui.oldPanel.is('#blockly')) {
                     $('.blocklyToolboxDiv').hide();
                     //self.aceEditor.setValue(Blockly.JavaScript.workspaceToCode(self.blocklyWorkspace));
                     self.aceEditor.resize();
+                    self.old_codeWindowMode = self.codeWindowMode;
                     self.codeWindowMode = 'ace';
-                } else {
+                } else if (ui.newPanel.is('#blockly')) {
                     Blockly.svgResize(self.blocklyWorkspace);
                     $('.blocklyToolboxDiv').show();
+                    self.old_codeWindowMode = self.codeWindowMode;
                     self.codeWindowMode = 'blockly';
+                } else if (ui.newPanel.is('#samples')) {
+                    $('.blocklyToolboxDiv').hide();
+                    self.old_codeWindowMode = self.codeWindowMode;
+                    self.codeWindowMode = 'samples';
                 }
             }
 
         });
 
         this.blocklyWorkspace.addChangeListener(function () {
-            //code = Blockly.JavaScript.workspaceToCode(workspace);
-            self.aceEditor.setValue(Blockly.JavaScript.workspaceToCode(self.blocklyWorkspace));
+            //console.log("current mode " + self.codeWindowMode);
+            //console.log("old mode " + self.old_codeWindowMode);
+                //code = Blockly.JavaScript.workspaceToCode(workspace);
+            if (self.old_codeWindowMode !== 'samples' && self.codeWindowMode !== 'editor') {
+                self.aceEditor.setValue(Blockly.JavaScript.workspaceToCode(self.blocklyWorkspace));
+                //console.log("changelistener");
+            }
+
         });
 
         $('#send-code').on('click', function () {

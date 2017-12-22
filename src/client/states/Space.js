@@ -204,7 +204,7 @@ Space.prototype.create = function () {
         linktext.inputEnabled = true;
         linktext.destURL = spec.url;
         linktext.events.onInputUp.add(function (link) {
-            console.log(link.destURL);
+            //console.log(link.destURL);
             if(link.destURL == 'http://aequoreagames.com/starcoder/coord_picker/'){
                 window.open(link.destURL,'_blank', "width=450, height=450");
             }

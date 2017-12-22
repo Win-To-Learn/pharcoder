@@ -140,10 +140,11 @@ module.exports = {
             The next function, mongoFind, retrieves the previous week's achievements.
             Obviously, we'll want to move it out of an achievement and have it check date to calculate valid weekly dates, but I put it here to test functionality
             */
-            mongo.mongoFind(
-              self.mongoHighscores,
-              {gamertag: "ransomsquest", full_date:  {$gte: "2017-06-05T00:00:00.856Z", $lt: "2017-06-12T00:00:00.856Z"}}
-            ).then(function(res) {console.log("These are the records ", res)});
+            //mongo.mongoFind(
+            //  self.mongoHighscores,
+            //  {gamertag: "ransomsquest", full_date:  {$gte: "2017-06-05T00:00:00.856Z", $lt:
+            // "2017-06-12T00:00:00.856Z"}}
+            //).then(function(res) {console.log("These are the records ", res)});
 
             if (player.role === 'player') {
                 mailgun.messages().send(makeMessage(color_message, player), function (error, body) {
