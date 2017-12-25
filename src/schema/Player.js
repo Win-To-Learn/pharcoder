@@ -19,6 +19,13 @@ var Player = function (gamertag, password, regimeId, role, demographics) {
     this.init();
     this.id = null;
     this.gamertag = gamertag;
+    this.oldWarpCoords = [];
+    this.challenge1 = false;
+    this.challenge2 = false;
+    this.challenge3 = false;
+    this.challenge4 = false;
+    this.challenge5 = false;
+    this.challenge6 = false;
     this.password = password;
     this.passwordClear = true;
     this.role = role;
@@ -57,6 +64,15 @@ Player.prototype.init = function () {
      * @type {Ship}
      */
     this.ship = null;
+
+    this.oldWarpCoords = [];
+
+    this.challenge1 = false;
+    this.challenge2 = false;
+    this.challenge3 = false;
+    this.challenge4 = false;
+    this.challenge5 = false;
+    this.challenge6 = false;
 
     /**
      * Role determines kind / level of access to game functions

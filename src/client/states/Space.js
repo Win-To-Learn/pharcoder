@@ -93,6 +93,11 @@ Space.prototype.create = function () {
     this.game.sounds.chopper = this.game.sound.add('chopper', 1, false);
     this.game.sounds.photo = this.game.sound.add('photo', 1, false);
 
+    this.game.sounds.reward1 = this.game.sound.add('reward1', 1, false);
+    this.game.sounds.reward2 = this.game.sound.add('reward2', 1, false);
+    this.game.sounds.reward3 = this.game.sound.add('reward3', 1, false);
+    this.game.sounds.reward4 = this.game.sound.add('reward4', 1, false);
+
     this.game.sounds.music = this.game.sound.add('music', 0.4, true);
     this.game.sounds.music.play();
 

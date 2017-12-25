@@ -28,17 +28,21 @@ module.exports = {
                         continue;
                     }
                     var found = false;
-                    for (var j = 0; j < prec.data.length; j++) {
-                        if (prec.data[j].id === d.id) {
-                            found = true;
-                            if ((!rec.asc && d.val > prec.data[j].val) || (rec.asc && d.val < prec.data[j].val)) {
-                                prec.data[j].val = d.val;
+                    //console.log("prec " + prec);
+                    //console.log(self.leaderBoardCategories);
+                    if (typeof prec != 'undefined') {
+                        for (var j = 0; j < prec.data.length; j++) {
+                            if (prec.data[j].id === d.id) {
+                                found = true;
+                                if ((!rec.asc && d.val > prec.data[j].val) || (rec.asc && d.val < prec.data[j].val)) {
+                                    prec.data[j].val = d.val;
+                                }
                             }
                         }
-                    }
-                    if (!found && (!rec.asc && d.val > 0) || (rec.asc && d.val < Infinity)) {
-                        prec.data.push({id: d.id, name: self.playersById[d.id].gamertag, val: d.val});
-                        prec.dirty = true;
+                        if (!found && (!rec.asc && d.val > 0) || (rec.asc && d.val < Infinity)) {
+                            prec.data.push({id: d.id, name: self.playersById[d.id].gamertag, val: d.val});
+                            prec.dirty = true;
+                        }
                     }
                 }
             }
@@ -101,6 +105,10 @@ module.exports = {
                     data: []
                 };
                 self.leaderBoardPersistentCategories['Pharcoe Lifespan'] = {
+                    dirty: true,
+                    data: []
+                };
+                self.leaderBoardPersistentCategories['Code Challenges'] = {
                     dirty: true,
                     data: []
                 };

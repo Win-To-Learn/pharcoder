@@ -47,6 +47,7 @@ Starcoder.prototype.init = function (app, io) {
     this.newLeaderBoardCategory('Tag Streak');
     this.newLeaderBoardCategory('Trees Planted');
     this.newLeaderBoardCategory('Pharcoe Lifespan');
+    this.newLeaderBoardCategory('Code Challenges');
     var self = this;
     this.io.set('origins', '*:*'); // no domain when coming from native mobile
     this.io.on('connect', function (socket) {

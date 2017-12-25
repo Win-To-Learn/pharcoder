@@ -80,6 +80,30 @@ var events = {
         this.game.tutormessage.setMessage(text);
     },
 
+    challengewon1: function (text) {
+        this.game.sounds.reward1.play();
+        Toast.spinUp(this.game, this.game.playerShip.x, this.game.playerShip.y, text);
+
+    },
+
+    challengewon2: function (text) {
+        this.game.sounds.reward2.play();
+        Toast.spinUp(this.game, this.game.playerShip.x, this.game.playerShip.y, text);
+
+    },
+
+    challengewon3: function (text) {
+        this.game.sounds.reward3.play();
+        Toast.spinUp(this.game, this.game.playerShip.x, this.game.playerShip.y, text);
+
+    },
+
+    challengewon4: function (text) {
+        this.game.sounds.reward4.play();
+        Toast.spinUp(this.game, this.game.playerShip.x, this.game.playerShip.y, text);
+
+    },
+
     tutorialvid: function (desc) {
         var vidurl = '/assets/video/' + desc.key + '.mp4';
         var thumbkey = desc.key + '-thumb';

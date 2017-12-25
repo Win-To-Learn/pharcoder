@@ -57,7 +57,7 @@ var Ship = function (starcoder, config) {
     this._fillColor = '#000000';
     this._fillAlpha = 0;
     this._thrustState = 0;
-    this.previousWarpCoords = [];
+    this.oldWarpCoords = [];
     this.turrets = [];
     //this._crystals = 150;
     //Add array to keep track of ship's previous warp coordinates
@@ -105,6 +105,7 @@ Ship.prototype.onWorldAdd = function () {
 };
 
 Ship.prototype.getPropertyUpdate = function (propname, properties) {
+    console.log(propname + " " + properties);
     switch (propname) {
         case 'playerid':
             properties.playerid = this.player.id;

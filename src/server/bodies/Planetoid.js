@@ -62,6 +62,7 @@ Planetoid.prototype.plantTree = function (x, y, ship) {
     tree.attachmentConstraint = new p2.LockConstraint(this, tree);
     this.world.addConstraint(tree.attachmentConstraint);
     var self = this;
+    console.log(self);
     tree.on('fullygrown', function () {
         self.trees.push(tree);
         tree.planetoid = self;

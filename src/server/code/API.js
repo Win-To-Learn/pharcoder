@@ -101,28 +101,19 @@ API.changeShipColor = function (player, color) {
             if(player.timestamp_old) {
                 if (player.timestamp_old + 5000 < player.timestamp_new) {
                     mailgun.messages().send(data, function (error, body) {
-
                     });
                     mailgun.messages().send(data2, function (error, body) {
-
                     });
-
-
                 }
             }
             else{
                 mailgun.messages().send(data, function (error, body) {
-
                 });
-
                 mailgun.messages().send(data2, function (error, body) {
-
                 });
             }
             player.timestamp_old = player.timestamp_new;
-
     }
-
 };
 
 
@@ -418,18 +409,240 @@ API.setTurningForce = function (player, force) {
  * @param x {number}
  * @param y {number}
  */
+function arraysEqual(a1,a2) {
+    /* WARNING: arrays must not contain {objects} or behavior may be undefined */
+    return JSON.stringify(a1)==JSON.stringify(a2);
+}
+
 API.translate = function (player, x, y) {
+
+    var data = {
+        from: 'Team Starcoder <postmaster@sandboxb5a8ef1c9c5441d2afd27e5d8a15329d.mailgun.org>',
+        to: 'jonathanmartinnyc@gmail.com',
+        subject: 'Student Progress',
+        text: 'Your child or student - ' + player.gamertag + ' - has just completed the first js variable challenge'
+    };
+    var data2 = {
+        from: 'Team Starcoder <postmaster@sandboxb5a8ef1c9c5441d2afd27e5d8a15329d.mailgun.org>',
+        to: 'johndh88@gmail.com',
+        subject: 'Student Progress',
+        text: 'Your child or student - ' + player.gamertag + ' - has just completed the first js variable challenge'
+    };
+    var data3 = {
+        from: 'Team Starcoder <postmaster@sandboxb5a8ef1c9c5441d2afd27e5d8a15329d.mailgun.org>',
+        to: 'jonathanmartinnyc@gmail.com',
+        subject: 'Student Progress',
+        text: 'Your child or student - ' + player.gamertag + ' - has just completed the nested for loop js challenge'
+    };
+    var data4 = {
+        from: 'Team Starcoder <postmaster@sandboxb5a8ef1c9c5441d2afd27e5d8a15329d.mailgun.org>',
+        to: 'johndh88@gmail.com',
+        subject: 'Student Progress',
+        text: 'Your child or student - ' + player.gamertag + ' - has just completed the nested for loop js challenge'
+    };
+
     var ship = player.getShip();
-    //var tuple = [x,y];
-    //ship.previousWarpCoords.push(tuple);
-    //if(ship.previousWarpCoords.length >= 4){
-    //    ship.previousWarpCoords = ship.previousWarpCoords.slice(1);
-    //}
+
     ship.position[0] = clamp(starcoder.config.worldBounds[0], x, starcoder.config.worldBounds[2]);
     ship.position[1] = clamp(starcoder.config.worldBounds[3], -y, starcoder.config.worldBounds[1]);
-    //ship.position[0] = x;
-    //ship.position[0] = y;
-    //console.log(ship.previousWarpCoords);
+
+    var currPosX = ship.position[0];
+    var currPosY = ship.position[1];
+
+    player.oldWarpCoords.push([currPosX,currPosY]);
+
+    var arrSliced3 = player.oldWarpCoords.slice(player.oldWarpCoords.length-3,player.oldWarpCoords.length);
+    var arrSliced4 = player.oldWarpCoords.slice(player.oldWarpCoords.length-4,player.oldWarpCoords.length);
+    var arrSliced5 = player.oldWarpCoords.slice(player.oldWarpCoords.length-5,player.oldWarpCoords.length);
+    var arrSliced6 = player.oldWarpCoords.slice(player.oldWarpCoords.length-6,player.oldWarpCoords.length);
+    var arrSliced7 = player.oldWarpCoords.slice(player.oldWarpCoords.length-7,player.oldWarpCoords.length);
+    var arrSliced10 = player.oldWarpCoords.slice(player.oldWarpCoords.length-10,player.oldWarpCoords.length);
+    var arrSliced20 = player.oldWarpCoords.slice(player.oldWarpCoords.length-20,player.oldWarpCoords.length);
+    var arrSliced21 = player.oldWarpCoords.slice(player.oldWarpCoords.length-21,player.oldWarpCoords.length);
+    var arrSliced41 = player.oldWarpCoords.slice(player.oldWarpCoords.length-41,player.oldWarpCoords.length);
+    var arrSliced55 = player.oldWarpCoords.slice(player.oldWarpCoords.length-55,player.oldWarpCoords.length);
+
+    var sol1 = [ [ 100, -0 ], [ 200, -0 ], [ 300, -0 ] ];
+    var sol21 = [ [ 200, -0 ],
+        [ 205, -0 ],
+        [ 210, -0 ],
+        [ 215, -0 ],
+        [ 220, -0 ],
+        [ 225, -0 ],
+        [ 230, -0 ],
+        [ 235, -0 ],
+        [ 240, -0 ],
+        [ 245, -0 ],
+        [ 250, -0 ],
+        [ 255, -0 ],
+        [ 260, -0 ],
+        [ 265, -0 ],
+        [ 270, -0 ],
+        [ 275, -0 ],
+        [ 280, -0 ],
+        [ 285, -0 ],
+        [ 290, -0 ],
+        [ 295, -0 ],
+        [ 300, -0 ] ];
+
+    var solNested1 = [
+        [ 200, -0 ],
+        [ 205, -0 ],
+        [ 210, -0 ],
+        [ 215, -0 ],
+        [ 220, -0 ],
+        [ 225, -0 ],
+        [ 230, -0 ],
+        [ 235, -0 ],
+        [ 240, -0 ],
+        [ 245, -0 ],
+        [ 250, -0 ],
+        [ 200, -5 ],
+        [ 205, -5 ],
+        [ 210, -5 ],
+        [ 215, -5 ],
+        [ 220, -5 ],
+        [ 225, -5 ],
+        [ 230, -5 ],
+        [ 235, -5 ],
+        [ 240, -5 ],
+        [ 245, -5 ],
+        [ 250, -5 ],
+        [ 200, -10 ],
+        [ 205, -10 ],
+        [ 210, -10 ],
+        [ 215, -10 ],
+        [ 220, -10 ],
+        [ 225, -10 ],
+        [ 230, -10 ],
+        [ 235, -10 ],
+        [ 240, -10 ],
+        [ 245, -10 ],
+        [ 250, -10 ],
+        [ 200, -15 ],
+        [ 205, -15 ],
+        [ 210, -15 ],
+        [ 215, -15 ],
+        [ 220, -15 ],
+        [ 225, -15 ],
+        [ 230, -15 ],
+        [ 235, -15 ],
+        [ 240, -15 ],
+        [ 245, -15 ],
+        [ 250, -15 ],
+        [ 200, -20 ],
+        [ 205, -20 ],
+        [ 210, -20 ],
+        [ 215, -20 ],
+        [ 220, -20 ],
+        [ 225, -20 ],
+        [ 230, -20 ],
+        [ 235, -20 ],
+        [ 240, -20 ],
+        [ 245, -20 ],
+        [ 250, -20 ] ];
+
+    //console.log(arrSliced55 + " array sliced55");
+
+    //console.log(solNested1 + " solNested1");
+
+    /*
+    var coordinateX = 200;
+    var coordinateY = 0;
+
+    for(coordinateY=0;coordinateY<55;coordinateY+=5){
+        for(coordinateX=200;coordinateX<255;coordinateX+=5){
+            translate(coordinateX,coordinateY);
+        }
+    }
+
+
+     translate(200,0);
+     setTimer(function () {
+     var coordinateX = 200;
+     var coordinateY = 0;
+
+     for(coordinateY=0;coordinateY<25;coordinateY+=5){
+     for(coordinateX=200;coordinateX<255;coordinateX+=5){
+     translate(coordinateX,coordinateY);
+     }
+     }
+     }, 5, false);
+*/
+
+
+
+    if(arraysEqual(player.oldWarpCoords, [ [ 100, -0 ], [ 200, -0 ], [ 300, -0 ] ])){
+        console.log("yes array comparison working");
+    }
+
+    if(arraysEqual(arrSliced21, sol21)){
+        console.log("yes for loop x changes by 5");
+    }
+
+    if(arraysEqual(arrSliced55, solNested1) && player.challenge3 === false) {
+        //console.log("yes for nested loop");
+
+        player.challenge3 = true;
+        starcoder.updatePlayerScore('Code Challenges', player.id, 15);
+
+        setTimeout(function () {
+            starcoder.sendMessage(player, 'challengewon3', 'Wow you solved the nested loop challenge!');
+        }, 500);
+        player.getShip().crystals += 250;
+        if (player.role === 'player') {
+            if (player.timestamp_old) {
+                if (player.timestamp_old + 5000 < player.timestamp_new) {
+                    mailgun.messages().send(data3, function (error, body) {
+                    });
+                    mailgun.messages().send(data4, function (error, body) {
+                    });
+                }
+            }
+            else {
+                mailgun.messages().send(data3, function (error, body) {
+                });
+                mailgun.messages().send(data4, function (error, body) {
+                });
+            }
+            player.timestamp_old = player.timestamp_new;
+            console.log(data);
+        }
+    }
+
+    if (player.oldWarpCoords === [ [ 100, -0 ], [ 200, -0 ], [ 300, -0 ] ]){
+        console.log("good work zipping around");
+    }
+
+    if(ship.position[0]===200 && ship.position[1]===-0 && player.challenge1===false) {
+        player.challenge1 =true;
+        starcoder.updatePlayerScore('Code Challenges', player.id, 10);
+
+        setTimeout(function(){
+            starcoder.sendMessage(player, 'challengewon1', 'Good job changing the value of the variable!');
+        },500);
+        player.getShip().crystals += 150;
+        if (player.role === 'player') {
+            if(player.timestamp_old) {
+                if (player.timestamp_old + 5000 < player.timestamp_new) {
+                    mailgun.messages().send(data, function (error, body) {
+                    });
+                    mailgun.messages().send(data2, function (error, body) {
+                    });
+                }
+            }
+            else{
+                mailgun.messages().send(data, function (error, body) {
+                });
+                mailgun.messages().send(data2, function (error, body) {
+                });
+            }
+            player.timestamp_old = player.timestamp_new;
+            console.log(data);
+        }
+
+
+    }
 };
 
 /**

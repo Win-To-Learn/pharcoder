@@ -12,6 +12,10 @@ var Planetoid = require('../bodies/Planetoid.js');
 
 var API = require('../code/API.js');
 
+var api_key = 'key-426b722a669becf8c90a677a8409f907';
+var domain = 'sandboxb5a8ef1c9c5441d2afd27e5d8a15329d.mailgun.org';
+var mailgun = require('mailgun-js')({apiKey: api_key, domain: domain});
+
 module.exports = {
     /**
      * Attach network handlers for each player
@@ -20,8 +24,70 @@ module.exports = {
      */
     ready: function (player) {
         var self = this;
+
+        var solLoop1 = "for (var count = 0; count < 1000; count++)" +
+            " {\n  changeShipColor('#ff0000');\n  changeShipColor('#ffff66');\n  changeShipColor('#3366ff');\n}";
+
         player.socket.on('code exec', function (code) {
-            console.log(code);
+            //console.log(solLoop1);
+            //console.log(code);
+            //console.log(typeof(solLoop1));
+            //console.log(typeof(code));
+            var data = {
+                from: 'Team Starcoder <postmaster@sandboxb5a8ef1c9c5441d2afd27e5d8a15329d.mailgun.org>',
+                to: 'jonathanmartinnyc@gmail.com',
+                subject: 'Student Progress',
+                text: 'Your child or student - ' + player.gamertag + ' - has just completed the first loop challenge'
+            };
+            var data2 = {
+                from: 'Team Starcoder <postmaster@sandboxb5a8ef1c9c5441d2afd27e5d8a15329d.mailgun.org>',
+                to: 'johndh88@gmail.com',
+                subject: 'Student Progress',
+                text: 'Your child or student - ' + player.gamertag + ' - has just completed the first loop challenge'
+            };
+
+
+
+            //console.log(String.raw(code));
+            if(code.trim()==solLoop1.trim() && player.challenge2===false){
+                console.log("loop solved");
+                player.challenge2 = true;
+                self.updatePlayerScore('Code Challenges', player.id, 5);
+
+                setTimeout(function(){
+                    self.sendMessage(player, 'challengewon2', 'Good job solving the loop challenge!');
+                },500);
+                player.getShip().crystals += 150;
+                if (player.role === 'player') {
+                    if(player.timestamp_old) {
+                        if (player.timestamp_old + 5000 < player.timestamp_new) {
+                            mailgun.messages().send(data, function (error, body) {
+                            });
+                            mailgun.messages().send(data2, function (error, body) {
+                            });
+                        }
+                    }
+                    else{
+                        mailgun.messages().send(data, function (error, body) {
+                        });
+                        mailgun.messages().send(data2, function (error, body) {
+                        });
+                    }
+                    player.timestamp_old = player.timestamp_new;
+                    console.log(data);
+                }
+
+
+
+
+            }
+            if(code === 'var coordinate1 = 100;\n\ntranslate(coordinate1,0);\n'){
+                console.log("you got it");
+
+                //self.starcoder.updatePlayerScore('Loop Challenges', player.id, 50);
+                //self.starcoder.sendMessage(player, 'challengewon', 'Nice!');
+
+            }
             try {
                 if (player.interpreter) {
                     // Code already running - push onto queue
@@ -109,11 +175,21 @@ module.exports = {
                 player.codeSnippets['example8'] = {js: js_ex8};
                 self.sendCodeMessage(player, 'saved', 'example8');
             }
+            if(player.codeSnippets['example9'] == null){
+                var js_ex9 = "var coordinateX = 200;\nvar coordinateY =" +
+                    " 0;\nfor(coordinateY= ;coordinateY<  ;coordinateY+= ){" +
+                "\nfor(coordinateX=200;coordinateX<255;coordinateX+=5){" +
+                "\ntranslate(coordinateX,coordinateY);" +
+                "\n}\n}";
+                player.codeSnippets['example9'] = {js: js_ex9};
+                self.sendCodeMessage(player, 'saved', 'example9');
+            }
 
             var code = player.codeSnippets[label];
 
 
             if (code) {
+
                 if (code.js) {
                     self.sendCodeMessage(player, 'loaded', {label: label, js: code.js});
                 } else {
