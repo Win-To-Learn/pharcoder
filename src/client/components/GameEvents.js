@@ -104,6 +104,12 @@ var events = {
 
     },
 
+    challengewon5: function (text) {
+        this.game.sounds.reward5.play();
+        Toast.spinUp(this.game, this.game.playerShip.x, this.game.playerShip.y, text);
+
+    },
+
     tutorialvid: function (desc) {
         var vidurl = '/assets/video/' + desc.key + '.mp4';
         var thumbkey = desc.key + '-thumb';

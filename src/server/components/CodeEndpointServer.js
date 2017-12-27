@@ -28,9 +28,25 @@ module.exports = {
         var solLoop1 = "for (var count = 0; count < 1000; count++)" +
             " {\n  changeShipColor('#ff0000');\n  changeShipColor('#ffff66');\n  changeShipColor('#3366ff');\n}";
 
+
+        var solLoop2 = "setTimer(function () {\n" +
+            "  pointToBody(localScan(\"Asteroid\"));\n" +
+            "  shoot();\n" +
+        "}, 1, true);";
+
+        var solConditional1 = "//change the *** to point and thrust towards crystals if closer than 300 units\n" +
+        "//note: some valuable crystals are hidden!\n\n"+
+            "var distance = distanceScan(\"Crystal\");\n\n" +
+            "if(distance<300){\n" +
+            "  pointToBody(closestBody(\"Crystal\"));\n" +
+            "  thrust(6);\n" +
+            "}";
+
+
+
         player.socket.on('code exec', function (code) {
-            //console.log(solLoop1);
-            //console.log(code);
+            console.log(solConditional1.trim());
+            console.log(code.trim());
             //console.log(typeof(solLoop1));
             //console.log(typeof(code));
             var data = {
@@ -45,10 +61,35 @@ module.exports = {
                 subject: 'Student Progress',
                 text: 'Your child or student - ' + player.gamertag + ' - has just completed the first loop challenge'
             };
+            var data3 = {
+                from: 'Team Starcoder <postmaster@sandboxb5a8ef1c9c5441d2afd27e5d8a15329d.mailgun.org>',
+                to: 'jonathanmartinnyc@gmail.com',
+                subject: 'Student Progress',
+                text: 'Your child or student - ' + player.gamertag + ' - has just completed the autoaim timer' +
+                ' loop challenge'
+            };
+            var data4 = {
+                from: 'Team Starcoder <postmaster@sandboxb5a8ef1c9c5441d2afd27e5d8a15329d.mailgun.org>',
+                to: 'johndh88@gmail.com',
+                subject: 'Student Progress',
+                text: 'Your child or student - ' + player.gamertag + ' - has just completed the autoaim timer' +
+                ' loop challenge'
+            };
+            var data5 = {
+                from: 'Team Starcoder <postmaster@sandboxb5a8ef1c9c5441d2afd27e5d8a15329d.mailgun.org>',
+                to: 'jonathanmartinnyc@gmail.com',
+                subject: 'Student Progress',
+                text: 'Your child or student - ' + player.gamertag + ' - has just completed the if/then challenge'
+            };
+            var data6 = {
+                from: 'Team Starcoder <postmaster@sandboxb5a8ef1c9c5441d2afd27e5d8a15329d.mailgun.org>',
+                to: 'johndh88@gmail.com',
+                subject: 'Student Progress',
+                text: 'Your child or student - ' + player.gamertag + ' - has just completed the if/then challenge'
+            };
 
 
 
-            //console.log(String.raw(code));
             if(code.trim()==solLoop1.trim() && player.challenge2===false){
                 console.log("loop solved");
                 player.challenge2 = true;
@@ -76,11 +117,66 @@ module.exports = {
                     player.timestamp_old = player.timestamp_new;
                     console.log(data);
                 }
-
-
-
-
             }
+
+            if(code.trim()==solLoop2.trim() && player.challenge4===false){
+                console.log("loop solved");
+                player.challenge4 = true;
+                self.updatePlayerScore('Code Challenges', player.id, 5);
+
+                setTimeout(function(){
+                    self.sendMessage(player, 'challengewon4', 'Good job solving the autoaim timer loop challenge!');
+                },500);
+                player.getShip().crystals += 100;
+                if (player.role === 'player') {
+                    if(player.timestamp_old) {
+                        if (player.timestamp_old + 5000 < player.timestamp_new) {
+                            mailgun.messages().send(data3, function (error, body) {
+                            });
+                            mailgun.messages().send(data4, function (error, body) {
+                            });
+                        }
+                    }
+                    else{
+                        mailgun.messages().send(data3, function (error, body) {
+                        });
+                        mailgun.messages().send(data4, function (error, body) {
+                        });
+                    }
+                    player.timestamp_old = player.timestamp_new;
+                    console.log(data);
+                }
+            }
+
+            if((code.trim()==solConditional1.trim() || code ==solConditional1) && player.challenge5===false){
+                console.log("hidden crystal challenge solved");
+                player.challenge5 = true;
+                self.updatePlayerScore('Code Challenges', player.id, 10);
+
+                setTimeout(function(){
+                    self.sendMessage(player, 'challengewon5', 'Good job solving the conditional challenge!');
+                },500);
+                player.getShip().crystals += 150;
+                if (player.role === 'player') {
+                    if(player.timestamp_old) {
+                        if (player.timestamp_old + 5000 < player.timestamp_new) {
+                            mailgun.messages().send(data5, function (error, body) {
+                            });
+                            mailgun.messages().send(data6, function (error, body) {
+                            });
+                        }
+                    }
+                    else{
+                        mailgun.messages().send(data5, function (error, body) {
+                        });
+                        mailgun.messages().send(data6, function (error, body) {
+                        });
+                    }
+                    player.timestamp_old = player.timestamp_new;
+
+                }
+            }
+
             if(code === 'var coordinate1 = 100;\n\ntranslate(coordinate1,0);\n'){
                 console.log("you got it");
 
@@ -184,12 +280,36 @@ module.exports = {
                 player.codeSnippets['example9'] = {js: js_ex9};
                 self.sendCodeMessage(player, 'saved', 'example9');
             }
+            if(player.codeSnippets['example10'] == null){
+                var blockly_ex8 = '<xml xmlns=\"http://www.w3.org/1999/xhtml\"><block type=\"sc_set_timer\" id=\"50\"' +
+                    ' x=\"44\" y=\"79\"><field name=\"REPEAT\">FALSE</field><value name=\"TIMEOUT\"><block' +
+                    ' type=\"math_number\" id=\"51\"><field name=\"NUM\">1</field></block></value></block><block' +
+                    ' type=\"sc_point_to_body\" id=\"52\" x=\"182\" y=\"88\"></block><block type=\"sc_scan\"' +
+                    ' id=\"53\" x=\"338\" y=\"85\"><field name=\"BODYTYPE\">Asteroid</field></block><block' +
+                    ' type=\"sc_shoot\" id=\"54\" x=\"250\" y=\"136\"></block></xml>';
+            
+
+                player.codeSnippets['example10'] = {blockly: blockly_ex8};
+                self.sendCodeMessage(player, 'saved', 'example10');
+            }
+            if(player.codeSnippets['example11'] == null){
+                var js_ex11 = "//change the *** to point and thrust towards crystals if closer than 300 units\n" +
+                    "//note: some valuable crystals are hidden!\n\n"+
+                    "var distance = distanceScan(\"Crystal\");\n\n" +
+                    "if(distance<***){\n" +
+                    "  pointToBody(closestBody(\"*******\"));\n" +
+                    "  thrust(6);\n" +
+                    "}";
+                player.codeSnippets['example11'] = {js: js_ex11};
+                self.sendCodeMessage(player, 'saved', 'example11');
+            }
+
 
             var code = player.codeSnippets[label];
 
 
             if (code) {
-
+                console.log(code);
                 if (code.js) {
                     self.sendCodeMessage(player, 'loaded', {label: label, js: code.js});
                 } else {

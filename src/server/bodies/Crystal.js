@@ -15,6 +15,10 @@ var Crystal = function (starcoder, config) {
     this.damping = 0;
     this.angularDamping = 0;
     this.mass = 2;
+    //this.lineColor='#000000';
+    //this._lineColor='#000000';
+
+
 };
 
 Crystal.prototype = Object.create(SyncBodyBase.prototype);
@@ -24,9 +28,10 @@ Crystal.prototype.clientType = 'Crystal';
 Crystal.prototype.serverType = 'Crystal';
 
 var genera = [
-    {name: 'monophasic', freq: 4, props: {value: 50, fillColor: '#00ffff'}},
-    {name: 'biphasic', freq: 2, props: {value: 75, fillColor: '#ffff00'}},
-    {name: 'triphasic', freq: 1, props: {value: 150, fillColor: '#eeeeee'}}
+    {name: 'monophasic', freq: 4, props: {value: 50, fillColor: '#00ffff',lineColor: '#00ffff',fillAlpha:0.25}},
+    {name: 'biphasic', freq: 2, props: {value: 75, fillColor: '#ffff00',lineColor: '#00ffff',fillAlpha:0.25}},
+    {name: 'triphasic', freq: 1, props: {value: 150, fillColor: '#eeeeee',lineColor: '#00ffff',fillAlpha:0.25}},
+    {name: 'hidden', freq: 1, props: {value: 300, lineColor: '#000000',fillColor: '#000000',fillAlpha:0}}
 ];
 
 SyncBodyBase.applyGenera(Crystal, genera);

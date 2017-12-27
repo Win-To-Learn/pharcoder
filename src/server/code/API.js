@@ -252,6 +252,64 @@ API.directionsToPoints = function (player, directions) {
  * @param bodytype {string}
  * @returns {Array}
  */
+API.distanceScan = function (player, bodytype) {
+    var ship = player.getShip();
+    var x = ship.position[0];
+    var y = ship.position[1];
+    var prev_distance = 99999;
+    var distance;
+    var result = [];
+    for (var i = 0, l = ship.world.bodies.length; i < l; i++) {
+        var target = ship.world.bodies[i];
+        if (target.serverType && (bodytype === target.serverType)) {
+            distance = Math.sqrt((x - target.position[0]) * (x - target.position[0]) + (y - target.position[1]) * (y - target.position[1]));
+            if (distance < prev_distance) {
+                prev_distance = distance;
+            }
+        }
+    }
+    return prev_distance;
+};
+
+/**
+ * Returns an array of all bodies within range units of body, optionally filtered by bodytype
+ *
+ * @param player {Player}
+ * @param body {p2.Body}
+ * @param range {number}
+ * @param bodytype {string}
+ * @returns {Array}
+ */
+API.closestBody = function (player, bodytype) {
+    var ship = player.getShip();
+    var x = ship.position[0];
+    var y = ship.position[1];
+    var prev_distance = 99999;
+    var distance;
+    var result = [];
+    var closeBody;
+    for (var i = 0, l = ship.world.bodies.length; i < l; i++) {
+        var target = ship.world.bodies[i];
+        if (target.serverType && (bodytype === target.serverType)) {
+            distance = Math.sqrt((x - target.position[0]) * (x - target.position[0]) + (y - target.position[1]) * (y - target.position[1]));
+            if (distance < prev_distance) {
+                prev_distance = distance;
+                closeBody =target;
+            }
+        }
+    }
+    return closeBody;
+};
+
+/**
+ * Returns an array of all bodies within range units of body, optionally filtered by bodytype
+ *
+ * @param player {Player}
+ * @param body {p2.Body}
+ * @param range {number}
+ * @param bodytype {string}
+ * @returns {Array}
+ */
 API.scan = function (player, body, range, bodytype) {
     var r2 = range * range;
     var x = body.position[0];
@@ -542,46 +600,15 @@ API.translate = function (player, x, y) {
         [ 245, -20 ],
         [ 250, -20 ] ];
 
-    //console.log(arrSliced55 + " array sliced55");
-
-    //console.log(solNested1 + " solNested1");
-
-    /*
-    var coordinateX = 200;
-    var coordinateY = 0;
-
-    for(coordinateY=0;coordinateY<55;coordinateY+=5){
-        for(coordinateX=200;coordinateX<255;coordinateX+=5){
-            translate(coordinateX,coordinateY);
-        }
-    }
-
-
-     translate(200,0);
-     setTimer(function () {
-     var coordinateX = 200;
-     var coordinateY = 0;
-
-     for(coordinateY=0;coordinateY<25;coordinateY+=5){
-     for(coordinateX=200;coordinateX<255;coordinateX+=5){
-     translate(coordinateX,coordinateY);
-     }
-     }
-     }, 5, false);
-*/
-
-
-
+    
+    
     if(arraysEqual(player.oldWarpCoords, [ [ 100, -0 ], [ 200, -0 ], [ 300, -0 ] ])){
-        console.log("yes array comparison working");
+        //console.log("yes array comparison working");
     }
 
-    if(arraysEqual(arrSliced21, sol21)){
-        console.log("yes for loop x changes by 5");
-    }
+
 
     if(arraysEqual(arrSliced55, solNested1) && player.challenge3 === false) {
-        //console.log("yes for nested loop");
 
         player.challenge3 = true;
         starcoder.updatePlayerScore('Code Challenges', player.id, 15);
@@ -606,13 +633,9 @@ API.translate = function (player, x, y) {
                 });
             }
             player.timestamp_old = player.timestamp_new;
-            console.log(data);
         }
     }
-
-    if (player.oldWarpCoords === [ [ 100, -0 ], [ 200, -0 ], [ 300, -0 ] ]){
-        console.log("good work zipping around");
-    }
+    
 
     if(ship.position[0]===200 && ship.position[1]===-0 && player.challenge1===false) {
         player.challenge1 =true;
@@ -638,7 +661,6 @@ API.translate = function (player, x, y) {
                 });
             }
             player.timestamp_old = player.timestamp_new;
-            console.log(data);
         }
 
 

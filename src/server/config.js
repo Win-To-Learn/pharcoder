@@ -54,6 +54,10 @@ module.exports = {
             vectorScale: 1,
             mass: 9
         }},
+        {type: 'Crystal', number: 10, config: {
+            position: {random: 'world', pad: 30},
+            genus: 'hidden'
+        }},
         // vvvvv Testing vvvvv
         {type: 'Crystal', number: 40, config: {
             position: {random: 'world', pad: 30}

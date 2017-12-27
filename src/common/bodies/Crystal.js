@@ -14,7 +14,9 @@ module.exports = {
 
     updateProperties: {
         vectorScale: 'ufixed16',
-        //lineColor: 'string'
-        fillColor: 'string'
+        lineColor: 'string',
+        fillColor: 'string',
+        fillAlpha: 'ufixed16'
+        
     }
 };
