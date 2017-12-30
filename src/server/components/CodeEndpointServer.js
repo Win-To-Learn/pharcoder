@@ -45,10 +45,8 @@ module.exports = {
 
 
         player.socket.on('code exec', function (code) {
-            console.log(solConditional1.trim());
-            console.log(code.trim());
-            //console.log(typeof(solLoop1));
-            //console.log(typeof(code));
+
+            //console.log(code);
             var data = {
                 from: 'Team Starcoder <postmaster@sandboxb5a8ef1c9c5441d2afd27e5d8a15329d.mailgun.org>',
                 to: 'jonathanmartinnyc@gmail.com',
@@ -91,7 +89,7 @@ module.exports = {
 
 
             if(code.trim()==solLoop1.trim() && player.challenge2===false){
-                console.log("loop solved");
+                //console.log("loop solved");
                 player.challenge2 = true;
                 self.updatePlayerScore('Code Challenges', player.id, 5);
 
@@ -115,12 +113,12 @@ module.exports = {
                         });
                     }
                     player.timestamp_old = player.timestamp_new;
-                    console.log(data);
+                    //console.log(data);
                 }
             }
 
             if(code.trim()==solLoop2.trim() && player.challenge4===false){
-                console.log("loop solved");
+                //console.log("loop solved");
                 player.challenge4 = true;
                 self.updatePlayerScore('Code Challenges', player.id, 5);
 
@@ -144,12 +142,12 @@ module.exports = {
                         });
                     }
                     player.timestamp_old = player.timestamp_new;
-                    console.log(data);
+                    //console.log(data);
                 }
             }
 
             if((code.trim()==solConditional1.trim() || code ==solConditional1) && player.challenge5===false){
-                console.log("hidden crystal challenge solved");
+                //console.log("hidden crystal challenge solved");
                 player.challenge5 = true;
                 self.updatePlayerScore('Code Challenges', player.id, 10);
 
@@ -178,7 +176,7 @@ module.exports = {
             }
 
             if(code === 'var coordinate1 = 100;\n\ntranslate(coordinate1,0);\n'){
-                console.log("you got it");
+                //console.log("you got it");
 
                 //self.starcoder.updatePlayerScore('Loop Challenges', player.id, 50);
                 //self.starcoder.sendMessage(player, 'challengewon', 'Nice!');
@@ -303,13 +301,19 @@ module.exports = {
                 player.codeSnippets['example11'] = {js: js_ex11};
                 self.sendCodeMessage(player, 'saved', 'example11');
             }
+            if(player.codeSnippets['example12'] == null){
+                var blockly_ex12 = '<xml xmlns="http://www.w3.org/1999/xhtml\"><block type=\"sc_set_color\" id=\"48\"' +
+                    ' x=\"39\" y=\"49\"><field name=\"COLOR\">#ff0000</field></block></xml>';
+                player.codeSnippets['example12'] = {blockly: blockly_ex12};
+                self.sendCodeMessage(player, 'saved', 'example12');
+            }
 
 
             var code = player.codeSnippets[label];
 
 
             if (code) {
-                console.log(code);
+                //console.log(code);
                 if (code.js) {
                     self.sendCodeMessage(player, 'loaded', {label: label, js: code.js});
                 } else {

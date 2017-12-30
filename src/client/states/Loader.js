@@ -90,6 +90,8 @@ Loader.prototype.preload = function () {
     this.game.load.image('hgridline', 'assets/images/hgridline.png');
     this.game.load.image('vgridline', 'assets/images/vgridline.png');
     this.game.load.image('clickcode', 'assets/images/clickcode.png');
+    this.game.load.image('controls_arrows', 'assets/images/controls_arrows.png');
+    this.game.load.image('controls_spacebar', 'assets/images/controls_spacebar.png');
     // Videos
     //this.game.load.video('defeathydra', 'assets/video/defeathydra.mp4');
     // Thumbnails

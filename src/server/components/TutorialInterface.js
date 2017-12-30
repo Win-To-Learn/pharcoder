@@ -166,8 +166,12 @@ module.exports = {
             };
 		});
         player.tutorial.once('goalLasers', function () {
-            self.sendMessage(player, 'tutorial', 'Press the SPACEBAR on your keyboard to fire your lasers at purple asteroids & orange aliens');
+            //self.sendMessage(player, 'tutorial', 'Press the SPACEBAR on your keyboard to fire your lasers at purple' +
+              //  ' asteroids & orange aliens');
+            self.sendMessage(player, 'tutorial', 'Open the Coding Window and try some Code Challenges!');
+
         });
+            /**
         player.tutorial.once('goalCreateStationBlocks', function () {
             self.sendMessage(player, 'tutorial', 'Create station blocks & push them to the planet to create a fort around your trees');
             player.ship.invulnerable = true;
@@ -197,9 +201,13 @@ module.exports = {
             player.ship.invulnerable = true;
             self.sendMessage(player, 'tutorialvid', {key: 'changetocamo', title: 'Camouflage #6'});
         });
+             **/
 		player.tutorial.once('endTutorial4', function () {
 			self.sendMessage(player, 'tutorial', '');
-            player.ship.invulnerable = true;
+            //player.ship.invulnerable = true;
+            self.sendMessage(player, 'loadvid', {key: 'createstationblock', title: 'Create Station\nBlocks #4'});
+            self.sendMessage(player, 'loadvid', {key: 'tilsacallforhelp', title: 'Tilsas Call\n #5'});
+            self.sendMessage(player, 'loadvid', {key: 'changetocamo', title: 'Camouflage #6'});
             self.sendMessage(player, 'loadvid', {key: 'defeathydra', title: 'Defeat the\nHydra #7'});
             self.sendMessage(player, 'loadvid', {key: 'wordsofwisdom', title: 'Words of\nWisdom #8'});
             self.sendMessage(player, 'loadvid', {key: 'tilsacodingintro', title: 'Tilsa Coding\nIntro #9'});
@@ -262,10 +270,15 @@ var standardTutorial = {
     achievedChangeColor: {auto: 'goalPlantTree', timeout: 1500},
     goalPlantTree: {planttree: 'achievedPlantTree'},
     achievedPlantTree: {auto: 'goalLasers',timeout: 2500},
-    goalLasers: {auto: 'goalCreateStationBlocks', timeout: 1500},
-    goalCreateStationBlocks: {createstationblocks: 'achievedCreateStationBlocks'},
-    achievedCreateStationBlocks: {auto: 'endTutorial1', timeout: 7000},
-	endTutorial1: {auto: 'endTutorial2', timeout: 7000},
-    endTutorial2: {auto: 'endTutorial3', timeout: 20000},
-    endTutorial3: {auto: 'endTutorial4', timeout: 20000}
+    //goalLasers: {auto: 'goalCreateStationBlocks', timeout: 1500},
+    goalLasers: {auto: 'endTutorial1', timeout: 6000},
+
+    //goalCreateStationBlocks: {createstationblocks: 'achievedCreateStationBlocks'},
+    //achievedCreateStationBlocks: {auto: 'endTutorial1', timeout: 7000},
+    endTutorial1: {auto: 'endTutorial2', timeout: 500},
+    endTutorial2: {auto: 'endTutorial3', timeout: 500},
+    endTutorial3: {auto: 'endTutorial4', timeout: 500}
+	//endTutorial1: {auto: 'endTutorial2', timeout: 7000},
+    //endTutorial2: {auto: 'endTutorial3', timeout: 20000},
+    //endTutorial3: {auto: 'endTutorial4', timeout: 20000}
 };

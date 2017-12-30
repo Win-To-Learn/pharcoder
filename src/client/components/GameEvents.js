@@ -52,6 +52,16 @@ var events = {
         Toast.spinUp(this.game, this.game.playerShip.x, this.game.playerShip.y,  'You were attacked by a Gwexi!');
     },
 
+    shipvulnerable: function () {
+        Toast.spinUp(this.game, this.game.playerShip.x, this.game.playerShip.y,  'Avoid' +
+            ' contact with Asteroids and Gwexis!');
+    },
+
+    shipinvulnerable: function () {
+        this.game.playerShip.invulnerable = true;
+        //Toast.spinUp(this.game, this.game.playerShip.x, this.game.playerShip.y,  'You were attacked by a Gwexi!');
+    },
+
     treesdestroyed: function () {
         this.game.sounds.treesdestroyed.play();
     },

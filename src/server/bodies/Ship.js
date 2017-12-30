@@ -38,10 +38,20 @@ var Ship = function (starcoder, config) {
         spread: 90,
         trunkLength: 2
     };
-    this.invulnerable = false;
+    var self = this;
+    this.invulnerable = true;
+
+    //players have 6 minutes of invulnerability when starting
+    setTimeout(function(){
+
+        self.invulnerable = false;
+        self.starcoder.sendMessage(self.player, 'shipvulnerable');
+        //console.log("ship should be vulnerable now");
+
+    },360000);
     // Engine
-    this.thrustForce = 700.001;
-    this.turningForce = 45;
+    this.thrustForce = 500.001;
+    this.turningForce = 25;
     // Weapons system
     this.charge = 8;
     this.maxCharge = 5;

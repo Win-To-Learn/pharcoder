@@ -76,7 +76,7 @@ API.changeShipColor = function (player, color) {
     };
 
     var oldColor = player.getShip().lineColor;
-    if (color !== oldColor) {
+    if (color !== oldColor || color == '#ff0000') {
         player.getShip().lineColor = color;
         player.achieve('changecolor');
     }

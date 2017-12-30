@@ -51,9 +51,9 @@ Alien.prototype.patience = 5000;
 Alien.prototype.persistence = 10000;
 
 var genera = [
-    {name: 'Warrior', props: {thrustForce: 250, targetType: 'Ship', lineColor: '#ffa500'}},
-    {name: 'EcoTerrorist', props: {thrustForce: 200, targetType: 'Tree', lineColor: '#ffcc99', patience: 10000}},
-    {name: 'BlockBuster', props: {thrustForce: 40, targetType: 'StationBlock', lineColor: '#ffff00', patience: 12000}}
+    {name: 'Warrior', props: {thrustForce: 175, targetType: 'Ship', lineColor: '#ffa500'}},
+    {name: 'EcoTerrorist', props: {thrustForce: 125, targetType: 'Tree', lineColor: '#ffcc99', patience: 10000}},
+    {name: 'BlockBuster', props: {thrustForce: 25, targetType: 'StationBlock', lineColor: '#ffff00', patience: 12000}}
 ];
 
 SyncBodyBase.applyGenera(Alien, genera);

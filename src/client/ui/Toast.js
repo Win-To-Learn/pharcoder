@@ -65,7 +65,7 @@ Toast.spinUp = function (game, x, y, text) {
     var toast = new Toast (game, x, y, text, {
         type: 'spinner',
         revolutions: 1,
-        duration: 1500,
+        duration: 2500,
         easing: Phaser.Easing.Elastic.Out,
         up: 100
     });

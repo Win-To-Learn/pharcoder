@@ -14,7 +14,12 @@ body {
 .reel {
     display: block;
     margin: auto;
-    width: 50%;
+    width: 55%;
+}
+
+.privacy{
+    color: #f4dc42;
+    font-family:"Arial";
 }
 
 #header {

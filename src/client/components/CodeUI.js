@@ -126,6 +126,9 @@ module.exports = {
         $('#load-ex11').on('dblclick', function () {
             self.sendCodeMessage('load', "example11");
         });
+        $('#load-ex12').on('dblclick', function () {
+            self.sendCodeMessage('load', "example12");
+        });
         $('#load-code').on('click', function () {
             var op = $('#select-code option:selected');
             if (op.index() > 0) {
@@ -147,6 +150,7 @@ module.exports = {
 
     toggleCodeWindow: function (state) {
         var self = this;
+        //console.log(self);
         if (typeof state !== 'boolean') {
             this.codeWindowState = !this.codeWindowState;
         } else {
@@ -154,7 +158,10 @@ module.exports = {
         }
         if (this.codeWindowState) {
             $('#code-window').show(function () {
+                //this.starcoder.sendMessage(self.player, 'shipinvulnerable');
                 Blockly.svgResize(self.blocklyWorkspace);
+                //var ship = self.player.getShip();
+                //ship.invulnerable = true;
                 //this.aceEditor.resize();
             });
             if (this.codeWindowMode === 'blockly') {
@@ -174,6 +181,8 @@ module.exports = {
             if (this.game.input) {
                 this.game.input.keyboard.enabled = true;
             }
+            //var ship = self.player.getShip();
+            //ship.invulnerable = true;
         }
     },
 

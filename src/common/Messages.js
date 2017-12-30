@@ -8,6 +8,8 @@ module.exports = {
     'tagged' : 'null',
     'explosion' : 'null',
     'shipattacked' : 'null',
+    'shipvulnerable' : 'null',
+    'shipinvulnerable' : 'null',
     'treesdestroyed' : 'null',
     'laser' : 'null',
     'asteroid' : 'ufixed16',

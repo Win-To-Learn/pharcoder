@@ -61,6 +61,6 @@ var defaultHandlers = {
         }
     },
     vidclose: function (player) {
-        player.ship.invulnerable = false;
+        //player.ship.invulnerable = false;
     }
 };

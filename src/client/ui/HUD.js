@@ -26,6 +26,13 @@ HUD.prototype.layout = function (width, height) {
     this.lineTo(width, 4 * yunit);
     // Outline
     this.drawRect(0, 0, width, height);
+    this.controlimage_space = this.game.make.image(xunit * 24.5, yunit * 4, 'controls_spacebar');
+    this.controlimage_space.anchor.setTo(0.43, 0.5);
+    this.addChild(this.controlimage_space);
+
+    this.controlimage_arrows = this.game.make.image(xunit * 0, yunit * 4, 'controls_arrows');
+    this.controlimage_arrows.anchor.setTo(1, 0.5);
+    this.addChild(this.controlimage_arrows);
     // Code Area
     //this.codetext = this.game.starcoder.makeFlexText(xunit * 9, yunit * 2, 'CLICK TO CODE',
     //    {font: '21px Arial', fill: '#ff9900', align: 'center'});
