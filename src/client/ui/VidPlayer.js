@@ -40,6 +40,8 @@ var VidPlayer = function (game, x, y) {
         }
     });
 
+    this.baseX = x - vidframe.width / 2;
+    this.baseY = y - vidframe.height / 2;
     this.x = x - vidframe.width / 2;
     this.y = y - vidframe.height / 2;
     this.visible = false;
@@ -52,6 +54,10 @@ VidPlayer.prototype.close = function () {
     if (this.vid.playing) {
         this.vid.stop();
     }
+    if (this.game.starcoder.codeWindowState) {
+        this.game.starcoder.codeUIGrow();
+    }
+    this.grow();
     this.visible = false;
     this.onClose.dispatch();
     this.game.starcoder.sendMessage('vidclose');
@@ -60,6 +66,10 @@ VidPlayer.prototype.close = function () {
 VidPlayer.prototype.play = function (url) {
     var self = this;
     this.visible = true;
+    if (this.game.starcoder.codeWindowState) {
+        this.game.starcoder.codeUIShrink();
+        this.shrink();
+    }
     if (!this.vid) {
         this.vid = this.game.add.video(null, url);
         this.vidscreen.loadTexture(this.vid);
@@ -71,6 +81,19 @@ VidPlayer.prototype.play = function (url) {
     } else {
         this.vid.changeSource(url, true);
     }
+};
+
+VidPlayer.prototype.shrink = function () {
+    const factor = 0.7;
+    this.x = this.baseX + this.width * factor;
+    this.y = this.baseY + this.height * (1 - factor) / 2;
+    this.scale.setTo(factor);
+};
+
+VidPlayer.prototype.grow = function () {
+    this.scale.setTo(1.0);
+    this.x = this.baseX;
+    this.y = this.baseY;
 };
 
 module.exports = VidPlayer;

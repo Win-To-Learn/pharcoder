@@ -157,6 +157,11 @@ module.exports = {
             this.codeWindowState = state;
         }
         if (this.codeWindowState) {
+            // Shrink video window
+            if (this.game.vidplayer && this.game.vidplayer.visible) {
+                this.game.vidplayer.shrink();
+                this.codeUIShrink();
+            }
             $('#code-window').show(function () {
                 //this.starcoder.sendMessage(self.player, 'shipinvulnerable');
                 Blockly.svgResize(self.blocklyWorkspace);
@@ -176,6 +181,10 @@ module.exports = {
             this.pendingBlocklyCode = null;
             this.game.input.keyboard.enabled = false;
         } else {
+            if (this.game.vidplayer && this.game.vidplayer.visible) {
+                this.game.vidplayer.grow();
+            }
+            this.codeUIGrow();
             $('#code-window').hide();
             $('.blocklyToolboxDiv').hide();
             if (this.game.input) {
@@ -213,5 +222,13 @@ module.exports = {
             this.aceEditor.setValue(code.js);
             $('#tabs').tabs('option', 'active', 1);
         }
+    },
+
+    codeUIShrink: function () {
+        $('#code-window').css("transform", "scale(0.65) translateX(-40%)");
+    },
+
+    codeUIGrow: function () {
+        $('#code-window').css("transform", "");
     }
 };
