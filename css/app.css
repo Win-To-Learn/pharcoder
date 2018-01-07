@@ -46,9 +46,8 @@ body {
 
 #code-window {
     position: absolute;
-    left: 10%;
-    /*right: 10%;*/
-    right: 10%;
+    left: 5%;
+    right: 5%;
     top: 100px;
     bottom: 100px;
 }
@@ -113,6 +112,10 @@ body {
 .blocklySvg {
     background-color: rgba(0, 0, 0, 0.2) !important;
     /*background-color: rgba(255, 255, 255, 20) !important;*/
+}
+
+.blocklyTreeLabel {
+    color: black;
 }
 
 #code-window .ui-widget-content {

@@ -225,10 +225,12 @@ module.exports = {
     },
 
     codeUIShrink: function () {
-        $('#code-window').css("transform", "scale(0.65) translateX(-40%)");
+        $('#code-window').css("right", "40%");
+        Blockly.svgResize(this.blocklyWorkspace);
     },
 
     codeUIGrow: function () {
-        $('#code-window').css("transform", "");
+        $('#code-window').css("right", "");
+        Blockly.svgResize(this.blocklyWorkspace);
     }
 };

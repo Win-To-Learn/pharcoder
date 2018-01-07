@@ -84,8 +84,8 @@ VidPlayer.prototype.play = function (url) {
 };
 
 VidPlayer.prototype.shrink = function () {
-    const factor = 0.7;
-    this.x = this.baseX + this.width * factor;
+    const factor = 0.65;
+    this.x = this.game.width*0.95 - this.width*factor;
     this.y = this.baseY + this.height * (1 - factor) / 2;
     this.scale.setTo(factor);
 };
