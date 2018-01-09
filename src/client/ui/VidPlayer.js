@@ -40,8 +40,13 @@ var VidPlayer = function (game, x, y) {
         }
     });
 
+    // Hacky as hell
+    this.factor = 0.65;
     this.baseX = x - vidframe.width / 2;
     this.baseY = y - vidframe.height / 2;
+    this.newX = this.game.width*0.95 - this.width*this.factor;
+    this.newY = this.baseY + this.height * (1 - this.factor) / 2;
+
     this.x = x - vidframe.width / 2;
     this.y = y - vidframe.height / 2;
     this.visible = false;
@@ -84,10 +89,11 @@ VidPlayer.prototype.play = function (url) {
 };
 
 VidPlayer.prototype.shrink = function () {
-    const factor = 0.65;
-    this.x = this.game.width*0.95 - this.width*factor;
-    this.y = this.baseY + this.height * (1 - factor) / 2;
-    this.scale.setTo(factor);
+    //this.x = Math.floor(this.game.width*0.95 - this.width*factor);
+    //this.y = Math.floor(this.baseY + this.height * (1 - factor) / 2);
+    this.x = this.newX;
+    this.y = this.newY;
+    this.scale.setTo(this.factor);
 };
 
 VidPlayer.prototype.grow = function () {
