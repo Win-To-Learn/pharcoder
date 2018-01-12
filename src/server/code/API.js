@@ -870,10 +870,7 @@ var messageWhitelist = [
  * @param msgid {number}
  */
 API.broadcast = function (player, msgid) {
-    let msg = messageWhitelist[msgid];
-    if (msg) {
-        starcoder.broadcastMessage('alert', player.gamertag + ": " + msg);
-    }
+    starcoder.broadcastMessage('alert', {tag: player.gamertag, msg: msgid});
 };
 
 

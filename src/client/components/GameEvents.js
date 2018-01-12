@@ -4,6 +4,7 @@
 'use strict';
 
 var Toast = require('../ui/Toast.js');
+let Translations = require('./Translations');
 
 module.exports = {
     finalize: function () {
@@ -133,8 +134,10 @@ var events = {
         this.game.vidpicker.addVideo(thumbkey, desc.title, vidurl);
     },    
 
-    alert: function (text) {
+    alert: function (data) {
+        let text = data.tag + ": " + Translations.getString('sc_broadcast', 'op' + data.msg);
         this.game.sounds.alert.play();
+        //Toast.growUp(this.game, this.game.camera.view.centerX, this.game.camera.view.bottom, text);
         Toast.growUp(this.game, this.game.camera.view.centerX, this.game.camera.view.bottom, text);
     }
 };

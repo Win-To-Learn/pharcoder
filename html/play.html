@@ -135,6 +135,11 @@
             <select id="select-code" style="width: 300px;">
                 <option>Select Code</option>
             </select>
+            <select id="select-language" style="width: 300px;">
+                <option value="en">English</option>
+                <option value="es">Spanish</option>
+            </select>
+        </div>
         </div>
     </div>
 </div>
@@ -189,7 +194,7 @@
             <!--</value>-->
         <!--</block>-->
     <!--</category>-->
-    <category name="Lists">
+    <category name="Lists" data-cat="LISTS">
         <block type="lists_create_empty"></block>
         <block type="lists_create_with"></block>
         <block type="lists_repeat">
@@ -277,9 +282,9 @@
     <!--</category>-->
     <sep></sep>
 
-    <category name="Variables" custom="VARIABLE"></category>
+    <category name="Variables" custom="VARIABLE" data-cat="VARIABLES"></category>
 
-    <category name="Loops">
+    <category name="Loops" data-cat="LOOPS">
         <block type="controls_repeat_ext">
             <value name="TIMES">
                 <block type="math_number">
@@ -310,7 +315,7 @@
     </category>
 
 
- <category name="Logic">
+ <category name="Logic" data-cat="LOGIC">
      <block type="controls_if"></block>
      <block type="logic_compare"></block>
      <block type="logic_operation"></block>
@@ -320,7 +325,7 @@
      <block type="logic_ternary"></block>
  </category>
 
- <category name="Math">
+ <category name="Math" data-cat="MATH">
      <block type="math_number"></block>
      <block type="math_arithmetic"></block>
      <block type="math_single"></block>

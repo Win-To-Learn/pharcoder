@@ -26,7 +26,8 @@ module.exports = {
     //'tutorialvid' : 'string',
     'tutorialvid' : 'json',
     'loadvid' : 'json',
-    'alert' : 'string',
+    //'alert' : 'string',
+    'alert': 'json',
     // Controls
     'up' : 'boolean',
     'down' : 'boolean',

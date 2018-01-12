@@ -5,6 +5,8 @@
 
 //var BlocklyAPI = require('./BlocklyAPI.js');
 
+let Translations = require('./Translations');
+
 module.exports = {
     init: function () {
         var self = this;
@@ -12,11 +14,12 @@ module.exports = {
         this.old_codeWindowMode = '';
         this.codeLabelCache = {};
         this.pendingBlocklyCode = null;
-        var xml = document.getElementById('toolbox');
+        this.blocklyXml = document.getElementById('toolbox');
         //BlocklyAPI.addStarcoderBlocks(xml);
-        this.addStarcoderBlocks(xml);
-        this.blocklyWorkspace = Blockly.inject('blockly', {toolbox: xml, comments: false});
+        this.addStarcoderBlocks(this.blocklyXml);
+        this.blocklyWorkspace = Blockly.inject('blockly', {toolbox: this.blocklyXml, comments: false});
         Blockly.svgResize(self.blocklyWorkspace);
+        //this.setBlocklyLanguage('en');
         //var button = $('#send-code');
         this.aceEditor = ace.edit('aceeditor');
         var JavaScriptMode = ace.require("ace/mode/javascript").Mode;
@@ -30,6 +33,22 @@ module.exports = {
             classes: {"ui-selectmenu-button-open": "ui-corner-bottom", "ui-menu": "ui-front"}
             });
         $('#select-code').selectmenu("menuWidget").addClass('ui-corner-top').removeClass('ui-corner-bottom');
+
+        $('#select-language').selectmenu({
+            position: {my: "left bottom", at: "left top"},
+            classes: {"ui-selectmenu-button-open": "ui-corner-bottom", "ui-menu": "ui-front"}
+            });
+        $('#select-language').selectmenu("menuWidget").addClass('ui-corner-top').removeClass('ui-corner-bottom');
+        $('#select-language').on('selectmenuchange', function (event, data) {
+            self.setBlocklyLanguage(data.item.value);
+            // let lang = data.item.value;
+            // $.getScript('/lib/msg/js/' + lang + '.js', function () {
+            //     console.log(lang, 'loaded');
+            //     self.blocklyWorkspace.dispose();
+            //     self.blocklyWorkspace = Blockly.inject('blockly', {toolbox: xml, comments: false});
+            //     Blockly.svgResize(self.blocklyWorkspace);
+            // });
+        });
 
         $('#sample-accordion').accordion();
 
@@ -57,12 +76,8 @@ module.exports = {
         });
 
         this.blocklyWorkspace.addChangeListener(function () {
-            //console.log("current mode " + self.codeWindowMode);
-            //console.log("old mode " + self.old_codeWindowMode);
-                //code = Blockly.JavaScript.workspaceToCode(workspace);
             if (self.old_codeWindowMode !== 'samples' && self.codeWindowMode !== 'editor') {
                 self.aceEditor.setValue(Blockly.JavaScript.workspaceToCode(self.blocklyWorkspace));
-                //console.log("changelistener");
             }
 
         });
@@ -146,6 +161,36 @@ module.exports = {
             }
         });
         this.toggleCodeWindow(false)
+    },
+
+    setBlocklyLanguage: function (lang) {
+        let self = this;
+        let codeCache;
+        //this.blocklyLanguage = lang;
+        Translations.setLanguage(lang);
+        if (this.blocklyWorkspace) {
+            codeCache = Blockly.Xml.workspaceToDom(this.blocklyWorkspace);
+            this.blocklyWorkspace.dispose();
+        }
+        $.getScript('/lib/msg/js/' + lang + '.js', function () {
+            setTimeout(function () {
+                $("category[data-cat='LISTS']").attr('name', Translations.getCategory('LISTS'));
+                $("category[data-cat='LOOPS']").attr('name', Translations.getCategory('LOOPS'));
+                $("category[data-cat='LOGIC']").attr('name', Translations.getCategory('LOGIC'));
+                $("category[data-cat='MATH']").attr('name', Translations.getCategory('MATH'));
+                $("category[data-cat='VARIABLES']").attr('name', Translations.getCategory('VARIABLES'));
+                self.blocklyWorkspace = Blockly.inject('blockly', {toolbox: self.blocklyXml, comments: false});
+                self.blocklyWorkspace.addChangeListener(function () {
+                    if (self.old_codeWindowMode !== 'samples' && self.codeWindowMode !== 'editor') {
+                        self.aceEditor.setValue(Blockly.JavaScript.workspaceToCode(self.blocklyWorkspace));
+                    }
+                });
+                if (codeCache) {
+                    Blockly.Xml.domToWorkspace(codeCache, self.blocklyWorkspace);
+                }
+                Blockly.svgResize(self.blocklyWorkspace);
+            }, 100);
+        });
     },
 
     toggleCodeWindow: function (state) {

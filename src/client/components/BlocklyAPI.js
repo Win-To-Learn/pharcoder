@@ -5,6 +5,8 @@
  */
 'use strict';
 
+let Translations = require('./Translations');
+
 module.exports = {
     init: function () {
         // Custom Starcoder blocks
@@ -15,7 +17,7 @@ module.exports = {
         Blockly.Blocks['sc_set_thrust_power'] = {
             init: function () {
                 this.jsonInit({
-                    message0: 'set ship thrust force to %1',
+                    message0: Translations.getString('sc_set_thrust_power'),
                     args0: [{type: 'input_value', name: 'VALUE', check: 'Number'}],
                     previousStatement: null,
                     nextStatement: null,
@@ -46,7 +48,7 @@ module.exports = {
         Blockly.Blocks['sc_set_color'] = {
             init: function () {
                 this.jsonInit({
-                    message0: 'set ship color %1',
+                    message0: Translations.getString('sc_set_color'),
                     args0: [{type: 'field_colour', name: 'COLOR', colour: '#ff0000'}],
                     previousStatement: null,
                     nextStatement: null,
@@ -69,7 +71,7 @@ module.exports = {
         Blockly.Blocks['sc_create_station_block'] = {
             init: function () {
                 this.jsonInit({
-                    message0: 'create station block with shape %1',
+                    message0: Translations.getString('sc_create_station_block'),
                     args0: [{type: 'input_value', name: 'PAIRS', check: 'Array'}],
                     previousStatement: null,
                     nextStatement: null,
@@ -130,7 +132,7 @@ module.exports = {
         Blockly.Blocks['sc_set_turning_power'] = {
             init: function () {
                 this.jsonInit({
-                    message0: 'set ship turning force to %1',
+                    message0: Translations.getString('sc_set_turning_power'),
                     args0: [{type: 'input_value', name: 'VALUE', check: 'Number'}],
                     previousStatement: null,
                     nextStatement: null,
@@ -162,7 +164,7 @@ module.exports = {
         Blockly.Blocks['sc_translate'] = {
             init: function () {
                 this.jsonInit({
-                    message0: 'warp ship to (%1,%2)',
+                    message0: Translations.getString('sc_translate'),
                     args0: [
                         {type: 'input_value', name: 'X', check: 'Number'},
                         {type: 'input_value', name: 'Y', check: 'Number'}
@@ -180,6 +182,16 @@ module.exports = {
                 ]
             }
         };
+
+        /**
+         * code generation for ship translation
+         */
+        Blockly.JavaScript['sc_translate'] = function (block) {
+            var x = Blockly.JavaScript.valueToCode(block, 'X', Blockly.JavaScript.ORDER_COMMA) || '0';
+            var y = Blockly.JavaScript.valueToCode(block, 'Y', Blockly.JavaScript.ORDER_COMMA) || '0';
+            return 'translate(' + x + ',' + y + ');\n';
+        };
+
         /**
          * Set scale of player ship
          * @type {{init: Function}}
@@ -187,7 +199,7 @@ module.exports = {
         Blockly.Blocks['sc_set_scale'] = {
             init: function () {
                 this.jsonInit({
-                    message0: 'set ship scale to %1',
+                    message0: Translations.getString('sc_set_scale'),
                     args0: [{type: 'input_value', name: 'VALUE', check: 'Number'}],
                     previousStatement: null,
                     nextStatement: null,
@@ -216,7 +228,7 @@ module.exports = {
         Blockly.Blocks['sc_change_shape'] = {
             init: function () {
                 this.jsonInit({
-                    message0: 'set ship shape %1',
+                    message0: Translations.getString('sc_change_shape'),
                     args0: [{type: 'input_value', name: 'PAIRS', check: 'Array'}],
                     previousStatement: null,
                     nextStatement: null,
@@ -244,7 +256,11 @@ module.exports = {
                     args0: [
                         {
                             type: 'field_dropdown', name: 'COMMAND',
-                            options: [['go forward', 'fd'], ['go back', 'bk'], ['turn right', 'rt'], ['turn left', 'lt']]
+                            options: [
+                                [Translations.getString('sc_turtle_command', 'fd'), 'fd'],
+                                [Translations.getString('sc_turtle_command', 'bk'), 'bk'],
+                                [Translations.getString('sc_turtle_command', 'rt'), 'rt'],
+                                [Translations.getString('sc_turtle_command', 'lt'), 'lt']]
                         },
                         {type: 'input_value', name: 'VAL', check: 'Number'}
                     ],
@@ -275,7 +291,7 @@ module.exports = {
         Blockly.Blocks['sc_directions_to_points'] = {
             init: function () {
                 this.jsonInit({
-                    message0: 'create shape from directions %1',
+                    message0: Translations.getString('sc_directions_to_points'),
                     args0: [{type: 'input_value', name: 'COMMANDS', check: 'Array'}],
                     output: 'Array',
                     colour: 300
@@ -324,21 +340,12 @@ module.exports = {
 //};
 
         /**
-         * code generation for ship translation
-         */
-        Blockly.JavaScript['sc_translate'] = function (block) {
-            var x = Blockly.JavaScript.valueToCode(block, 'X', Blockly.JavaScript.ORDER_COMMA) || '0';
-            var y = Blockly.JavaScript.valueToCode(block, 'Y', Blockly.JavaScript.ORDER_COMMA) || '0';
-            return 'translate(' + x + ',' + y + ');\n';
-        };
-
-        /**
          * shoot ship's weapon
          */
         Blockly.Blocks['sc_shoot'] = {
             init: function () {
                 this.jsonInit({
-                    message0: 'shoot laser',
+                    message0: Translations.getString('sc_shoot'),
                     previousStatement: null,
                     nextStatement: null,
                     colour: 180
@@ -363,7 +370,7 @@ module.exports = {
 
             init: function () {
                 this.jsonInit({
-                    message0: 'fire thruster to %1',
+                    message0: Translations.getString('sc_thrust'),
                     args0: [{type: 'input_value', name: 'VALUE', check: 'Number'}],
                     previousStatement: null,
                     nextStatement: null,
@@ -391,7 +398,7 @@ module.exports = {
         Blockly.Blocks['sc_turn'] = {
             init: function () {
                 this.jsonInit({
-                    message0: 'turn by %1',
+                    message0: Translations.getString('sc_turn'),
                     args0: [{type: 'input_value', name: 'VALUE', check: 'Number'}],
                     previousStatement: null,
                     nextStatement: null,
@@ -417,8 +424,8 @@ module.exports = {
         Blockly.Blocks['sc_set_seeder_props'] = {
             init: function () {
                 this.jsonInit({
-                    message0: 'set seeder properties',
-                    message1: 'trunk length %1 branch factor %2 branch decay %3 spread %4 depth %5',
+                    message0: Translations.getString('sc_set_seeder_props', 'message0'),
+                    message1: Translations.getString('sc_set_seeder_props', 'message1'),
                     args1: [
                         {type: 'input_value', name: 'TL', check: 'Number'},
                         {type: 'input_value', name: 'BF', check: 'Number'},
@@ -462,16 +469,16 @@ module.exports = {
         Blockly.Blocks['sc_scan'] = {
             init: function () {
                 this.jsonInit({
-                    message0: 'scan of %1 nearby',
+                    message0: Translations.getString('sc_scan', 'message0'),
                     args0: [
                         {
                             type: 'field_dropdown', name: 'BODYTYPE', options: [
-                            ['other ships', 'Ship'],
-                            ['asteroids', 'Asteroid'],
-                            ['planetoids', 'Planetoid'],
-                            ['trees', 'Tree'],
-                            ['aliens', 'Alien'],
-                            ['hydra', 'HydraHead']
+                            [Translations.getString('sc_scan', 'op0'), 'Ship'],
+                            [Translations.getString('sc_scan', 'op1'), 'Asteroid'],
+                            [Translations.getString('sc_scan', 'op2'), 'Planetoid'],
+                            [Translations.getString('sc_scan', 'op3'), 'Tree'],
+                            [Translations.getString('sc_scan', 'op4'), 'Alien'],
+                            [Translations.getString('sc_scan', 'op5'), 'HydraHead']
                         ]
                         }
                     ],
@@ -510,7 +517,7 @@ module.exports = {
         Blockly.Blocks['sc_console_log'] = {
             init: function () {
                 this.jsonInit({
-                    message0: 'log %1 to server console',
+                    message0: Translations.getString('sc_console_log'),
                     args0: [{type: 'input_value', name: 'MSG'}],
                     previousStatement: null,
                     nextStatement: null,
@@ -528,12 +535,12 @@ module.exports = {
         Blockly.Blocks['sc_set_timer'] = {
             init: function () {
                 this.jsonInit({
-                    message0: 'do %1 in %2 seconds',
+                    message0: Translations.getString('sc_set_timer', 'message0'),
                     args0: [
                         {type: 'input_statement', name: 'STATEMENTS'},
                         {type: 'input_value', name: 'TIMEOUT', check: 'Number'}
                     ],
-                    message1: 'repeat %1',
+                    message1: Translations.getString('sc_set_timer', 'message1'),
                     args1: [{type: 'field_checkbox', name: 'REPEAT'}],
                     previousStatement: null,
                     nextStatement: null,
@@ -564,16 +571,16 @@ module.exports = {
         Blockly.Blocks['sc_get_body_property'] = {
             init: function () {
                 this.jsonInit({
-                    message0: '%1 of %2',
+                    message0: Translations.getString('sc_get_body_property', 'message0'),
                     args0: [
                         {
                             type: 'field_dropdown', name: 'PROP', options: [
-                            ['x coordinate', 'x'],
-                            ['y coordinate', 'y'],
-                            ['velocity in x direction', 'vx'],
-                            ['velocity in y direction', 'vy'],
-                            ['id', 'id'],
-                            ['distance from ship', 'distance']
+                            [Translations.getString('sc_get_body_property', 'op0'), 'x'],
+                            [Translations.getString('sc_get_body_property', 'op1'), 'y'],
+                            [Translations.getString('sc_get_body_property', 'op2'), 'vx'],
+                            [Translations.getString('sc_get_body_property', 'op3'), 'vy'],
+                            [Translations.getString('sc_get_body_property', 'op4'), 'id'],
+                            [Translations.getString('sc_get_body_property', 'op5'), 'distance']
                         ]
                         },
                         {type: 'input_value', name: 'BODY'}
@@ -605,13 +612,13 @@ module.exports = {
         Blockly.Blocks['sc_sort_by_distance'] = {
             init: function () {
                 this.jsonInit({
-                    message0: 'sort %1 by distance from ship %2',
+                    message0: Translations.getString('sc_sort_by_distance', 'message0'),
                     args0: [
                         {type: 'input_value', name: 'BODIES', check: 'Array'},
                         {
                             type: 'field_dropdown', name: 'DIR', options: [
-                            ['near to far', 'false'],
-                            ['far to near', 'true']
+                            [Translations.getString('sc_sort_by_distance', 'op0'), 'false'],
+                            [Translations.getString('sc_sort_by_distance', 'op1'), 'true']
                         ]
                         }
                     ],
@@ -637,7 +644,7 @@ module.exports = {
         Blockly.Blocks['sc_point_to_body'] = {
             init: function () {
                 this.jsonInit({
-                    message0: 'point ship at %1',
+                    message0: Translations.getString('sc_point_to_body'),
                     args0: [{type: 'input_value', name: 'BODY'}],
                     previousStatement: null,
                     nextStatement: null,
@@ -660,7 +667,7 @@ module.exports = {
         Blockly.Blocks['sc_cancel_event_loop'] = {
             init: function () {
                 this.jsonInit({
-                    message0: 'cancel event loop',
+                    message0: Translations.getString('sc_cancel_event_loop'),
                     previousStatement: null,
                     nextStatement: null,
                     colour: 150
@@ -681,7 +688,7 @@ module.exports = {
         Blockly.Blocks['sc_music_on'] = {
             init: function () {
                 this.jsonInit({
-                    message0: 'turn music on',
+                    message0: Translations.getString('sc_music_on'),
                     previousStatement: null,
                     nextStatement: null,
                     colour: 300
@@ -702,7 +709,7 @@ module.exports = {
         Blockly.Blocks['sc_music_off'] = {
             init: function () {
                 this.jsonInit({
-                    message0: 'turn music off',
+                    message0: Translations.getString('sc_music_off'),
                     previousStatement: null,
                     nextStatement: null,
                     colour: 300
@@ -723,7 +730,7 @@ module.exports = {
         Blockly.Blocks['sc_show_grid'] = {
             init: function () {
                 this.jsonInit({
-                    message0: 'show grid',
+                    message0: Translations.getString('sc_show_grid'),
                     previousStatement: null,
                     nextStatement: null,
                     colour: 300
@@ -745,7 +752,7 @@ module.exports = {
         Blockly.Blocks['sc_hide_grid'] = {
             init: function () {
                 this.jsonInit({
-                    message0: 'hide grid',
+                    message0: Translations.getString('sc_hide_grid'),
                     previousStatement: null,
                     nextStatement: null,
                     colour: 300
@@ -766,7 +773,7 @@ module.exports = {
         Blockly.Blocks['sc_alert'] = {
             init: function () {
                 this.jsonInit({
-                    message0: 'show alert %1',
+                    message0: Translations.getString('sc_alert'),
                     args0: [{type: 'input_value', name: 'VALUE', check: 'String'}],
                     previousStatement: null,
                     nextStatement: null,
@@ -800,7 +807,7 @@ module.exports = {
         Blockly.Blocks['sc_create_turret'] = {
             init: function () {
                 this.jsonInit({
-                    message0: 'create turret',
+                    message0: Translations.getString('sc_create_turret'),
                     previousStatement: null,
                     nextStatement: null,
                     colour: 240
@@ -822,7 +829,7 @@ module.exports = {
         Blockly.Blocks['sc_fire_turret'] = {
             init: function () {
                 this.jsonInit({
-                    message0: 'fire turret %1',
+                    message0: Translations.getString('sc_fire_turret'),
                     args0: [
                         {type: 'input_value', name: 'TURRET'}
                     ],
@@ -848,8 +855,8 @@ module.exports = {
         Blockly.Blocks['sc_aim_turret'] = {
             init: function () {
                 this.jsonInit({
-                    message0: 'aim',
-                    message1: 'turret %1 at angle %2',
+                    message0: Translations.getString('sc_aim_turret', 'message0'),
+                    message1: Translations.getString('sc_aim_turret', 'message1'),
                     args1: [
                         {type: 'input_value', name: 'TURRET'},
                         {type: 'input_value', name: 'ANGLE', check: 'Number'}
@@ -879,7 +886,7 @@ module.exports = {
         Blockly.Blocks['sc_get_turrets'] = {
             init: function () {
                 this.jsonInit({
-                    message0: 'get turret element %1',
+                    message0: Translations.getString('sc_get_turrets'),
                     args0: [{type: 'input_value', name: 'VALUE', check: 'Number'}],
                     output: 'Array',
                     colour: 270
@@ -912,20 +919,15 @@ module.exports = {
         Blockly.Blocks['sc_broadcast'] = {
             init: function () {
                 this.jsonInit({
-                    message0: 'broadcast %1 message to other ships',
+                    message0: Translations.getString('sc_broadcast', 'message0'),
                     args0: [
                         {
                             type: 'field_dropdown', name: 'MSG', options: [
-                            ["nice job!", '0'],
-                            ["how did you do that? can you deploy your code?", '1'],
-                            ["follow me!", '2'],
-                            ["very cool, any other cool code to share?", '3'],
-                            ["wow!", '4'],
-                            ["bom trabalho!", '5'],
-                            ["como você fez isso? você pode implantar seu código?", '6'],
-                            ["me siga!", '7'],
-                            ["muito legal, qualquer outro código legal para compartilhar?", '8'],
-                            ["Uau!", '9']
+                            [Translations.getString('sc_broadcast', 'op0'), '0'],
+                            [Translations.getString('sc_broadcast', 'op1'), '1'],
+                            [Translations.getString('sc_broadcast', 'op2'), '2'],
+                            [Translations.getString('sc_broadcast', 'op3'), '3'],
+                            [Translations.getString('sc_broadcast', 'op4'), '4'],
                         ]
                         }
                     ],
@@ -935,6 +937,32 @@ module.exports = {
             },
             starcoder: {}
         };
+        // Blockly.Blocks['sc_broadcast'] = {
+        //     init: function () {
+        //         this.jsonInit({
+        //             message0: Translations.getString('sc_broadcast', 'message0'),
+        //             args0: [
+        //                 {
+        //                     type: 'field_dropdown', name: 'MSG', options: [
+        //                     ["nice job!", '0'],
+        //                     ["how did you do that? can you deploy your code?", '1'],
+        //                     ["follow me!", '2'],
+        //                     ["very cool, any other cool code to share?", '3'],
+        //                     ["wow!", '4'],
+        //                     ["bom trabalho!", '5'],
+        //                     ["como você fez isso? você pode implantar seu código?", '6'],
+        //                     ["me siga!", '7'],
+        //                     ["muito legal, qualquer outro código legal para compartilhar?", '8'],
+        //                     ["Uau!", '9']
+        //                 ]
+        //                 }
+        //             ],
+        //             output: 'Array',
+        //             colour: 240
+        //         });
+        //     },
+        //     starcoder: {}
+        // };
 
         /**
          * Code generation for broadcast
