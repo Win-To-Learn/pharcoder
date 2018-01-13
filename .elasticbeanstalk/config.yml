@@ -1,6 +1,8 @@
 branch-defaults:
   aws:
     environment: pharcoder-dev
+  blocklyupdate:
+    environment: pharcoder-dev
   dev:
     environment: pharcoder-dev
   jayturret:

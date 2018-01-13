@@ -225,12 +225,14 @@ module.exports = {
     },
 
     codeUIShrink: function () {
-        $('#code-window').css("right", "40%");
+        $('#code-window').css("right", "55%");
+        $('#code-window').css("transform", "scale(0.9)");
         Blockly.svgResize(this.blocklyWorkspace);
     },
 
     codeUIGrow: function () {
         $('#code-window').css("right", "");
+        $('#code-window').css("transform", "");
         Blockly.svgResize(this.blocklyWorkspace);
     }
 };
