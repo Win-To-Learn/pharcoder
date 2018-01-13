@@ -41,7 +41,7 @@ var VidPlayer = function (game, x, y) {
     });
 
     // Hacky as hell
-    this.factor = 0.65;
+    this.factor = 1.0;
     this.baseX = x - vidframe.width / 2;
     this.baseY = y - vidframe.height / 2;
     this.newX = this.game.width*0.95 - this.width*this.factor;
