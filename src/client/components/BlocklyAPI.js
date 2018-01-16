@@ -993,27 +993,18 @@ module.exports = {
                 this.setTooltip(Blockly.Msg.VARIABLES_GET_TOOLTIP);
                 //this.contextMenuMsg_ = Blockly.Msg.VARIABLES_GET_CREATE_SET;
             },
-            /**
-             * Return all variables referenced by this block.
-             * @return {!Array.<string>} List of variable names.
-             * @this Blockly.Block
-             */
+
             getVars: function() {
                 return [this.getFieldValue('VAR')];
             },
-            /**
-             * Notification that a variable is renaming.
-             * If the name matches one of this block's variables, rename it.
-             * @param {string} oldName Previous name of variable.
-             * @param {string} newName Renamed variable.
-             * @this Blockly.Block
-             */
+
             renameVar: function(oldName, newName) {
                 if (Blockly.Names.equals(oldName, this.getFieldValue('VAR'))) {
                     this.setFieldValue(newName, 'VAR');
                 }
             }
         };
+
         Blockly.Blocks['variables_set'] = {
             /**
              * Block for variable setter.
@@ -1040,26 +1031,114 @@ module.exports = {
                     "helpUrl": Blockly.Msg.VARIABLES_SET_HELPURL
                 });
              },
-            /**
-             * Return all variables referenced by this block.
-             * @return {!Array.<string>} List of variable names.
-             * @this Blockly.Block
-             */
+
             getVars: function() {
                 return [this.getFieldValue('VAR')];
             },
-            /**
-             * Notification that a variable is renaming.
-             * If the name matches one of this block's variables, rename it.
-             * @param {string} oldName Previous name of variable.
-             * @param {string} newName Renamed variable.
-             * @this Blockly.Block
-             */
+
             renameVar: function(oldName, newName) {
                 if (Blockly.Names.equals(oldName, this.getFieldValue('VAR'))) {
                     this.setFieldValue(newName, 'VAR');
                 }
+            }
+        };
+
+        Blockly.Blocks['controls_for'] = {
+            init: function () {
+                this.jsonInit({
+                    "type": "controls_for",
+                    "message0": "%{BKY_CONTROLS_FOR_TITLE}",
+                    "args0": [
+                        {
+                            "type": "field_dropdown",
+                            "name": "VAR",
+                            "options": _generateVarNames()
+                        },
+                        {
+                            "type": "input_value",
+                            "name": "FROM",
+                            "check": "Number",
+                            "align": "RIGHT"
+                        },
+                        {
+                            "type": "input_value",
+                            "name": "TO",
+                            "check": "Number",
+                            "align": "RIGHT"
+                        },
+                        {
+                            "type": "input_value",
+                            "name": "BY",
+                            "check": "Number",
+                            "align": "RIGHT"
+                        }
+                    ],
+                    "message1": "%{BKY_CONTROLS_REPEAT_INPUT_DO} %1",
+                    "args1": [{
+                        "type": "input_statement",
+                        "name": "DO"
+                    }],
+                    "inputsInline": true,
+                    "previousStatement": null,
+                    "nextStatement": null,
+                    "colour": "%{BKY_LOOPS_HUE}",
+                    "helpUrl": "%{BKY_CONTROLS_FOR_HELPURL}",
+                    "extensions": [
+                        "controls_for_tooltip"
+                    ]
+                });
             },
+
+            getVars: function() {
+                return [this.getFieldValue('VAR')];
+            },
+
+            renameVar: function(oldName, newName) {
+                if (Blockly.Names.equals(oldName, this.getFieldValue('VAR'))) {
+                    this.setFieldValue(newName, 'VAR');
+                }
+            }
+        };
+
+        Blockly.Blocks['controls_forEach'] = {
+            init: function () {
+                this.jsonInit({
+                    "message0": "%{BKY_CONTROLS_FOREACH_TITLE}",
+                    "args0": [
+                        {
+                            "type": "field_dropdown",
+                            "name": "VAR",
+                            "options": _generateVarNames()
+                        },
+                        {
+                            "type": "input_value",
+                            "name": "LIST",
+                            "check": "Array"
+                        }
+                    ],
+                    "message1": "%{BKY_CONTROLS_REPEAT_INPUT_DO} %1",
+                    "args1": [{
+                        "type": "input_statement",
+                        "name": "DO"
+                    }],
+                    "previousStatement": null,
+                    "nextStatement": null,
+                    "colour": "%{BKY_LOOPS_HUE}",
+                    "helpUrl": "%{BKY_CONTROLS_FOREACH_HELPURL}",
+                    "extensions": ["controls_forEach_tooltip"]
+                });
+            },
+
+            getVars: function() {
+                return [this.getFieldValue('VAR')];
+            },
+
+            renameVar: function(oldName, newName) {
+                if (Blockly.Names.equals(oldName, this.getFieldValue('VAR'))) {
+                    this.setFieldValue(newName, 'VAR');
+                }
+            }
+
         };
     },
 
@@ -1142,7 +1221,7 @@ var _stdFunNames = ['start', 'finish', 'main', 'mainloop'];
 var _baseFunNames= ['f', 'func', 'function', 'proc', 'procedure', 'subroutine', 'task'];
 var _numFunsPerName = 5;
 /**
- * Generate list of allowed variable names
+ * Generate list of allowed function names
  * @return {array}
  * @private
  */
@@ -1157,4 +1236,55 @@ var _generateFunNames = function () {
         }
     }
     return options;
+};
+
+/**
+ * Monkey patch of code generation to handle whitelisted variables
+ */
+Blockly.JavaScript.workspaceToCode = function (workspace) {
+    if (!workspace) {
+        // Backwards compatibility from before there could be multiple workspaces.
+        console.warn('No workspace specified in workspaceToCode call.  Guessing.');
+        workspace = Blockly.getMainWorkspace();
+    }
+    var code = [];
+    this.init(workspace);
+    var blocks = workspace.getTopBlocks(true);
+    for (var x = 0, block; block = blocks[x]; x++) {
+        var line = this.blockToCode(block);
+        if (goog.isArray(line)) {
+            // Value blocks return tuples of code and operator order.
+            // Top-level blocks don't care about operator order.
+            line = line[0];
+        }
+        if (line) {
+            if (block.outputConnection && this.scrubNakedValue) {
+                // This block is a naked value.  Ask the language's code generator if
+                // it wants to append a semicolon, or something.
+                line = this.scrubNakedValue(line);
+            }
+            code.push(line);
+        }
+    }
+    code = code.join('\n');  // Blank line between each section.
+    // Patch here
+    let allblocks = workspace.getAllBlocks();
+    let variables = {};
+    for (let i = 0; i < allblocks.length; i++) {
+        let vars = allblocks[i].getVars();
+        for (let j = 0; j < vars.length; j++) {
+            variables[vars[j]] = true;
+        }
+    }
+    let varnames = Object.keys(variables);
+    if (varnames.length) {
+        Blockly.JavaScript.definitions_['variables'] = 'var ' + varnames.join(', ') + ';';
+    }
+    // end patch
+    code = this.finish(code);
+    // Final scrubbing of whitespace.
+    code = code.replace(/^\s+\n/, '');
+    code = code.replace(/\n\s+$/, '\n');
+    code = code.replace(/[ \t]+\n/g, '\n');
+    return code;
 };
