@@ -49,7 +49,7 @@ module.exports = {
 
           var turnright_message = {
               subject: 'Turn Change - Right',
-              text: "turned their ship to the right! TEST"
+              text: "turned their ship to the right!"
           };
 
           var turnleft_message = {
@@ -73,10 +73,14 @@ module.exports = {
             self.sendMessage(player, 'tutorialvid', {key: 'cinematicintro', title: 'Mission\nBriefing #1'});
         });
         player.tutorial.once('pendingPlayAnimatedMission', function () {
-            self.sendMessage(player, 'tutorial', 'Bring life back to the galaxy!\nPlant 5 trees on a planet so the Pharcoes can come home!');
+            self.sendMessage(player, 'tutorial', '\n\nBring life back to the galaxy!\nPlant 5 trees on a planet so the Pharcoes can come home!\n' +
+                '(¡Devuelve la vida a la galaxia!\nPlanta 5 árboles en un planeta para que los Pharco puedan volver' +
+                ' a casa.)');
         });
         player.tutorial.once('achievedPlayAnimatedMission', function () {
-            self.sendMessage(player, 'tutorial', 'Hold the RIGHT ARROW key on your keyboard to turn right');
+            //self.sendMessage(player, 'tutorial', 'Hold the RIGHT ARROW key on your keyboard to turn right');
+            self.sendMessage(player, 'tutorial', 'Hold the RIGHT ARROW key on your keyboard to turn right\n' +
+                '(Mantenga presionada la tecla de FLECHA DERECHA en su teclado para girar a la derecha)');
         });
         player.tutorial.once('achievedTurnRight', function () {
             player.getShip().crystals += 50;
@@ -89,7 +93,9 @@ module.exports = {
             };
         });
         player.tutorial.once('goalTurnLeft', function () {
-            self.sendMessage(player, 'tutorial', 'Hold the LEFT ARROW key on your keyboard to turn left');
+            //self.sendMessage(player, 'tutorial', 'Hold the LEFT ARROW key on your keyboard to turn left');
+            self.sendMessage(player, 'tutorial', 'Hold the LEFT ARROW key on your keyboard to turn left\n' +
+                '(Mantenga presionada la tecla FLECHA IZQUIERDA en su teclado para girar a la izquierda)');
         });
         player.tutorial.once('achievedTurnLeft', function () {
             player.getShip().crystals += 50;
@@ -102,7 +108,9 @@ module.exports = {
             };
         });
         player.tutorial.once('goalThrust', function () {
-            self.sendMessage(player, 'tutorial', 'Hold the UP ARROW key on your keyboard to power thrusters');
+            //self.sendMessage(player, 'tutorial', 'Hold the UP ARROW key on your keyboard to power thrusters');
+            self.sendMessage(player, 'tutorial', 'Hold the UP ARROW key on your keyboard to power thrusters\n' +
+                '(Mantenga presionada la tecla FLECHA ARRIBA en su teclado para impulsar los impulsores)');
         });
         player.tutorial.once('achievedThrust', function () {
             player.getShip().crystals += 50;
@@ -117,7 +125,9 @@ module.exports = {
         player.tutorial.once('goalChangeThrust', function () {
             player.ship.invulnerable = true;
             self.sendMessage(player, 'tutorialvid', {key: 'changethrustforce', title: 'Change\nthrust force #2'});
-            self.sendMessage(player, 'tutorial', 'Change your thrust force. Press V to replay video missions.');
+            //self.sendMessage(player, 'tutorial', 'Change your thrust force. Press V to replay video missions.');
+            self.sendMessage(player, 'tutorial', 'Change your thrust force. Press V to replay video missions.\n' +
+                '(Cambia tu fuerza de empuje. Presiona V para reproducir misiones de video.)');
         });
         player.tutorial.once('achievedChangeThrust', function () {
             player.getShip().crystals += 250;
@@ -132,7 +142,9 @@ module.exports = {
         player.tutorial.once('goalChangeColor', function () {
             player.ship.invulnerable = true;
             self.sendMessage(player, 'tutorialvid', {key: 'colorchange', title: 'Change Ship Color\n#3'});
-            self.sendMessage(player, 'tutorial', 'Change the color of your ship.');
+            //self.sendMessage(player, 'tutorial', 'Change the color of your ship.');
+            self.sendMessage(player, 'tutorial', 'Change the color of your ship\n' +
+                '(Cambia el color de tu nave)');
         });
         player.tutorial.once('achievedChangeColor', function () {
             mongo.mongoInsertOne(self.mongoHighscores, { gamertag: player.gamertag, achievement: 'change color', full_date: d });
@@ -151,11 +163,15 @@ module.exports = {
                 })
             };
             player.getShip().crystals += 250;
-                self.sendMessage(player, 'tutorial', 'Terrific! See your red ship on the minimap!');
+                //self.sendMessage(player, 'tutorial', 'Terrific! See your red ship on the minimap!');
+            self.sendMessage(player, 'tutorial', 'Terrific! See your red ship on the minimap!\n' +
+                '(¡Estupendo! ¡Mira tu nave roja en el minimapa!)');
             self.sendMessage(player, 'crystal', 250);
         });
         player.tutorial.once('goalPlantTree', function () {
-            self.sendMessage(player, 'tutorial', 'Now fly to a green planet and touch it to plant a tree.');
+            //self.sendMessage(player, 'tutorial', 'Now fly to a green planet and touch it to plant a tree.');
+            self.sendMessage(player, 'tutorial', 'Now fly to a green planet and touch it to plant a tree.\n' +
+                '(Ahora vuela a un planeta verde y tócalo para plantar un árbol.)');
         });
         player.tutorial.once('achievedPlantTree', function () {
             mongo.mongoInsertOne(self.mongoHighscores, { gamertag: player.gamertag, achievement: 'plant tree', full_date: d });
@@ -168,7 +184,13 @@ module.exports = {
         player.tutorial.once('goalLasers', function () {
             //self.sendMessage(player, 'tutorial', 'Press the SPACEBAR on your keyboard to fire your lasers at purple' +
               //  ' asteroids & orange aliens');
-            self.sendMessage(player, 'tutorial', 'Open the Coding Window and try some Code Challenges!');
+            //self.sendMessage(player, 'tutorial', 'Open the Coding Window and try some Code Challenges!');
+            self.sendMessage(player, 'tutorial', '\n\nPress the SPACEBAR on your keyboard to fire your lasers at' +
+                ' purple' +
+                ' asteroids.\n' +
+                'Then open the Coding Window and try some Code Challenges!\n' +
+                '(Presiona la BARRA ESPACIADORA en tu teclado para disparar tus láseres a los asteroides morados.\n' +
+                '¡Entonces abre la ventana de codificación y prueba algunos Desafíos del Código!)');
 
         });
             /**
@@ -271,7 +293,7 @@ var standardTutorial = {
     goalPlantTree: {planttree: 'achievedPlantTree'},
     achievedPlantTree: {auto: 'goalLasers',timeout: 2500},
     //goalLasers: {auto: 'goalCreateStationBlocks', timeout: 1500},
-    goalLasers: {auto: 'endTutorial1', timeout: 6000},
+    goalLasers: {auto: 'endTutorial1', timeout: 10000},
 
     //goalCreateStationBlocks: {createstationblocks: 'achievedCreateStationBlocks'},
     //achievedCreateStationBlocks: {auto: 'endTutorial1', timeout: 7000},
