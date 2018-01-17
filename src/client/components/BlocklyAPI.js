@@ -362,7 +362,6 @@ module.exports = {
         };
 
 
-
         /*
          * thrust
          */
@@ -394,7 +393,6 @@ module.exports = {
         };
 
 
-
         Blockly.Blocks['sc_turn'] = {
             init: function () {
                 this.jsonInit({
@@ -417,7 +415,7 @@ module.exports = {
             var arg = Blockly.JavaScript.valueToCode(block, 'VALUE', Blockly.JavaScript.ORDER_NONE) || '1';
             return 'turn(' + arg + ');\n';
         };
-        
+
         /**
          * set seeder (tree default) properties
          */
@@ -976,7 +974,6 @@ module.exports = {
         };
 
 
-
         /** Redefinition of standard Blockly blocks */
 
         Blockly.Blocks['variables_get'] = {
@@ -984,7 +981,7 @@ module.exports = {
              * Block for variable getter.
              * @this Blockly.Block
              */
-            init: function() {
+            init: function () {
                 this.setHelpUrl(Blockly.Msg.VARIABLES_GET_HELPURL);
                 this.setColour(Blockly.Blocks.variables.HUE);
                 this.appendDummyInput()
@@ -994,11 +991,11 @@ module.exports = {
                 //this.contextMenuMsg_ = Blockly.Msg.VARIABLES_GET_CREATE_SET;
             },
 
-            getVars: function() {
+            getVars: function () {
                 return [this.getFieldValue('VAR')];
             },
 
-            renameVar: function(oldName, newName) {
+            renameVar: function (oldName, newName) {
                 if (Blockly.Names.equals(oldName, this.getFieldValue('VAR'))) {
                     this.setFieldValue(newName, 'VAR');
                 }
@@ -1010,7 +1007,7 @@ module.exports = {
              * Block for variable setter.
              * @this Blockly.Block
              */
-            init: function() {
+            init: function () {
                 this.jsonInit({
                     "message0": Blockly.Msg.VARIABLES_SET,
                     "args0": [
@@ -1030,13 +1027,13 @@ module.exports = {
                     "tooltip": Blockly.Msg.VARIABLES_SET_TOOLTIP,
                     "helpUrl": Blockly.Msg.VARIABLES_SET_HELPURL
                 });
-             },
+            },
 
-            getVars: function() {
+            getVars: function () {
                 return [this.getFieldValue('VAR')];
             },
 
-            renameVar: function(oldName, newName) {
+            renameVar: function (oldName, newName) {
                 if (Blockly.Names.equals(oldName, this.getFieldValue('VAR'))) {
                     this.setFieldValue(newName, 'VAR');
                 }
@@ -1046,7 +1043,6 @@ module.exports = {
         Blockly.Blocks['controls_for'] = {
             init: function () {
                 this.jsonInit({
-                    "type": "controls_for",
                     "message0": "%{BKY_CONTROLS_FOR_TITLE}",
                     "args0": [
                         {
@@ -1089,11 +1085,11 @@ module.exports = {
                 });
             },
 
-            getVars: function() {
+            getVars: function () {
                 return [this.getFieldValue('VAR')];
             },
 
-            renameVar: function(oldName, newName) {
+            renameVar: function (oldName, newName) {
                 if (Blockly.Names.equals(oldName, this.getFieldValue('VAR'))) {
                     this.setFieldValue(newName, 'VAR');
                 }
@@ -1129,17 +1125,80 @@ module.exports = {
                 });
             },
 
-            getVars: function() {
+            getVars: function () {
                 return [this.getFieldValue('VAR')];
             },
 
-            renameVar: function(oldName, newName) {
+            renameVar: function (oldName, newName) {
                 if (Blockly.Names.equals(oldName, this.getFieldValue('VAR'))) {
                     this.setFieldValue(newName, 'VAR');
                 }
             }
-
         };
+
+        Blockly.Blocks['math_change'] = {
+            init: function () {
+                this.jsonInit({
+                    "message0": "%{BKY_MATH_CHANGE_TITLE}",
+                    "args0": [
+                        {
+                            "type": "field_dropdown",
+                            "name": "VAR",
+                            "options": _generateVarNames()
+                        },
+                        {
+                            "type": "input_value",
+                            "name": "DELTA",
+                            "check": "Number"
+                        }
+                    ],
+                    "previousStatement": null,
+                    "nextStatement": null,
+                    "colour": "%{BKY_VARIABLES_HUE}",
+                    "helpUrl": "%{BKY_MATH_CHANGE_HELPURL}",
+                    "extensions": ["math_change_tooltip"]
+                });
+            },
+
+            getVars: function () {
+                return [this.getFieldValue('VAR')];
+            },
+
+            renameVar: function (oldName, newName) {
+                if (Blockly.Names.equals(oldName, this.getFieldValue('VAR'))) {
+                    this.setFieldValue(newName, 'VAR');
+                }
+            }
+        };
+
+        Blockly.Blocks['delim_text'] = {
+            init: function () {
+                this.jsonInit({
+                    "message0": "%1",
+                    "args0": [{
+                        "type": "field_dropdown",
+                        "name": "TEXT",
+                        "options": [
+                            [",", ","],
+                            ["-", "-"],
+                            ["/", "/"],
+                            [".", "."],
+                            ["(space)", " "],
+                            ["(empty string)"]
+                        ]
+                    }],
+                    "output": "String",
+                    "colour": "%{BKY_TEXTS_HUE}",
+                    "helpUrl": "%{BKY_TEXT_TEXT_HELPURL}",
+                    "tooltip": "%{BKY_TEXT_TEXT_TOOLTIP}",
+                    "extensions": [
+                        "text_quotes",
+                        "parent_tooltip_when_inline"
+                    ]
+                });
+            }
+        };
+        Blockly.JavaScript['delim_text'] = Blockly.JavaScript['text'];
     },
 
     /**

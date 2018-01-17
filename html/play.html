@@ -236,7 +236,7 @@
         </block>
         <block type="lists_split">
             <value name="DELIM">
-                <block type="text">
+                <block type="delim_text">
                     <field name="TEXT">,</field>
                 </block>
             </value>
@@ -287,6 +287,13 @@
     <category name="Variables" data-cat="VARIABLES">
         <block type="variables_get"></block>
         <block type="variables_set"></block>
+        <block type="math_change">
+            <value name="DELTA">
+                <block type="math_number">
+                    <field name="NUM">1</field>
+                </block>
+            </value>
+        </block>
     </category>
 
     <category name="Loops" data-cat="LOOPS">
@@ -337,13 +344,13 @@
      <block type="math_trig"></block>
      <block type="math_constant"></block>
      <block type="math_number_property"></block>
-     <block type="math_change">
-         <value name="DELTA">
-             <block type="math_number">
-                 <field name="NUM">1</field>
-             </block>
-         </value>
-     </block>
+     <!--<block type="math_change">-->
+         <!--<value name="DELTA">-->
+             <!--<block type="math_number">-->
+                 <!--<field name="NUM">1</field>-->
+             <!--</block>-->
+         <!--</value>-->
+     <!--</block>-->
      <block type="math_round"></block>
      <block type="math_on_list"></block>
      <block type="math_modulo"></block>
