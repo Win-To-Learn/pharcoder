@@ -635,7 +635,103 @@ API.translate = function (player, x, y) {
             player.timestamp_old = player.timestamp_new;
         }
     }
-    
+
+    //checking for solution to challenge 13
+    if(ship.position[0]===0 && ship.position[1]===-310) {
+        setTimeout(function () {
+            starcoder.sendMessage(player, 'challengewon1', 'You solved the Y-axis challenge!');
+        }, 500);
+        player.getShip().crystals += 150;
+        var temp_data = data;
+        temp_data.to = "jonathanmartinnyc@gmail.com";
+        temp_data.text = 'Your child or student - ' + player.gamertag + ' - completed the Y-axis challenge';
+        mailgun.messages().send(temp_data, function (error, body) {
+        });
+    }
+
+    //console.log(ship.position);
+
+    //checking for solution to challenge 14
+    if(ship.position[0]===-170 && ship.position[1]===-0) {
+        setTimeout(function () {
+            starcoder.sendMessage(player, 'challengewon2', 'You solved the X-axis challenge!');
+        }, 500);
+        player.getShip().crystals += 150;
+        var temp_data = data;
+        temp_data.to = "jonathanmartinnyc@gmail.com";
+        temp_data.text = 'Your child or student - ' + player.gamertag + ' - completed the X-axis challenge';
+        mailgun.messages().send(temp_data, function (error, body) {
+        });
+    }
+
+    //checking for solution to challenge 15
+    if(ship.position[0]===-170 && ship.position[1]===-310) {
+        setTimeout(function () {
+            starcoder.sendMessage(player, 'challengewon3', 'You solved the (-310,170) challenge!');
+        }, 500);
+        player.getShip().crystals += 150;
+        var temp_data = data;
+        temp_data.to = "jonathanmartinnyc@gmail.com";
+        temp_data.text = 'Your child or student - ' + player.gamertag + ' - completed the (-310,170) challenge';
+        mailgun.messages().send(temp_data, function (error, body) {
+        });
+    }
+
+    //checking for solution to challenge 16
+    if(ship.position[0]===100 && ship.position[1]===-100) {
+        setTimeout(function () {
+            starcoder.sendMessage(player, 'challengewon4', 'You solved the system of equations challenge #1!');
+        }, 500);
+        player.getShip().crystals += 250;
+        var temp_data = data;
+        temp_data.to = "jonathanmartinnyc@gmail.com";
+        temp_data.text = 'Your child or student - ' + player.gamertag + ' - completed the solution of equations' +
+            ' challenge #1';
+        mailgun.messages().send(temp_data, function (error, body) {
+        });
+    }
+
+    //checking for solution to challenge 17
+    if(ship.position[0]===8 && ship.position[1]===-64) {
+        setTimeout(function () {
+            starcoder.sendMessage(player, 'challengewon5', 'You solved the system of equations challenge #2!');
+        }, 500);
+        player.getShip().crystals += 250;
+        var temp_data = data;
+        temp_data.to = "jonathanmartinnyc@gmail.com";
+        temp_data.text = 'Your child or student - ' + player.gamertag + ' - completed the solution of equations' +
+            ' challenge #2';
+        mailgun.messages().send(temp_data, function (error, body) {
+        });
+    }
+
+    //checking for solution to challenge 18
+    if(ship.position[0]===150 && ship.position[1]===-300) {
+        setTimeout(function () {
+            starcoder.sendMessage(player, 'challengewon1', 'You solved the slope challenge #1!');
+        }, 500);
+        player.getShip().crystals += 250;
+        var temp_data = data;
+        temp_data.to = "jonathanmartinnyc@gmail.com";
+        temp_data.text = 'Your child or student - ' + player.gamertag + ' - completed the slope' +
+            ' challenge #1';
+        mailgun.messages().send(temp_data, function (error, body) {
+        });
+    }
+
+    //checking for solution to challenge 19
+    if(ship.position[0]===60 && ship.position[1]===-180) {
+        setTimeout(function () {
+            starcoder.sendMessage(player, 'challengewon2', 'You solved the slope challenge #2');
+        }, 500);
+        player.getShip().crystals += 250;
+        var temp_data = data;
+        temp_data.to = "jonathanmartinnyc@gmail.com";
+        temp_data.text = 'Your child or student - ' + player.gamertag + ' - completed the slope' +
+            ' challenge #2';
+        mailgun.messages().send(temp_data, function (error, body) {
+        });
+    }
 
     if(ship.position[0]===200 && ship.position[1]===-0 && player.challenge1===false) {
         player.challenge1 =true;
@@ -643,7 +739,7 @@ API.translate = function (player, x, y) {
 
         setTimeout(function(){
             starcoder.sendMessage(player, 'challengewon1', 'Good job changing the value of the variable!');
-        },500);
+    },500);
         player.getShip().crystals += 150;
         if (player.role === 'player') {
             if(player.timestamp_old) {

@@ -28,7 +28,7 @@ module.exports = {
             vectorScale: {random: 'float', lo: 2, hi: 4},
             mass: 12
         }},
-        {type: 'Hydra', number: 1, config: {
+        {type: 'Hydra', number: 0, config: {
             position: {random: 'world', pad: 50}
         }},
         {type: 'Planetoid', number: 15, config: {
