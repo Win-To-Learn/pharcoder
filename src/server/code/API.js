@@ -649,7 +649,7 @@ API.translate = function (player, x, y) {
         });
     }
 
-    //console.log(ship.position);
+
 
     //checking for solution to challenge 14
     if(ship.position[0]===-170 && ship.position[1]===-0) {
@@ -691,10 +691,11 @@ API.translate = function (player, x, y) {
         });
     }
 
+//console.log(ship.position);
     //checking for solution to challenge 17
     if(ship.position[0]===8 && ship.position[1]===-64) {
         setTimeout(function () {
-            starcoder.sendMessage(player, 'challengewon5', 'You solved the system of equations challenge #2!');
+            starcoder.sendMessage(player, 'challengewon1', 'You solved the system of equations challenge #2!');
         }, 500);
         player.getShip().crystals += 250;
         var temp_data = data;
@@ -708,7 +709,7 @@ API.translate = function (player, x, y) {
     //checking for solution to challenge 18
     if(ship.position[0]===150 && ship.position[1]===-300) {
         setTimeout(function () {
-            starcoder.sendMessage(player, 'challengewon1', 'You solved the slope challenge #1!');
+            starcoder.sendMessage(player, 'challengewon2', 'You solved the slope challenge #1!');
         }, 500);
         player.getShip().crystals += 250;
         var temp_data = data;
@@ -720,9 +721,9 @@ API.translate = function (player, x, y) {
     }
 
     //checking for solution to challenge 19
-    if(ship.position[0]===60 && ship.position[1]===-180) {
+    if(ship.position[0]===60 && ship.position[1]===180) {
         setTimeout(function () {
-            starcoder.sendMessage(player, 'challengewon2', 'You solved the slope challenge #2');
+            starcoder.sendMessage(player, 'challengewon3', 'You solved the slope challenge #2');
         }, 500);
         player.getShip().crystals += 250;
         var temp_data = data;
