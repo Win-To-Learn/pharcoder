@@ -55,6 +55,7 @@ module.exports = {
 
     loginPOST: function (req, res) {
         var self = this;
+        let server = this.config.playServers[req.body.server] || this.config.playServers["local"];
         // TODO: Handle cases: known player, login code, guest
         if (req.body.login) {
             // Known user with password
@@ -73,7 +74,7 @@ module.exports = {
                                 //req.session.player = {id: player.id};
                                 req.session.ticketid = ticketid;
                                 //req.session.tutorial = req.body.tutorial;
-                                req.session.server = 'FIXME';
+                                req.session.server = server;
                                 res.status(200).send({goto: 'play.html'}).end();
                             });
                         }
@@ -87,7 +88,7 @@ module.exports = {
                 //req.session.player = {id: ticketid};
                 req.session.ticketid = ticketid;
                 req.session.tutorial = req.body.tutorial;
-                req.session.server = 'FIXME';
+                req.session.server = server;
                 res.status(200).send({goto: 'play.html'}).end();
             });
         } else if (req.body.code) {
@@ -111,7 +112,7 @@ module.exports = {
 
     identityGET: function (req, res) {
         if (req.session.ticketid) {
-            res.status(200).send({ticketid: req.session.ticketid, serverUri: req.server});
+            res.status(200).send({ticketid: req.session.ticketid, serverUri: req.session.server});
             delete req.session.ticketid;           // One time use - not sure if this is the best way to do this
         } else {
             res.status(401).end();

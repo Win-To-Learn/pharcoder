@@ -16,13 +16,13 @@ var LoginPage = function (config) {
 
     $('.select').selectmenu();
     $('.loginbutton').button({icons: {primary: 'ui-icon-triangle-1-e'}});
-    $('.accordion').accordion({active: 2, heightStyle: 'content'});
+    $('.accordion').accordion({active: 1, heightStyle: 'content'});
     $('input[checkbox]').button();
 
     var self = this;
     $('#guestlogin').click(function () {
         self.doLogin({
-            server: $('#server').val(),
+            server: $('#server2').val(),
             tag: $('#gt1').val() + ' ' + $('#gt2').val(),
             tutorial: $('#tutorial3').is(':checked')
         });
@@ -30,6 +30,7 @@ var LoginPage = function (config) {
     $('#userlogin').click(function () {
         self.doLogin({
             login: true,
+            server: $('#server1').val(),
             user: $('#username').val(),
             pass: $('#password').val(),
             tutorial: $('#tutorial3').is(':checked')
@@ -62,7 +63,7 @@ LoginPage.prototype.doLogin = function (data) {
 };
 
 LoginPage.prototype.loginSuccess = function (data, status) {
-    window.location = data.goto;
+    window.location.assign(data.goto);
 };
 
 LoginPage.prototype.loginError = function (jq, status, httpError) {
