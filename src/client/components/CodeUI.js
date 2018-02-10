@@ -144,6 +144,9 @@ module.exports = {
         $('#load-ex12').on('dblclick', function () {
             self.sendCodeMessage('load', "example12");
         });
+        $('#load-ex20').on('dblclick', function () {
+            self.sendCodeMessage('load', "example20");
+        });
         $('#load-code').on('click', function () {
             var op = $('#select-code option:selected');
             if (op.index() > 0) {

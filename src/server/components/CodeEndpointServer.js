@@ -202,7 +202,7 @@ module.exports = {
             }
         });
         player.socket.on('code save', function (code) {
-            //console.log('save code', code);
+            console.log('save code', code);
             if (code.js) {
                 player.codeSnippets[code.label] =  {js: code.js};
             } else {
@@ -307,13 +307,18 @@ module.exports = {
                 player.codeSnippets['example12'] = {blockly: blockly_ex12};
                 self.sendCodeMessage(player, 'saved', 'example12');
             }
+            if(player.codeSnippets['example20'] == null){
+                var blockly_ex20 = '<xml xmlns=\"http://www.w3.org/1999/xhtml\"><variables></variables><block type=\"variables_set\" id=\")01aa}Tvro}iGk$]^/q{\" x=\"85\" y=\"57\"><field name=\"VAR\">item1</field><next><block type=\"variables_set\" id=\"iJp]!5[!v;AWRK~E;kO|\"><field name=\"VAR\">item2</field></block></next></block><block type=\"math_number\" id=\"ond;aA)JRrOY$$E,V;w`\" x=\"257\" y=\"58\"><field name=\"NUM\">230</field></block><block type=\"math_number\" id=\"_ebn]oiT]afAeW}t}=j?\" x=\"257\" y=\"85\"><field name=\"NUM\">100</field></block><block type=\"sc_translate\" id=\"MNBR0t(w0tgc72tGEE2r\" x=\"86\" y=\"141\"></block><block type=\"variables_get\" id=\"q]Z(oUnTf@]xSU]_,#hi\" x=\"191\" y=\"212\"><field name=\"VAR\">item1</field></block><block type=\"variables_get\" id=\"4,-q/koTgU9RX0*`j]}Z\" x=\"281\" y=\"213\"><field name=\"VAR\">item2</field></block></xml>';
+                player.codeSnippets['example20'] = {blockly: blockly_ex20};
+                self.sendCodeMessage(player, 'saved', 'example20');
+            }
 
 
             var code = player.codeSnippets[label];
 
 
             if (code) {
-                //console.log(code);
+                console.log(code);
                 if (code.js) {
                     self.sendCodeMessage(player, 'loaded', {label: label, js: code.js});
                 } else {
