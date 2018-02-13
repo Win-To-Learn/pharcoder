@@ -202,7 +202,7 @@ module.exports = {
             }
         });
         player.socket.on('code save', function (code) {
-            console.log('save code', code);
+            //console.log('save code', code);
             if (code.js) {
                 player.codeSnippets[code.label] =  {js: code.js};
             } else {
@@ -318,7 +318,7 @@ module.exports = {
 
 
             if (code) {
-                console.log(code);
+                //console.log(code);
                 if (code.js) {
                     self.sendCodeMessage(player, 'loaded', {label: label, js: code.js});
                 } else {

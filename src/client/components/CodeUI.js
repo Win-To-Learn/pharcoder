@@ -258,6 +258,7 @@ module.exports = {
                 this.blocklyWorkspace.clear();
                 var xml = Blockly.Xml.textToDom(code.blockly);
                 Blockly.Xml.domToWorkspace(this.blocklyWorkspace, xml);
+                this.blocklyWorkspace.scrollCenter();
                 //var topBlocks = this.blocklyWorkspaceSvg.getTopBlocks(true);
                 //console.log(topBlocks);
                 //this.blocklyWorkspaceSvg.cleanUp();

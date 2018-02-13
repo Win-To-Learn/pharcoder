@@ -3,6 +3,8 @@
 # Used for editing examples for .md files
 example.js
 
+.DS_Store/
+
 js/
 
 deployments/
