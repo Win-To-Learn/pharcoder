@@ -28,6 +28,10 @@ body {
     /*/!*height: 360px;*!/*/
 /*}*/
 
+.code {
+    position: relative;
+}
+
 .popup {
     z-index: 100;
 }
@@ -98,6 +102,13 @@ body {
     height: 240px;
     display: block;
 
+}
+
+.scui-closebutton {
+    position: absolute;
+    right: -39px;
+    top: -13px;
+    z-index: 200;
 }
 
 /*#sample-accordion .ui-accordion-content {*/

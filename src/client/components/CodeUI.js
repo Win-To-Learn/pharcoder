@@ -72,7 +72,10 @@ module.exports = {
                     self.codeWindowMode = 'samples';
                 }
             }
+        });
 
+        $("#closecode").on("click", function () {
+            self.toggleCodeWindow(false);
         });
 
         this.blocklyWorkspace.addChangeListener(function () {
