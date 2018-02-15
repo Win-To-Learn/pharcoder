@@ -734,6 +734,20 @@ API.translate = function (player, x, y) {
         });
     }
 
+    //checking for solution to challenge 20
+    if(ship.position[0]===230 && ship.position[1]===-100) {
+        setTimeout(function () {
+            starcoder.sendMessage(player, 'challengewon3', 'You solved the variable challenge #2');
+        }, 500);
+        player.getShip().crystals += 250;
+        var temp_data = data;
+        temp_data.to = "jonathanmartinnyc@gmail.com";
+        temp_data.text = 'Your child or student - ' + player.gamertag + ' - completed the variable' +
+            ' challenge #2';
+        mailgun.messages().send(temp_data, function (error, body) {
+        });
+    }
+
     if(ship.position[0]===200 && ship.position[1]===-0 && player.challenge1===false) {
         player.challenge1 =true;
         starcoder.updatePlayerScore('Code Challenges', player.id, 10);
