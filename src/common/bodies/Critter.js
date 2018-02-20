@@ -1,0 +1,25 @@
+/**
+ * Critter.js
+ *
+ * shared client / server
+ */
+'use strict';
+
+var Paths = require('../Paths.js');
+
+module.exports = {
+    proto: {
+        //_lineColor: '#ffa500',
+        _fillColor: '#999999',
+        _lineWidth: 2,
+        _shapeClosed: true,
+        _fillAlpha: 0.25,
+        _shape: Paths.star8pt
+    },
+
+    updateProperties: {
+        vectorScale: 'ufixed16',
+        dead: 'boolean',
+        genome: 'arrayuint8'
+    }
+};

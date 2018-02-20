@@ -92,6 +92,12 @@ Loader.prototype.preload = function () {
     this.game.load.image('clickcode', 'assets/images/clickcode.png');
     this.game.load.image('controls_arrows', 'assets/images/controls_arrows.png');
     this.game.load.image('controls_spacebar', 'assets/images/controls_spacebar.png');
+
+    // Critter parts - need to modularize
+    this.game.load.image('c_feet0', 'assets/images/c_feet0.png');
+    this.game.load.image('c_head0', 'assets/images/c_head0.png');
+    this.game.load.image('c_torso0', 'assets/images/c_torso0.png');
+
     // Videos
     //this.game.load.video('defeathydra', 'assets/video/defeathydra.mp4');
     // Thumbnails
