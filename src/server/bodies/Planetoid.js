@@ -15,6 +15,7 @@ var UpdateProperties = require('../../common/UpdateProperties.js').Planetoid;
 
 var Tree = require('./Tree.js');
 var Crystal = require('./Crystal.js');
+var Critter = require('./Critter.js');
 
 var Planetoid = function (starcoder, config) {
     SyncBodyBase.call(this, starcoder, config);
@@ -102,8 +103,24 @@ Planetoid.prototype.bloom = function () {
         });
         crystal.attachmentConstraint = new p2.LockConstraint(this, crystal);
         this.world.addConstraint(crystal.attachmentConstraint);
-        tree.bloomed = true;
+        tree.bloomed = true;    critter.attachmentConstraint = new p2.RevoluteConstraint(this, critter, {
+        localPivotA: [0, 0], localPivotB: [0,0]
+    });
+    this.world.addConstraint(critter.attachmentConstraint);
+
     }
+    // Add critter - Prototype implementation
+    var a = Math.random() * Math.PI * 2;
+    cx = this.position[0] + this.vectorScale * 2.25 * Math.cos(a);
+    cy = this.position[1] + this.vectorScale * 2.25 * Math.sin(a);
+    var critter = this.worldapi.addSyncableBody(Critter, {
+        position: [cx, cy],
+        angle: a
+    });
+    critter.attachmentConstraint = new p2.RevoluteConstraint(this, critter, {
+        worldPivot: this.position
+    });
+    this.world.addConstraint(critter.attachmentConstraint);
     this.bloomed = true;
 };
 

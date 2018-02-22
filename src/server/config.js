@@ -64,11 +64,11 @@ module.exports = {
             genus: 'hidden'
         }},
         // vvvvv Testing vvvvv
-        {type: 'Crystal', number: 4, config: {
-            position: {random: 'world', pad: 30}
-        }},
-        {type: 'Critter', number: 80, config: {
+        {type: 'Crystal', number: 40, config: {
             position: {random: 'world', pad: 30}
         }}
+        // {type: 'Critter', number: 80, config: {
+        //     position: {random: 'world', pad: 30}
+        // }}
     ]
 };

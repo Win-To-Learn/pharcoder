@@ -53,8 +53,6 @@ Critter.prototype.drawProcedure = function (renderScale) {
         this.addChild(this.feet);
         this.addChild(this.torso);
         this.addChild(this.head);
-    } else {
-        VectorSprite.prototype.draw.call(this, renderScale);
     }
 };
 
