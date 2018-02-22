@@ -10,7 +10,9 @@ var SyncBodyBase = require('./SyncBodyBase.js');
 
 var Critter = function (starcoder, config) {
     SyncBodyBase.call(this, starcoder, config);
-    this.genome = [0, 0, 0];
+    //console.log('Critter create', this.id, config);
+    this.genome = [Math.floor(Math.random()*3), Math.floor(Math.random()*3), Math.floor(Math.random()*3)];
+    //console.log(this.id, 'xy', this.position[0], this.position[1]);
 };
 
 Critter.prototype = Object.create(SyncBodyBase.prototype);
@@ -19,18 +21,15 @@ Critter.prototype.constructor = Critter;
 Critter.prototype.clientType = 'Critter';
 Critter.prototype.serverType = 'Critter';
 
-Critter.prototype.control = function () {
-};
 
-
-Critter.prototype.beginContact = function (body) {
-};
-
-Critter.prototype.beginSense = function (body) {
-};
-
-Critter.prototype.endSense = function (body) {
-};
+// Critter.prototype.beginContact = function (body) {
+// };
+//
+// Critter.prototype.beginSense = function (body) {
+// };
+//
+// Critter.prototype.endSense = function (body) {
+// };
 
 Object.defineProperty(Critter.prototype, 'genome', {
     get: function () {

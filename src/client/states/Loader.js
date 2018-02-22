@@ -94,9 +94,11 @@ Loader.prototype.preload = function () {
     this.game.load.image('controls_spacebar', 'assets/images/controls_spacebar.png');
 
     // Critter parts - need to modularize
-    this.game.load.image('c_feet0', 'assets/images/c_feet0.png');
-    this.game.load.image('c_head0', 'assets/images/c_head0.png');
-    this.game.load.image('c_torso0', 'assets/images/c_torso0.png');
+    for (let i = 0; i <= 2; i++) {
+        this.game.load.image('c_feet' + i, 'assets/images/c_feet' + i + '.png');
+        this.game.load.image('c_head' + i, 'assets/images/c_head' + i + '.png');
+        this.game.load.image('c_torso' + i, 'assets/images/c_torso' + i + '.png');
+    }
 
     // Videos
     //this.game.load.video('defeathydra', 'assets/video/defeathydra.mp4');

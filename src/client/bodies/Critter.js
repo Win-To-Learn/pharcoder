@@ -29,48 +29,40 @@ Critter.prototype.constructor = Critter;
 Starcoder.mixinPrototype(Critter.prototype, SyncBodyInterface.prototype);
 Starcoder.mixinPrototype(Critter.prototype, Common);
 
+const critterScale = 0.4;
+
 /**
- * Draw tree, overriding standard shape and geometry method to use graph
+ * Draw critter creating images for head, torso, and legs
  *
  * @param renderScale
  * blah blah
  */
 Critter.prototype.drawProcedure = function (renderScale) {
-    console.log('critter genome', this.genome);
-    if ((renderScale === 1)) {
-        this.head = this.game.make.image(0, 0, 'c_head' + this.genome[0]);
-        //this.torso = this.game.make.image(0, 0, 'c_torso' + this.genome[0]);
-        //this.feet = this.game.make.image(0, 0, 'c_feet' + this.genome[0]);
-        this.head.scale.setTo(0.5);
+    if (renderScale === 1) {
+        this.graphics.moveTo(0, 0);
+        this.graphics.lineTo(0, 0.1);
+        this.torso = this.game.make.sprite(0, 0, 'c_torso' + this.genome[0]);
+        this.torso.anchor.setTo(0.5, 0.5);
+        this.torso.scale.setTo(critterScale);
+        this.head = this.game.make.sprite(0, -69*critterScale, 'c_head' + this.genome[1]);
+        this.head.anchor.setTo(0.5, 0.5);
+        this.head.scale.setTo(critterScale);
+        this.feet = this.game.make.sprite(0, 86*critterScale, 'c_feet' + this.genome[2]);
+        this.feet.anchor.setTo(0.5, 0.5);
+        this.feet.scale.setTo(critterScale);
+        this.addChild(this.feet);
+        this.addChild(this.torso);
         this.addChild(this.head);
-        // //console.log('draw koala');
-        // if (Math.random() > 0.5) {
-        //     this.koala = this.game.make.image(0, 0, 'koala-r');
-        //     this.koala.anchor.setTo(0, 1);
-        //     //this.koala.scale.setTo(0.7+Math.random()*5, 0.7+Math.random()*5);
-        //     setInterval(function(){
-        //         self.clientLifespan++;
-        //         if(self !== null) {
-        //             self.koala.tint = (0.5+(self.clientLifespan/300)) * 0xffffff;
-        //             //console.log(self.clientLifespan);
-        //         }
-        //     },120000, self.world)
-        // } else {
-        //     this.koala = this.game.make.image(0, 0, 'koala-l');
-        //     this.koala.anchor.setTo(1, 1);
-        //     //this.koala.scale.setTo(0.7+Math.random()*5, 0.7+Math.random()*5);
-        //     setInterval(function(){
-        //         self.clientLifespan++;
-        //         if(self !== null) {
-        //             self.koala.tint = (0.5+(self.clientLifespan/300)) * 0xffffff;
-        //             //console.log(self.clientLifespan);
-        //         }
-        //     },120000, self.world)
-        // }
-        // this.koala.scale.setTo(0.5);
-        // this.addChild(this.koala);
+    } else {
+        VectorSprite.prototype.draw.call(this, renderScale);
     }
 };
+
+Critter.prototype.update = function () {
+    if (true) {
+        //console.log('xy', this.x, this.y);
+    }
+}
 
 Object.defineProperty(Critter.prototype, 'genome', {
     get: function () {
