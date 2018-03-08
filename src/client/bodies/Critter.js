@@ -39,28 +39,36 @@ const critterScale = 0.4;
  */
 Critter.prototype.drawProcedure = function (renderScale) {
     if (renderScale === 1) {
+        let names = this.game.starcoder.critters.names;
+        let meta = this.game.starcoder.critters.meta;
+        let headType = names[this.genome[0] % names.length];
+        let torsoType = names[this.genome[1] % names.length];
+        let feetType = names[this.genome[2] % names.length];
         this.graphics.moveTo(0, 0);
         this.graphics.lineTo(0, 0.1);
-        this.torso = this.game.make.sprite(0, 0, 'c_torso' + this.genome[0]);
-        this.torso.anchor.setTo(0.5, 0.5);
-        this.torso.scale.setTo(critterScale);
-        this.head = this.game.make.sprite(0, -69*critterScale, 'c_head' + this.genome[1]);
-        this.head.anchor.setTo(0.5, 0.5);
-        this.head.scale.setTo(critterScale);
-        this.feet = this.game.make.sprite(0, 86*critterScale, 'c_feet' + this.genome[2]);
+        this.feet = this.game.make.sprite(
+            meta[feetType].feet.offset_x, 56*critterScale + meta[feetType].feet.offset_y, feetType + '_feet');
         this.feet.anchor.setTo(0.5, 0.5);
         this.feet.scale.setTo(critterScale);
+        this.torso = this.game.make.sprite(
+            meta[torsoType].torso.offset_x, meta[torsoType].torso.offset_y, torsoType + '_torso');
+        this.torso.anchor.setTo(0.5, 0.5);
+        this.torso.scale.setTo(critterScale);
+        this.head = this.game.make.sprite(
+            meta[headType].head.offset_x, -66*critterScale + meta[headType].head.offset_y, headType + '_head');
+        this.head.anchor.setTo(0.5, 0.5);
+        this.head.scale.setTo(critterScale);
         this.addChild(this.feet);
         this.addChild(this.torso);
         this.addChild(this.head);
     }
 };
 
-Critter.prototype.update = function () {
-    if (true) {
-        //console.log('xy', this.x, this.y);
-    }
-}
+// Critter.prototype.update = function () {
+//     if (true) {
+//         //console.log('xy', this.x, this.y);
+//     }
+// }
 
 Object.defineProperty(Critter.prototype, 'genome', {
     get: function () {

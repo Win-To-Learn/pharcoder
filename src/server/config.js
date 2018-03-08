@@ -67,7 +67,7 @@ module.exports = {
         {type: 'Crystal', number: 40, config: {
             position: {random: 'world', pad: 30}
         }}
-        // {type: 'Critter', number: 80, config: {
+        // {type: 'Critter', number: 180, config: {
         //     position: {random: 'world', pad: 30}
         // }}
     ]

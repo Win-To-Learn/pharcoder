@@ -109,6 +109,44 @@ gulp.task('make-thumbs', function () {
     fs.writeFileSync('assets/video/thumbs.json', JSON.stringify(pack, null, 4));
 });
 
+gulp.task('make-critters', function () {
+    let pack = {critters: [], names: []};
+    let parts = ['head', 'feet', 'torso'];
+    try {
+        let json = JSON.parse(fs.readFileSync('assets/images/critters/critters.json'));
+        pack.meta = json.meta || {};
+    } catch (err) {
+        pack.meta = {};
+    }
+    let critters = glob.readdirSync('assets/images/critters/*_head.png', {});
+    for (let critter of critters) {
+        let name = critter.match(/assets\/images\/critters\/(\w+)_head\.png/)[1];
+        try {
+            for (let part of parts) {
+                fs.accessSync('assets/images/critters/' + name + '_' + part + '.png', fs.constants.F_OK);
+            }
+            pack.names.push(name);
+            if (!pack.meta[name]) {
+                pack.meta[name] = {};
+                for (let part of parts) {
+                    pack.meta[name][part] = {offset_x: 0, offset_y: 0};
+                }
+            }
+            for (let part of parts) {
+                pack.critters.push({
+                    type: 'image',
+                    key: name + '_' + part,
+                    url: 'assets/images/critters/' + name + '_' + part + '.png',
+                    overwrite: false
+                });
+            }
+        } catch (err) {
+            console.log('Missing parts for critter:', name);
+        }
+    }
+    fs.writeFileSync('assets/images/critters/critters.json', JSON.stringify(pack, null, 4));
+});
+
 gulp.task('watchify', ['watchify-client', 'watchify-frontend']);
 
 gulp.task('forceExit', function(cb) {

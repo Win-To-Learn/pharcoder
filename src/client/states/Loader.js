@@ -13,6 +13,7 @@ Loader.prototype = Object.create(Phaser.State.prototype);
 Loader.prototype.constructor = Loader;
 
 Loader.prototype.init = function () {
+    var self = this;
     // Init and draw starfield
     //this.starcoder.starfield = this.game.make.bitmapData(600, 600, 'starfield', true);
     //this.starcoder.drawStarField(this.starcoder.starfield.ctx, 600, 16);
@@ -45,6 +46,15 @@ Loader.prototype.init = function () {
         progText.setText(progress + '%');
         progText.x = mid.x + w/2;
     }, this);
+    this.game.load.onPackComplete.add(function (key) {
+        if (key === 'critters') {
+            let data = self.game.load.getAsset('packfile', key).file.data;
+            self.game.starcoder.critters = {
+                names: data.names,
+                meta: data.meta
+            };
+        }
+    });
 };
 
 Loader.prototype.preload = function () {
@@ -93,12 +103,8 @@ Loader.prototype.preload = function () {
     this.game.load.image('controls_arrows', 'assets/images/controls_arrows.png');
     this.game.load.image('controls_spacebar', 'assets/images/controls_spacebar.png');
 
-    // Critter parts - need to modularize
-    for (let i = 0; i <= 2; i++) {
-        this.game.load.image('c_feet' + i, 'assets/images/c_feet' + i + '.png');
-        this.game.load.image('c_head' + i, 'assets/images/c_head' + i + '.png');
-        this.game.load.image('c_torso' + i, 'assets/images/c_torso' + i + '.png');
-    }
+    // Critter parts
+    this.game.load.pack('critters', 'assets/images/critters/critters.json');
 
     // Videos
     //this.game.load.video('defeathydra', 'assets/video/defeathydra.mp4');

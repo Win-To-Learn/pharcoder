@@ -5,13 +5,17 @@
  */
 'use strict';
 
+const fs = require('fs');
 var p2 = require('p2');
 var SyncBodyBase = require('./SyncBodyBase.js');
+
+const numCritters = 6;
 
 var Critter = function (starcoder, config) {
     SyncBodyBase.call(this, starcoder, config);
     //console.log('Critter create', this.id, config);
-    this.genome = [Math.floor(Math.random()*3), Math.floor(Math.random()*3), Math.floor(Math.random()*3)];
+    this.genome = [Math.floor(Math.random()*numCritters),
+        Math.floor(Math.random()*numCritters), Math.floor(Math.random()*numCritters)];
     //console.log(this.id, 'xy', this.position[0], this.position[1]);
 };
 

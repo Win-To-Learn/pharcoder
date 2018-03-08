@@ -1,0 +1,206 @@
+{
+    "critters": [
+        {
+            "type": "image",
+            "key": "bird_head",
+            "url": "assets/images/critters/bird_head.png",
+            "overwrite": false
+        },
+        {
+            "type": "image",
+            "key": "bird_feet",
+            "url": "assets/images/critters/bird_feet.png",
+            "overwrite": false
+        },
+        {
+            "type": "image",
+            "key": "bird_torso",
+            "url": "assets/images/critters/bird_torso.png",
+            "overwrite": false
+        },
+        {
+            "type": "image",
+            "key": "horse_head",
+            "url": "assets/images/critters/horse_head.png",
+            "overwrite": false
+        },
+        {
+            "type": "image",
+            "key": "horse_feet",
+            "url": "assets/images/critters/horse_feet.png",
+            "overwrite": false
+        },
+        {
+            "type": "image",
+            "key": "horse_torso",
+            "url": "assets/images/critters/horse_torso.png",
+            "overwrite": false
+        },
+        {
+            "type": "image",
+            "key": "monkey_head",
+            "url": "assets/images/critters/monkey_head.png",
+            "overwrite": false
+        },
+        {
+            "type": "image",
+            "key": "monkey_feet",
+            "url": "assets/images/critters/monkey_feet.png",
+            "overwrite": false
+        },
+        {
+            "type": "image",
+            "key": "monkey_torso",
+            "url": "assets/images/critters/monkey_torso.png",
+            "overwrite": false
+        },
+        {
+            "type": "image",
+            "key": "penguin_head",
+            "url": "assets/images/critters/penguin_head.png",
+            "overwrite": false
+        },
+        {
+            "type": "image",
+            "key": "penguin_feet",
+            "url": "assets/images/critters/penguin_feet.png",
+            "overwrite": false
+        },
+        {
+            "type": "image",
+            "key": "penguin_torso",
+            "url": "assets/images/critters/penguin_torso.png",
+            "overwrite": false
+        },
+        {
+            "type": "image",
+            "key": "rat_head",
+            "url": "assets/images/critters/rat_head.png",
+            "overwrite": false
+        },
+        {
+            "type": "image",
+            "key": "rat_feet",
+            "url": "assets/images/critters/rat_feet.png",
+            "overwrite": false
+        },
+        {
+            "type": "image",
+            "key": "rat_torso",
+            "url": "assets/images/critters/rat_torso.png",
+            "overwrite": false
+        },
+        {
+            "type": "image",
+            "key": "trex_head",
+            "url": "assets/images/critters/trex_head.png",
+            "overwrite": false
+        },
+        {
+            "type": "image",
+            "key": "trex_feet",
+            "url": "assets/images/critters/trex_feet.png",
+            "overwrite": false
+        },
+        {
+            "type": "image",
+            "key": "trex_torso",
+            "url": "assets/images/critters/trex_torso.png",
+            "overwrite": false
+        }
+    ],
+    "names": [
+        "bird",
+        "horse",
+        "monkey",
+        "penguin",
+        "rat",
+        "trex"
+    ],
+    "meta": {
+        "bird": {
+            "head": {
+                "offset_x": 0,
+                "offset_y": 0
+            },
+            "feet": {
+                "offset_x": 0,
+                "offset_y": 0
+            },
+            "torso": {
+                "offset_x": 0,
+                "offset_y": 0
+            }
+        },
+        "horse": {
+            "head": {
+                "offset_x": 0,
+                "offset_y": 0
+            },
+            "feet": {
+                "offset_x": 0,
+                "offset_y": 0
+            },
+            "torso": {
+                "offset_x": 0,
+                "offset_y": 0
+            }
+        },
+        "monkey": {
+            "head": {
+                "offset_x": 0,
+                "offset_y": 0
+            },
+            "feet": {
+                "offset_x": 0,
+                "offset_y": 0
+            },
+            "torso": {
+                "offset_x": 0,
+                "offset_y": 0
+            }
+        },
+        "penguin": {
+            "head": {
+                "offset_x": 0,
+                "offset_y": 0
+            },
+            "feet": {
+                "offset_x": 0,
+                "offset_y": 0
+            },
+            "torso": {
+                "offset_x": 0,
+                "offset_y": 0
+            }
+        },
+        "rat": {
+            "head": {
+                "offset_x": 0,
+                "offset_y": 0
+            },
+            "feet": {
+                "offset_x": 0,
+                "offset_y": 0
+            },
+            "torso": {
+                "offset_x": 0,
+                "offset_y": 0
+            }
+        },
+        "trex": {
+            "head": {
+                "offset_x": 0,
+                "offset_y": 0
+            },
+            "feet": {
+                "offset_x": 0,
+                "offset_y": 0
+            },
+            "torso": {
+                "offset_x": 0,
+                "offset_y": 0
+            }
+        }
+    }
+}
