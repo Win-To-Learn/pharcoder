@@ -103,12 +103,8 @@ Planetoid.prototype.bloom = function () {
         });
         crystal.attachmentConstraint = new p2.LockConstraint(this, crystal);
         this.world.addConstraint(crystal.attachmentConstraint);
-        tree.bloomed = true;    critter.attachmentConstraint = new p2.RevoluteConstraint(this, critter, {
-        localPivotA: [0, 0], localPivotB: [0,0]
-    });
-    this.world.addConstraint(critter.attachmentConstraint);
-
     }
+
     // Add critter - Prototype implementation
     var a = Math.random() * Math.PI * 2;
     cx = this.position[0] + this.vectorScale * 2.25 * Math.cos(a);
