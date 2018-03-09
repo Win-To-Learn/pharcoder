@@ -109,11 +109,12 @@ Planetoid.prototype.bloom = function () {
 
     // Add critter - Prototype implementation
     var a = Math.random() * Math.PI * 2;
+    var b = a + Math.PI*0.5;
     cx = this.position[0] + this.vectorScale * 2.25 * Math.cos(a);
     cy = this.position[1] + this.vectorScale * 2.25 * Math.sin(a);
     var critter = this.worldapi.addSyncableBody(Critter, {
         position: [cx, cy],
-        angle: a
+        angle: b
     });
     critter.attachmentConstraint = new p2.RevoluteConstraint(this, critter, {
         worldPivot: this.position
