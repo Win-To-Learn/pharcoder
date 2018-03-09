@@ -103,7 +103,9 @@ Planetoid.prototype.bloom = function () {
         });
         crystal.attachmentConstraint = new p2.LockConstraint(this, crystal);
         this.world.addConstraint(crystal.attachmentConstraint);
+        tree.bloomed = true;
     }
+    this.bloomed = true;
 
     // Add critter - Prototype implementation
     var a = Math.random() * Math.PI * 2;
