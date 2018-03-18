@@ -81,6 +81,17 @@ strings['en']['sc_broadcast']['op1'] = "how did you do that? can you deploy your
 strings['en']['sc_broadcast']['op2'] = "follow me!";
 strings['en']['sc_broadcast']['op3'] = "very cool, any other cool code to share?";
 strings['en']['sc_broadcast']['op4'] = "wow!";
+strings['en']['sc_set_critter_genome'] = {};
+strings['en']['sc_set_critter_genome']['message0'] = "set critter genome";
+strings['en']['sc_set_critter_genome']['message1'] = "head %1";
+strings['en']['sc_set_critter_genome']['message2'] = "torso %1";
+strings['en']['sc_set_critter_genome']['message3'] = "feet %1";
+strings['en']['sc_set_critter_genome']['op0'] = "bird";
+strings['en']['sc_set_critter_genome']['op1'] = "horse";
+strings['en']['sc_set_critter_genome']['op2'] = "monkey";
+strings['en']['sc_set_critter_genome']['op3'] = "penguin";
+strings['en']['sc_set_critter_genome']['op4'] = "rat";
+strings['en']['sc_set_critter_genome']['op5'] = "t-rex";
 
 // Spanish
 categories['es'] = {};
@@ -154,6 +165,18 @@ strings['es']['sc_broadcast']['op1'] = "como você fez isso? você pode implanta
 strings['es']['sc_broadcast']['op2'] = "me siga!";
 strings['es']['sc_broadcast']['op3'] = "muito legal, qualquer outro código legal para compartilhar?";
 strings['es']['sc_broadcast']['op4'] = "Uau!";
+// TODO: Translate these
+strings['es']['sc_set_critter_genome'] = {};
+strings['es']['sc_set_critter_genome']['message0'] = "set critter genome";
+strings['es']['sc_set_critter_genome']['message1'] = "head %1";
+strings['es']['sc_set_critter_genome']['message2'] = "torso %1";
+strings['es']['sc_set_critter_genome']['message3'] = "feet %1";
+strings['es']['sc_set_critter_genome']['op0'] = "bird";
+strings['es']['sc_set_critter_genome']['op1'] = "horse";
+strings['es']['sc_set_critter_genome']['op2'] = "monkey";
+strings['es']['sc_set_critter_genome']['op3'] = "penguin";
+strings['es']['sc_set_critter_genome']['op4'] = "rat";
+strings['es']['sc_set_critter_genome']['op5'] = "t-rex";
 
 
 let Translations = {

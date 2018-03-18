@@ -459,6 +459,64 @@ module.exports = {
             return 'setSeederProperties(' + tl + ',' + bf + ',' + bd + ',' + sp + ',' + dp + ');\n';
         };
 
+        Blockly.Blocks['sc_set_critter_genome'] = {
+            init: function () {
+                this.jsonInit({
+                    message0: Translations.getString('sc_set_critter_genome', 'message0'),
+                    message1: Translations.getString('sc_set_critter_genome', 'message1'),
+                    args1: [
+                        {
+                            type: 'field_dropdown', name: 'HEAD', options: [
+                            [Translations.getString('sc_set_critter_genome', 'op0'), 'bird'],
+                            [Translations.getString('sc_set_critter_genome', 'op1'), 'horse'],
+                            [Translations.getString('sc_set_critter_genome', 'op2'), 'monkey'],
+                            [Translations.getString('sc_set_critter_genome', 'op3'), 'penguin'],
+                            [Translations.getString('sc_set_critter_genome', 'op4'), 'rat'],
+                            [Translations.getString('sc_set_critter_genome', 'op5'), 'trex']
+                        ]
+                        }
+                    ],
+                    message2: Translations.getString('sc_set_critter_genome', 'message2'),
+                    args2: [
+                        {
+                            type: 'field_dropdown', name: 'TORSO', options: [
+                            [Translations.getString('sc_set_critter_genome', 'op0'), 'bird'],
+                            [Translations.getString('sc_set_critter_genome', 'op1'), 'horse'],
+                            [Translations.getString('sc_set_critter_genome', 'op2'), 'monkey'],
+                            [Translations.getString('sc_set_critter_genome', 'op3'), 'penguin'],
+                            [Translations.getString('sc_set_critter_genome', 'op4'), 'rat'],
+                            [Translations.getString('sc_set_critter_genome', 'op5'), 'trex']
+                        ]
+                        }
+                    ],
+                    message3: Translations.getString('sc_set_critter_genome', 'message3'),
+                    args3: [
+                        {
+                            type: 'field_dropdown', name: 'FEET', options: [
+                            [Translations.getString('sc_set_critter_genome', 'op0'), 'bird'],
+                            [Translations.getString('sc_set_critter_genome', 'op1'), 'horse'],
+                            [Translations.getString('sc_set_critter_genome', 'op2'), 'monkey'],
+                            [Translations.getString('sc_set_critter_genome', 'op3'), 'penguin'],
+                            [Translations.getString('sc_set_critter_genome', 'op4'), 'rat'],
+                            [Translations.getString('sc_set_critter_genome', 'op5'), 'trex']
+                        ]
+                        }
+                    ],
+                    previousStatement: true,
+                    nextStatement: true,
+                    colour: 210
+                });
+            },
+            starcoder: {}
+        };
+
+        Blockly.JavaScript['sc_set_critter_genome'] = function (block) {
+            let head = block.getFieldValue('HEAD');
+            let torso = block.getFieldValue('TORSO');
+            let feet = block.getFieldValue('FEET');
+            return 'setCritterGenome("' + head + '", "' + torso + '", "' + feet + '")';
+        };
+
         /**
          * scan - test implementation
          *

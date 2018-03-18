@@ -808,6 +808,18 @@ API.setSeederProperties = function (player, trunkLength, branchFactor, branchDec
 };
 
 /**
+ * Set properties for spawned critters
+ *
+ * @param player {Player}
+ * @param head {string|number}
+ * @param torso {string|number}
+ * @param feet {string|number}
+ */
+API.setCritterGenome = function (player, head, torso, feet) {
+    player.getShip().critterGenome = [head, torso, feet];
+};
+
+/**
  * set timer for delayed or repeating actions
  *
  * @param player {Player}

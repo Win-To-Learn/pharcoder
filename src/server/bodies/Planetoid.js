@@ -69,7 +69,7 @@ Planetoid.prototype.plantTree = function (x, y, ship) {
         self.trees.push(tree);
         tree.planetoid = self;
         if (self.trees.length >= 5 && !self.bloomed) {
-            self.bloom()
+            self.bloom(ship);
         }
 
         setInterval(function(){
@@ -87,8 +87,7 @@ Planetoid.prototype.plantTree = function (x, y, ship) {
     });
 };
 
-
-Planetoid.prototype.bloom = function () {
+Planetoid.prototype.bloom = function (ship) {
     for (var i = 0; i < this.trees.length; i++) {
         var tree = this.trees[i];
         var sf = 0.7;
@@ -114,7 +113,8 @@ Planetoid.prototype.bloom = function () {
     cy = this.position[1] + this.vectorScale * 2.25 * Math.sin(a);
     var critter = this.worldapi.addSyncableBody(Critter, {
         position: [cx, cy],
-        angle: b
+        angle: b,
+        genome: ship.critterGenome
     });
     critter.attachmentConstraint = new p2.RevoluteConstraint(this, critter, {
         worldPivot: this.position

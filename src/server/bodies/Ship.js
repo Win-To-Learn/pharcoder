@@ -38,6 +38,7 @@ var Ship = function (starcoder, config) {
         spread: 90,
         trunkLength: 2
     };
+    this.critterGenome = [0, 0, 0];
     var self = this;
     this.invulnerable = true;
 
