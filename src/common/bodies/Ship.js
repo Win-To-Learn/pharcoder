@@ -33,6 +33,7 @@ module.exports = {
         playerid: 'string',
         charge: 'uint8',
         trees: 'uint16',
-        thrustState: 'uint8'
+        thrustState: 'uint8',
+        particleTTL: 'ufixed32'
     }
 };

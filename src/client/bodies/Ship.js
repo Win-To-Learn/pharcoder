@@ -81,6 +81,16 @@ Ship.prototype.update = function () {
     }
 };
 
+Object.defineProperty(Ship.prototype, 'particleTTL', {
+    get: function () {
+        return this._particleTTL;
+    },
+    set: function (val) {
+        this._particleTTL = val;
+        this._dirty = true;
+    }
+});
+
 Object.defineProperty(Ship.prototype, 'tag', {
     get: function () {
         return this._tag;

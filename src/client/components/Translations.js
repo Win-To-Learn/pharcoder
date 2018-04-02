@@ -92,6 +92,7 @@ strings['en']['sc_set_critter_genome']['op2'] = "monkey";
 strings['en']['sc_set_critter_genome']['op3'] = "penguin";
 strings['en']['sc_set_critter_genome']['op4'] = "rat";
 strings['en']['sc_set_critter_genome']['op5'] = "t-rex";
+strings['en']['sc_set_particle_life'] = 'set exhaust particle life to %1 seconds';
 
 // Spanish
 categories['es'] = {};
@@ -177,7 +178,7 @@ strings['es']['sc_set_critter_genome']['op2'] = "monkey";
 strings['es']['sc_set_critter_genome']['op3'] = "penguin";
 strings['es']['sc_set_critter_genome']['op4'] = "rat";
 strings['es']['sc_set_critter_genome']['op5'] = "t-rex";
-
+strings['es']['sc_set_particle_life'] = 'set exhaust particle life to %1 seconds';
 
 let Translations = {
     setLanguage: function (newlang) {

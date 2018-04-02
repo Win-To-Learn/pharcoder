@@ -10,14 +10,14 @@ var SimpleParticle = require('./SimpleParticle.js');
 var _textureKey = 'thrust';
 
 // Pooling parameters
-var _minPoolSize = 300;
+var _minPoolSize = 10000;
 var _minFreeParticles = 20;
 var _softPoolLimit = 200;
 var _hardPoolLimit = 500;
 
 // Behavior of emitter
 var _particlesPerBurst = 5;
-var _particleTTL = 150;
+//var _particleTTL = 150;
 var _particleBaseSpeed = 5;
 var _coneLength = 1;
 var _coneWidthRatio = 0.2;
@@ -40,7 +40,7 @@ var ThrustGenerator = function (game) {
 ThrustGenerator.prototype = Object.create(Phaser.Group.prototype);
 ThrustGenerator.prototype.constructor = ThrustGenerator;
 
-ThrustGenerator.prototype.startOn = function (ship) {
+ThrustGenerator.prototype.startOn = function (ship, ttl) {
     this.thrustingShips[ship.id] = ship;
 };
 
@@ -51,7 +51,7 @@ ThrustGenerator.prototype.stopOn = function (ship) {
 ThrustGenerator.prototype.update = function () {
     var keys = Object.keys(this.thrustingShips);
     for (var i = 0, l = keys.length; i < l; i++) {
-        var ship = this.thrustingShips[keys[i]];
+        var ship = this.thrustingShips[keys[i]];    
         var w = ship.width;
         var sin = Math.sin(ship.rotation);
         var cos = Math.cos(ship.rotation);
@@ -64,7 +64,7 @@ ThrustGenerator.prototype.update = function () {
             var d = this.game.rnd.realInRange(-_coneWidthRatio*w, _coneWidthRatio*w);
             var x = ship.x + d*cos + _engineOffset*sin;
             var y = ship.y + d*sin - _engineOffset*cos;
-            particle.lifespan = _particleTTL;
+            particle.lifespan = ship.particleTTL;
             particle.reset(x, y);
             //particle.body.velocity.x = _particleBaseSpeed*(_coneLength*sin - d*cos);
             //particle.body.velocity.y = _particleBaseSpeed*(-_coneLength*cos - d*sin);

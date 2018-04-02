@@ -53,6 +53,7 @@ var Ship = function (starcoder, config) {
     // Engine
     this.thrustForce = 500.001;
     this.turningForce = 25;
+    this._particleTTL = 150;
     // Weapons system
     this.charge = 8;
     this.maxCharge = 5;
@@ -271,6 +272,17 @@ Ship.prototype.beginContact = function (other) {
     }
 };
 
+Object.defineProperty(Ship.prototype, 'particleTTL', {
+    get: function () {
+        return this._particleTTL;
+    },
+    set: function (val) {
+        this._particleTTL = val;
+        this._dirtyProperties.particleTTL = true;
+    }
+});
+
+
 Object.defineProperty(Ship.prototype, 'crystals', {
     get: function () {
         return this._crystals;
@@ -280,7 +292,6 @@ Object.defineProperty(Ship.prototype, 'crystals', {
         this._dirtyProperties.crystals = true;
     }
 });
-
 
 Object.defineProperty(Ship.prototype, 'trees', {
     get: function () {

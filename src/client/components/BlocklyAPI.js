@@ -224,6 +224,38 @@ module.exports = {
             return 'setShipScale(' + arg + ');\n';
         };
 
+        /**
+         * Set particle lifetime
+         * @type {{init: Function}}
+         */
+        Blockly.Blocks['sc_set_particle_life'] = {
+            init: function () {
+                this.jsonInit({
+                    message0: Translations.getString('sc_set_particle_life'),
+                    args0: [{type: 'input_value', name: 'VALUE', check: 'Number'}],
+                    previousStatement: null,
+                    nextStatement: null,
+                    colour: 160
+                });
+            },
+            starcoder: {
+                defaults: [
+                    {type: 'block', name: 'VALUE', subtype: 'math_number', value: 1.5}
+                ]
+            }
+        };
+
+        /**
+         * Code generation for set_particle_life
+         *
+         * @param block
+         * @returns {string}
+         */
+        Blockly.JavaScript['sc_set_particle_life'] = function (block) {
+            var arg = Blockly.JavaScript.valueToCode(block, 'VALUE', Blockly.JavaScript.ORDER_NONE) || '1';
+            return 'setParticleLife(' + arg + ');\n';
+        };
+
 
         Blockly.Blocks['sc_change_shape'] = {
             init: function () {

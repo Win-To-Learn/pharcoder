@@ -789,6 +789,17 @@ API.rotate = function (player, angle) {
 };
 
 /**
+ * Set time to live for exhaust particles
+ *
+ * @param player {Player}
+ * @param ttl {number} - particle lifespan in seconds
+ *
+ */
+API.setParticleLife = function (player, ttl) {
+    player.getShip().particleTTL = 1000 * max(0, min(10, ttl));
+};
+
+/**
  * Set properties for planted trees
  *
  * @param player {Player}
