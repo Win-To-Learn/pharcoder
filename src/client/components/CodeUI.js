@@ -246,11 +246,15 @@ module.exports = {
         }
     },
 
-    addCodeLabel: function (label) {
+    addCodeLabel: function (label, delayRefresh) {
         if (this.codeLabelCache[label] || label.length < 1) {
             return;
         }
-        $('#select-code').append('<option>' + label + '</option>').selectmenu('refresh');
+        let $select = $('#select-code').append('<option>' + label + '</option>');
+        if (!delayRefresh) {
+            $select.selectmenu('refresh');
+        }
+        this.codeLabelCache[label] = true;
     },
 
     setCodeForUI: function (code) {

@@ -26,7 +26,11 @@ module.exports = {
         });
         socket.on('code labels', function (labels) {
             for (var i = 0, l = labels.length; i < l; i++) {
-                self.addCodeLabel(labels[i]);
+                if (i < (l - 1)) {
+                    self.addCodeLabel(labels[i], true);
+                } else {
+                    self.addCodeLabel(labels[i], false);
+                }
             }
         });
     },
