@@ -353,6 +353,19 @@ API.shoot = function (player) {
 };
 
 /**
+ * Particles On
+ *
+ * @param player {Player}
+ */
+API.particleson = function (player, timeOn) {
+    var ship = player.getShip();
+    ship.thrustState = 1;
+    setTimeout(function(){
+        ship.thrustState = 0;
+    }, timeOn*1000)
+};
+
+/**
  * Fire thruster in one pulse
  *
  * @param player {Player}
@@ -361,7 +374,7 @@ API.thrust = function (player, force) {
     var ship = player.getShip();
     ship.state.thrust = force;
     setTimeout(function(){ship.state.thrust = 0;}, 500)
-    //ship.state.thrust = false;
+    
 };
 
 

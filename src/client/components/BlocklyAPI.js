@@ -393,6 +393,36 @@ module.exports = {
             return 'shoot();\n';
         };
 
+        /*
+         * particles on
+         */
+        Blockly.Blocks['sc_particleson'] = {
+
+            init: function () {
+                this.jsonInit({
+                    message0: Translations.getString('sc_particleson'),
+                    args0: [{type: 'input_value', name: 'VALUE', check: 'Number'}],
+                    previousStatement: null,
+                    nextStatement: null,
+                    colour: 180
+                });
+            },
+            starcoder: {
+                defaults: [
+                    {type: 'block', name: 'VALUE', subtype: 'math_number', value: 1}
+                ]
+            }
+        };
+
+        /*
+         * code generation for particles on
+         */
+
+        Blockly.JavaScript['sc_particleson'] = function (block) {
+            var arg = Blockly.JavaScript.valueToCode(block, 'VALUE', Blockly.JavaScript.ORDER_NONE) || '1';
+            return 'particleson(' + arg + ');\n';
+        };
+
 
         /*
          * thrust
