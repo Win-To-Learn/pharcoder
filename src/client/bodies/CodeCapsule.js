@@ -15,8 +15,8 @@ var Paths = require('../../common/Paths.js');
 
 var CodeCapsule = function (game, config) {
     VectorSprite.call(this, game, config);
-    this.label = game.add.text(-3, 0, 'NEW CODE',
-        {font: 'bold 10px Arial', fill: this.lineColor || '#ffffff', align: 'center'});
+    this.label = game.add.text(-3, 0, 'CODE',
+        {font: 'bold 14px Arial', fill: this.lineColor || '#ffffff', align: 'center'});
     this.label.anchor.setTo(0.5);
     this.label.angle = 90;
     this.addChild(this.label);
