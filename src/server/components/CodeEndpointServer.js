@@ -183,20 +183,20 @@ module.exports = {
 
             }
             try {
-                if (player.interpreter) {
-                    // Code already running - push onto queue
-                    //player.codeQueue.push(code);
-                    player.interpreter.addEvent(code);
-                } else {
-                    // No code running - create an code and start scheduling steps
-                    //player.code = new Interpreter(code, self.initInterpreter.bind(self));
-                    //player.code = self.newInterpreter(code, player);
-                    player.interpreter = new Interpreter(player);
-                    player.interpreter.addEvent(code);
-                    setTimeout(self.interpreterStep.bind(self), self.config.interpreterRate * 1000, player);
-                    player.interpreter.lastIdle = self.hrtime();
-                    player.interpreter.lastStatus = 'ok';
-                }
+                // if (player.interpreter) {
+                //     // Code already running - push onto queue
+                //     //player.codeQueue.push(code);
+                //     player.interpreter.addEvent(code);
+                // } else {
+                // No code running - create an code and start scheduling steps
+                //player.code = new Interpreter(code, self.initInterpreter.bind(self));
+                //player.code = self.newInterpreter(code, player);
+                player.interpreter = new Interpreter(player);
+                player.interpreter.addEvent(code);
+                setTimeout(self.interpreterStep.bind(self), self.config.interpreterRate * 1000, player);
+                player.interpreter.lastIdle = self.hrtime();
+                player.interpreter.lastStatus = 'ok';
+                // }
             } catch (error) {
                 self.sendCodeMessage(player, 'syntax error', error);
             }
