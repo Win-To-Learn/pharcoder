@@ -22,6 +22,7 @@ module.exports = {
                 self.getPlayerById(ticket.identity).then(function (player) {
                     player.toggleTutorial(ticket.tutorial);
                     if (player) {
+                        self.updateLastLogin(player);
                         self.loginSuccess(socket, player);
                     } else {
                         self.loginFailure(socket, 'Login failure');

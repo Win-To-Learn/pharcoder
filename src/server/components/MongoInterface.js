@@ -360,6 +360,10 @@ module.exports = {
         }, this.handleDBError.bind(this))
     },
 
+    updateLastLogin: function (player) {
+        this.mongoPeople.findOneAndUpdate({username: player.gamertag}, {$push: {logins: new Date()}});
+    },
+
     handleDBError: function (err) {
         // FIXME: be smarter
         console.log('DB Error', err);
