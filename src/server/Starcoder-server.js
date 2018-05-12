@@ -43,6 +43,7 @@ Starcoder.prototype.init = function (app, io) {
     this.implementFeature(require('./components/TutorialInterface.js'));
     this.implementFeature(require('./components/TicketHandler.js'));
     this.implementFeature(require('./components/MessageInterface.js'));
+    this.implementFeature(require('./components/LogoHandler'));
     this.newLeaderBoardCategory('Ships Tagged');
     this.newLeaderBoardCategory('Tag Streak');
     this.newLeaderBoardCategory('Trees Planted');

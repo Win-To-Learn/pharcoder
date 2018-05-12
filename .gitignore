@@ -3,6 +3,9 @@
 # Used for editing examples for .md files
 example.js
 
+# Moved to disable
+*.off
+
 .DS_Store/
 
 js/

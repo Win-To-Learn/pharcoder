@@ -154,6 +154,7 @@ module.exports = {
             self.mongoGuests = db.collection('guests');
             self.mongoRegimes = db.collection('regimes');
             self.mongoExtra = db.collection('extra');
+            self.mongoOrgs = db.collection('testorganizations');
             self.mongoHighscores = db.collection('highscores');
             self.events.emit('dbConnected');
             self.semDec();
@@ -362,6 +363,21 @@ module.exports = {
 
     updateLastLogin: function (player) {
         this.mongoPeople.findOneAndUpdate({username: player.gamertag}, {$push: {logins: new Date()}});
+    },
+
+    getLogoByPlayerId: function (uid) {
+        let self = this;
+        return this.mongoPeople.findOne({_id: new ObjectId(uid)}).then(function (player) {
+            if (!player || !player.organization) {
+                throw 'Player error';
+            }
+            return self.mongoOrgs.findOne({_id: player.organization}).then(function (org) {
+                if (!org || !org.logo) {
+                    throw 'Organization error';
+                }
+                return org.logo.read(0, org.logo.length());
+            });
+        });
     },
 
     handleDBError: function (err) {

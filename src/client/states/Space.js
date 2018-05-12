@@ -183,6 +183,18 @@ Space.prototype.create = function () {
     this.game.sscarousel = new SSCarousel(this.game, this.game.width/2, this.game.height/2);
     this.game.ui.add(this.game.sscarousel);
 
+    // Logo
+    if (this.starcoder.player.role === 'player') {
+        this.game.load.image('partnerlogo', '/api/logo/' + this.starcoder.player.id);
+        this.game.load.onLoadComplete.addOnce(function () {
+            if (self.game.cache.checkKey(Phaser.Cache.IMAGE, 'partnerlogo')) {
+                let logo = self.game.make.image(self.game.width * 0.75, 20, 'partnerlogo');
+                logo.anchor.set(0.5, 0);
+                self.game.ui.add(logo);
+            }
+        });
+    }
+
     // Links
     for (var i = 0; i < sc.config.links.length; i++) {
         var spec = sc.config.links[i];

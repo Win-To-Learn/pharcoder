@@ -62,7 +62,7 @@ module.exports = {
         //socket.on('disconnect', this.disconnect.bind(this, socket, player));
         socket.removeAllListeners('login');
         //socket.emit('logged in', player.msgNew());
-        socket.emit('loginSuccess', {id: player.id});
+        socket.emit('loginSuccess', {id: player.id, username: player.gamertag, role: player.role});
     },
 
     loginFailure: function (socket, msg) {
