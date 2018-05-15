@@ -110,6 +110,7 @@ Loader.prototype.preload = function () {
     //this.game.load.video('defeathydra', 'assets/video/defeathydra.mp4');
     // Thumbnails
     this.game.load.pack('thumbs', 'assets/video/thumbs.json');
+
 };
 
 Loader.prototype.update = function () {

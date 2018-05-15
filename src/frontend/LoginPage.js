@@ -14,6 +14,12 @@ var LoginPage = function (config) {
         }
     }
 
+    // add local option for testing if running on localhost
+    if (location.hostname === 'localhost' || location.hostname === '127.0.0.1') {
+        $('#server1').prepend('<option value="local">Local</option>');
+        $('#server2').prepend('<option value="local">Local</option>');
+    }
+
     $('.select').selectmenu();
     $('.loginbutton').button({icons: {primary: 'ui-icon-triangle-1-e'}});
     $('.accordion').accordion({active: 1, heightStyle: 'content'});
@@ -63,7 +69,11 @@ LoginPage.prototype.doLogin = function (data) {
 };
 
 LoginPage.prototype.loginSuccess = function (data, status) {
+    // if (data.server) {
+    //     window.location.assign(data.server + '/' + data.goto);
+    // } else {
     window.location.assign(data.goto);
+    //}
 };
 
 LoginPage.prototype.loginError = function (jq, status, httpError) {

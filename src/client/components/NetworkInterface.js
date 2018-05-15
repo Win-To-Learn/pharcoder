@@ -55,10 +55,10 @@ module.exports = {
             method: 'GET',
             success: function (data, status) {
                 //console.log('data', data);
-                var serverUri = data.serverUri;
+                self.serverUri = data.serverUri;
                 self.ticketid = data.ticketid;      // FIXME
                 //self.player = data.player;
-                self.socket = self.io(serverUri, self.config.ioClientOptions);
+                self.socket = self.io(self.serverUri, self.config.ioClientOptions);
                 self.socket.on('connect', function () {
                     self.events.emit('connect', self.socket);
                 })

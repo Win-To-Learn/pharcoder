@@ -14,6 +14,7 @@ module.exports = {
     getLogo (req, res) {
         this.getLogoByPlayerId(req.params.uid).then(function (img) {
             res.set('Content-Type', 'image/png');
+            res.set('Access-Control-Allow-Origin', '*');
             res.send(img);
         }, function (err) {
             res.sendStatus(404);

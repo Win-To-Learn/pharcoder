@@ -185,7 +185,9 @@ Space.prototype.create = function () {
 
     // Logo
     if (this.starcoder.player.role === 'player') {
-        this.game.load.image('partnerlogo', '/api/logo/' + this.starcoder.player.id);
+        this.game.load.crossOrigin = 'anonymous';
+        this.game.load.image('partnerlogo', this.starcoder.serverUri + '/api/logo/' + this.starcoder.player.id);
+        //this.game.load.image('partnerlogo', '/api/logo/' + this.starcoder.player.id);
         this.game.load.onLoadComplete.addOnce(function () {
             if (self.game.cache.checkKey(Phaser.Cache.IMAGE, 'partnerlogo')) {
                 let logo = self.game.make.image(self.game.width * 0.75, 20, 'partnerlogo');

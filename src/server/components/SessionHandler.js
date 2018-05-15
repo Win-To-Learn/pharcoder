@@ -75,7 +75,7 @@ module.exports = {
                                 req.session.ticketid = ticketid;
                                 //req.session.tutorial = req.body.tutorial;
                                 req.session.server = server;
-                                res.status(200).send({goto: 'play.html'}).end();
+                                res.status(200).send({goto: 'play.html', server: server}).end();
                             });
                         }
                     });
@@ -89,7 +89,7 @@ module.exports = {
                 req.session.ticketid = ticketid;
                 req.session.tutorial = req.body.tutorial;
                 req.session.server = server;
-                res.status(200).send({goto: 'play.html'}).end();
+                res.status(200).send({goto: 'play.html', server: server}).end();
             });
         } else if (req.body.code) {
             bcrypt.hash(req.body.pass, 8, function (err, hash) {
@@ -100,7 +100,7 @@ module.exports = {
                         req.session.ticketid = ticketid;
                         //req.session.tutorial = req.body.tutorial;
                         req.session.server = 'FIXME';
-                        res.status(200).send({goto: 'play.html'}).end();
+                        res.status(200).send({goto: 'play.html', server: server}).end();
                     }, function (reason) {
                         //console.log('uhoh', reason, reason.stack);
                         res.status(200).send({goto: 'login.html'}).end();

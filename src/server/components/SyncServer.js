@@ -44,6 +44,7 @@ var altsync = function () {
     for (var i = 0; i < this.playerList.length; i++) {
         var player = this.playerList[i];
         if (player.newborn) {
+            //console.log('new player', player);
             newplayers.push(player);
             continue;
         }

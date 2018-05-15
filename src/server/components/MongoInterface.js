@@ -250,10 +250,10 @@ module.exports = {
      */
     getPlayerById: function (id, skipcache) {
         var self = this;
-        if (!skipcache) {
-            var p = this.getCachedObject('player', id);
-        }
-        if (!p) {
+        // if (!skipcache) {
+        //     var p = this.getCachedObject('player', id);
+        // }
+        if (true) {
             return this.mongoFind(this.mongoPeople, {_id: new ObjectId(id)}, 1).then(function (player) {
                 if (player) {
                     self.cacheObject('player', id, player, 10000);
