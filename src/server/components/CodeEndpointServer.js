@@ -191,9 +191,16 @@ module.exports = {
                 // No code running - create an code and start scheduling steps
                 //player.code = new Interpreter(code, self.initInterpreter.bind(self));
                 //player.code = self.newInterpreter(code, player);
+                if (player.interpreter) {
+                    player.interpreter.cleanup();
+                    if (player.interpreter.nextTimeout) {
+                        clearTimeout(player.interpreter.nextTimeout);
+                        player.interpreter.nextTimeout = null;
+                    }
+                }
                 player.interpreter = new Interpreter(player);
                 player.interpreter.addEvent(code);
-                setTimeout(self.interpreterStep.bind(self), self.config.interpreterRate * 1000, player);
+                player.interpreter.nextTimeout = setTimeout(self.interpreterStep.bind(self), self.config.interpreterRate * 1000, player);
                 player.interpreter.lastIdle = self.hrtime();
                 player.interpreter.lastStatus = 'ok';
                 // }
@@ -377,8 +384,8 @@ module.exports = {
                 player.interpreter.lastStatus = 'warn';
             }
             // Schedule next step
-            setTimeout(this.interpreterStep.bind(this), this.config.interpreterRate * 1000, player);
-        } else {
+            player.interpreter.nextTimeout = setTimeout(this.interpreterStep.bind(this), this.config.interpreterRate * 1000, player);
+        } else if (player.interpreter) {
             // Done for now
             player.interpreter.cleanup();
             player.interpreter = null;
