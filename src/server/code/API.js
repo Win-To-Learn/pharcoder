@@ -293,6 +293,9 @@ API.closestBody = function (player, bodytype) {
     var closeBody;
     for (var i = 0, l = ship.world.bodies.length; i < l; i++) {
         var target = ship.world.bodies[i];
+        if (target === ship) {
+            continue;
+        }
         if (target.serverType && (bodytype === target.serverType)) {
             distance = Math.sqrt((x - target.position[0]) * (x - target.position[0]) + (y - target.position[1]) * (y - target.position[1]));
             if (distance < prev_distance) {
