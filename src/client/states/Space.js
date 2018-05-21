@@ -97,6 +97,7 @@ Space.prototype.create = function () {
     this.game.sounds.reward2 = this.game.sound.add('reward2', 1, false);
     this.game.sounds.reward3 = this.game.sound.add('reward3', 1, false);
     this.game.sounds.reward4 = this.game.sound.add('reward4', 1, false);
+    this.game.sounds.reward5 = this.game.sound.add('reward5', 1, false);
 
     this.game.sounds.music = this.game.sound.add('music', 0.2, true);
     this.game.sounds.music.play();

@@ -73,7 +73,7 @@ Interpreter.prototype.wrapNativeJS = function (func) {
             args.push(interpToNative[arguments[i].type](arguments[i]));
         }
         var r = func.apply(self, args);
-        if (r) {
+        if (typeof r !== 'undefined') {
             return nativeToInterp[typeof r](self, r);
         }
         //if (func.async) {

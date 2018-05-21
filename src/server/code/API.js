@@ -244,13 +244,13 @@ API.directionsToPoints = function (player, directions) {
 };
 
 /**
- * Returns an array of all bodies within range units of body, optionally filtered by bodytype
+ * Distance to closest body
  *
  * @param player {Player}
  * @param body {p2.Body}
  * @param range {number}
  * @param bodytype {string}
- * @returns {Array}
+ * @returns {number}
  */
 API.distanceScan = function (player, bodytype) {
     var ship = player.getShip();
@@ -261,6 +261,9 @@ API.distanceScan = function (player, bodytype) {
     var result = [];
     for (var i = 0, l = ship.world.bodies.length; i < l; i++) {
         var target = ship.world.bodies[i];
+        if (target === ship) {
+            continue;
+        }
         if (target.serverType && (bodytype === target.serverType)) {
             distance = Math.sqrt((x - target.position[0]) * (x - target.position[0]) + (y - target.position[1]) * (y - target.position[1]));
             if (distance < prev_distance) {
@@ -294,7 +297,7 @@ API.closestBody = function (player, bodytype) {
             distance = Math.sqrt((x - target.position[0]) * (x - target.position[0]) + (y - target.position[1]) * (y - target.position[1]));
             if (distance < prev_distance) {
                 prev_distance = distance;
-                closeBody =target;
+                closeBody = target;
             }
         }
     }

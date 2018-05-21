@@ -73,6 +73,7 @@ Loader.prototype.preload = function () {
     this.game.load.audio('reward2', 'assets/sounds/reward2.mp3');
     this.game.load.audio('reward3', 'assets/sounds/reward3.mp3');
     this.game.load.audio('reward4', 'assets/sounds/reward4.mp3');
+    this.game.load.audio('reward5', 'assets/sounds/reward5.mp3');
 
     this.game.load.audio('photo', 'assets/sounds/photo.ogg');
     this.game.load.audio('levelup', 'assets/sounds/levelup.mp3');
