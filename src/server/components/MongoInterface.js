@@ -142,7 +142,12 @@ module.exports = {
      */
     mongoConnect: function () {
         var self = this;
-        MongoClient.connect(this.config.mongoUri, function (err, client) {
+        let options = {
+            autoReconnect: true,
+            reconnectTries: Number.MAX_VALUE,
+            reconnectInterval: 5000
+        };
+        MongoClient.connect(this.config.mongoUri, options, function (err, client) {
             if (err) {
                 console.log('Could not connect to MongoDB. Exiting.');
                 process.exit(1);
