@@ -1111,7 +1111,9 @@ API.createTurret = function (player) {
  * @param direction
  */
 API.aimTurret = function (player, turret, direction) {
-    turret.__body.aim = direction;
+    if (turret && turret.__body) {
+        turret.__body.aim = direction;
+    }
 };
 
 /**
@@ -1122,7 +1124,9 @@ API.aimTurret = function (player, turret, direction) {
  * @param direction
  */
 API.fireTurret = function (player, turret) {
-    turret.__body.fire();
+    if (turret && turret.__body) {
+        turret.__body.fire();
+    }
 };
 
 /**
