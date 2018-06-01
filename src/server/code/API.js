@@ -115,7 +115,7 @@ API.changeShipColor = function (player, color) {
             player.timestamp_old = player.timestamp_new;
     }
 };
-
+API.changeShipColor.meta = [{type: 'string'}];
 
 /**
  * Set outline / physics shape for body
@@ -206,7 +206,15 @@ API.changeShipShape = function (player, shape) {
 
     }
 };
+API.changeShipShape.meta = [{type: 'array'}];
 
+/**
+ * Convert array of turtle graphics like directions to array of point
+ *
+ * @param player {Player
+ * @param directions {array}
+ * @returns {*[]}
+ */
 API.directionsToPoints = function (player, directions) {
     var x = 0, y = 0;
     var heading = Math.PI / 2;
@@ -242,13 +250,12 @@ API.directionsToPoints = function (player, directions) {
     }
     return shape;
 };
+API.directionsToPoints.meta = [{type: 'array'}];
 
 /**
  * Distance to closest body
  *
  * @param player {Player}
- * @param body {p2.Body}
- * @param range {number}
  * @param bodytype {string}
  * @returns {number}
  */
@@ -273,13 +280,12 @@ API.distanceScan = function (player, bodytype) {
     }
     return prev_distance;
 };
+API.distanceScan.meta = [{type: 'string'}];
 
 /**
  * Returns an array of all bodies within range units of body, optionally filtered by bodytype
  *
  * @param player {Player}
- * @param body {p2.Body}
- * @param range {number}
  * @param bodytype {string}
  * @returns {Array}
  */
@@ -306,6 +312,7 @@ API.closestBody = function (player, bodytype) {
     }
     return closeBody;
 };
+API.closestBody.meta = [{type: 'string'}];
 
 /**
  * Returns an array of all bodies within range units of body, optionally filtered by bodytype
@@ -334,6 +341,7 @@ API.scan = function (player, body, range, bodytype) {
     }
     return result;
 };
+API.scan.meta = [{type: 'object'}, {type: 'number'}, {type: 'string', optional: true}];
 
 /**
  * Scan centered around player ship
@@ -346,6 +354,7 @@ API.localScan = function (player, bodytype) {
     var ship = player.getShip();
     return API.scan(player, ship, ship.scanRange || 25, bodytype);
 };
+API.localScan.meta = [{type: 'string'}];
 
 /**
  * Fire one shot
@@ -357,6 +366,7 @@ API.shoot = function (player) {
     ship.state.firing = true;
     ship.state.oneshot = true;
 };
+API.shoot.meta = [];
 
 /**
  * Particles On
@@ -370,6 +380,7 @@ API.particleson = function (player, timeOn) {
         ship.thrustState = 0;
     }, timeOn*1000)
 };
+API.particleson.meta = [{type: 'number'}];
 
 /**
  * Fire thruster in one pulse
@@ -382,7 +393,7 @@ API.thrust = function (player, force) {
     setTimeout(function(){ship.state.thrust = 0;}, 500)
     
 };
-
+API.thrust.meta = [{type: 'number'}];
 
 /**
  * Turn in one pulse
@@ -395,6 +406,7 @@ API.turn = function (player, force) {
     setTimeout(function(){ship.state.turn = 0;}, 500)
     //ship.state.thrust = false;
 };
+API.turn.meta = [{type: 'number'}];
 
 /**
  * Set scale factor for player ship
@@ -449,6 +461,7 @@ API.setShipScale = function (player, scale) {
     player.getShip().vectorScale = clamp(0.2, scale, 3);
 
 };
+API.setShipScale.meta = [{type: 'number'}];
 
 /**
  * Set thrust force for player ship
@@ -463,7 +476,7 @@ API.setThrustForce = function (player, force) {
         player.achieve('changethrust');
     }
 };
-
+API.setThrustForce.meta = [{type: 'number'}];
 
 /**
  * Set turn force for player ship
@@ -478,6 +491,7 @@ API.setTurningForce = function (player, force) {
         player.achieve('changethrust');
     }
 };
+API.setTurningForce.meta = [{type: 'number'}];
 
 /**
  * Move ship to new position
@@ -621,9 +635,9 @@ API.translate = function (player, x, y) {
 
     
     
-    if(arraysEqual(player.oldWarpCoords, [ [ 100, -0 ], [ 200, -0 ], [ 300, -0 ] ])){
-        //console.log("yes array comparison working");
-    }
+    // if(arraysEqual(player.oldWarpCoords, [ [ 100, -0 ], [ 200, -0 ], [ 300, -0 ] ])){
+    //     //console.log("yes array comparison working");
+    // }
 
 
 
@@ -796,6 +810,7 @@ API.translate = function (player, x, y) {
 
     }
 };
+API.translate.meta = [{type: 'number'}, {type: 'number'}];
 
 /**
  * Set heading of player ship
@@ -806,6 +821,7 @@ API.translate = function (player, x, y) {
 API.rotate = function (player, angle) {
     player.getShip().angle = angle * D2R;
 };
+API.rotate.meta = [{type: 'number'}];
 
 /**
  * Set time to live for exhaust particles
@@ -817,6 +833,7 @@ API.rotate = function (player, angle) {
 API.setParticleLife = function (player, ttl) {
     player.getShip().particleTTL = 1000 * max(0, min(10, ttl));
 };
+API.setParticleLife.meta = [{type: 'number'}];
 
 /**
  * Set properties for planted trees
@@ -836,6 +853,7 @@ API.setSeederProperties = function (player, trunkLength, branchFactor, branchDec
     seeder.spread = clamp(30, spread, 160);
     seeder.depth = clamp(1, depth, 5);
 };
+API.setSeederProperties.meta = [{type: 'number'}, {type: 'number'}, {type: 'number'}, {type: 'number'}, {type: 'number'}];
 
 /**
  * Set properties for spawned critters
@@ -848,6 +866,7 @@ API.setSeederProperties = function (player, trunkLength, branchFactor, branchDec
 API.setCritterGenome = function (player, head, torso, feet) {
     player.getShip().critterGenome = [head, torso, feet];
 };
+API.setCritterGenome.meta = [{type: 'number'}, {type: 'number'}, {type: 'number'}];
 
 /**
  * set timer for delayed or repeating actions
@@ -871,6 +890,7 @@ API.setTimer = function (player, func, timeout, repeat) {
     interpreter.toggleEventLoop(true);
 };
 //API.setTimer.async = true;
+API.setTimer.meta = [{type: 'function'}, {type: 'number'}, {type: 'boolean'}];
 
 /**
  * End event loop and allow code to exit
@@ -880,6 +900,7 @@ API.setTimer = function (player, func, timeout, repeat) {
 API.cancelEventLoop = function (player) {
     player.interpreter.toggleEventLoop(false);
 };
+API.cancelEventLoop.meta = [];
 
 /**
  * Return selected properties of body
@@ -904,6 +925,7 @@ API.getBodyProperty = function (player, body, property) {
             return sqrt(dx*dx+ dy*dy);
     }
 };
+API.getBodyProperty.meta = [{type: 'object'}, {type: 'string'}];
 
 /**
  * Sort array of bodies by distance from player ship
@@ -928,6 +950,7 @@ API.sortByDistance = function (player, bodies, reverse) {
     bodies.sort(cmp);
     return bodies;
 };
+API.sortByDistance.meta = [{type: 'array'}, {type: 'boolean'}];
 
 /**
  * Set player ships heading to face body
@@ -947,6 +970,7 @@ API.pointToBody = function (player, body) {
     var dy = ship.position[1] - body.y;
     ship.angle = -atan2(dx, dy);
 };
+API.pointToBody.meta = [{type: 'object'}];
 
 /**
  * console.log wrapper for testing
@@ -957,6 +981,7 @@ API.pointToBody = function (player, body) {
 API.log = function (player, msg) {
     console.log(msg);
 };
+API.log.meta = [{type: 'string'}];
 
 /**
  * Turn music on
@@ -966,6 +991,7 @@ API.log = function (player, msg) {
 API.musicOn = function (player) {
     starcoder.sendMessage(player, 'music', 'on');
 };
+API.musicOn.meta = [];
 
 /**
  * Turn music off
@@ -975,6 +1001,7 @@ API.musicOn = function (player) {
 API.musicOff = function (player) {
     starcoder.sendMessage(player, 'music', 'off');
 };
+API.musicOff.meta = [];
 
 /**
  * Show grid
@@ -984,6 +1011,7 @@ API.musicOff = function (player) {
 API.showGrid = function (player) {
     starcoder.sendMessage(player, 'grid', 'on');
 };
+API.showGrid.meta = [];
 
 /**
  * Hide grid
@@ -993,6 +1021,7 @@ API.showGrid = function (player) {
 API.hideGrid = function (player) {
     starcoder.sendMessage(player, 'grid', 'off');
 };
+API.hideGrid.meta = [];
 
 /**
  * Show a short text string on the screen
@@ -1003,7 +1032,7 @@ API.hideGrid = function (player) {
 API.alert = function (player, text) {
     starcoder.sendMessage(player, 'alert', text);
 };
-
+API.alert.meta = [{type: 'string'}];
 
 var messageWhitelist = [
     "nice job!",
@@ -1025,7 +1054,7 @@ var messageWhitelist = [
 API.broadcast = function (player, msgid) {
     starcoder.broadcastMessage('alert', {tag: player.gamertag, msg: msgid});
 };
-
+API.broadcast.meta = [{type: 'number'}];
 
 /**
  * Create StationBlock
@@ -1081,13 +1110,12 @@ function _normalizeShape (shape) {
         throw new SCError('Path cannot cross itself');
     }
 }
-
+API.createStationBlock.meta = [{type: 'array'}];
 
 /**
  * Create Turret
  *
  * @param player
- * @param shape
  */
 API.createTurret = function (player) {
     var ship = player.getShip();
@@ -1101,7 +1129,7 @@ API.createTurret = function (player) {
     ship.turrets.push(turret);
     return turret;
 };
-
+API.createTurret.meta = [];
 
 /**
  * Aim turret in direction (0 = turret facing)
@@ -1115,6 +1143,7 @@ API.aimTurret = function (player, turret, direction) {
         turret.__body.aim = direction;
     }
 };
+API.aimTurret.meta = [{type: 'object'}, {type: 'number'}];
 
 /**
  * Shoot in direction of turret aim
@@ -1128,16 +1157,21 @@ API.fireTurret = function (player, turret) {
         turret.__body.fire();
     }
 };
+API.fireTurret.meta = [{type: 'object'}];
 
 /**
- * Return array of turrets created by player
+ * Return turret created by player
  *
  * @param player
  * @param val
- * @returns {Array}
+ * @returns {Turret}
  */
 API.getTurret = function (player, val) {
+    if (typeof val === 'undefined') {
+        val = 0;
+    }
     return player.getShip().turrets[val];
 };
+API.getTurret.meta = [{type: 'number', optional: true}];
 
 module.exports = API;

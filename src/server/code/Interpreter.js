@@ -66,13 +66,31 @@ Interpreter.prototype.cleanup = function () {
 };
 
 Interpreter.prototype.wrapNativeJS = function (func) {
-    var self = this;
-    var wrapper = function () {
-        var args = [self.player];
-        for (var i = 0, l = arguments.length; i < l; i++) {
-            args.push(interpToNative[arguments[i].type](arguments[i]));
+    let self = this;
+    let meta = func.meta || [];
+    let wrapper = function () {
+        let args = [self.player];
+        // for (let i = 0, l = arguments.length; i < l; i++) {
+        //     args.push(interpToNative[arguments[i].type](arguments[i]));
+        // }
+        if (arguments.length > meta.length) {
+            throw {name: 'Too many arguments'};
         }
-        var r = func.apply(self, args);
+        for (let i = 0; i < meta.length; i++) {
+            let arg = arguments[i];
+            let argcheck = meta[i];
+            if (typeof arg === 'undefined' && !argcheck.optional) {
+                throw {name: 'Missing argument'};
+            }
+            // Could perhaps to more / better type checking here
+            if ((argcheck.type === 'array' && (arg.type !== 'object' || !arg.properties.length)) ||
+                (argcheck.type !== arg.type)) {
+                throw {name: 'Wrong argument type'}
+            } else {
+                args.push(interpToNative[arg.type](arg));
+            }
+        }
+        let r = func.apply(self, args);
         if (typeof r !== 'undefined') {
             return nativeToInterp[typeof r](self, r);
         }
