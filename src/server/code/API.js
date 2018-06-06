@@ -866,7 +866,7 @@ API.setSeederProperties.meta = [{type: 'number'}, {type: 'number'}, {type: 'numb
 API.setCritterGenome = function (player, head, torso, feet) {
     player.getShip().critterGenome = [head, torso, feet];
 };
-API.setCritterGenome.meta = [{type: 'number'}, {type: 'number'}, {type: 'number'}];
+API.setCritterGenome.meta = [{type: 'string|number'}, {type: 'string|number'}, {type: 'string|number'}];
 
 /**
  * set timer for delayed or repeating actions
