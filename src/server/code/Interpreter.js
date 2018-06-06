@@ -83,12 +83,12 @@ Interpreter.prototype.wrapNativeJS = function (func) {
                 throw {name: 'Missing argument'};
             }
             // Could perhaps to more / better type checking here
-            if ((argcheck.type === 'array' && (arg.type !== 'object' || !arg.properties.length)) ||
-                (argcheck.type !== arg.type)) {
-                throw {name: 'Wrong argument type'}
-            } else {
+            //if ((argcheck.type === 'array' && (arg.type !== 'object' || !arg.properties.length)) ||
+            //    (argcheck.type !== arg.type)) {
+            //    throw {name: 'Wrong argument type'}
+            //} else {
                 args.push(interpToNative[arg.type](arg));
-            }
+            //}
         }
         let r = func.apply(self, args);
         if (typeof r !== 'undefined') {
