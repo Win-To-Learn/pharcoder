@@ -781,6 +781,21 @@ API.translate = function (player, x, y) {
         });
     }
 
+    //checking for solution to challenge 21
+    //you need to multiply the correct Y value by -1 when checking
+    if(ship.position[0]===30 && ship.position[1]===-30) {
+        setTimeout(function () {
+            starcoder.sendMessage(player, 'challengewon3', 'You solved the For Loop Challenge');
+        }, 500);
+        player.getShip().crystals += 250;
+        var temp_data = data;
+        temp_data.to = "jonathanmartinnyc@gmail.com";
+        temp_data.text = 'Your child or student - ' + player.gamertag + ' - completed the For Loop' +
+            ' Challenge';
+        mailgun.messages().send(temp_data, function (error, body) {
+        });
+    }
+
     if(ship.position[0]===200 && ship.position[1]===-0 && player.challenge1===false) {
         player.challenge1 =true;
         starcoder.updatePlayerScore('Code Challenges', player.id, 10);

@@ -211,16 +211,16 @@ Tree.prototype.beginContact = function (other) {
     switch (other.serverType) {
         case 'Ship':
             if (this.owner != other.player) {
-                this.owner = other.player;
-                this.lineColor = other.lineColor;
-                other.player.stats.treesPlanted++;
+                //this.owner = other.player;
+                //this.lineColor = other.lineColor;
+                //other.player.stats.treesPlanted++;
             }
             break;
         case 'Bullet':
             if (other.firer.player != this.owner) {
-                this.owner = other.firer.player;
-                this.lineColor = other.firer.lineColor;
-                other.firer.player.stats.treesPlanted++;
+                //this.owner = other.firer.player;
+                //this.lineColor = other.firer.lineColor;
+                //other.firer.player.stats.treesPlanted++;
             }
     }
 };
