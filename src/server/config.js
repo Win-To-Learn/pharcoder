@@ -17,7 +17,7 @@ module.exports = {
         kill: 10
     },
     playServers: {
-        local: 'http://localhost:7610',
+        local: 'http://localhost:8080',
         east: 'http://pharcoder-dev.elasticbeanstalk.com:7610',
         west: 'http://pharcoder.us-west-1.elasticbeanstalk.com:7610'
     },

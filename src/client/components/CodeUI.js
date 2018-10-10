@@ -150,6 +150,16 @@ module.exports = {
         $('#load-ex20').on('dblclick', function () {
             self.sendCodeMessage('load', "example20");
         });
+        $('#load-ex21').on('dblclick', function () {
+            self.sendCodeMessage('load', "example21");
+        });
+        $('#load-ex22').on('dblclick', function () {
+            self.sendCodeMessage('load', "example22");
+        });
+        $('#load-ex23').on('dblclick', function () {
+            self.sendCodeMessage('load', "example23");
+        });
+
         $('#load-code').on('click', function () {
             var op = $('#select-code option:selected');
             if (op.index() > 0) {

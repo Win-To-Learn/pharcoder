@@ -547,11 +547,13 @@ API.translate = function (player, x, y) {
     var arrSliced5 = player.oldWarpCoords.slice(player.oldWarpCoords.length-5,player.oldWarpCoords.length);
     var arrSliced6 = player.oldWarpCoords.slice(player.oldWarpCoords.length-6,player.oldWarpCoords.length);
     var arrSliced7 = player.oldWarpCoords.slice(player.oldWarpCoords.length-7,player.oldWarpCoords.length);
+    var arrSliced9 = player.oldWarpCoords.slice(player.oldWarpCoords.length-9,player.oldWarpCoords.length);
     var arrSliced10 = player.oldWarpCoords.slice(player.oldWarpCoords.length-10,player.oldWarpCoords.length);
     var arrSliced20 = player.oldWarpCoords.slice(player.oldWarpCoords.length-20,player.oldWarpCoords.length);
     var arrSliced21 = player.oldWarpCoords.slice(player.oldWarpCoords.length-21,player.oldWarpCoords.length);
     var arrSliced41 = player.oldWarpCoords.slice(player.oldWarpCoords.length-41,player.oldWarpCoords.length);
     var arrSliced55 = player.oldWarpCoords.slice(player.oldWarpCoords.length-55,player.oldWarpCoords.length);
+
 
     var sol1 = [ [ 100, -0 ], [ 200, -0 ], [ 300, -0 ] ];
     var sol21 = [ [ 200, -0 ],
@@ -633,7 +635,17 @@ API.translate = function (player, x, y) {
         [ 245, -20 ],
         [ 250, -20 ] ];
 
-    
+    var solForLoop1 = [
+        [ 0, -0 ],
+        [ 5, -0 ],
+        [ 10, -0 ],
+        [ 15, -0 ],
+        [ 20, -0 ],
+        [ 25, -0 ],
+        [ 30, -0 ],
+        [ 35, -0 ],
+        [ 40, -0 ],
+         ];
     
     // if(arraysEqual(player.oldWarpCoords, [ [ 100, -0 ], [ 200, -0 ], [ 300, -0 ] ])){
     //     //console.log("yes array comparison working");
@@ -670,7 +682,9 @@ API.translate = function (player, x, y) {
     }
 
     //checking for solution to challenge 13
-    if(ship.position[0]===0 && ship.position[1]===-310) {
+    if(ship.position[0]===0 && ship.position[1]===-310 && player.challenge13===false) {
+        player.challenge13 =true;
+        starcoder.updatePlayerScore('Code Challenges', player.id, 10);
         setTimeout(function () {
             starcoder.sendMessage(player, 'challengewon1', 'You solved the Y-axis challenge!');
         }, 500);
@@ -685,7 +699,9 @@ API.translate = function (player, x, y) {
 
 
     //checking for solution to challenge 14
-    if(ship.position[0]===-170 && ship.position[1]===-0) {
+    if(ship.position[0]===-170 && ship.position[1]===-0 && player.challenge14===false) {
+        player.challenge14 =true;
+        starcoder.updatePlayerScore('Code Challenges', player.id, 10);
         setTimeout(function () {
             starcoder.sendMessage(player, 'challengewon2', 'You solved the X-axis challenge!');
         }, 500);
@@ -698,7 +714,9 @@ API.translate = function (player, x, y) {
     }
 
     //checking for solution to challenge 15
-    if(ship.position[0]===-170 && ship.position[1]===-310) {
+    if(ship.position[0]===-170 && ship.position[1]===-310 && player.challenge15===false) {
+        player.challenge15 =true;
+        starcoder.updatePlayerScore('Code Challenges', player.id, 10);
         setTimeout(function () {
             starcoder.sendMessage(player, 'challengewon3', 'You solved the (-310,170) challenge!');
         }, 500);
@@ -711,7 +729,9 @@ API.translate = function (player, x, y) {
     }
 
     //checking for solution to challenge 16
-    if(ship.position[0]===100 && ship.position[1]===-100) {
+    if(ship.position[0]===100 && ship.position[1]===-100 && player.challenge16===false) {
+        player.challenge16 =true;
+        starcoder.updatePlayerScore('Code Challenges', player.id, 10);
         setTimeout(function () {
             starcoder.sendMessage(player, 'challengewon4', 'You solved the system of equations challenge #1!');
         }, 500);
@@ -726,7 +746,9 @@ API.translate = function (player, x, y) {
 
 //console.log(ship.position);
     //checking for solution to challenge 17
-    if(ship.position[0]===8 && ship.position[1]===-64) {
+    if(ship.position[0]===8 && ship.position[1]===-64 && player.challenge17===false) {
+        player.challenge17 =true;
+        starcoder.updatePlayerScore('Code Challenges', player.id, 10);
         setTimeout(function () {
             starcoder.sendMessage(player, 'challengewon1', 'You solved the system of equations challenge #2!');
         }, 500);
@@ -740,7 +762,9 @@ API.translate = function (player, x, y) {
     }
 
     //checking for solution to challenge 18
-    if(ship.position[0]===150 && ship.position[1]===-300) {
+    if(ship.position[0]===150 && ship.position[1]===-300 && player.challenge18===false) {
+        player.challenge18 =true;
+        starcoder.updatePlayerScore('Code Challenges', player.id, 10);
         setTimeout(function () {
             starcoder.sendMessage(player, 'challengewon2', 'You solved the slope challenge #1!');
         }, 500);
@@ -754,7 +778,9 @@ API.translate = function (player, x, y) {
     }
 
     //checking for solution to challenge 19
-    if(ship.position[0]===60 && ship.position[1]===180) {
+    if(ship.position[0]===60 && ship.position[1]===180 && player.challenge19===false) {
+        player.challenge19 =true;
+        starcoder.updatePlayerScore('Code Challenges', player.id, 10);
         setTimeout(function () {
             starcoder.sendMessage(player, 'challengewon3', 'You solved the slope challenge #2');
         }, 500);
@@ -768,7 +794,9 @@ API.translate = function (player, x, y) {
     }
 
     //checking for solution to challenge 20
-    if(ship.position[0]===230 && ship.position[1]===-100) {
+    if(ship.position[0]===230 && ship.position[1]===-100 && player.challenge20===false) {
+        player.challenge20 =true;
+        starcoder.updatePlayerScore('Code Challenges', player.id, 10);
         setTimeout(function () {
             starcoder.sendMessage(player, 'challengewon3', 'You solved the variable challenge #2');
         }, 500);
@@ -776,6 +804,54 @@ API.translate = function (player, x, y) {
         var temp_data = data;
         temp_data.to = "jonathanmartinnyc@gmail.com";
         temp_data.text = 'Your child or student - ' + player.gamertag + ' - completed the variable' +
+            ' challenge #2';
+        mailgun.messages().send(temp_data, function (error, body) {
+        });
+    }
+
+    //checking for solution to challenge 21
+    if(arraysEqual(arrSliced9, solForLoop1) && player.challenge21===false) {
+        player.challenge21 =true;
+        starcoder.updatePlayerScore('Code Challenges', player.id, 10);
+        setTimeout(function () {
+            starcoder.sendMessage(player, 'challengewon5', 'You solved the For Loop Challenge #1');
+        }, 500);
+        player.getShip().crystals += 250;
+        var temp_data = data;
+        temp_data.to = "jonathanmartinnyc@gmail.com";
+        temp_data.text = 'Your child or student - ' + player.gamertag + ' - completed the For Loop' +
+            ' challenge #1';
+        mailgun.messages().send(temp_data, function (error, body) {
+        });
+    }
+
+    //checking for solution to challenge 22
+    if(ship.position[0]===50 && ship.position[1]===-300 && player.challenge22===false) {
+        player.challenge22 =true;
+        starcoder.updatePlayerScore('Code Challenges', player.id, 10);
+        setTimeout(function () {
+            starcoder.sendMessage(player, 'challengewon3', 'You solved the If/Then Challenge #1');
+        }, 500);
+        player.getShip().crystals += 250;
+        var temp_data = data;
+        temp_data.to = "jonathanmartinnyc@gmail.com";
+        temp_data.text = 'Your child or student - ' + player.gamertag + ' - completed the If/Then' +
+            ' challenge #1';
+        mailgun.messages().send(temp_data, function (error, body) {
+        });
+    }
+
+    //checking for solution to challenge 23
+    if(ship.position[0]===150 && ship.position[1]===70 && player.challenge23===false) {
+        player.challenge23 =true;
+        starcoder.updatePlayerScore('Code Challenges', player.id, 10);
+        setTimeout(function () {
+            starcoder.sendMessage(player, 'challengewon2', 'You solved the If/Then Challenge #2');
+        }, 500);
+        player.getShip().crystals += 250;
+        var temp_data = data;
+        temp_data.to = "jonathanmartinnyc@gmail.com";
+        temp_data.text = 'Your child or student - ' + player.gamertag + ' - completed the If/Then' +
             ' challenge #2';
         mailgun.messages().send(temp_data, function (error, body) {
         });

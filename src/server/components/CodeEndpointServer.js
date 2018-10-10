@@ -320,6 +320,49 @@ module.exports = {
                 self.sendCodeMessage(player, 'saved', 'example20');
             }
 
+            if(player.codeSnippets['example21'] == null){
+                var js_ex21 = "//set variable coordinateX and coordinateY to 0 (replace the '***').\n" +
+                    "//Inside the for loop, assign 0 to the starting value of coordinateX (replace the '*').\n" +
+                    "//Make the loop check if the current value is less than 45 (replace the '**'). (hint: '<' is the less than operator)\n"+
+                    "//Increase coordinateX by 5 (replace the '***'). (hint: '+=' is the operator for incrementing a value)\n"+
+                    "\n\n"+
+                    "var coordinateX = ***;\n\n" +
+                    "var coordinateY = ***;\n\n" +
+                    "for(coordinateX = * ;coordinateX < ** ;coordinateX += *** ){\n" +
+                    "  translate(coordinateX,coordinateY);\n" +
+                    "}";
+                player.codeSnippets['example21'] = {js: js_ex21};
+                self.sendCodeMessage(player, 'saved', 'example21');
+            }
+
+            if(player.codeSnippets['example22'] == null){
+                var js_ex22 = "//set variable A and B to two different values so that A is greater than B (replace the '***').\n" +
+                    "//A must be always greater than B for the code to work. Try different values.\n" +
+                    "\n\n"+
+                    "var A = ***;\n\n" +
+                    "var B = ***;\n\n" +
+                    "if(A > B){\n" +
+                    "  translate(50,300);\n" +
+                    "}";
+                player.codeSnippets['example22'] = {js: js_ex22};
+                self.sendCodeMessage(player, 'saved', 'example22');
+            }
+
+            if(player.codeSnippets['example23'] == null){
+                var js_ex23 = "//set variable A, B and C to three different values so that A is less than B,\n" +
+                    "//and C is greater than B (replace the '***').\n"+
+                    "//A must be always less than B and C must be always greater than B for the code to work. Try different values.\n" +
+                    "\n\n"+
+                    "var A = ***;\n\n" +
+                    "var B = ***;\n\n" +
+                    "var C = ***;\n\n" +
+                    "if(A < B && C > B){\n" +
+                    "  translate(150,-70);\n" +
+                    "  changeShipColor('#f4d9f1');\n" +
+                    "}";
+                player.codeSnippets['example23'] = {js: js_ex23};
+                self.sendCodeMessage(player, 'saved', 'example23');
+            }
 
             var code = player.codeSnippets[label];
 
