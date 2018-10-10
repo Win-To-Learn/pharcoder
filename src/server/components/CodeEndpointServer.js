@@ -319,6 +319,14 @@ module.exports = {
                 player.codeSnippets['example20'] = {blockly: blockly_ex20};
                 self.sendCodeMessage(player, 'saved', 'example20');
             }
+            if(player.codeSnippets['example21'] == null){
+                var js_ex21 = "var step = 0;" +
+                    "\nfor(step= ;step<=30  ;step+=10 ){" +
+                    "\ntranslate(step,step);" +
+                    "\n}";
+                player.codeSnippets['example21'] = {js: js_ex21};
+                self.sendCodeMessage(player, 'saved', 'example21');
+            }
 
             if(player.codeSnippets['example21'] == null){
                 var js_ex21 = "//set variable coordinateX and coordinateY to 0 (replace the '***').\n" +
