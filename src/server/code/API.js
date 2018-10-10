@@ -810,18 +810,11 @@ API.translate = function (player, x, y) {
     }
 
     //checking for solution to challenge 21
-
     if(arraysEqual(arrSliced9, solForLoop1) && player.challenge21===false) {
         player.challenge21 =true;
         starcoder.updatePlayerScore('Code Challenges', player.id, 10);
         setTimeout(function () {
             starcoder.sendMessage(player, 'challengewon5', 'You solved the For Loop Challenge #1');
-
-    //you need to multiply the correct Y value by -1 when checking
-    if(ship.position[0]===30 && ship.position[1]===-30) {
-        setTimeout(function () {
-            starcoder.sendMessage(player, 'challengewon3', 'You solved the For Loop Challenge');
-
         }, 500);
         player.getShip().crystals += 250;
         var temp_data = data;
@@ -860,9 +853,6 @@ API.translate = function (player, x, y) {
         temp_data.to = "jonathanmartinnyc@gmail.com";
         temp_data.text = 'Your child or student - ' + player.gamertag + ' - completed the If/Then' +
             ' challenge #2';
-
-            ' Challenge';
-
         mailgun.messages().send(temp_data, function (error, body) {
         });
     }
