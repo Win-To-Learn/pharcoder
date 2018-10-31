@@ -37,6 +37,18 @@ var Player = function (gamertag, password, regimeId, role, demographics) {
     this.challenge21 = false;
     this.challenge22 = false;
     this.challenge23 = false;
+    this.challenge24 = false;
+    this.challenge25 = false;
+    this.challenge26 = false;
+    this.challenge27 = false;
+    this.challenge28 = false;
+    this.challenge29 = false;
+    this.challenge30 = false;
+    this.challenge31 = false;
+    this.challenge32 = false;
+    this.challenge33 = false;
+    this.challenge34 = false;
+    this.challenge35 = false;
     this.password = password;
     this.passwordClear = true;
     this.role = role;
@@ -95,6 +107,18 @@ Player.prototype.init = function () {
     this.challenge21 = false;
     this.challenge22 = false;
     this.challenge23 = false;
+    this.challenge24 = false;
+    this.challenge25 = false;
+    this.challenge26 = false;
+    this.challenge27 = false;
+    this.challenge28 = false;
+    this.challenge29 = false;
+    this.challenge30 = false;
+    this.challenge31 = false;
+    this.challenge32 = false;
+    this.challenge33 = false;
+    this.challenge34 = false;
+    this.challenge35 = false;
 
     /**
      * Role determines kind / level of access to game functions

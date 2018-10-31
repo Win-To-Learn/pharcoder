@@ -814,13 +814,13 @@ API.translate = function (player, x, y) {
         player.challenge21 =true;
         starcoder.updatePlayerScore('Code Challenges', player.id, 10);
         setTimeout(function () {
-            starcoder.sendMessage(player, 'challengewon5', 'You solved the For Loop Challenge #1');
+            starcoder.sendMessage(player, 'challengewon5', 'You solved the For Loop Challenge #');
         }, 500);
         player.getShip().crystals += 250;
         var temp_data = data;
         temp_data.to = "jonathanmartinnyc@gmail.com";
         temp_data.text = 'Your child or student - ' + player.gamertag + ' - completed the For Loop' +
-            ' challenge #1';
+            ' challenge #';
         mailgun.messages().send(temp_data, function (error, body) {
         });
     }
@@ -830,13 +830,13 @@ API.translate = function (player, x, y) {
         player.challenge22 =true;
         starcoder.updatePlayerScore('Code Challenges', player.id, 10);
         setTimeout(function () {
-            starcoder.sendMessage(player, 'challengewon3', 'You solved the If/Then Challenge #1');
+            starcoder.sendMessage(player, 'challengewon3', 'You solved the If/Then Challenge #');
         }, 500);
         player.getShip().crystals += 250;
         var temp_data = data;
         temp_data.to = "jonathanmartinnyc@gmail.com";
         temp_data.text = 'Your child or student - ' + player.gamertag + ' - completed the If/Then' +
-            ' challenge #1';
+            ' challenge #';
         mailgun.messages().send(temp_data, function (error, body) {
         });
     }
@@ -846,13 +846,89 @@ API.translate = function (player, x, y) {
         player.challenge23 =true;
         starcoder.updatePlayerScore('Code Challenges', player.id, 10);
         setTimeout(function () {
-            starcoder.sendMessage(player, 'challengewon2', 'You solved the If/Then Challenge #2');
+            starcoder.sendMessage(player, 'challengewon2', 'You solved the If/Then Challenge ##');
+        }, 500);
+        player.getShip().crystals += 250;
+        var temp_data = data;
+        temp_data.to = "jonathanmartinnyc@gmail.com";
+        temp_data.text = 'Your child or student - ' + player.gamertag + ' - completed the If/Then' +
+            ' challenge ##';
+        mailgun.messages().send(temp_data, function (error, body) {
+        });
+    }
+
+    //checking for solution to challenge 24
+    if(ship.position[0]===40 && ship.position[1]===-100 && player.challenge24===false) {
+        player.challenge24 =true;
+        starcoder.updatePlayerScore('Code Challenges', player.id, 10);
+        setTimeout(function () {
+            starcoder.sendMessage(player, 'challengewon5', 'You solved the If/Then Challenge #1');
+        }, 500);
+        player.getShip().crystals += 250;
+        var temp_data = data;
+        temp_data.to = "jonathanmartinnyc@gmail.com";
+        temp_data.text = 'Your child or student - ' + player.gamertag + ' - completed the If/Then' +
+            ' challenge #1';
+        mailgun.messages().send(temp_data, function (error, body) {
+        });
+    }
+    //checking for solution to challenge 25
+    if(ship.position[0]===80 && ship.position[1]===100 && player.challenge25===false) {
+        player.challenge25 =true;
+        starcoder.updatePlayerScore('Code Challenges', player.id, 10);
+        setTimeout(function () {
+            starcoder.sendMessage(player, 'challengewon1', 'You solved the If/Then Challenge #2');
         }, 500);
         player.getShip().crystals += 250;
         var temp_data = data;
         temp_data.to = "jonathanmartinnyc@gmail.com";
         temp_data.text = 'Your child or student - ' + player.gamertag + ' - completed the If/Then' +
             ' challenge #2';
+        mailgun.messages().send(temp_data, function (error, body) {
+        });
+    }
+//checking for solution to challenge 26
+    if(ship.position[0]===70 && ship.position[1]===200 && player.challenge26===false) {
+        player.challenge26 =true;
+        starcoder.updatePlayerScore('Code Challenges', player.id, 10);
+        setTimeout(function () {
+            starcoder.sendMessage(player, 'challengewon4', 'You solved the If/Then Challenge #3');
+        }, 500);
+        player.getShip().crystals += 250;
+        var temp_data = data;
+        temp_data.to = "jonathanmartinnyc@gmail.com";
+        temp_data.text = 'Your child or student - ' + player.gamertag + ' - completed the If/Then' +
+            ' challenge #3';
+        mailgun.messages().send(temp_data, function (error, body) {
+        });
+    }
+    //checking for solution to challenge 27
+    if(ship.position[0]===50 && ship.position[1]===-400 && player.challenge27===false) {
+        player.challenge27 =true;
+        starcoder.updatePlayerScore('Code Challenges', player.id, 10);
+        setTimeout(function () {
+            starcoder.sendMessage(player, 'challengewon3', 'You solved the If/Then Challenge #4');
+        }, 500);
+        player.getShip().crystals += 250;
+        var temp_data = data;
+        temp_data.to = "jonathanmartinnyc@gmail.com";
+        temp_data.text = 'Your child or student - ' + player.gamertag + ' - completed the If/Then' +
+            ' challenge #4';
+        mailgun.messages().send(temp_data, function (error, body) {
+        });
+    }
+    //checking for solution to challenge 28
+    if(ship.position[0]===90 && ship.position[1]===70 && player.challenge28===false) {
+        player.challenge28 =true;
+        starcoder.updatePlayerScore('Code Challenges', player.id, 10);
+        setTimeout(function () {
+            starcoder.sendMessage(player, 'challengewon5', 'You solved the If/Then Challenge #5');
+        }, 500);
+        player.getShip().crystals += 250;
+        var temp_data = data;
+        temp_data.to = "jonathanmartinnyc@gmail.com";
+        temp_data.text = 'Your child or student - ' + player.gamertag + ' - completed the If/Then' +
+            ' challenge #5';
         mailgun.messages().send(temp_data, function (error, body) {
         });
     }

@@ -365,6 +365,59 @@ module.exports = {
                 self.sendCodeMessage(player, 'saved', 'example23');
             }
 
+
+            if(player.codeSnippets['example24'] == null){
+                var js_ex24 = "//Change * to a value less than 10.\n" +
+                    "\n\n"+
+                    "if(* < 10){\n" +
+                    "  translate(40,100);\n" +
+                    "}";
+                player.codeSnippets['example24'] = {js: js_ex24};
+                self.sendCodeMessage(player, 'saved', 'example24');
+            }
+
+            if(player.codeSnippets['example25'] == null){
+                var js_ex25 = "//Change the first * to a value less than the second *.\n" +
+                    "\n\n"+
+                    "if(* < *){\n" +
+                    "  translate(80,-100);\n" +
+                    "}";
+                player.codeSnippets['example25'] = {js: js_ex25};
+                self.sendCodeMessage(player, 'saved', 'example25');
+            }
+
+            if(player.codeSnippets['example26'] == null){
+                var js_ex26 = "//Complete the code so that the first number is less than the second number.\n" +
+                    "//Hint 1: Look at the last code challenge.\n"+
+                    "//Hint 2: Use the less than (<) symbol. Press 'shift'+ less than key (<).\n"+
+                    "\n\n"+
+                    "if(){\n" +
+                    "  translate(70,-200);\n" +
+                    "}";
+                player.codeSnippets['example26'] = {js: js_ex26};
+                self.sendCodeMessage(player, 'saved', 'example26');
+            }
+
+            if(player.codeSnippets['example27'] == null){
+                var js_ex27 = "//Change * to a value greater than 10.\n" +
+                    "\n\n"+
+                    "if(* > 10){\n" +
+                    "  translate(50,400);\n" +
+                    "}";
+                player.codeSnippets['example27'] = {js: js_ex27};
+                self.sendCodeMessage(player, 'saved', 'example27');
+            }
+
+            if(player.codeSnippets['example28'] == null){
+                var js_ex28 = "//Change * to a value greater than 10.\n" +
+                    "\n\n"+
+                    "if(10 * 20){\n" +
+                    "  translate(90,-70);\n" +
+                    "}";
+                player.codeSnippets['example28'] = {js: js_ex28};
+                self.sendCodeMessage(player, 'saved', 'example28');
+            }
+
             var code = player.codeSnippets[label];
 
 
