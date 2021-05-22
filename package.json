@@ -37,7 +37,7 @@
     "acorn": "latest",
     "bcryptjs": "latest",
     "body-parser": "latest",
-    "connect-mongo": "latest",
+    "connect-mongo": "3.0.0",
     "debug": "^2.2.0",
     "earcut": "latest",
     "es6-promise": "latest",
