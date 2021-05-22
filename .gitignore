@@ -6,8 +6,6 @@ example.js
 # Moved to disable
 *.off
 
-package-lock.json
-
 .DS_Store/
 
 js/
