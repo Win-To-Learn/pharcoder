@@ -1,17 +1,15 @@
 branch-defaults:
   dev:
-    environment: Starcoder202111-env
+    environment: Starcoder2021-env
 environment-defaults:
   Starcoder2021-env:
     branch: null
     repository: null
-  Starcoder202111-env:
-    branch: null
-    repository: null
 global:
-  application_name: starcoder2021-11
-  default_ec2_keyname: starcoder2021
-  default_platform: Node.js 10
+  application_name: starcoder2021
+  default_ec2_keyname: null
+  default_platform: arn:aws:elasticbeanstalk:us-east-1::platform/Node.js 14 running
+    on 64bit Amazon Linux 2/5.3.2
   default_region: us-east-1
   include_git_submodules: true
   instance_profile: null
