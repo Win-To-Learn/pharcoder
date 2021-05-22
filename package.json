@@ -16,7 +16,7 @@
     "del": "latest",
     "git": "latest",
     "glob-fs": "^0.1.6",
-    "gulp": "latest",
+    "gulp": "^3.9.1",
     "gulp-bump": "latest",
     "gulp-rename": "latest",
     "gulp-replace": "latest",
