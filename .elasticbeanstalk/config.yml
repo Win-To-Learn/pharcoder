@@ -1,20 +1,20 @@
 branch-defaults:
+  aws:
+    environment: pharcoder-dev
   dev:
-    environment: Starcoder2021-env
-environment-defaults:
-  Starcoder2021-env:
-    branch: null
-    repository: null
+    environment: pharcoder-dev
+  jayturret:
+    environment: pharcoder-dev
+  master:
+    environment: pharcoder-dev
+  multilang:
+    environment: pharcoder-dev
+deploy:
+  artifact: deployments/web.zip
 global:
-  application_name: starcoder2021
+  application_name: pharcoder-dev
   default_ec2_keyname: null
-  default_platform: arn:aws:elasticbeanstalk:us-east-1::platform/Node.js 14 running
-    on 64bit Amazon Linux 2/5.3.2
+  default_platform: Node.js
   default_region: us-east-1
-  include_git_submodules: true
-  instance_profile: null
-  platform_name: null
-  platform_version: null
   profile: eb-cli
   sc: git
-  workspace_type: Application

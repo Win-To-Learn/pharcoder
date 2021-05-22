@@ -32,7 +32,7 @@ app.use(function(req, res, next) {
     next();
 });
 
-buildConfig.version = JSON.parse(fs.readFileSync('../package.json', 'utf8')).version;
+buildConfig.version = JSON.parse(fs.readFileSync('package.json', 'utf8')).version;
 var starcoder = new Starcoder([commonConfig, serverConfig, buildConfig], app, io);
 
 //console.log('DBG', process.env.NODE_ENV, 'P', process.env.PORT, 'IP', process.env.IP);
