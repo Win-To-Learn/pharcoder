@@ -10,7 +10,7 @@ environment-defaults:
     repository: null
 global:
   application_name: starcoder2021-11
-  default_ec2_keyname: starcoder2021-11
+  default_ec2_keyname: starcoder2021
   default_platform: Node.js 10
   default_region: us-east-1
   include_git_submodules: true
